@@ -10,6 +10,7 @@
 #ifndef __ESMLOADDLG_H
 #define __ESMLOADDLG_H
 
+#include <afxcmn.h>
 #include <afxwin.h>
 
 #include "ui/Resource.h"
