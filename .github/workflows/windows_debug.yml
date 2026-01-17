@@ -7,9 +7,9 @@ name: Windows Debug Build
 
 on:
   push:
-    branches: [ "release_test" ]
+    branches: [ "releas_test" ]
   pull_request:
-    branches: [ "release_test" ]
+    branches: [ "releas_test" ]
 
 #env:
   # Path to the solution file relative to the root of the project.
