@@ -13,7 +13,7 @@
 #include <afxwin.h>
 
 #include "game/morrowind/sub_ai_t.h"
-#inlcude "ui/Resource.h"
+#include "ui/Resource.h"
 
 /*===========================================================================
  *
