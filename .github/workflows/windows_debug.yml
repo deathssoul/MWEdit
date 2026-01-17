@@ -7,9 +7,9 @@ name: Windows Debug Build
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "release_test" ]
   pull_request:
-    branches: [ "dev" ]
+    branches: [ "release_test" ]
 
 #env:
   # Path to the solution file relative to the root of the project.
@@ -48,7 +48,7 @@ jobs:
       run: mkdir builddir; cmake -G "Visual Studio 17 2022" -B builddir
 
     - name: Run Build
-      run: cmake --build builddir --config Debug --target PACKAGE
+      run: cmake --build builddir --config Release --target PACKAGE
 
     - name: Archive Artifact
       uses: actions/upload-artifact@v5
