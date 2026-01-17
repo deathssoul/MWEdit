@@ -10,9 +10,10 @@
 #ifndef __ESMAITRAVELDLG_H
 #define __ESMAITRAVELDLG_H
 
+#include <afxwin.h>
 
 #include "game/morrowind/sub_ai_t.h"
-
+#inlcude "ui/Resource.h"
 
 /*===========================================================================
  *

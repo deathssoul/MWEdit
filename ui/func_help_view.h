@@ -15,7 +15,10 @@
 	#include <afxext.h>
 #endif
 
+#include <afxwin.h>
+
 #include "mwedit/scr_func_array.h"
+#include "ui/Resource.h"
 
 
 /*===========================================================================

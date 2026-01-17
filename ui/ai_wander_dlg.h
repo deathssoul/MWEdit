@@ -10,8 +10,10 @@
 #ifndef __ESMAIWANDERDLG_H
 #define __ESMAIWANDERDLG_H
 
+#include <afxwin.h>
 
 #include "game/morrowind/sub_ai_w.h"
+#include "ui/Resource.h"
 
 
 /*===========================================================================
