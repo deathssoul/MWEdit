@@ -16,11 +16,29 @@
  *=========================================================================*/
 #include "ui/npc_page_3.h"
 
-#include "common/dl_err.h"
-#include "mwedit/std_afx.h"
-#include "ui/dlg_array.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <commctrl.h>
+#include <windef.h>
+#include <winuser.h>
+
+#include <climits>
+#include <cmath>
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "common/dl_log.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/npc.h"
+#include "game/morrowind/sub_npco.h"
+#include "ui/list_ctrl.h"
 #include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
 
 
 #if _DEBUG
@@ -31,8 +49,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmNpcPage3, CPropertyPage);
 DEFINE_FILE("EsmNpcPage3.cpp");
-
-
 /*===========================================================================
  *
  * Function - int CALLBACK l_ContSortCallBack (lParam1, lParam2, lParamSort);
@@ -190,7 +206,7 @@ void CEsmNpcPage3::GetControlData() {
 		pItemName->CreateNew();
 		pItemName->SetItem(pRecInfo->pRecord->GetID());
 		Buffer = m_ItemList.GetItemText(ListIndex, 0);
-		pItemName->SetCount(atoi(Buffer));
+		pItemName->SetCount(std::atoi(Buffer));
 	}
 }
 
@@ -218,7 +234,7 @@ void CEsmNpcPage3::OnEndlabeleditItemlist(NMHDR *pNMHDR, LRESULT *pResult) {
 	int Count;
 
 	if (pDispInfo->item.pszText != NULL) {
-		Count = atoi(pDispInfo->item.pszText);
+		Count = std::atoi(pDispInfo->item.pszText);
 
 		if (Count < SHRT_MIN) {
 			Count = SHRT_MIN;
@@ -290,11 +306,9 @@ LRESULT CEsmNpcPage3::OnRecordDrop(LPARAM lParam, LPARAM wParam) {
 	if (ListIndex < 0) {
 		ListIndex = m_ItemList.AddItem(pRecInfo);
 		m_ItemList.SetItemText(ListIndex, 0, _T("1")); /* Default 1 item */
-	}
-	/* Update an existing item in the npc */
-	else {
+	} else { /* Update an existing item in the npc */
 		Buffer = m_ItemList.GetItemText(ListIndex, 0);
-		Count = atoi(Buffer);
+		Count = std::atoi(Buffer);
 		Buffer.Format(_T("%d"), (Count < 0) ? --Count : ++Count);
 		m_ItemList.SetItemText(ListIndex, 0, Buffer);
 	}
@@ -327,15 +341,13 @@ LRESULT CEsmNpcPage3::OnRecordKey(LPARAM lParam, LPARAM wParam) {
 
 		UpdateTotalWeight();
 		return 1;
-	}
-	/* Update all selected items by increment/decrementing their count */
-	else if (lParam == VK_ADD || lParam == VK_SUBTRACT) {
+	} else if (lParam == VK_ADD || lParam == VK_SUBTRACT) { /* Update all selected items by increment/decrementing their count */
 		AddCount = (lParam == VK_ADD) ? 1 : -1;
 		ListIndex = m_ItemList.GetNextItem(-1, LVNI_SELECTED);
 
 		while (ListIndex >= 0) {
 			Buffer = m_ItemList.GetItemText(ListIndex, 0);
-			Count = atoi(Buffer);
+			Count = std::atoi(Buffer);
 			Buffer.Format(_T("%d"), Count + AddCount);
 			m_ItemList.SetItemText(ListIndex, 0, Buffer);
 			ListIndex = m_ItemList.GetNextItem(ListIndex, LVNI_SELECTED);
@@ -428,9 +440,9 @@ void CEsmNpcPage3::UpdateTotalWeight() {
 
 	for (Index = 0; Index < m_ItemList.GetItemCount(); Index++) {
 		pRecInfo = (esmrecinfo_t *)m_ItemList.GetItemData(Index);
-		Weight = (float)atof(pRecInfo->pRecord->GetFieldString(ESM_FIELD_WEIGHT));
+		Weight = (float)std::atof(pRecInfo->pRecord->GetFieldString(ESM_FIELD_WEIGHT));
 		Buffer = m_ItemList.GetItemText(Index, 0);
-		Total += Weight * abs(atoi(Buffer));
+		Total += Weight * std::abs(std::atoi(Buffer));
 	}
 
 	Buffer.Format(_T("Encumbreance: %.2f lbs"), Total);
@@ -456,7 +468,7 @@ void CEsmNpcPage3::UpdateUserData() {
 
 	for (Index = 0; Index < m_ItemList.GetItemCount(); Index++) {
 		Buffer = m_ItemList.GetItemText(Index, 0);
-		Count = atoi(Buffer);
+		Count = std::atoi(Buffer);
 		pRecInfo = (esmrecinfo_t *)m_ItemList.GetItemData(Index);
 		pRecInfo->UserData = Count;
 	}

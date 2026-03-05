@@ -10,14 +10,14 @@
  *=========================================================================*/
 #include "ui/glob_options.h"
 
-#include "mwedit/options.h"
-#include "mwedit/std_afx.h"
+#include <afxwin.h>
+#include <winnt.h>
+
+#include "common/dl_base.h"
+#include "mwedit/script_options.h"
 #include "ui/mwedit.h"
 
-
 DEFINE_FILE("EsmGlobOptions.cpp");
-
-
 /*===========================================================================
  *
  * Function - bool GetEsmOptAllowBloodmoon (void);

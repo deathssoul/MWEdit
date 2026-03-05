@@ -12,9 +12,24 @@
  *=========================================================================*/
 #include "ui/open_plugin_dlg.h"
 
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <commctrl.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
+
+#include <cstddef>
+#include <ctime>
+
+#include "common/dl_base.h"
+#include "common/dl_file.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
 #include "common/file/gen_find.h"
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include "ui/Resource.h"
 #include "ui/utils.h"
 
 
@@ -25,8 +40,6 @@
 #endif
 
 DEFINE_FILE("OpenPluginDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin COpenPluginDlg Message Map
@@ -134,7 +147,7 @@ void COpenPluginDlg::CreateFileList() {
 	CString FileType;
 	TCHAR TempDate[64];
 	bool AddFile;
-	struct tm *pFileTime;
+	struct std::tm *pFileTime;
 
 	/* Create the two columns */
 	m_FileList.InsertColumn(0, _T("Filename"), LVCFMT_LEFT, 180, OPENPLUG_SUBITEM_FILENAME);
@@ -172,11 +185,11 @@ void COpenPluginDlg::CreateFileList() {
 			strnncpy(pFile->Filename, FindFile.GetName(), _MAX_PATH);
 			pFile->Flags = Flags;
 			pFile->FileDate = FindFile.GetWriteTime();
-			pFileTime = localtime(&pFile->FileDate);
+			pFileTime = std::localtime(&pFile->FileDate);
 
 			/* Fix crash bug with file dates in the far future */
 			if (pFileTime != NULL) {
-				strftime(TempDate, 63, "%c", pFileTime);
+				std::strftime(TempDate, 63, "%c", pFileTime);
 			} else {
 				strnncpy(TempDate, "?", 32);
 			}

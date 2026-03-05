@@ -10,7 +10,11 @@
 #ifndef __ESMLOCKPICKDLG_H
 #define __ESMLOCKPICKDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
 
+#include "game/morrowind/file.h"
+#include "game/morrowind/lock_pick.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
 

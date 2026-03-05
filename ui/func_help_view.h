@@ -10,24 +10,20 @@
 #ifndef __ESMFUNCHELPVIEW_H
 #define __ESMFUNCHELPVIEW_H
 
-
-#ifndef __AFXEXT_H__
-	#include <afxext.h>
-#endif
-
+#include <afx.h>
+#include <afxext.h>
 #include <afxwin.h>
+#include <windef.h>
 
 #include "mwedit/scr_func_array.h"
+#include "mwedit/scr_func_data.h"
+#include "ui/mwedit.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmFuncHelpView Definition
  *
  *=========================================================================*/
-class CMWEditApp;
-
 class CEsmFuncHelpView : public CFormView {
   protected:
 	CFont m_Font;

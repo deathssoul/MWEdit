@@ -10,15 +10,18 @@
 #ifndef __SCRIPTERRORDLG_H
 #define __SCRIPTERRORDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
+#include <windef.h>
+
+#include <cstddef>
 
 #include "mwedit/script_error.h"
-
+#include "ui/Resource.h"
 
 /* Return codes */
 #define SCRERRDLG_RESULT_GOTO     101
 #define SCRERRDLG_RESULT_MOREHELP 102
-
-
 /*===========================================================================
  *
  * Begin Class CScriptErrorDlg

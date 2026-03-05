@@ -9,9 +9,19 @@
  *=========================================================================*/
 #include "ui/setting_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morrowind/game_setting.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -21,8 +31,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmSettingDlg, CEsmRecDialog);
 DEFINE_FILE("EsmSettingDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmSettingDlg Message Map

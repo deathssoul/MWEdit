@@ -10,22 +10,22 @@
 #ifndef __ESMSCRTEMPPAGE1_H
 #define __ESMSCRTEMPPAGE1_H
 
+#include <afx.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <windef.h>
 
-#include "common/dl_err.h"
 #include "ui/dlg_array.h"
-
+#include "ui/Resource.h"
+#include "ui/scr_temp_view.h"
 
 /* String sizes */
 #define ESMSCRTEMP_SCRIPTNAMESIZE 24
-
-
 /*===========================================================================
  *
  * Begin Class CEsmScrTempPage1 Definition
  *
  *=========================================================================*/
-class CEsmScrTempView;
-
 class CEsmScrTempPage1 : public CPropertyPage {
 	DECLARE_DYNCREATE(CEsmScrTempPage1);
 

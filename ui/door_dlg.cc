@@ -9,11 +9,25 @@
  *=========================================================================*/
 #include "ui/door_dlg.h"
 
-#include "mmsystem.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <mmsystem.h>
+#include <windef.h>
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <cstddef>
 
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/door.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sound.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -23,8 +37,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmDoorDlg, CEsmRecDialog);
 DEFINE_FILE("EsmDoorDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmDoorDlg Message Map
@@ -204,9 +216,7 @@ int CEsmDoorDlg::OnUpdateItem(esmrecinfo_t *pRecInfo) {
 
 		FillEsmScriptCombo(m_ScriptList);
 		FindComboListItem(m_ScriptList, (DWORD)pRecInfo, true);
-	}
-	/* Update the sound list */
-	else if (pRecInfo->pRecord->IsType(MWESM_REC_SOUN)) {
+	} else if (pRecInfo->pRecord->IsType(MWESM_REC_SOUN)) { /* Update the sound list */
 		CString Buffer1;
 		m_OpenList.GetWindowText(Buffer);
 		m_CloseList.GetWindowText(Buffer1);

@@ -9,9 +9,24 @@
  *=========================================================================*/
 #include "ui/global_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
 
+#include <climits>
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/global.h"
+#include "ui/rec_dalog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -21,8 +36,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmGlobalDlg, CEsmRecDialog);
 DEFINE_FILE("EsmApparatusDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmGlobalDlg Message Map
@@ -96,11 +109,11 @@ void CEsmGlobalDlg::GetControlData() {
 
 	/* Item value */
 	m_ValueText.GetWindowText(Buffer);
-	Value = (float)atof(Buffer);
+	Value = (float)std::atof(Buffer);
 
 	if (m_pGlobal->GetType() == MWESM_GLOBAL_SHORT) {
 		if (Value < SHRT_MIN) {
-			Value = SHRT_MIN;
+			Value = SHRT_MIN;  // TODO: May need casting
 		}
 
 		if (Value > SHRT_MAX) {

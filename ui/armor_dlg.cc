@@ -9,12 +9,30 @@
  *=========================================================================*/
 #include "ui/armor_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/child_frame_fix.h"
-#include "ui/dlg_array.h"
-#include "ui/mwedit.h"
-#include "ui/Resource.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
 
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "game/morrowind/armor.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sub_aodt.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_byte.h"
+#include "game/morrowind/sub_name.h"
+//#include "ui/child_frame_fix.h"
+//#include "ui/dlg_array.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -24,8 +42,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmArmorDlg, CEsmRecDialog);
 DEFINE_FILE("EsmArmorDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmArmorDlg Message Map
@@ -226,23 +242,23 @@ void CEsmArmorDlg::GetControlData() {
 
 	/* Armor rating */
 	m_RatingText.GetWindowText(Buffer);
-	pArmorData->Rating = atoi(Buffer);
+	pArmorData->Rating = std::atoi(Buffer);
 
 	/* Armor health */
 	m_HealthText.GetWindowText(Buffer);
-	pArmorData->Health = atoi(Buffer);
+	pArmorData->Health = std::atoi(Buffer);
 
 	/* Armor weight */
 	m_WeightText.GetWindowText(Buffer);
-	pArmorData->Weight = (float)atof(Buffer);
+	pArmorData->Weight = (float)std::atof(Buffer);
 
 	/* Armor value */
 	m_ValueText.GetWindowText(Buffer);
-	pArmorData->Value = atoi(Buffer);
+	pArmorData->Value = std::atoi(Buffer);
 
 	/* Enchant points */
 	m_EnchantText.GetWindowText(Buffer);
-	pArmorData->EnchantPts = atoi(Buffer);
+	pArmorData->EnchantPts = std::atoi(Buffer);
 
 	/* Item script */
 	m_ScriptList.GetWindowText(Buffer);

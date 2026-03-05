@@ -9,9 +9,31 @@
  *=========================================================================*/
 #include "ui/level_crea_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <commctrl.h>
+#include <windef.h>
+#include <winuser.h>
 
+#include <climits>
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "common/dl_log.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/level_crea.h"
+#include "game/morrowind/sub_name_fix.h"
+#include "game/morrowind/sub_short.h"
+#include "ui/list_ctrl.h"
+#include "ui/mwedit_doc.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -21,16 +43,14 @@
 
 DEFINE_FILE("EsmLevelCreaDlg.cpp");
 IMPLEMENT_DYNCREATE(CEsmLevelCreaDlg, CEsmRecDialog);
-
-
 /*===========================================================================
  *
  * Function - int CALLBACK l_CreaSortCallBack (lParam1, lParam2, lParamSort);
  *
  *=========================================================================*/
 int CALLBACK l_CreaSortCallBack(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort) {
-	esmrecinfo_t *pRecInfo1 = (esmrecinfo_t*)lParam1;
-	esmrecinfo_t *pRecInfo2 = (esmrecinfo_t*)lParam2;
+	esmrecinfo_t *pRecInfo1 = (esmrecinfo_t *)lParam1;
+	esmrecinfo_t *pRecInfo2 = (esmrecinfo_t *)lParam2;
 	int SortType = lParamSort & 0xFFFF;
 	int Flags = lParamSort >> 16;
 	int Result;
@@ -49,8 +69,8 @@ int CALLBACK l_CreaSortCallBack(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSor
 }
 
 int CALLBACK l_CreaSortCallBack1(LPARAM lParam1, LPARAM lParam2, LPARAM lParamData) {
-	esmrecinfo_t *pRecInfo1 = (esmrecinfo_t*)lParam1;
-	esmrecinfo_t *pRecInfo2 = (esmrecinfo_t*)lParam2;
+	esmrecinfo_t *pRecInfo1 = (esmrecinfo_t *)lParam1;
+	esmrecinfo_t *pRecInfo2 = (esmrecinfo_t *)lParam2;
 	CEsmLevelCreaDlg *pDialog = (CEsmLevelCreaDlg *)lParamData;
 	int SortType = pDialog->GetSortData() & 0xFFFF;
 	int Flags = pDialog->GetSortData() >> 16;
@@ -188,7 +208,7 @@ void CEsmLevelCreaDlg::GetControlData() {
 
 	/* Chance none */
 	m_ChanceNoneText.GetWindowText(Buffer);
-	Chance = atoi(Buffer);
+	Chance = std::atoi(Buffer);
 
 	if (Chance < 0) {
 		Chance = 0;
@@ -227,7 +247,7 @@ int CEsmLevelCreaDlg::GetSortCount(esmrecinfo_t *pRecInfo) {
 
 	/* Get the text and convert to a number value */
 	Buffer = m_CreatureList.GetItemText(ListIndex, 0);
-	Count = atoi(Buffer);
+	Count = std::atoi(Buffer);
 
 	if (Count < 0) {
 		Count = 0;
@@ -256,7 +276,7 @@ void CEsmLevelCreaDlg::GetCreatureData() {
 
 	for (Index = 0; Index < m_CreatureList.GetItemCount(); Index++) {
 		Buffer = m_CreatureList.GetItemText(Index, 0);
-		Level = atoi(Buffer);
+		Level = std::atoi(Buffer);
 		Buffer = m_CreatureList.GetItemText(Index, 1);
 
 		/* Create the new index sub-record */
@@ -284,7 +304,7 @@ void CEsmLevelCreaDlg::OnEndlabeleditlist(NMHDR *pNMHDR, LRESULT *pResult) {
 	int Count;
 
 	if (pDispInfo->item.pszText != NULL) {
-		Count = atoi(pDispInfo->item.pszText);
+		Count = std::atoi(pDispInfo->item.pszText);
 
 		if (Count < SHRT_MIN) {
 			Count = SHRT_MIN;
@@ -386,8 +406,8 @@ LRESULT CEsmLevelCreaDlg::OnRecordDrop(LPARAM lParam, LPARAM wParam) {
 
 	/* Add a new creature to the list */
 	ListIndex = m_CreatureList.AddItem(pRecInfo);
-	m_CreatureList.SetItemText(ListIndex, 0, _T("1")); /* Default level 1 */
-	return (0);
+	m_CreatureList.SetItemText(ListIndex, 0, _T("1"));  // Default level 1
+	return 0;
 }
 
 
@@ -410,7 +430,7 @@ LRESULT CEsmLevelCreaDlg::OnRecordKey(LPARAM lParam, LPARAM wParam) {
 
 		while (ListIndex >= 0) {
 			Buffer = m_CreatureList.GetItemText(ListIndex, 0);
-			Count = atoi(Buffer);
+			Count = std::atoi(Buffer);
 
 			if (Count < 0) {
 				Count = 0;
@@ -510,7 +530,7 @@ void CEsmLevelCreaDlg::SetCreatureData() {
 	pNameSubRec = (CEsmSubNameFix *)m_pLevelCrea->FindFirst(MWESM_SUBREC_CNAM, ArrayIndex);
 
 	while (pNameSubRec != NULL) {
-		SystemLog.Printf ("Found '%s'", pNameSubRec->GetName());
+		SystemLog.Printf("Found '%s'", pNameSubRec->GetName());
 		pLevelSubRec = (CEsmSubShort *)m_pLevelCrea->GetSubRecord(ArrayIndex + 1);
 		pRecInfo = GetDocument()->FindRecord(pNameSubRec->GetName());
 

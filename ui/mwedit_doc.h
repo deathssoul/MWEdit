@@ -10,10 +10,29 @@
 #ifndef __MWEditDoc_H
 #define __MWEditDoc_H
 
+#include <afx.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
+#include <winnt.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/file/gen_file.h"
+#include "game/morrowind/cell.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/dialogue.h"
 #include "game/morrowind/file.h"
+#include "game/morrowind/global.h"
+#include "game/morrowind/npc.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/script.h"
+#include "game/morrowind/spell.h"
+#include "game/morrowind/sub_cell_ref.h"
 #include "mwedit/mw_record_map.h"
 #include "ui/load_dlg.h"
+#include "ui/mwedit.h"
 
 
 /* View update definitions */
@@ -56,11 +75,6 @@ typedef struct {
 	const TCHAR *pID;
 	const TCHAR *pType;
 } esmrecsortfind_t;
-
-
-class CMWEditApp;
-
-
 /*===========================================================================
  *
  * Class CMWEditDoc Definition

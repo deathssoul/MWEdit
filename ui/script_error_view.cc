@@ -9,10 +9,25 @@
  *=========================================================================*/
 #include "ui/script_error_view.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
-#include "ui/script_error_dlg.h"
+#include <afx.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <atltypes.h>
+#include <winbase.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/dl_str.h"
+#include "mwedit/script_defs.h"
+#include "mwedit/script_error.h"
+#include "ui/mwedit.h"
+#include "ui/Resource.h"
+#include "ui/script_error_dlg.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -20,11 +35,8 @@
 	static char THIS_FILE[] = __FILE__;
 #endif
 
-
 IMPLEMENT_DYNCREATE(CScriptErrorView, CFormView);
 DEFINE_FILE("ScriptErrorView.cpp");
-
-
 /*===========================================================================
  *
  * Begin CScriptErrorView Message Map

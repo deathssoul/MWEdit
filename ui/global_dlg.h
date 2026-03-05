@@ -10,11 +10,12 @@
 #ifndef __ESMGLOBALDLG_H
 #define __ESMGLOBALDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
 
+#include "game/morrowind/global.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmGlobalDlg Definition

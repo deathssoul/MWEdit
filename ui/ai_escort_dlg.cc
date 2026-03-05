@@ -9,10 +9,23 @@
  *=========================================================================*/
 #include "ui/ai_escort_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
-#include "ui/utils.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
+#include <winnt.h>
 
+#include <cfloat>
+#include <cstddef>
+#include <cstdlib>
+#include <cstring>
+
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/sub_ai_e.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -21,8 +34,6 @@
 #endif
 
 DEFINE_FILE("EsmAiEscortDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmAiEscortDlg Message Map
@@ -167,20 +178,20 @@ void CEsmAiEscortDlg::OnOK() {
 
 	if (pAiData != NULL) {
 		m_TargetList.GetWindowText(Buffer);
-		strncpy(pAiData->ID, Buffer, 32);
+		std::strncpy(pAiData->ID, Buffer, 32);
 		m_DurationText.GetWindowText(Buffer);
-		pAiData->Duration = (short)atoi(Buffer);
+		pAiData->Duration = (short)std::atoi(Buffer);
 
 		if (m_EscortCheck.GetCheck()) {
 			m_CellList.GetWindowText(m_CellName);
 
 			if (m_PointCheck.GetCheck()) {
 				m_XText.GetWindowText(Buffer);
-				pAiData->X = (float)atof(Buffer);
+				pAiData->X = (float)std::atof(Buffer);
 				m_YText.GetWindowText(Buffer);
-				pAiData->Y = (float)atof(Buffer);
+				pAiData->Y = (float)std::atof(Buffer);
 				m_ZText.GetWindowText(Buffer);
-				pAiData->Z = (float)atof(Buffer);
+				pAiData->Z = (float)std::atof(Buffer);
 			} else {
 				pAiData->X = FLT_MAX;
 				pAiData->Y = FLT_MAX;

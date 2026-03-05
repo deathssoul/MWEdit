@@ -9,12 +9,30 @@
  *=========================================================================*/
 #include "ui/info_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
+#include <winnt.h>
+
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/dialogue.h"
+#include "game/morrowind/info.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_float.h"
+#include "game/morrowind/sub_info_data.h"
+#include "game/morrowind/sub_long.h"
+#include "game/morrowind/sub_scvr.h"
 #include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
 #include "ui/utils.h"
 #include "windows/win_util.h"
-
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -23,8 +41,6 @@
 #endif
 
 DEFINE_FILE("EsmInfoDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmInfoDlg Message Map
@@ -188,7 +204,7 @@ void CEsmInfoDlg::GetControlData() {
 
 	/* Disposition */
 	m_DispText.GetWindowText(Buffer);
-	pInfoData->Disposition = atoi(Buffer);
+	pInfoData->Disposition = std::atoi(Buffer);
 
 	if (pInfoData->Disposition < 0) {
 		pInfoData->Disposition = 0;
@@ -346,7 +362,7 @@ void CEsmInfoDlg::GetFuncData(const int Index, int &FuncIndex) {
 	m_ValueText[Index].GetWindowText(Buffer);
 	pValueData = (CEsmSubFloat *)m_pInfo->AllocateSubRecord(MWESM_SUBREC_FLTV); /* Use floats all the time by default */
 	pValueData->CreateNew();
-	pValueData->SetValue((float)atof(Buffer));
+	pValueData->SetValue((float)std::atof(Buffer));
 }
 
 

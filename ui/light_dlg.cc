@@ -9,11 +9,29 @@
  *=========================================================================*/
 #include "ui/light_dlg.h"
 
-#include "mmsystem.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxdlgs.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <mmsystem.h>
+#include <windef.h>
+#include <wingdi.h>
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <cstddef>
+#include <cstdlib>
 
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/light.h"
+#include "game/morrowind/sound.h"
+#include "game/morrowind/sub_lhdt.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -23,8 +41,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmLightDlg, CEsmRecDialog);
 DEFINE_FILE("EsmLightDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmLightDlg Message Map
@@ -135,19 +151,19 @@ void CEsmLightDlg::GetControlData() {
 
 	/* Item weight */
 	m_WeightText.GetWindowText(Buffer);
-	pLightData->Weight = (float)atof(Buffer);
+	pLightData->Weight = (float)std::atof(Buffer);
 
 	/* Item value */
 	m_ValueText.GetWindowText(Buffer);
-	pLightData->Value = atoi(Buffer);
+	pLightData->Value = std::atoi(Buffer);
 
 	/* Light radius */
 	m_RadiusText.GetWindowText(Buffer);
-	pLightData->Radius = atoi(Buffer);
+	pLightData->Radius = std::atoi(Buffer);
 
 	/* Flicker list */
 	Index = m_FlickerList.GetCurSel();
-	pLightData->Flags &= ~pLightData->Flags; /* Clear flicker flags */
+	pLightData->Flags &= ~pLightData->Flags;  // Clear flicker flags
 
 	if (Index >= 0) {
 		pLightData->Flags = m_FlickerList.GetItemData(Index);
@@ -158,11 +174,11 @@ void CEsmLightDlg::GetControlData() {
 	if (m_CanCarryCheck.GetCheck() != 0) {
 		pLightData->Flags |= MWESM_LIGHTFLAG_CANCARRY;
 		m_TimeText.GetWindowText(Buffer);
-		pLightData->Time = atoi(Buffer);
+		pLightData->Time = std::atoi(Buffer);
 		m_WeightText.GetWindowText(Buffer);
-		pLightData->Weight = (float)atof(Buffer);
+		pLightData->Weight = (float)std::atof(Buffer);
 		m_ValueText.GetWindowText(Buffer);
-		pLightData->Value = atoi(Buffer);
+		pLightData->Value = std::atoi(Buffer);
 		m_IconButton.GetWindowText(Buffer);
 		m_pLight->SetIcon(TrimStringSpace(Buffer));
 		m_NameText.GetWindowText(Buffer);
@@ -185,11 +201,11 @@ void CEsmLightDlg::GetControlData() {
 
 	/* Light color */
 	m_RedText.GetWindowText(Buffer);
-	pLightData->Red = (byte)atoi(Buffer);
+	pLightData->Red = (byte)std::atoi(Buffer);
 	m_GreenText.GetWindowText(Buffer);
-	pLightData->Green = (byte)atoi(Buffer);
+	pLightData->Green = (byte)std::atoi(Buffer);
 	m_BlueText.GetWindowText(Buffer);
-	pLightData->Blue = (byte)atoi(Buffer);
+	pLightData->Blue = (byte)std::atoi(Buffer);
 
 	/* Item script */
 	m_ScriptList.GetWindowText(Buffer);
@@ -295,7 +311,7 @@ void CEsmLightDlg::OnChangeColor() {
 	}
 
 	m_RedText.GetWindowText(Buffer);
-	Red = atoi(Buffer);
+	Red = std::atoi(Buffer);
 
 	if (Red < 0) {
 		Red = 0;
@@ -306,7 +322,7 @@ void CEsmLightDlg::OnChangeColor() {
 	}
 
 	m_GreenText.GetWindowText(Buffer);
-	Green = atoi(Buffer);
+	Green = std::atoi(Buffer);
 
 	if (Green < 0) {
 		Green = 0;
@@ -317,7 +333,7 @@ void CEsmLightDlg::OnChangeColor() {
 	}
 
 	m_BlueText.GetWindowText(Buffer);
-	Blue = atoi(Buffer);
+	Blue = std::atoi(Buffer);
 
 	if (Blue < 0) {
 		Blue = 0;
@@ -344,7 +360,7 @@ void CEsmLightDlg::OnColorbutton() {
 	int Green;
 	int Blue;
 	m_RedText.GetWindowText(Buffer);
-	Red = atoi(Buffer);
+	Red = std::atoi(Buffer);
 
 	if (Red < 0) {
 		Red = 0;
@@ -355,7 +371,7 @@ void CEsmLightDlg::OnColorbutton() {
 	}
 
 	m_GreenText.GetWindowText(Buffer);
-	Green = atoi(Buffer);
+	Green = std::atoi(Buffer);
 
 	if (Green < 0) {
 		Green = 0;
@@ -366,7 +382,7 @@ void CEsmLightDlg::OnColorbutton() {
 	}
 
 	m_BlueText.GetWindowText(Buffer);
-	Blue = atoi(Buffer);
+	Blue = std::atoi(Buffer);
 
 	if (Blue < 0) {
 		Blue = 0;
@@ -478,9 +494,7 @@ int CEsmLightDlg::OnUpdateItem(esmrecinfo_t *pRecInfo) {
 
 		FillEsmScriptCombo(m_ScriptList);
 		FindComboListItem(m_ScriptList, (DWORD)pRecInfo, true);
-	}
-	/* Refill the sound list if required */
-	else if (pRecInfo->pRecord->IsType(MWESM_REC_SOUN)) {
+	} else if (pRecInfo->pRecord->IsType(MWESM_REC_SOUN)) { /* Refill the sound list if required */
 		m_SoundList.GetWindowText(Buffer);
 		FillEsmSoundCombo(m_SoundList);
 		m_SoundList.SelectString(-1, Buffer);

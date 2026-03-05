@@ -10,10 +10,14 @@
 #ifndef __ESMSUBLISTCTRL_H
 #define __ESMSUBLISTCTRL_H
 
+#include <afx.h>
+#include <afxwin.h>
+#include <windef.h>
+#include <winuser.h>
 
+#include "game/morrowind/file.h"
+#include "game/morroiwnd/sub_cell_ref.h"
 #include "ui/list_ctrl.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubListCtrl Definition

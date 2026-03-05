@@ -14,14 +14,23 @@
  *=========================================================================*/
 #include "ui/list_ctrl.h"
 
-#include "mwedit/std_afx.h"
+#include <afx.h>
+#include <afxcmn.h>
+#include <afxwin.h>
+#include <atltypes.h>
+#include <commctrl.h>
+#include <windef.h>
+#include <wingdi.h>
+#include <winuser.h>
 
-#ifndef NO_ESMLIST_EDIT
-	#include "ui/mwedit.h"
-#endif
+#include <cstddef>
 
-
-//#include "Resource.h"
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "ui/mwedit_doc.h"
 
 
 #if _DEBUG
@@ -36,8 +45,6 @@ CImageList CEsmListCtrl::m_ImageList;
 
 IMPLEMENT_DYNCREATE(CEsmListCtrl, CListCtrl);
 DEFINE_FILE("EsmListCtrl.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmListCtrl Message Map
@@ -628,10 +635,7 @@ void CEsmListCtrl::OnCustomdraw(NMHDR *pNMHDR, LRESULT *pResult) {
 	 * stage, then tell Windows we want messages for every item. */
 	if (CDDS_PREPAINT == pLVCD->nmcd.dwDrawStage) {
 		*pResult = CDRF_NOTIFYITEMDRAW;
-	}
-	/* This is the prepaint stage for an item. Here's where we set the
-	   item's text/back color. */
-	else if (CDDS_ITEMPREPAINT == pLVCD->nmcd.dwDrawStage) {
+	} else if (CDDS_ITEMPREPAINT == pLVCD->nmcd.dwDrawStage) { // This is the prepaint stage for an item. Here's where we set the item's text/back color.
 		esmrecinfo_t *pRecInfo;
 		pRecInfo = GetRecInfo(pLVCD->nmcd.dwItemSpec);
 

@@ -9,11 +9,18 @@
  *=========================================================================*/
 #include "ui/cust_rich_edit.h"
 
-#include "afxrich.h"
+#include <afx.h>
+#include <afxcmn.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <atltypes.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
 
-#include "common/dl_err.h"
-#include "mwedit/std_afx.h"
+#include <cstddef>
 
+#include "common/dl_base.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -21,10 +28,7 @@
 	static char THIS_FILE[] = __FILE__;
 #endif
 
-
 DEFINE_FILE("CustRichEdit.cpp");
-
-
 /*===========================================================================
  *
  * Begin CCustRichEdit Message Map

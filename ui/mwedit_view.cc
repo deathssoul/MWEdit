@@ -9,16 +9,43 @@
  *=========================================================================*/
 #include "ui/mwedit_view.h"
 
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxdlgs.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <atltypes.h>
+#include <commctrl.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
+
+#include <cstdarg>
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/dl_err.h"
+#include "common/dl_file.h"
+#include "common/dl_log.h"
+#include "common/dl_str.h"
 #include "common/dl_time.h"
+#include "file/csv_file.h"
+#include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
-#include "mwedit/std_afx.h"
+#include "game/morrowind/dialogue.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/script.h"
+#include "game/morrowind/tes3.h"
+#include "mwedit/csv_defs.h"
 #include "ui/csv_import_dlg.h"
 #include "ui/header_dlg.h"
 #include "ui/input_dialog.h"
-#include "ui/mwedit.h"
+#include "ui/list_ctrl.h"
+#include "ui/main_frm.h"
 #include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
 #include "ui/script_compare_dlg.h"
-
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -4381,7 +4408,6 @@ void CMWEditView::OnEditOutputrecinfo() {
 	}
 }
 
-
 int l_FindRecSort(const void *pElem1, const void *pElem2, const long UserData) {
 	esmrecinfo_t *pRec1 = (esmrecinfo_t *)pElem1;
 	TCHAR *pName = (TCHAR *)pElem2;
@@ -4557,9 +4583,7 @@ void CMWEditView::OnEditCreatecopy() {
 
 	if (pNewRecInfo == NULL) {
 		ErrorHandler.Notify(_T("Error creating the object!"));
-	}
-	/* Add the new record to the list on success */
-	else {
+	} else { /* Add the new record to the list on success */
 		m_ObjectList.AddItem(pNewRecInfo);
 	}
 }
@@ -4615,9 +4639,7 @@ void CMWEditView::OnEditRename() {
 
 	if (!Result) {
 		ErrorHandler.Notify(_T("Error renaming the object!"));
-	}
-	/* Update the new record to the list on success */
-	else {
+	} else { /* Update the new record to the list on success */
 		m_ObjectList.UpdateItem(pRecInfo);
 	}
 }
@@ -4877,7 +4899,7 @@ void CMWEditView::OnFileExportSpellmerchants() {
  *=========================================================================*/
 CEsmScriptCompareDlg *l_CompareScriptView = NULL;
 
-void l_CompareScriptHook(const TCHAR *pString, va_list Args) {
+void l_CompareScriptHook(const TCHAR *pString, std::va_list Args) {
 	if (l_CompareScriptView != NULL) {
 		l_CompareScriptView->AddLogText(pString, Args);
 	}

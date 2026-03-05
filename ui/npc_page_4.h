@@ -10,13 +10,20 @@
 #ifndef __ESMNPCPAGE4_H
 #define __ESMNPCPAGE4_H
 
+#include <afx.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
 
+#include "game/morrowind/file.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_name_fix.h"
+#include "ui/dlg_array.h"
 #include "ui/list_ctrl.h"
-
-
-class CEsmDlgHandler;
-
-
+#include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
 /*===========================================================================
  *
  * Begin Class CEsmNpcPage4 Definition

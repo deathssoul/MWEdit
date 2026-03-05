@@ -9,9 +9,23 @@
  *=========================================================================*/
 #include "ui/npc_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
+#include <winuser.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/npc.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW

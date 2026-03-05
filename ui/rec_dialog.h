@@ -10,23 +10,22 @@
 #ifndef __ESMRECDIALOG_H
 #define __ESMRECDIALOG_H
 
+#include <afx.h>
 #include <afxext.h>
+#include <afxwin.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
 
 #include "game/morrowind/file.h"
+#include "ui/dlg_array.h"
 #include "ui/icon_frame.h"
+#include "ui/mwedit.h"
 #include "ui/mwedit_doc.h"
-#include "ui/utils.h"
-#include "windows/win_util.h"
+#include "ui/Resource.h"
 
 /* Custom messaages */
 #define ESMDLG_MSG_ONINFOEDIT 0x8301
-
-
-class CEsmDlgHandler;
-class CMWEditDoc;
-class CMWEditApp;
-
-
 /*===========================================================================
  *
  * Begin Class CEsmRecDialog Definition
@@ -94,8 +93,8 @@ class CEsmRecDialog : public CFormView {
 	}
 
 	/* Set or update the record data */
-	virtual void GetControlData(){ ; }
-	virtual void SetControlData(){ ; }
+	virtual void GetControlData() { ; }  // TODO: Determine if these are supposed to be virtual functions or not and determine if they're supposed to do something here or just be overriden by the child classes
+	virtual void SetControlData() { ; }
 
 	/* Record events */
 	virtual int OnPostSaveRecord();

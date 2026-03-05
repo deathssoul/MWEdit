@@ -10,11 +10,13 @@
 #ifndef __ESMPROBEDLG_H
 #define __ESMPROBEDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
 
+#include "game/morrowind/file.h"
+#include "game/morrowind/probe.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmProbeDlg Definition

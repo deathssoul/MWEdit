@@ -10,19 +10,20 @@
 #ifndef __CHILDFRMSCRIPT_H
 #define __CHILDFRMSCRIPT_H
 
-#include "mwedit/script_defs.h"
-#include "ui/Resource.h"
+#include <afx.h>
+#include <afxwin.h>
+#include <atltypes.h>
+#include <windef.h>
+#include <winuser.h>
+
+#include "ui/script_dlg.h"
+#include "ui/script_error_view.h"
 #include "ui/splitter_wnd.h"
-
-
 /*===========================================================================
  *
  * Begin Class CChildFrmScript Definition
  *
  *=========================================================================*/
-class CScriptErrorView;
-class CEsmScriptDlg;
-
 class CChildFrmScript : public CMDIChildWnd {
 	DECLARE_DYNCREATE(CChildFrmScript);
 

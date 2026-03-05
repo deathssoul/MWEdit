@@ -13,20 +13,54 @@
  *=========================================================================*/
 #include "ui/utils.h"
 
-#include <direct.h>
+#include <stdlib.h>
 
+#include <afx.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
+#include <winerror.h>
+#include <winnt.h>
+#include <winreg.h>
+
+#include <cstddef>
+#include <cstdio>
+#include <cstring>
+#include <cctype>
+
+#include "common/dl_base.h"
+#include "common/dl_err.h"
+#include "common/dl_file.h"
+#include "common/dl_log.h"
+#include "common/string/sstring.h"
+#include "game/morrowind/apparatus.h"
 #include "game/morrowind/armor.h"
-#include "mwedit/std_afx.h"
-#include "ui/mwedit_doc.h"
+#include "game/morrowind/body_part.h"
+#include "game/morrowind/clothing.h"
+#include "game/morrowind/creature.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/dialogue.h"
+#include "game/morrowind/enchant.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/global.h"
+#include "game/morrowind/info.h"
+#include "game/morrowind/light.h"
+#include "game/morrowind/script.h"
+#include "game/morrowind/sound_gen.h"
+#include "game/morrowind/spell.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_npdt.h"
+#include "game/morrowind/sub_scvr.h"
+#include "game/morrowind/weapon.h"
+#include "mwedit/mw_common.h"
 #include "ui/glob_options.h"
+#include "ui/mwedit_doc.h"
 #include "windows/win_util.h"
-
 
 DEFINE_FILE("EsmUtils.cpp");
 
 CString l_MWDataPath = _T(""); /* Absolute path to the Morrowind data files */
-
-
 /*===========================================================================
  *
  * Begin Array to Convert from a Biped to a Bodypart Type
@@ -261,7 +295,7 @@ void FillEsmBodyPartsCombo(CComboBox &ComboBox,
 		ListIndex = ComboBox.AddString(_T(""));
 
 		if (ListIndex >= 0) {
-			ComboBox.SetItemData(ListIndex, (DWORD)NULL);
+			ComboBox.SetItemData(ListIndex, (DWORD)NULL);  // TODO: Investigate to determine if we can just use nullptr. Casting a null value doesn't make a whole lot of logical sense.
 		}
 	}
 
@@ -420,7 +454,7 @@ void FillEsmEffectsCombo(CComboBox &ComboBox, const bool IsAlchemy) {
 	ResultIndex = ComboBox.AddString(_T(""));
 
 	if (ResultIndex >= 0) {
-		ComboBox.SetItemData(ResultIndex, (DWORD) -1);
+		ComboBox.SetItemData(ResultIndex, (DWORD)-1);
 	}
 
 	for (Index = 0; Index < MWESM_MAX_EFFECTS; Index++) {
@@ -813,7 +847,7 @@ void FillEsmLocalCombo(CComboBox &ComboBox) {
 			Length = 0;
 
 			while (Length < TotalVarLength) {
-				VarLength = strlen(pVar);
+				VarLength = std::strlen(pVar);
 
 				if (VarLength > TotalVarLength) {
 					break;
@@ -1333,7 +1367,7 @@ void FillEsmInfoCompareOpCombo(CComboBox &ComboBox) {
  *=========================================================================*/
 void FindMWRegistryPath() {
 	//l_MWDataPath = AfxGetApp()->GetProfileString(MWESM_REG_PATH, _T(""), NULL);
-	BYTE Buffer[_MAX_PATH + 8];
+	BYTE Buffer[_MAX_PATH + 8];  // TODO: _MAX_PATH is a Windows-specific extension to  stdlib.h. Replace with something portable
 	DWORD BufferSize = _MAX_PATH + 7;
 	DWORD Type;
 	HKEY hKey;
@@ -1392,7 +1426,7 @@ bool IsValidESMID(const TCHAR *pID) {
 	}
 
 	/* First char should not be a space, but any a-z, 0-9, _ */
-	if (!iscsym(*pID)) {
+	if (!iscsym(*pID)) {  // TODO: iscsym() takes an int, pID is a char pointer.
 		return false;
 	}
 
@@ -1652,7 +1686,7 @@ bool SelectEsmTexture(CString &TextureString, const TCHAR *pTitle, CWnd *pParent
  *
  *=========================================================================*/
 bool ReadFile(CSString &Buffer, const TCHAR *pFilename) {
-	FILE *pFileHandle;
+	std::FILE *pFileHandle;
 	long FileSize;
 	int Result;
 
@@ -1668,8 +1702,8 @@ bool ReadFile(CSString &Buffer, const TCHAR *pFilename) {
 
 	/* Input file */
 	Buffer.SetSize(FileSize);
-	Result = fread((TCHAR *)(const TCHAR *)Buffer, 1, FileSize, pFileHandle);
-	fclose(pFileHandle);
+	Result = std::fread((TCHAR *)(const TCHAR *)Buffer, 1, FileSize, pFileHandle);
+	std::fclose(pFileHandle);
 
 	/* Check for errors */
 	if (Result != FileSize) {

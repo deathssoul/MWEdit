@@ -9,12 +9,37 @@
  *=========================================================================*/
 #include "ui/creature_page_4.h"
 
-#include "mwedit/std_afx.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <commctrl.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
+
+#include <cfloat>
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/creature.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/sub_ai_a.h"
+#include "game/morrowind/sub_ai_e.h"
+#include "game/morrowind/sub_ai_t.h"
+#include "game/morrowind/sub_ai_w.h"
+#include "game/morrowind/sub_aidt.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_name_fix.h"
 #include "ui/ai_activate_dlg.h"
 #include "ui/ai_escort_dlg.h"
 #include "ui/ai_travel_dlg.h"
 #include "ui/ai_wander_dlg.h"
-#include "ui/mwedit.h"
+#include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -24,8 +49,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmCreaturePage4, CPropertyPage);
 DEFINE_FILE("EsmCreaturePage4.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmCreaturePage4 Message Map
@@ -195,13 +218,13 @@ void CEsmCreaturePage4::GetControlData() {
 
 	if (pAiData != NULL) {
 		m_AlarmText.GetWindowText(Buffer);
-		pAiData->Alarm = (byte)atoi(Buffer);
+		pAiData->Alarm = (byte)std::atoi(Buffer);
 		m_FleeText.GetWindowText(Buffer);
-		pAiData->Flee = (byte)atoi(Buffer);
+		pAiData->Flee = (byte)std::atoi(Buffer);
 		m_FightText.GetWindowText(Buffer);
-		pAiData->Fight = (byte)atoi(Buffer);
+		pAiData->Fight = (byte)std::atoi(Buffer);
 		m_HelloText.GetWindowText(Buffer);
-		pAiData->Hello = (byte)atoi(Buffer);
+		pAiData->Hello = (byte)std::atoi(Buffer);
 	}
 
 	/* Delete the current AI package sub-records */

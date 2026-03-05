@@ -10,13 +10,18 @@
 #ifndef __ESMFACTIONDLG_H
 #define __ESMFACTIONDLG_H
 
+#include <afx.h>
+#include <afxcmn.h>
+#include <afxwin.h>
+#include <windef.h>
+#include <winuser.h>
 
+#include "game/morrowind/faction.h"
+#include "game/morrowind/file.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
 
-
 /* Rank list definitions */
-
 #define MWESM_RANKLIST_INDEX      0
 #define MWESM_RANKLIST_NAME       1
 #define MWESM_RANKLIST_ATTRIB1    2
@@ -26,11 +31,8 @@
 #define MWESM_RANKLIST_FACTREP    6
 
 /* Reaction list definitions */
-
 #define MWESM_REACLIST_NAME       0
 #define MWESM_REACLIST_VALUE      1
-
-
 /*===========================================================================
  *
  * Begin Class CEsmFactionDlg Definition

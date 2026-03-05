@@ -9,11 +9,29 @@
  *=========================================================================*/
 #include "ui/effect_dlg.h"
 
-#include "mmsystem.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxdlgs.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <mmsystem.h>
+#include <windef.h>
+#include <wingdi.h>
+#include <winnt.h>
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <cstddef>
+#include <cstdlib>
 
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/magic_effect.h"
+#include "game/morrowind/sound.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -23,8 +41,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmEffectDlg, CEsmRecDialog);
 DEFINE_FILE("EsmEffectDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmEffectDlg Message Map
@@ -130,19 +146,19 @@ void CEsmEffectDlg::GetControlData() {
 
 	/* Base cost */
 	m_BaseCostText.GetWindowText(Buffer);
-	m_pEffect->SetBaseCost((float)atof(Buffer));
+	m_pEffect->SetBaseCost((float)std::atof(Buffer));
 
 	/* Size */
 	m_SizeText.GetWindowText(Buffer);
-	m_pEffect->SetSize((float)atof(Buffer));
+	m_pEffect->SetSize((float)std::atof(Buffer));
 
 	/* Max Size */
 	m_MaxSizeText.GetWindowText(Buffer);
-	m_pEffect->SetMaxSize((float)atof(Buffer));
+	m_pEffect->SetMaxSize((float)std::atof(Buffer));
 
 	/* Speed */
 	m_SpeedText.GetWindowText(Buffer);
-	m_pEffect->SetSpeed((float)atof(Buffer));
+	m_pEffect->SetSpeed((float)std::atof(Buffer));
 
 	/* Speel school */
 	Index = m_SchoolList.GetCurSel();
@@ -334,7 +350,7 @@ void CEsmEffectDlg::OnChangeColor() {
 	}
 
 	m_RedText.GetWindowText(Buffer);
-	Red = atoi(Buffer);
+	Red = std::atoi(Buffer);
 
 	if (Red < 0) {
 		Red = 0;
@@ -345,7 +361,7 @@ void CEsmEffectDlg::OnChangeColor() {
 	}
 
 	m_GreenText.GetWindowText(Buffer);
-	Green = atoi(Buffer);
+	Green = std::atoi(Buffer);
 
 	if (Green < 0) {
 		Green = 0;
@@ -356,7 +372,7 @@ void CEsmEffectDlg::OnChangeColor() {
 	}
 
 	m_BlueText.GetWindowText(Buffer);
-	Blue = atoi(Buffer);
+	Blue = std::atoi(Buffer);
 
 	if (Blue < 0) {
 		Blue = 0;
@@ -383,7 +399,7 @@ void CEsmEffectDlg::OnColorbutton() {
 	int Green;
 	int Blue;
 	m_RedText.GetWindowText(Buffer);
-	Red = atoi(Buffer);
+	Red = std::atoi(Buffer);
 
 	if (Red < 0) {
 		Red = 0;
@@ -394,7 +410,7 @@ void CEsmEffectDlg::OnColorbutton() {
 	}
 
 	m_GreenText.GetWindowText(Buffer);
-	Green = atoi(Buffer);
+	Green = std::atoi(Buffer);
 
 	if (Green < 0) {
 		Green = 0;
@@ -405,7 +421,7 @@ void CEsmEffectDlg::OnColorbutton() {
 	}
 
 	m_BlueText.GetWindowText(Buffer);
-	Blue = atoi(Buffer);
+	Blue = std::atoi(Buffer);
 
 	if (Blue < 0) {
 		Blue = 0;

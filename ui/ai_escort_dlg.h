@@ -10,11 +10,16 @@
 #ifndef __ESMAIESCORTDLG_H
 #define __ESMAIESCORTDLG_H
 
+#include <afx.h>
 #include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
+#include <winnt.h>
+
+#include <cstddef>
 
 #include "game/morrowind/sub_ai_e.h"
 #include "ui/Resource.h"
-
 /*===========================================================================
  *
  * Begin Class CEsmAiEscortDlg

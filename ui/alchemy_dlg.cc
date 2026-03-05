@@ -1,10 +1,26 @@
-// EsmAlchemyDlg.cpp : implementation file
 #include "ui/alchemy_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/dlg_array.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
 
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "common/dl_log.h"
+#include "game/morrowind/alchemy.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/magic_effect.h"
+#include "game/morrowind/sub_enam.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -12,11 +28,8 @@
 	static char THIS_FILE[] = __FILE__;
 #endif
 
-
 IMPLEMENT_DYNCREATE(CEsmAlchemyDlg, CEsmRecDialog);
 DEFINE_FILE("EsmAlchemyDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmAlchemyDlg Message Map
@@ -192,11 +205,11 @@ void CEsmAlchemyDlg::GetControlData() {
 
 	/* Item weight */
 	m_WeightText.GetWindowText(Buffer);
-	pAlchemyData->Weight = (float)atof(Buffer);
+	pAlchemyData->Weight = (float)std::atof(Buffer);
 
 	/* Item value */
 	m_ValueText.GetWindowText(Buffer);
-	pAlchemyData->Value = atoi(Buffer);
+	pAlchemyData->Value = std::atoi(Buffer);
 
 	/* Item script */
 	m_ScriptList.GetWindowText(Buffer);
@@ -248,7 +261,7 @@ void CEsmAlchemyDlg::GetEffectData(const int EffectIndex) {
 
 	/* Set the enchant duration */
 	m_DurationText[EffectIndex].GetWindowText(Buffer);
-	pEnchantData->Duration = (short)(atoi(Buffer));
+	pEnchantData->Duration = (short)(std::atoi(Buffer));
 
 	if (pEnchantData->Duration < 0) {
 		pEnchantData->Duration = 0;
@@ -256,7 +269,7 @@ void CEsmAlchemyDlg::GetEffectData(const int EffectIndex) {
 
 	/* Get the enchant magnitude */
 	m_MagnitudeText[EffectIndex].GetWindowText(Buffer);
-	pEnchantData->MagMin = (short)(atoi(Buffer));
+	pEnchantData->MagMin = (short)(std::atoi(Buffer));
 
 	if (pEnchantData->MagMin < 0) {
 		pEnchantData->MagMin = 0;
@@ -645,9 +658,9 @@ void CEsmAlchemyDlg::UpdateSpellCost(const int EffectIndex) {
 
 	if (m_pEffectInfo[EffectIndex] != NULL) {
 		m_MagnitudeText[EffectIndex].GetWindowText(Buffer);
-		Magnitude = atoi(Buffer);
+		Magnitude = std::atoi(Buffer);
 		m_DurationText[EffectIndex].GetWindowText(Buffer);
-		Duration = atoi(Buffer);
+		Duration = std::atoi(Buffer);
 		Cost = ((CEsmMagicEffect *)m_pEffectInfo[EffectIndex]->pRecord)->GetAlchemyCost(Duration,
 		                                                                                Magnitude);
 		Buffer.Format(_T("%.2f"),
@@ -689,7 +702,7 @@ void CEsmAlchemyDlg::UpdateTotalSpellCost() {
 
 	for (Index = 0; Index < MWESM_ALCHEMY_NUMENCHANTS; Index++) {
 		m_TotalCostText[Index].GetWindowText(Buffer);
-		SumValue += (float)atof(Buffer);
+		SumValue += (float)std::atof(Buffer);
 	}
 
 	/* Set the value text */

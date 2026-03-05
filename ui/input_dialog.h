@@ -10,6 +10,13 @@
 #ifndef __INPUTDIALOG_H
 #define __INPUTDIALOG_H
 
+#include <afx.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
+#include <winnt.h>
+
+#include "ui/Resource.h"
 
 /*===========================================================================
  *

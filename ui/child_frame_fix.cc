@@ -9,9 +9,14 @@
  *=========================================================================*/
 #include "ui/child_frame_fix.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxwin.h>
+#include <windef.h>
+#include <winuser.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
 
 /* Debug defines */
 #if _DEBUG
@@ -20,11 +25,8 @@
 	static char THIS_FILE[] = __FILE__;
 #endif
 
-
 IMPLEMENT_DYNCREATE(CChildFrameFix, CMDIChildWnd);
 DEFINE_FILE("ChildFrmFix.cpp");
-
-
 /*===========================================================================
  *
  * Class CChildFrameFix Message Map
@@ -64,7 +66,7 @@ CChildFrameFix::~CChildFrameFix() {
 BOOL CChildFrameFix::PreCreateWindow(CREATESTRUCT &cs) {
 	cs.style &= ~WS_THICKFRAME;
 	cs.style &= ~WS_MAXIMIZEBOX;
-	if ( !CMDIChildWnd::PreCreateWindow(cs) ) {
+	if (!CMDIChildWnd::PreCreateWindow(cs)) {
 		return FALSE;
 	}
 

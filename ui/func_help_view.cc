@@ -9,10 +9,22 @@
  *=========================================================================*/
 #include "ui/func_help_view.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
-#include "windows/win_util.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
+#include <wingdi.h>
+#include <winnt.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "mwedit/scr_func_data.h"
+#include "ui/mwedit.h"
+#include "ui/Resource.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -22,8 +34,6 @@
 
 DEFINE_FILE("EsmFuncHelpView.cpp");
 IMPLEMENT_DYNCREATE(CEsmFuncHelpView, CFormView);
-
-
 /*===========================================================================
  *
  * Begin CEsmFuncHelpView Message Map
@@ -66,8 +76,21 @@ CEsmFuncHelpView::CEsmFuncHelpView() : CFormView(CEsmFuncHelpView::IDD) {
 	                      DEFAULT_QUALITY,
 	                      DEFAULT_PITCH,
 	                      _T("Arial"));
-	/*m_Font.CreateFont(100, 0, 0, 0, FW_BOLD, 0, 0, 0, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
-	      CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, _T("Arial")); //*/
+	/* m_Font.CreateFont(100,
+	 *                   0,
+	 *                   0,
+	 *                   0,
+	 *                   FW_BOLD,
+	 *                   0,
+	 *                   0,
+	 *                   0,
+	 *                   DEFAULT_CHARSET,
+	 *                   OUT_DEFAULT_PRECIS,
+	 *                   CLIP_DEFAULT_PRECIS,
+	 *                   DEFAULT_QUALITY,
+	 *                   DEFAULT_PITCH,
+	 *                   _T("Arial"));
+	 * */
 }
 
 

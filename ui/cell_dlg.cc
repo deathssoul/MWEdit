@@ -9,9 +9,22 @@
  *=========================================================================*/
 #include "ui/cell_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morrowind/cell.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -21,8 +34,6 @@
 
 DEFINE_FILE("EsmCellDlg.cpp");
 IMPLEMENT_DYNCREATE(CEsmCellDlg, CEsmRecDialog);
-
-
 /*===========================================================================
  *
  * Begin CEsmCellDlg Message Map

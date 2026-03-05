@@ -9,9 +9,24 @@
  *=========================================================================*/
 #include "ui/cell_ref_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
 
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/cell.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/sub_cell_ref.h"
+#include "game/morrowind/sub_float.h"
+#include "game/morrowind/sub_frmr.h"
+#include "game/morrowind/sub_pos_6.h"
+#include "ui/Resource.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -20,8 +35,6 @@
 #endif
 
 DEFINE_FILE("EsmCellRefDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmCellRefDlg Message Map
@@ -138,17 +151,17 @@ void CEsmCellRefDlg::GetControlData() {
 	if (pPosition != NULL) {
 		pPosData = pPosition->GetPosData();
 		m_XPosText.GetWindowText(Buffer);
-		pPosData->PosX = (float)atof(Buffer);
+		pPosData->PosX = (float)std::atof(Buffer);
 		m_YPosText.GetWindowText(Buffer);
-		pPosData->PosY = (float)atof(Buffer);
+		pPosData->PosY = (float)std::atof(Buffer);
 		m_ZPosText.GetWindowText(Buffer);
-		pPosData->PosZ = (float)atof(Buffer);
+		pPosData->PosZ = (float)std::atof(Buffer);
 		m_XRotText.GetWindowText(Buffer);
-		pPosData->RotX = (float)atof(Buffer);
+		pPosData->RotX = (float)std::atof(Buffer);
 		m_YRotText.GetWindowText(Buffer);
-		pPosData->RotY = (float)atof(Buffer);
+		pPosData->RotY = (float)std::atof(Buffer);
 		m_ZRotText.GetWindowText(Buffer);
-		pPosData->RotZ = (float)atof(Buffer);
+		pPosData->RotZ = (float)std::atof(Buffer);
 	}
 
 	/* Set the scale data */
@@ -161,7 +174,7 @@ void CEsmCellRefDlg::GetControlData() {
 
 	if (pScale != NULL) {
 		m_ScaleText.GetWindowText(Buffer);
-		pScale->SetValue((float)atof(Buffer));
+		pScale->SetValue((float)std::atof(Buffer));
 	}
 }
 

@@ -10,7 +10,15 @@
 #ifndef __ESMHEADERDLG_H
 #define __ESMHEADERDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
+#include <windef.h>
+#include <winnt.h>
 
+#include <cstddef>
+
+#include "game/morrowind/tes3.h"
+#include "ui/Resource.h"
 class CEsmHeaderDlg : public CDialog {
   protected:
 	CEsmTES3 *m_pHeader;

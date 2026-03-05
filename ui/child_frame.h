@@ -10,7 +10,11 @@
 #ifndef __ChildFrm_H
 #define __ChildFrm_H
 
-
+#include <afx.h>
+#include <afxwin.h>
+#include <atltypes.h>
+#include <windef.h>
+#include <winuser.h>
 /*===========================================================================
  *
  * Class CChildFrame Definition
@@ -40,7 +44,7 @@ class CChildFrame : public CMDIChildWnd {
 	/* ClassWizard generated virtual function overrides */
 
 	//{{AFX_VIRTUAL(CChildFrame)
-	virtual BOOL PreCreateWindow (CREATESTRUCT &cs);
+	virtual BOOL PreCreateWindow(CREATESTRUCT &cs);
 	//}}AFX_VIRTUAL
 
 
@@ -49,7 +53,7 @@ class CChildFrame : public CMDIChildWnd {
 	//{{AFX_MSG(CChildFrame)
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnMDIActivate(BOOL bActivate, CWnd *pActivateWnd, CWnd *pDeactivateWnd);
-	afx_msg void OnSysCommand (UINT nID, LPARAM Param);
+	afx_msg void OnSysCommand(UINT nID, LPARAM Param);
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP();

@@ -9,9 +9,19 @@
  *=========================================================================*/
 #include "ui/script_compare_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
+#include <winnt.h>
 
+#include <cstdarg>
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "ui/Resource.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -21,8 +31,6 @@
 
 DEFINE_FILE("EsmScriptCompareDlg.CPP");
 IMPLEMENT_DYNCREATE(CEsmScriptCompareDlg, CFormView)
-
-
 /*===========================================================================
  *
  * Begin CEsmScriptCompareDlg Message Map
@@ -61,7 +69,7 @@ CEsmScriptCompareDlg::~CEsmScriptCompareDlg() {
  * Class CEsmScriptCompareDlg Method - void AddLogText (pString, Args);
  *
  *=========================================================================*/
-void CEsmScriptCompareDlg::AddLogText(const TCHAR *pString, va_list Args) {
+void CEsmScriptCompareDlg::AddLogText(const TCHAR *pString, std::va_list Args) {
 	CString Buffer;
 	int Length;
 	Buffer.FormatV(pString, Args);

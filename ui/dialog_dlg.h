@@ -10,14 +10,25 @@
 #ifndef __ESMDIALOGDLG_H
 #define __ESMDIALOGDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
+#include <atltypes.h>
+#include <windef.h>
+#include <winnt.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/container/ptr_array.h"
+#include "game/morrowind/dialogue.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/info.h"
+#include "game/morrowind/npc.h"
 #include "ui/list_ctrl.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
 
-
 /* Used for resizing the window and controls */
-
 #define MWESM_DLGFORM_MINWIDTH     400
 #define MWESM_DLGFORM_MINHEIGHT    120
 #define MWESM_DLGFORM_HEIGHTMARGIN 80
@@ -25,12 +36,10 @@
 #define MWESM_DLGFORM_BUTTONWIDTH  60
 
 /* Identifies the type of new info records */
-
 #define MWESM_DLGFORM_CLEANED      2
 #define MWESM_DLGFORM_OLDINFO      3
 #define MWESM_DLGFORM_ACTIVEINFO   4
 #define MWESM_DLGFORM_NEWINFO      5
-
 
 /* Holds information on modified info records */
 typedef struct {
@@ -39,8 +48,6 @@ typedef struct {
 } esminfodata_t;
 
 typedef TPtrArray<esminfodata_t> CEsmInfoDataArray;
-
-
 /*===========================================================================
  *
  * Begin Class CEsmDialogDlg Definition
@@ -70,7 +77,7 @@ class CEsmDialogDlg : public CEsmRecDialog {
 	esmrecinfo_t *CreateNewInfo(esmrecinfo_t *pRecInfo, const bool MustBeNew = false);
 
 	/* Attempt to find a new INFO record in the array */
-	esminfodata_t *FindNewInfo(const TCHAR* pID);
+	esminfodata_t *FindNewInfo(const TCHAR *pID);
 	esminfodata_t *FindNewInfo(esmrecinfo_t *pRecInfo);
 	esmrecinfo_t *GetRecInfo(const TCHAR *pID, const TCHAR *pDialogID = NULL);
 

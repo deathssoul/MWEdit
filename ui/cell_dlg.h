@@ -10,14 +10,17 @@
 #ifndef __ESMCELLDLG_H
 #define __ESMCELLDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
+
+#include "game/morrowind/cell.h"
+#include "game/morrowind/file.h"
 #include "ui/ext_cell_page.h"
 #include "ui/int_cell_page.h"
 #include "ui/rec_dialog.h"
 #include "ui/ref_cell_page.h"
 #include "ui/Resource.h"
 #include "windows/tab_ctrl_sheet.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmCellDlg Definition

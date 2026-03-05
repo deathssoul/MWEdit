@@ -9,10 +9,25 @@
  *=========================================================================*/
 #include "ui/ext_cell_page.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
-#include "ui/rec_dialog.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
+#include <wingdi.h>
 
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "game/morrowind/cell.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sub_long.h"
+#include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -22,8 +37,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmExtCellPage, CPropertyPage);
 DEFINE_FILE("EsmExtCellPage.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmExtCellPage Message Map
@@ -123,11 +136,11 @@ void CEsmExtCellPage::GetControlData() {
 		}
 
 		m_RedText.GetWindowText(Buffer);
-		Red = atoi(Buffer);
+		Red = std::atoi(Buffer);
 		m_GreenText.GetWindowText(Buffer);
-		Green = atoi(Buffer);
+		Green = std::atoi(Buffer);
 		m_BlueText.GetWindowText(Buffer);
-		Blue = atoi(Buffer);
+		Blue = std::atoi(Buffer);
 		pLightData->SetValue(RGB(Red, Green, Blue));
 	}
 
@@ -233,7 +246,7 @@ void CEsmExtCellPage::OnColorbutton() {
 	int Green;
 	int Blue;
 	m_RedText.GetWindowText(Buffer);
-	Red = atoi(Buffer);
+	Red = std::atoi(Buffer);
 
 	if (Red < 0) {
 		Red = 0;
@@ -244,7 +257,7 @@ void CEsmExtCellPage::OnColorbutton() {
 	}
 
 	m_GreenText.GetWindowText(Buffer);
-	Green = atoi(Buffer);
+	Green = std::atoi(Buffer);
 
 	if (Green < 0) {
 		Green = 0;
@@ -255,7 +268,7 @@ void CEsmExtCellPage::OnColorbutton() {
 	}
 
 	m_BlueText.GetWindowText(Buffer);
-	Blue = atoi(Buffer);
+	Blue = std::atoi(Buffer);
 
 	if (Blue < 0) {
 		Blue = 0;
@@ -302,7 +315,7 @@ void CEsmExtCellPage::OnChangeColor() {
 	}
 
 	m_RedText.GetWindowText(Buffer);
-	Red = atoi(Buffer);
+	Red = std::atoi(Buffer);
 
 	if (Red < 0) {
 		Red = 0;
@@ -313,7 +326,7 @@ void CEsmExtCellPage::OnChangeColor() {
 	}
 
 	m_GreenText.GetWindowText(Buffer);
-	Green = atoi(Buffer);
+	Green = std::atoi(Buffer);
 
 	if (Green < 0) {
 		Green = 0;
@@ -324,7 +337,7 @@ void CEsmExtCellPage::OnChangeColor() {
 	}
 
 	m_BlueText.GetWindowText(Buffer);
-	Blue = atoi(Buffer);
+	Blue = std::atoi(Buffer);
 
 	if (Blue < 0) {
 		Blue = 0;

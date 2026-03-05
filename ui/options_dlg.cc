@@ -9,9 +9,28 @@
  *=========================================================================*/
 #include "ui/options_dlg.h"
 
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <commdlg.h>
+#include <richedit.h>
+#include <tchar.h>
+#include <windef.h>
+#include <wingdi.h>
+#include <winuser.h>
+
+#include <cstddef>
+#include <cstdlib>
+#include <cstring.h>
+
+#include "common/dl_base.h"
+#include "common/dl_err.h"
+#include "mwedit/options_def.h"
 #include "mwedit/script_compile.h"
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include "mwedit/script_options.h"
+#include "ui/Resource.h"
 #include "ui/utils.h"
 #include "windows/win_util.h"
 
@@ -23,8 +42,6 @@
 #endif
 
 DEFINE_FILE("EsmOptionsDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmOptionsDlg Message Map
@@ -292,7 +309,7 @@ void CEsmOptionsDlg::GetControlData() {
 
 	if (m_IndentSpace.GetCheck()) {
 		m_IndentSpacesText.GetWindowText(Buffer);
-		Count = atoi(Buffer);
+		Count = std::atoi(Buffer);
 
 		if (Count < 0) {
 			Count = 0;
@@ -320,9 +337,9 @@ void CEsmOptionsDlg::GetControlData() {
 
 	/* Update the current format data */
 	GetFormatData();
-	memcpy(m_pOrigOptions->GetUserFormat()->GetCharFormat(0),
-	       m_ScriptOptions.GetCharFormat(0),
-	       sizeof(CHARFORMAT2) * ESMSCRIPT_NUMFORMATS);
+	std::memcpy(m_pOrigOptions->GetUserFormat()->GetCharFormat(0),
+	            m_ScriptOptions.GetCharFormat(0),
+	            sizeof(CHARFORMAT2) * ESMSCRIPT_NUMFORMATS);
 	m_pOrigOptions->GetUserFormat()->SetBGColor(m_BGColor.m_Color);
 	/* Update the font data */
 	GetFontData(m_pOrigOptions->GetUserFormat()->GetTextFont());
@@ -662,7 +679,7 @@ void CEsmOptionsDlg::SetControlData() {
  *
  *=========================================================================*/
 void CEsmOptionsDlg::SetFontData() {
-	LOGFONT LogFont;
+	LOGFONT LogFont;  // TODO: Is this supposed to be LONGFONTW or LONGFONTA? The former sets lfFaceName to a wide-character array of size 32 while the latter sets it to a regular character array of size LF_FACESIZE
 	int ListIndex;
 	/* Get the font information */
 	m_pOrigOptions->GetUserFormat()->GetTextFont()->GetLogFont(&LogFont);

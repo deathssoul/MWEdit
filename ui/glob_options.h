@@ -11,9 +11,9 @@
 #ifndef __ESMGLOBOPTIONS_H
 #define __ESMGLOBOPTIONS_H
 
+#include <winnt.h>
 
-#include "mwedit/options_def.h"
-
+#include "mwedit/script_options.h"
 
 bool GetEsmOptNoScriptFormat();
 bool GetEsmOptBackupSaves();
@@ -33,9 +33,5 @@ const TCHAR *GetEsmOptDefaultAuthor();
 const TCHAR *GetEsmOptExtraFile();
 const TCHAR *GetEsmOptScriptIndentString();
 
-
-class CEsmScriptOptions;
 CEsmScriptOptions *GetEsmOptScriptOptions();
-
-
 #endif

@@ -10,12 +10,16 @@
 #ifndef __ESMLEVELCREADLG_H
 #define __ESMLEVELCREADLG_H
 
+#include <afx.h>
+#include <afxwin.h>
+#include <windef.h>
+#include <winuser.h>
 
+#include "game/morrowind/file.h"
+#include "game/morrowind/level_crea.h"
 #include "ui/list_ctrl.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmLevelCreaDlg Definition
@@ -48,7 +52,7 @@ class CEsmLevelCreaDlg : public CEsmRecDialog {
 	virtual bool IsModified();
 
 	int GetSortData() {
-		return (m_SortData);
+		return m_SortData;
 	}
 
 	int GetSortCount(esmrecinfo_t *pRecInfo);

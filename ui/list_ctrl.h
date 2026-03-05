@@ -10,12 +10,20 @@
 #ifndef __ESMLISTCTRL_H
 #define __ESMLISTCTRL_H
 
+#include <afx.h>
+#include <afxcmn.h>
+#include <afxwin.h>
+#include <commctrl.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
+
+#include <cstddef>
 
 #include "game/morrowind/file.h"
-
-#ifndef NO_ESMLIST_EDIT
-	#include "ui/dlg_array.h"
-#endif
+#include "game/morrowind/record.h"
+#include "ui/dlg_array.h"
+#include "ui/mwedit_doc.h"
 
 
 /* Used for image indices */
@@ -297,7 +305,6 @@ typedef struct {
 	long UserData2;
 } esmlistsortdata_t;
 
-
 /*===========================================================================
  *
  * Begin Class CEsmListCtrl Definition
@@ -378,7 +385,7 @@ class CEsmListCtrl : public CListCtrl {
 
 	/* Get class members */
 	int GetLastSortField() const {
-		return (m_LastSortField);
+		return m_LastSortField;
 	}
 
 	/* Convert an item type to an image index */
@@ -386,7 +393,7 @@ class CEsmListCtrl : public CListCtrl {
 
 	/* Get/set an item check */
 	bool GetCheck(const int Item) {
-		return (ListView_GetCheckState(m_hWnd, Item) == TRUE);
+		return ListView_GetCheckState(m_hWnd, Item) == TRUE;
 	}
 
 	void SetCheck(const int Item, const bool Flag) {

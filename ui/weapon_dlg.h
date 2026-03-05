@@ -10,11 +10,13 @@
 #ifndef __ESMWEAPONDLG_H
 #define __ESMWEAPONDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
 
+#include "game/morrowind/file.h"
+#include "game/morrowind/weapon.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmWeaponDlg Definition

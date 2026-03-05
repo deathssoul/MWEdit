@@ -17,13 +17,25 @@
  *=========================================================================*/
 #include "ui/rec_dialog.h"
 
+#include <afx.h>
+#include <afxdd_.h>
 #include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
 
-#include "mwedit/std_afx.h"
-#include "ui/dlg_array.h"
-#include "ui/mwedit.h"
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
 #include "ui/mwedit_doc.h"
-
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -33,8 +45,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmRecDialog, CFormView);
 DEFINE_FILE("EsmRecDialog.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmRecDialog Message Map

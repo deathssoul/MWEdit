@@ -10,11 +10,15 @@
 #ifndef __ESMSTARTSCRIPTDLG_H
 #define __ESMSTARTSCRIPTDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
 
+#include <cstddef>
+
+#include "game/morrowind/file.h"
+#include "game/morrowind/start_script.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmStartScriptDlg Definition

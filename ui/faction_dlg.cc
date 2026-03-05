@@ -9,9 +9,30 @@
  *=========================================================================*/
 #include "ui/faction_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <commctrl.h>
+#include <windef.h>
+#include <winuser.h>
 
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/faction.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_fadt.h"
+#include "game/morrowind/sub_long.h"
+#include "game/morrowind/sub_name_fix.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -21,8 +42,6 @@
 
 DEFINE_FILE("EsmFactionDlg.cpp");
 IMPLEMENT_DYNCREATE(CEsmFactionDlg, CEsmRecDialog);
-
-
 /*===========================================================================
  *
  * Begin CEsmFactionDlg Message Map
@@ -152,15 +171,15 @@ void CEsmFactionDlg::GetControlData() {
 		Buffer = m_RankList.GetItemText(Index, MWESM_RANKLIST_NAME);
 		m_pFaction->SetRankName(Index, Buffer);
 		Buffer = m_RankList.GetItemText(Index, MWESM_RANKLIST_ATTRIB1);
-		pFactionData->RankData[Index].Attribute1 = atoi(Buffer);
+		pFactionData->RankData[Index].Attribute1 = std::atoi(Buffer);
 		Buffer = m_RankList.GetItemText(Index, MWESM_RANKLIST_ATTRIB2);
-		pFactionData->RankData[Index].Attribute2 = atoi(Buffer);
+		pFactionData->RankData[Index].Attribute2 = std::atoi(Buffer);
 		Buffer = m_RankList.GetItemText(Index, MWESM_RANKLIST_SKILL1);
-		pFactionData->RankData[Index].Skill1 = atoi(Buffer);
+		pFactionData->RankData[Index].Skill1 = std::atoi(Buffer);
 		Buffer = m_RankList.GetItemText(Index, MWESM_RANKLIST_SKILL2);
-		pFactionData->RankData[Index].Skill2 = atoi(Buffer);
+		pFactionData->RankData[Index].Skill2 = std::atoi(Buffer);
 		Buffer = m_RankList.GetItemText(Index, MWESM_RANKLIST_FACTREP);
-		pFactionData->RankData[Index].Faction = atoi(Buffer);
+		pFactionData->RankData[Index].Faction = std::atoi(Buffer);
 	}
 
 	/* Update and store the reaction list data */
@@ -176,7 +195,7 @@ void CEsmFactionDlg::GetControlData() {
 		Buffer = m_ReactionList.GetItemText(Index, MWESM_REACLIST_NAME);
 		pSubName->SetName(Buffer);
 		Buffer = m_ReactionList.GetItemText(Index, MWESM_REACLIST_VALUE);
-		pSubLong->SetValue(atoi(Buffer));
+		pSubLong->SetValue(std::atoi(Buffer));
 	}
 }
 
@@ -381,7 +400,7 @@ void CEsmFactionDlg::OnItemchangingRanklist(NMHDR *pNMHDR, LRESULT *pResult) {
 
 	/* Ignore if the item selection state hasn't changed */
 
-	if ((pNMListView->uChanged & LVIF_STATE ) == 0) {
+	if ((pNMListView->uChanged & LVIF_STATE) == 0) {
 		return;
 	}
 
@@ -409,7 +428,7 @@ void CEsmFactionDlg::OnItemchangingReactionlist(NMHDR *pNMHDR, LRESULT *pResult)
 
 	/* Ignore if the item selection state hasn't changed */
 
-	if ((pNMListView->uChanged & LVIF_STATE ) == 0) {
+	if ((pNMListView->uChanged & LVIF_STATE) == 0) {
 		return;
 	}
 
@@ -547,7 +566,7 @@ void CEsmFactionDlg::SetControlData() {
 		if (pSubLong != NULL && pSubLong->IsType(MWESM_SUBREC_INTV)) {
 			m_ReactionList.InsertItem(0, _T(""), -1);
 			m_ReactionList.SetItemText(0, MWESM_REACLIST_NAME, pSubName->GetName());
-			Buffer.Format(_T("%d"), (int)((CEsmSubLong*)pSubLong)->GetValue());
+			Buffer.Format(_T("%d"), (int)((CEsmSubLong *)pSubLong)->GetValue());
 			m_ReactionList.SetItemText(0, MWESM_REACLIST_VALUE, Buffer);
 		}
 

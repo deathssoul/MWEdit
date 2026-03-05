@@ -12,9 +12,17 @@
  *=========================================================================*/
 #include "ui/input_dialog.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
+#include <winnt.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "ui/Resource.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW

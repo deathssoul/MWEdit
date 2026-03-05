@@ -9,9 +9,23 @@
  *=========================================================================*/
 #include "ui/body_part_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morrowind/body_part.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/sub_bydt.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -21,8 +35,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmBodyPartDlg, CEsmRecDialog);
 DEFINE_FILE("EsmBodyPartDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmBodyPartDlg Message Map
@@ -33,6 +45,7 @@ BEGIN_MESSAGE_MAP(CEsmBodyPartDlg, CEsmRecDialog)
 	ON_CBN_SELCHANGE(IDC_PARTTYPELIST, OnSelchangeParttypelist)
 	ON_CBN_SELCHANGE(IDC_RACELIST, OnSelchangeList)
 	ON_CBN_SELCHANGE(IDC_PARTLIST, OnSelchangeList)
+
 	ON_BN_CLICKED(IDC_VAMPIRECHECK, OnSelchangeList)
 	ON_BN_CLICKED(IDC_PLAYABLECHECK, OnSelchangeList)
 	ON_BN_CLICKED(IDC_FEMALECHECK, OnSelchangeList)

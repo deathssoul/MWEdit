@@ -9,9 +9,18 @@
  *=========================================================================*/
 #include "ui/ai_travel_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
 
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "game/morrowind/sub_ai_t.h"
+#include "ui/Resource.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -19,10 +28,7 @@
 	static char THIS_FILE[] = __FILE__;
 #endif
 
-
 DEFINE_FILE("EsmAiTravelDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmAiTravelDlg Message Map
@@ -53,6 +59,7 @@ CEsmAiTravelDlg::CEsmAiTravelDlg(CWnd *pParent) : CDialog(CEsmAiTravelDlg::IDD, 
  *=========================================================================*/
 void CEsmAiTravelDlg::DoDataExchange(CDataExchange *pDX) {
 	CDialog::DoDataExchange(pDX);
+
 	//{{AFX_DATA_MAP(CEsmAiTravelDlg)
 	DDX_Control(pDX, IDC_ZTEXT, m_ZText);
 	DDX_Control(pDX, IDC_YTEXT, m_YText);
@@ -128,11 +135,11 @@ void CEsmAiTravelDlg::OnOK() {
 
 	if (pAiData != NULL) {
 		m_XText.GetWindowText(Buffer);
-		pAiData->X = (float)atof(Buffer);
+		pAiData->X = (float)std::atof(Buffer);
 		m_YText.GetWindowText(Buffer);
-		pAiData->Y = (float)atof(Buffer);
+		pAiData->Y = (float)std::atof(Buffer);
 		m_ZText.GetWindowText(Buffer);
-		pAiData->Z = (float)atof(Buffer);
+		pAiData->Z = (float)std::atof(Buffer);
 	}
 
 	CDialog::OnOK();

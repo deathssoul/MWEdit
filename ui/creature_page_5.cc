@@ -9,12 +9,27 @@
  *=========================================================================*/
 #include "ui/creature_page_5.h"
 
-#include "common/dl_err.h"
-#include "mwedit/std_afx.h"
-#include "ui/dlg_array.h"
-#include "ui/mwedit.h"
-#include "ui/mwedit_doc.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
 
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "game/morrowind/creature.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sub_aidt.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_cldt.h"
+#include "game/morrowind/sub_crdt.h"
+#include "game/morrowind/sub_pos_6.h"
+#include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -24,8 +39,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmCreaturePage5, CPropertyPage);
 DEFINE_FILE("EsmNpcPage5.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmCreaturePage5 Message Map
@@ -119,7 +132,7 @@ void CEsmCreaturePage5::GetControlData() {
 
 	if (pCreaData != NULL) {
 		m_GoldText.GetWindowText(Buffer);
-		pCreaData->Gold = atol(Buffer);
+		pCreaData->Gold = std::atol(Buffer);
 	}
 
 	/* Flags */

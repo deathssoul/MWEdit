@@ -9,12 +9,38 @@
  *=========================================================================*/
 #include "ui/npc_page_4.h"
 
-#include "mwedit/std_afx.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <commctrl.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
+
+#include <cfloat>
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/npc.h"
+#include "game/morrowind/sub_ai_a.h"
+#include "game/morrowind/sub_ai_e.h"
+#include "game/morrowind/sub_ai_t.h"
+#include "game/morrowind/sub_ai_w.h"
+#include "game/morrowind/sub_aidt.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_name_fix.h"
 #include "ui/ai_activate_dlg.h"
 #include "ui/ai_escort_dlg.h"
 #include "ui/ai_travel_dlg.h"
 #include "ui/ai_wander_dlg.h"
-#include "ui/mwedit.h"
+#include "ui/list_ctrl.h"
+#include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
 
 
 #if _DEBUG
@@ -25,8 +51,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmNpcPage4, CPropertyPage);
 DEFINE_FILE("EsmNpcPage4.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmNpcPage4 Message Map
@@ -196,16 +220,16 @@ void CEsmNpcPage4::GetControlData() {
 
 	if (pAiData != NULL) {
 		m_AlarmText.GetWindowText(Buffer);
-		pAiData->Alarm = (byte)atoi(Buffer);
+		pAiData->Alarm = (byte)std::atoi(Buffer);
 
 		m_FleeText.GetWindowText(Buffer);
-		pAiData->Flee = (byte)atoi(Buffer);
+		pAiData->Flee = (byte)std::atoi(Buffer);
 
 		m_FightText.GetWindowText(Buffer);
-		pAiData->Fight = (byte)atoi(Buffer);
+		pAiData->Fight = (byte)std::atoi(Buffer);
 
 		m_HelloText.GetWindowText(Buffer);
-		pAiData->Hello = (byte)atoi(Buffer);
+		pAiData->Hello = (byte)std::atoi(Buffer);
 	}
 
 	/* Delete the current AI package sub-records */
@@ -302,7 +326,7 @@ LRESULT CEsmNpcPage4::OnEditRecord(LPARAM lParam, WPARAM wParam) {
 	} else if (pSubRecord->IsType(MWESM_SUBREC_AI_E) || pSubRecord->IsType(MWESM_SUBREC_AI_F)) {
 		CEsmAiEscortDlg Dialog;
 		CString CellName;
-		CEsmSubNameFix* pCellName;
+		CEsmSubNameFix *pCellName;
 		pCellName = FindCNDTSubRec(pSubRecord);
 		Result = Dialog.DoModal((CEsmSubAI_E *)pSubRecord,
 		                        pCellName ? pCellName->GetName() : NULL,
@@ -435,10 +459,10 @@ void CEsmNpcPage4::OutputAIData(CEsmSubRecord *pSubRec) {
 	} else if (pSubRec->IsType(MWESM_SUBREC_AI_E) || pSubRec->IsType(MWESM_SUBREC_AI_F)) {
 		ai_edata_t *pAiData = ((CEsmSubAI_E *)pSubRec)->GetAIData();
 		int ListIndex = m_PackageArray.FindElement(pSubRec);
-		CEsmSubRecord* pCellName = m_PackageArray.GetAt(ListIndex + 1);
+		CEsmSubRecord *pCellName = m_PackageArray.GetAt(ListIndex + 1);
 
 		if (pCellName != NULL && pCellName->IsType(MWESM_SUBREC_CNDT)) {
-			if (pAiData->X != FLT_MAX)
+			if (pAiData->X != FLT_MAX) {
 				Buffer.Format(_T("Name = %s\n\rDuration = %d\r\nCell = %s\r\nX = %.0g\r\nY = %.0g\r\nZ = %.0g"),
 				              pAiData->ID,
 				              (int)pAiData->Duration,
@@ -446,7 +470,7 @@ void CEsmNpcPage4::OutputAIData(CEsmSubRecord *pSubRec) {
 				              pAiData->X,
 				              pAiData->Y,
 				              pAiData->Z);
-			else {
+			} else {
 				Buffer.Format(_T("Name = %s\r\nDuration = %d\r\nCell = %s"),
 				              pAiData->ID,
 				              (int)pAiData->Duration,

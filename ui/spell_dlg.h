@@ -10,11 +10,15 @@
 #ifndef __ESMSPELLDLG_H
 #define __ESMSPELLDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
 
+#include "game/morrowind/enchant.h"
+#include "game/morrowind/file.h"
+#include "game/morrwind/spell.h"
+#include "game/morrowind/sub_enam.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSpellDlg Definition

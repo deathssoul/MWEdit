@@ -10,23 +10,23 @@
 #ifndef __ESMSCRTEMPPAGE3_H
 #define __ESMSCRTEMPPAGE3_H
 
+#include <afx.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <windef.h>
 
-#include "common/dl_err.h"
 #include "file/csv_file.h"
 #include "ui/dlg_array.h"
-
+#include "ui/Resource.h"
+#include "ui/scr_temp_view.h"
 
 /* Default list column width */
 #define ESMSCRTEMP_CSVLIST_COLWIDTH   80
-
-
 /*===========================================================================
  *
  * Begin Class CEsmScrTempPage3 Definition
  *
  *=========================================================================*/
-class CEsmScrTempView;
-
 class CEsmScrTempPage3 : public CPropertyPage {
 	DECLARE_DYNCREATE(CEsmScrTempPage3);
 

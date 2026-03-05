@@ -9,11 +9,19 @@
  *=========================================================================*/
 #include "ui/script_error_dlg.h"
 
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
+
+#include <cstddef>
+
+#include "common/dl_base.h"
 #include "mwedit/scr_func_data.h"
 #include "mwedit/script_defs.h"
-#include "mwedit/std_afx.h"
 #include "ui/mwedit.h"
-
+#include "ui/Resource.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -22,8 +30,6 @@
 #endif
 
 DEFINE_FILE("ScriptErrorDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CScriptErrorDlg Message Map

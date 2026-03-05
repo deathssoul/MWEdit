@@ -9,12 +9,23 @@
  *=========================================================================*/
 #include "ui/creature_page_1.h"
 
-#include "common/dl_err.h"
-#include "mwedit/std_afx.h"
-#include "ui/dlg_array.h"
-#include "ui/mwedit.h"
-#include "ui/mwedit_doc.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
 
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "game/morrowind/creature.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sub_crdt.h"
+#include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -24,8 +35,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmCreaturePage1, CPropertyPage);
 DEFINE_FILE("EsmCreaturePage1.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmCreaturePage1 Message Map
@@ -145,7 +154,7 @@ void CEsmCreaturePage1::GetControlData() {
 	m_ScriptList.GetWindowText(Buffer);
 	pCreature->SetScript(Buffer);
 	m_LevelText.GetWindowText(Buffer);
-	pCreaData->Level = atoi(Buffer);
+	pCreaData->Level = std::atoi(Buffer);
 
 	/* Animation button */
 	m_AnimButton.GetWindowText(Buffer);
@@ -171,88 +180,88 @@ void CEsmCreaturePage1::GetControlData() {
 
 	/* Statistics */
 	m_StrText.GetWindowText(Buffer);
-	Value = atoi(Buffer);
-	pCreaData->Strength = (long)Value;
+	Value = std::atoi(Buffer);
+	pCreaData->Strength = (long)Value;  // Possible loss of precision: going from int to long
 
 	m_IntText.GetWindowText(Buffer);
-	Value = atoi(Buffer);
+	Value = std::atoi(Buffer);
 	pCreaData->Intelligence = (long)Value;
 
 	m_WilText.GetWindowText(Buffer);
-	Value = atoi(Buffer);
+	Value = std::atoi(Buffer);
 	pCreaData->Willpower = (long)Value;
 
 	m_SpdText.GetWindowText(Buffer);
-	Value = atoi(Buffer);
+	Value = std::atoi(Buffer);
 	pCreaData->Speed = (long)Value;
 
 	m_AgiText.GetWindowText(Buffer);
-	Value = atoi(Buffer);
+	Value = std::atoi(Buffer);
 	pCreaData->Agility = (long)Value;
 
 	m_EndText.GetWindowText(Buffer);
-	Value = atoi(Buffer);
+	Value = std::atoi(Buffer);
 	pCreaData->Endurance = (long)Value;
 
 	m_PerText.GetWindowText(Buffer);
-	Value = atoi(Buffer);
+	Value = std::atoi(Buffer);
 	pCreaData->Personality = (long)Value;
 
 	m_LucText.GetWindowText(Buffer);
-	Value = atoi(Buffer);
+	Value = std::atoi(Buffer);
 	pCreaData->Luck = (long)Value;
 
 	m_HealthText.GetWindowText(Buffer);
-	Value = atoi(Buffer);
+	Value = std::atoi(Buffer);
 	pCreaData->Health = (long)Value;
 
 	m_MagicText.GetWindowText(Buffer);
-	Value = atoi(Buffer);
+	Value = std::atoi(Buffer);
 	pCreaData->SpellPts = (long)Value;
 
 	m_FatigueText.GetWindowText(Buffer);
-	Value = atoi(Buffer);
+	Value = std::atoi(Buffer);
 	pCreaData->Fatigue = (long)Value;
 
 	m_SoulText.GetWindowText(Buffer);
-	Value = atoi(Buffer);
+	Value = std::atoi(Buffer);
 	pCreaData->Soul = (long)Value;
 
 	m_CombatText.GetWindowText(Buffer);
-	Value = atoi(Buffer);
+	Value = std::atoi(Buffer);
 	pCreaData->Combat = (long)Value;
 
 	m_MagicSkillText.GetWindowText(Buffer);
-	Value = atoi(Buffer);
+	Value = std::atoi(Buffer);
 	pCreaData->Magic = (long)Value;
 
 	m_StealthText.GetWindowText(Buffer);
-	Value = atoi(Buffer);
+	Value = std::atoi(Buffer);
 	pCreaData->Stealth = (long)Value;
 
 	/* Attacks */
 	m_AttMin1Text.GetWindowText(Buffer);
-	Value = atoi(Buffer);
+	Value = std::atoi(Buffer);
 	pCreaData->AttackMin1 = (long)Value;
 
 	m_AttMax1Text.GetWindowText(Buffer);
-	Value = atoi(Buffer);
+	Value = std::atoi(Buffer);
 	pCreaData->AttackMax1 = (long)Value;
 
 	m_AttMin2Text.GetWindowText(Buffer);
-	Value = atoi(Buffer);
+	Value = std::atoi(Buffer);
 	pCreaData->AttackMin2 = (long)Value;
 
 	m_AttMax2Text.GetWindowText(Buffer);
-	Value = atoi(Buffer);
+	Value = std::atoi(Buffer);
 	pCreaData->AttackMax2 = (long)Value;
 
 	m_AttMin3Text.GetWindowText(Buffer);
-	Value = atoi(Buffer);
+	Value = std::atoi(Buffer);
 	pCreaData->AttackMin3 = (long)Value;
 
 	m_AttMax3Text.GetWindowText(Buffer);
-	Value = atoi(Buffer);
+	Value = std::atoi(Buffer);
 	pCreaData->AttackMax3 = (long)Value;
 
 	/* Movement */
@@ -416,27 +425,27 @@ void CEsmCreaturePage1::SetControlData() {
 	m_AnimButton.SetWindowText(pCreature->GetModel());
 
 	/* Statistics */
-	Buffer.Format(_T("%d"), (int)(byte) pCreaData->Strength);
+	Buffer.Format(_T("%d"), (int)(byte)pCreaData->Strength);
 	m_StrText.SetWindowText(Buffer);
-	Buffer.Format(_T("%d"), (int)(byte) pCreaData->Intelligence);
+	Buffer.Format(_T("%d"), (int)(byte)pCreaData->Intelligence);
 	m_IntText.SetWindowText(Buffer);
-	Buffer.Format(_T("%d"), (int)(byte) pCreaData->Willpower);
+	Buffer.Format(_T("%d"), (int)(byte)pCreaData->Willpower);
 	m_WilText.SetWindowText(Buffer);
-	Buffer.Format(_T("%d"), (int)(byte) pCreaData->Speed);
+	Buffer.Format(_T("%d"), (int)(byte)pCreaData->Speed);
 	m_SpdText.SetWindowText(Buffer);
-	Buffer.Format(_T("%d"), (int)(byte) pCreaData->Agility);
+	Buffer.Format(_T("%d"), (int)(byte)pCreaData->Agility);
 	m_AgiText.SetWindowText(Buffer);
-	Buffer.Format(_T("%d"), (int)(byte) pCreaData->Endurance);
+	Buffer.Format(_T("%d"), (int)(byte)pCreaData->Endurance);
 	m_EndText.SetWindowText(Buffer);
-	Buffer.Format(_T("%d"), (int)(byte) pCreaData->Personality);
+	Buffer.Format(_T("%d"), (int)(byte)pCreaData->Personality);
 	m_PerText.SetWindowText(Buffer);
-	Buffer.Format(_T("%d"), (int)(byte) pCreaData->Luck);
+	Buffer.Format(_T("%d"), (int)(byte)pCreaData->Luck);
 	m_LucText.SetWindowText(Buffer);
 	Buffer.Format(_T("%d"), (int)(byte)pCreaData->Health);
 	m_HealthText.SetWindowText(Buffer);
-	Buffer.Format(_T("%d"), (int)(byte) pCreaData->SpellPts);
+	Buffer.Format(_T("%d"), (int)(byte)pCreaData->SpellPts);
 	m_MagicText.SetWindowText(Buffer);
-	Buffer.Format(_T("%d"), (int)(byte) pCreaData->Fatigue);
+	Buffer.Format(_T("%d"), (int)(byte)pCreaData->Fatigue);
 	m_FatigueText.SetWindowText(Buffer);
 	Buffer.Format(_T("%d"), (int)pCreaData->Soul);
 	m_SoulText.SetWindowText(Buffer);

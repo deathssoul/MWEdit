@@ -12,9 +12,22 @@
  *=========================================================================*/
 #include "ui/start_script_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/start_script.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -24,8 +37,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmStartScriptDlg, CEsmRecDialog);
 DEFINE_FILE("EsmStartScriptDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmStartScriptDlg Message Map
@@ -43,7 +54,7 @@ END_MESSAGE_MAP()
  * Class CEsmStartScriptDlg Constructor
  *
  *=========================================================================*/
-CEsmStartScriptDlg::CEsmStartScriptDlg (CWnd* pParent) : CEsmRecDialog(CEsmStartScriptDlg::IDD) {
+CEsmStartScriptDlg::CEsmStartScriptDlg(CWnd* pParent) : CEsmRecDialog(CEsmStartScriptDlg::IDD) {
 	//{{AFX_DATA_INIT(CEsmStartScriptDlg)
 	//}}AFX_DATA_INIT
 	m_pStartScript = NULL;

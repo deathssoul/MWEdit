@@ -10,19 +10,18 @@
 #ifndef __MWEDIT_H
 #define __MWEDIT_H
 
+#include <afxcoll.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
+#include <winnt.h>
 
-#ifndef __AFXWIN_H__
-	#error include 'stdafx.h' before including this file for PCH
-#endif
-
+#include <cstddef>
 
 #include "game/morrowind/file.h"
-#include "mwedit/mw_custom_func.h"
 #include "mwedit/options.h"
-#include "mwedit/reg_defs.h"
-#include "ui/func_help_view.h"
+#include "mwedit/scr_func_array.h"
 #include "ui/load_dlg.h"
-#include "ui/Resource.h"
 
 
 /* Default web sites */
@@ -35,8 +34,6 @@
 #define MWEDIT_EMAIL_DEVELOPER        _T("mailto:uesp@sympatico.ca")
 
 #define MWEDIT_DEFAULT_CUSTOMFUNCS    _T("customfunctions.dat")
-
-
 /*===========================================================================
  *
  * Begin Class CMWEditApp Definition

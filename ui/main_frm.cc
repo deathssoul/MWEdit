@@ -14,10 +14,18 @@
  *=========================================================================*/
 #include "ui/main_frm.h"
 
-#include "mwedit/std_afx.h"
+#include <afx.h>
+#include <afxwin.h>
+#include <windef.h>
+#include <winuser.h>
+
+#include <cstddef>
+
+#include "common/dl_base.h"
 #include "ui/mwedit.h"
 #include "ui/mwedit_view.h"
 #include "ui/options_dlg.h"
+#include "ui/Resource.h"
 
 
 #if _DEBUG
@@ -36,8 +44,6 @@ static UINT indicators[] = {
 
 IMPLEMENT_DYNAMIC(CMainFrame, CMDIFrameWnd);
 DEFINE_FILE("MainFrm.cpp");
-
-
 /*===========================================================================
  *
  * Class CMainFrame Message Map

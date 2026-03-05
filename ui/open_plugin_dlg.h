@@ -10,6 +10,21 @@
 #ifndef __OPENPLUGINDLG_H
 #define __OPENPLUGINDLG_H
 
+#include <afx.h>
+#include <afxcmn.h>
+#include <afxcoll.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <commctrl.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
+
+#include <cstddef>
+#include <ctime>
+
+#include "common/container/ptr_array.h"
+#include "ui/Resource.h"
 
 /* Subitem/column indices */
 #define OPENPLUG_SUBITEM_FILENAME 0
@@ -30,12 +45,10 @@
 struct esmfileinfo_t {
 	TCHAR Filename[_MAX_PATH + 4];
 	long Flags;
-	time_t FileDate;
+	std::time_t FileDate;
 };
 
 typedef TPtrArray<esmfileinfo_t> CEsmFileInfoArray;
-
-
 /*===========================================================================
  *
  * Begin Class COpenPluginDlg

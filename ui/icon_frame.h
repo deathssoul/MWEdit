@@ -10,16 +10,12 @@
 #ifndef __ESMICONFRAME_H
 #define __ESMICONFRAME_H
 
-
-#include "common/dl_err.h"
-
+#include <afxwin.h>
+#include <winnt.h>
 
 /* Default icon width/height */
-
 #define MWESM_ICON_DEFAULTWIDTH  32
 #define MWESM_ICON_DEFAULTHEIGHT 32
-
-
 /*===========================================================================
  *
  * Begin Class CEsmIcon Frame Definition

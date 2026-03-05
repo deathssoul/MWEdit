@@ -10,12 +10,16 @@
 #ifndef __ESMEFFECTDLG_H
 #define __ESMEFFECTDLG_H
 
+#include <afx.h>
+#include <afxcmn.h>
+#include <afxwin.h>
 
+#include "game/morrowind/file.h"
+#include "game/morrowind/magic_effect.h"
+#include "ui/icon_frame.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
 #include "windows/color_static.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmEffectDlg Definition

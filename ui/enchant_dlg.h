@@ -10,11 +10,14 @@
 #ifndef __ESMENCHANTDLG_H
 #define __ESMENCHANTDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
 
+#include "game/morrowind/enchant.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sub_enam.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmEnchantDlg Definition

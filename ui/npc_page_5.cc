@@ -9,11 +9,25 @@
  *=========================================================================*/
 #include "ui/npc_page_5.h"
 
-#include "common/dl_err.h"
-#include "mwedit/std_afx.h"
-#include "ui/dlg_array.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
+
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/npc.h"
+#include "game/morrowind/sub_aidt.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_cldt.h"
+#include "game/morrowind/sub_pos_6.h"
 #include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
 
 
 #if _DEBUG
@@ -24,8 +38,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmNpcPage5, CPropertyPage);
 DEFINE_FILE("EsmNpcPage5.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmNpcPage5 Message Map
@@ -116,7 +128,7 @@ void CEsmNpcPage5::GetControlData() {
 	pAiData = pNpc->GetAIData();
 	/* Gold */
 	m_GoldText.GetWindowText(Buffer);
-	pNpc->SetGold(atol(Buffer));
+	pNpc->SetGold(std::atol(Buffer));
 
 	/* Flags */
 	if (!pNpc->IsAutoCalc() && pAiData != NULL) {
@@ -241,7 +253,7 @@ void CEsmNpcPage5::SetControlData() {
 	aidata_t *pAiData;
 	CString Buffer;
 #pragma warning(push)
-#pragma warning(disable : 4101)
+#pragma warning(disable : 4101)  // TODO: Investigate, and possibly remove, the command to disable the warning
 	CEsmSubPos6 *pDoorData;
 	CEsmSubRecord *pCellName;
 	int ArrayIndex;

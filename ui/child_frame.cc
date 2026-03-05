@@ -9,9 +9,15 @@
  *=========================================================================*/
 #include "ui/child_frame.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxwin.h>
+#include <atltypes.h>
+#include <windef.h>
+#include <winuser.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
 
 /* Debug defines */
 #if _DEBUG
@@ -20,11 +26,8 @@
 	static char THIS_FILE[] = __FILE__;
 #endif
 
-
 IMPLEMENT_DYNCREATE(CChildFrame, CMDIChildWnd);
 DEFINE_FILE("ChildFrm.cpp");
-
-
 /*===========================================================================
  *
  * Class CChildFrame Message Map

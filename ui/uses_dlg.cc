@@ -9,9 +9,27 @@
  *=========================================================================*/
 #include "ui/uses_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <atltypes.h>
+#include <commctrl.h>
+#include <windef.h>
+#include <winnt.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/dl_log.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/info.h"
+#include "ui/list_ctrl.h"
+#include "ui/mwedit_doc.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -21,8 +39,6 @@
 
 DEFINE_FILE("EsmUsesDlg.CPP");
 IMPLEMENT_DYNCREATE(CEsmUsesDlg, CFormView)
-
-
 /*===========================================================================
  *
  * Begin CESmUsesDlg Message Map

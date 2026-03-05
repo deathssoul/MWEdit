@@ -10,11 +10,13 @@
 #ifndef __ESMBOOKDLG_H
 #define __ESMBOOKDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
 
+#include "game/morrowind/book.h"
+#include "game/morrowind/file.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmBookDlg Definition

@@ -10,6 +10,14 @@
 #ifndef __ERRORDIALOG_H
 #define __ERRORDIALOG_H
 
+#include <afx.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
+
+#include <cstddef>
+
+#include "ui/Resource.h"
 
 class CErrorDialog : public CDialog {
   public:

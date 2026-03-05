@@ -10,13 +10,15 @@
 #ifndef __ESMNPCPAGE5_H
 #define __ESMNPCPAGE5_H
 
+#include <afx.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <windef.h>
 
-#include "ui/list_ctrl.h"
-
-
-class CEsmDlgHandler;
-
-
+#include "game/morrowind/file.h"
+#include "ui/dlg_array.h"
+#include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
 /*===========================================================================
  *
  * Begin Class CEsmNpcPage5 Definition

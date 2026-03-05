@@ -9,10 +9,26 @@
  *=========================================================================*/
 #include "ui/int_cell_page.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
-#include "ui/rec_dialog.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
+#include <wingdi.h>
 
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "game/morrowind/cell.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sub_ambi.h"
+#include "game/morrowind/sub_cell_data.h"
+#include "ui/mwedit_doc.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -22,8 +38,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmIntCellPage, CPropertyPage);
 DEFINE_FILE("EsmIntCellPage.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmIntCellPage Message Map
@@ -148,28 +162,28 @@ void CEsmIntCellPage::GetControlData() {
 
 	if (pLightData != NULL) {
 		m_RedTextA.GetWindowText(Buffer);
-		Red = atoi(Buffer);
+		Red = std::atoi(Buffer);
 		m_GreenTextA.GetWindowText(Buffer);
-		Green = atoi(Buffer);
+		Green = std::atoi(Buffer);
 		m_BlueTextA.GetWindowText(Buffer);
-		Blue = atoi(Buffer);
+		Blue = std::atoi(Buffer);
 		pLightData->AmbientColor = RGB(Red, Green, Blue);
 		m_RedTextF.GetWindowText(Buffer);
-		Red = atoi(Buffer);
+		Red = std::atoi(Buffer);
 		m_GreenTextF.GetWindowText(Buffer);
-		Green = atoi(Buffer);
+		Green = std::atoi(Buffer);
 		m_BlueTextF.GetWindowText(Buffer);
-		Blue = atoi(Buffer);
+		Blue = std::atoi(Buffer);
 		pLightData->FogColor = RGB(Red, Green, Blue);
 		m_RedTextS.GetWindowText(Buffer);
-		Red = atoi(Buffer);
+		Red = std::atoi(Buffer);
 		m_GreenTextS.GetWindowText(Buffer);
-		Green = atoi(Buffer);
+		Green = std::atoi(Buffer);
 		m_BlueTextS.GetWindowText(Buffer);
-		Blue = atoi(Buffer);
+		Blue = std::atoi(Buffer);
 		pLightData->SunlightColor = RGB(Red, Green, Blue);
 		m_DensityText.GetWindowText(Buffer);
-		pLightData->FogDensity = (float)atof(Buffer);
+		pLightData->FogDensity = (float)std::atof(Buffer);
 	}
 
 	/* Flags */
@@ -187,7 +201,7 @@ void CEsmIntCellPage::GetControlData() {
 	if (m_WaterCheck.GetCheck()) {
 		Flags |= MWESM_CELLFLAG_HASWATER;
 		m_WaterText.GetWindowText(Buffer);
-		pCell->SetWaterHeight((float)atof(Buffer));
+		pCell->SetWaterHeight((float)std::atof(Buffer));
 	}
 
 	pCell->GetCellData()->Flags = Flags;
@@ -332,7 +346,7 @@ void CEsmIntCellPage::OnColorbuttona() {
 	int Green;
 	int Blue;
 	m_RedTextA.GetWindowText(Buffer);
-	Red = atoi(Buffer);
+	Red = std::atoi(Buffer);
 
 	if (Red < 0) {
 		Red = 0;
@@ -343,7 +357,7 @@ void CEsmIntCellPage::OnColorbuttona() {
 	}
 
 	m_GreenTextA.GetWindowText(Buffer);
-	Green = atoi(Buffer);
+	Green = std::atoi(Buffer);
 
 	if (Green < 0) {
 		Green = 0;
@@ -354,7 +368,7 @@ void CEsmIntCellPage::OnColorbuttona() {
 	}
 
 	m_BlueTextA.GetWindowText(Buffer);
-	Blue = atoi(Buffer);
+	Blue = std::atoi(Buffer);
 
 	if (Blue < 0) {
 		Blue = 0;
@@ -391,7 +405,7 @@ void CEsmIntCellPage::OnColorbuttons() {
 	int Green;
 	int Blue;
 	m_RedTextS.GetWindowText(Buffer);
-	Red = atoi(Buffer);
+	Red = std::atoi(Buffer);
 
 	if (Red < 0) {
 		Red = 0;
@@ -402,7 +416,7 @@ void CEsmIntCellPage::OnColorbuttons() {
 	}
 
 	m_GreenTextS.GetWindowText(Buffer);
-	Green = atoi(Buffer);
+	Green = std::atoi(Buffer);
 
 	if (Green < 0) {
 		Green = 0;
@@ -413,7 +427,7 @@ void CEsmIntCellPage::OnColorbuttons() {
 	}
 
 	m_BlueTextS.GetWindowText(Buffer);
-	Blue = atoi(Buffer);
+	Blue = std::atoi(Buffer);
 
 	if (Blue < 0) {
 		Blue = 0;
@@ -450,7 +464,7 @@ void CEsmIntCellPage::OnColorbuttonf() {
 	int Green;
 	int Blue;
 	m_RedTextF.GetWindowText(Buffer);
-	Red = atoi(Buffer);
+	Red = std::atoi(Buffer);
 
 	if (Red < 0) {
 		Red = 0;
@@ -461,7 +475,7 @@ void CEsmIntCellPage::OnColorbuttonf() {
 	}
 
 	m_GreenTextF.GetWindowText(Buffer);
-	Green = atoi(Buffer);
+	Green = std::atoi(Buffer);
 
 	if (Green < 0) {
 		Green = 0;
@@ -472,7 +486,7 @@ void CEsmIntCellPage::OnColorbuttonf() {
 	}
 
 	m_BlueTextF.GetWindowText(Buffer);
-	Blue = atoi(Buffer);
+	Blue = std::atoi(Buffer);
 
 	if (Blue < 0) {
 		Blue = 0;
@@ -519,7 +533,7 @@ void CEsmIntCellPage::OnChangeColorA() {
 	}
 
 	m_RedTextA.GetWindowText(Buffer);
-	Red = atoi(Buffer);
+	Red = std::atoi(Buffer);
 
 	if (Red < 0) {
 		Red = 0;
@@ -530,7 +544,7 @@ void CEsmIntCellPage::OnChangeColorA() {
 	}
 
 	m_GreenTextA.GetWindowText(Buffer);
-	Green = atoi(Buffer);
+	Green = std::atoi(Buffer);
 
 	if (Green < 0) {
 		Green = 0;
@@ -541,7 +555,7 @@ void CEsmIntCellPage::OnChangeColorA() {
 	}
 
 	m_BlueTextA.GetWindowText(Buffer);
-	Blue = atoi(Buffer);
+	Blue = std::atoi(Buffer);
 
 	if (Blue < 0) {
 		Blue = 0;
@@ -566,7 +580,7 @@ void CEsmIntCellPage::OnChangeColorS() {
 	}
 
 	m_RedTextS.GetWindowText(Buffer);
-	Red = atoi(Buffer);
+	Red = std::atoi(Buffer);
 
 	if (Red < 0) {
 		Red = 0;
@@ -577,7 +591,7 @@ void CEsmIntCellPage::OnChangeColorS() {
 	}
 
 	m_GreenTextS.GetWindowText(Buffer);
-	Green = atoi(Buffer);
+	Green = std::atoi(Buffer);
 
 	if (Green < 0) {
 		Green = 0;
@@ -588,7 +602,7 @@ void CEsmIntCellPage::OnChangeColorS() {
 	}
 
 	m_BlueTextS.GetWindowText(Buffer);
-	Blue = atoi(Buffer);
+	Blue = std::atoi(Buffer);
 
 	if (Blue < 0) {
 		Blue = 0;
@@ -613,7 +627,7 @@ void CEsmIntCellPage::OnChangeColorF() {
 	}
 
 	m_RedTextF.GetWindowText(Buffer);
-	Red = atoi(Buffer);
+	Red = std::atoi(Buffer);
 
 	if (Red < 0) {
 		Red = 0;
@@ -624,7 +638,7 @@ void CEsmIntCellPage::OnChangeColorF() {
 	}
 
 	m_GreenTextF.GetWindowText(Buffer);
-	Green = atoi(Buffer);
+	Green = std::atoi(Buffer);
 
 	if (Green < 0) {
 		Green = 0;
@@ -635,7 +649,7 @@ void CEsmIntCellPage::OnChangeColorF() {
 	}
 
 	m_BlueTextF.GetWindowText(Buffer);
-	Blue = atoi(Buffer);
+	Blue = std::atoi(Buffer);
 
 	if (Blue < 0) {
 		Blue = 0;

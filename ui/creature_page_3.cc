@@ -16,12 +16,28 @@
  *=========================================================================*/
 #include "ui/creature_page_3.h"
 
-#include "common/dl_err.h"
-#include "mwedit/std_afx.h"
-#include "ui/dlg_array.h"
-#include "ui/mwedit.h"
-#include "ui/mwedit_doc.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <commctrl.h>
+#include <windef.h>
+#include <winuser.h>
 
+#include <climits>
+#include <cmath>
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "game/morrowind/creature.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sub_npco.h"
+#include "ui/list_ctrl.h"
+#include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -31,8 +47,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmCreaturePage3, CPropertyPage);
 DEFINE_FILE("EsmCreaturePage3.cpp");
-
-
 /*===========================================================================
  *
  * Function - int CALLBACK l_CreaItemSortCallBack (lParam1, lParam2, lParamSort);
@@ -68,7 +82,8 @@ static esmcoldata_t l_ItemColData[] = {
 	{
 		_T("Count"),
 		ESM_FIELD_CUSTOM,
-		LVCFMT_CENTER, ESMLIST_WIDTH_COUNT + 20,
+		LVCFMT_CENTER,
+		ESMLIST_WIDTH_COUNT + 20,
 		ESMLIST_SUBITEM_COUNT,
 		l_CreaItemSortCallBack
 	},
@@ -189,7 +204,7 @@ void CEsmCreaturePage3::GetControlData() {
 		pItemName->CreateNew();
 		pItemName->SetItem(pRecInfo->pRecord->GetID());
 		Buffer = m_ItemList.GetItemText(ListIndex, 0);
-		pItemName->SetCount(atoi(Buffer));
+		pItemName->SetCount(std::atoi(Buffer));
 	}
 }
 
@@ -217,7 +232,7 @@ void CEsmCreaturePage3::OnEndlabeleditItemlist(NMHDR *pNMHDR, LRESULT *pResult) 
 	int Count;
 
 	if (pDispInfo->item.pszText != NULL) {
-		Count = atoi(pDispInfo->item.pszText);
+		Count = std::atoi(pDispInfo->item.pszText);
 
 		if (Count < SHRT_MIN) {
 			Count = SHRT_MIN;
@@ -289,7 +304,7 @@ LRESULT CEsmCreaturePage3::OnRecordDrop(LPARAM lParam, LPARAM wParam) {
 		m_ItemList.SetItemText(ListIndex, 0, _T("1")); /* Default 1 item */
 	} else { /* Update an existing item in the npc */
 		Buffer = m_ItemList.GetItemText(ListIndex, 0);
-		Count = atoi(Buffer);
+		Count = std::atoi(Buffer);
 		Buffer.Format(_T("%d"), (Count < 0) ? --Count : ++Count);
 		m_ItemList.SetItemText(ListIndex, 0, Buffer);
 	}
@@ -328,7 +343,7 @@ LRESULT CEsmCreaturePage3::OnRecordKey(LPARAM lParam, LPARAM wParam) {
 
 		while (ListIndex >= 0) {
 			Buffer = m_ItemList.GetItemText(ListIndex, 0);
-			Count = atoi(Buffer);
+			Count = std::atoi(Buffer);
 			Buffer.Format(_T("%d"), Count + AddCount);
 			m_ItemList.SetItemText(ListIndex, 0, Buffer);
 			ListIndex = m_ItemList.GetNextItem(ListIndex, LVNI_SELECTED);
@@ -417,9 +432,9 @@ void CEsmCreaturePage3::UpdateTotalWeight() {
 
 	for (Index = 0; Index < m_ItemList.GetItemCount(); Index++) {
 		pRecInfo = (esmrecinfo_t *)m_ItemList.GetItemData(Index);
-		Weight = (float)atof(pRecInfo->pRecord->GetFieldString(ESM_FIELD_WEIGHT));
+		Weight = (float)std::atof(pRecInfo->pRecord->GetFieldString(ESM_FIELD_WEIGHT));
 		Buffer = m_ItemList.GetItemText(Index, 0);
-		Total += Weight * abs(atoi(Buffer));
+		Total += Weight * std::abs(std::atoi(Buffer));
 	}
 
 	Buffer.Format(_T("Encumberance: %.2f lbs"), Total);
@@ -445,7 +460,7 @@ void CEsmCreaturePage3::UpdateUserData() {
 
 	for (Index = 0; Index < m_ItemList.GetItemCount(); Index++) {
 		Buffer = m_ItemList.GetItemText(Index, 0);
-		Count = atoi(Buffer);
+		Count = std::atoi(Buffer);
 		pRecInfo = (esmrecinfo_t *)m_ItemList.GetItemData(Index);
 		pRecInfo->UserData = Count;
 	}

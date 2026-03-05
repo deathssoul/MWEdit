@@ -9,12 +9,29 @@
  *=========================================================================*/
 #include "ui/npc_page_1.h"
 
-#include "common/dl_err.h"
-#include "mwedit/std_afx.h"
-#include "ui/dlg_array.h"
-#include "ui/mwedit.h"
-#include "ui/mwedit_doc.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <commctrl.h>
+#include <windef.h>
+#include <winuser.h>
 
+#include <climits>
+#include <cstddef>
+#include <cstdlib>
+#include <cstring>
+
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/npc.h"
+#include "game/morrowind/sub_npdt.h"
+#include "ui/list_ctrl.h"
+#include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -24,8 +41,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmNpcPage1, CPropertyPage);
 DEFINE_FILE("EsmNpcPage1.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmNpcPage1 Message Map
@@ -50,7 +65,7 @@ END_MESSAGE_MAP()
  * Function - int l_SortCallback (lParam1, lParam2, lUserData);
  *
  *=========================================================================*/
-int __stdcall l_SortCallback(LPARAM lParam1, LPARAM lParam2, LPARAM lUserData) {
+int __stdcall l_SortCallback(LPARAM lParam1, LPARAM lParam2, LPARAM lUserData) {  // TODO: __stdcall isn't portable. Need to investigate to see why it's used.
 	CEsmNpcPage1 *pPage = (CEsmNpcPage1 *)lUserData;
 	return pPage->SortCallback(lParam1, lParam2);
 }
@@ -165,9 +180,9 @@ void CEsmNpcPage1::GetControlData() {
 	Index = m_RankList.GetCurSel();
 	pNpc->SetRank(Index >= 0 ? m_RankList.GetItemData(Index) : -1);
 	m_DispText.GetWindowText(Buffer);
-	pNpc->SetDisposition(atoi(Buffer));
+	pNpc->SetDisposition(std::atoi(Buffer));
 	m_LevelText.GetWindowText(Buffer);
-	pNpc->SetLevel(atoi(Buffer));
+	pNpc->SetLevel(std::atoi(Buffer));
 
 	/* Animation button */
 	m_AnimButton.GetWindowText(Buffer);
@@ -186,59 +201,59 @@ void CEsmNpcPage1::GetControlData() {
 
 	if (!m_AutoCalcCheck.GetCheck() && pLongData != NULL) {
 		m_StrText.GetWindowText(Buffer);
-		Value = atoi(Buffer);
+		Value = std::atoi(Buffer);
 
 		FIXLIMIT(Value, 0, 255);
 		pLongData->Strength = (byte)Value;
 		m_IntText.GetWindowText(Buffer);
-		Value = atoi(Buffer);
+		Value = std::atoi(Buffer);
 
 		FIXLIMIT(Value, 0, 255);
 		pLongData->Intelligence = (byte)Value;
 		m_WilText.GetWindowText(Buffer);
-		Value = atoi(Buffer);
+		Value = std::atoi(Buffer);
 
 		FIXLIMIT(Value, 0, 255);
 		pLongData->Willpower = (byte)Value;
 		m_SpdText.GetWindowText(Buffer);
-		Value = atoi(Buffer);
+		Value = std::atoi(Buffer);
 
 		FIXLIMIT(Value, 0, 255);
 		pLongData->Speed = (byte)Value;
 		m_AgiText.GetWindowText(Buffer);
-		Value = atoi(Buffer);
+		Value = std::atoi(Buffer);
 
 		FIXLIMIT(Value, 0, 255);
 		pLongData->Agility = (byte)Value;
 		m_EndText.GetWindowText(Buffer);
-		Value = atoi(Buffer);
+		Value = std::atoi(Buffer);
 
 		FIXLIMIT(Value, 0, 255);
 		pLongData->Endurance = (byte)Value;
 		m_PerText.GetWindowText(Buffer);
-		Value = atoi(Buffer);
+		Value = std::atoi(Buffer);
 
 		FIXLIMIT(Value, 0, 255);
 		pLongData->Personality = (byte)Value;
 		m_LucText.GetWindowText(Buffer);
-		Value = atoi(Buffer);
+		Value = std::atoi(Buffer);
 
 		FIXLIMIT(Value, 0, 255);
 		pLongData->Luck = (byte)Value;
 		m_HealthText.GetWindowText(Buffer);
-		Value = atoi(Buffer);
+		Value = std::atoi(Buffer);
 
 		pLongData->Health = (short)Value;
 		m_MagicText.GetWindowText(Buffer);
-		Value = atoi(Buffer);
+		Value = std::atoi(Buffer);
 
 		pLongData->SpellPts = (short)Value;
 		m_FatigueText.GetWindowText(Buffer);
-		Value = atoi(Buffer);
+		Value = std::atoi(Buffer);
 
 		pLongData->Fatigue = (short)Value;
 		m_RepText.GetWindowText(Buffer);
-		Value = atoi(Buffer);
+		Value = std::atoi(Buffer);
 
 		pLongData->Reputation = (byte)Value;
 
@@ -340,7 +355,7 @@ void CEsmNpcPage1::OnEndlabeleditItemlist(NMHDR *pNMHDR, LRESULT *pResult) {
 	}
 
 	if (pDispInfo->item.pszText != NULL) {
-		Count = atoi(pDispInfo->item.pszText);
+		Count = std::atoi(pDispInfo->item.pszText);
 
 		if (Count < SHRT_MIN) {
 			Count = SHRT_MIN;
@@ -596,7 +611,7 @@ void CEsmNpcPage1::SetControlData() {
 			m_SkillList.SetItemData(ListIndex, Index);
 		}
 
-		memset(m_SkillValues, 0, sizeof(int) * MWESM_MAX_SKILLS);
+		std::memset(m_SkillValues, 0, sizeof(int) * MWESM_MAX_SKILLS);
 	}
 
 	/* NPC flags */

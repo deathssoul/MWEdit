@@ -10,9 +10,19 @@
 #ifndef __ESMDLGARRAY_H
 #define __ESMDLGARRAY_H
 
-#include "ui/main_frm.h"
-#include "ui/rec_dialog.h"
+#include <afx.h>
+#include <afxwin.h>
+#include <winnt.h>
 
+#include <cstddef>
+
+#include "common/container/ptr_array.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "ui/main_frm.h"
+#include "ui/mwedit_doc.h"
+#include "ui/rec_dialog.h"
+#include "ui/script_compare_dlg.h"
 
 /* Array of dialog pointers */
 typedef TPtrArray<CFrameWnd> CEsmFrameArray;
@@ -22,7 +32,7 @@ typedef CEsmRecDialog *(*ESMRECDLG_CREATEFUNC) (void);
 
 /* Function typedef for custom dialog creation */
 class CEsmDlgHandler;
-typedef CFrameWnd *(CEsmDlgHandler::*DLGCREATE_FUNC) (esmrecinfo_t* pRecInfo);
+typedef CFrameWnd *(CEsmDlgHandler::*DLGCREATE_FUNC) (esmrecinfo_t *pRecInfo);
 
 /* Used to create the various dialogs */
 struct esmdlgcreateinfo_t {
@@ -33,10 +43,6 @@ struct esmdlgcreateinfo_t {
 	CRuntimeClass *pFrameClass;
 	DLGCREATE_FUNC CreateFunc;
 };
-
-class CEsmScriptCompareDlg;
-
-
 /*===========================================================================
  *
  * Begin Class CEsmDlgHandler Definition

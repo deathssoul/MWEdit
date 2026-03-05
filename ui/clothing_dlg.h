@@ -10,11 +10,14 @@
 #ifndef __ESMCLOTHINGDLG_H
 #define __ESMCLOTHINGDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
 
+#include "game/morrowind/clothing.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sub_byte.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmClothingDlg Definition

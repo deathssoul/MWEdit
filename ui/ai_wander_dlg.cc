@@ -9,9 +9,18 @@
  *=========================================================================*/
 #include "ui/ai_wander_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
 
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "game/morrowind/sub_ai_w.h"
+#include "ui/Resource.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -20,8 +29,6 @@
 #endif
 
 DEFINE_FILE("EsmAiWanderDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmAiWanderDlg Message Map
@@ -146,16 +153,16 @@ void CEsmAiWanderDlg::OnOK() {
 
 	if (pAiData != NULL) {
 		m_DistanceText.GetWindowText(Buffer);
-		pAiData->Distance = (short)atoi(Buffer);
+		pAiData->Distance = (short)std::atoi(Buffer);
 		m_DurationText.GetWindowText(Buffer);
-		pAiData->Duration = (short)atoi(Buffer);
+		pAiData->Duration = (short)std::atoi(Buffer);
 		m_TimeText.GetWindowText(Buffer);
-		pAiData->TimeOfDay = (byte)atoi(Buffer);
+		pAiData->TimeOfDay = (byte)std::atoi(Buffer);
 		FIXLIMIT(pAiData->TimeOfDay, 0, 23);
 
 		for (Index = 0; Index < MWESM_AIW_NUMIDLES; Index++) {
 			m_IdleText[Index].GetWindowText(Buffer);
-			pAiData->Idle[Index] = (byte)atoi(Buffer);
+			pAiData->Idle[Index] = (byte)std::atoi(Buffer);
 		}
 	}
 

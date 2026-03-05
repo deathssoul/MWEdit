@@ -14,9 +14,31 @@
  *=========================================================================*/
 #include "ui/contain_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <commctrl.h>
+#include <windef.h>
+#include <winuser.h>
 
+#include <climits>
+#include <cmath>
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "game/morrowind/container.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sub_npco.h"
+#include "ui/list_ctrl.h"
+#include "ui/mwedit_doc.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -26,16 +48,14 @@
 
 DEFINE_FILE("EsmContainDlg.cpp");
 IMPLEMENT_DYNCREATE(CEsmContainDlg, CEsmRecDialog);
-
-
 /*===========================================================================
  *
  * Function - int CALLBACK l_ContSortCallBack (lParam1, lParam2, lParamSort);
  *
  *=========================================================================*/
 int CALLBACK l_ContSortCallBack(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort) {
-	esmrecinfo_t *pRecInfo1 = (esmrecinfo_t*)lParam1;
-	esmrecinfo_t *pRecInfo2 = (esmrecinfo_t*)lParam2;
+	esmrecinfo_t *pRecInfo1 = (esmrecinfo_t *)lParam1;
+	esmrecinfo_t *pRecInfo2 = (esmrecinfo_t *)lParam2;
 	int SortType = lParamSort & 0xFFFF;
 	int Flags = lParamSort >> 16;
 	int Result;
@@ -182,7 +202,7 @@ void CEsmContainDlg::GetControlData() {
 
 	/* Item weight */
 	m_WeightText.GetWindowText(Buffer);
-	m_pContainer->SetWeight((float)atof(Buffer));
+	m_pContainer->SetWeight((float)std::atof(Buffer));
 
 	/* Item script */
 	m_ScriptList.GetWindowText(Buffer);
@@ -217,7 +237,7 @@ void CEsmContainDlg::GetItemData() {
 
 	for (Index = 0; Index < m_ItemList.GetItemCount(); Index++) {
 		Buffer = m_ItemList.GetItemText(Index, 0);
-		Count = atoi(Buffer);
+		Count = std::atoi(Buffer);
 		Buffer = m_ItemList.GetItemText(Index, 1);
 
 		/* Create the new index sub-record */
@@ -368,11 +388,9 @@ LRESULT CEsmContainDlg::OnRecordDrop(LPARAM lParam, LPARAM wParam) {
 		pRecInfo->UserData = 1;
 		ListIndex = m_ItemList.AddItem(pRecInfo);
 		m_ItemList.SetItemText(ListIndex, 0, _T("1")); /* Default 1 item */
-	}
-	/* Update an existing item in the container */
-	else {
+	} else { /* Update an existing item in the container */
 		Buffer = m_ItemList.GetItemText(ListIndex, 0);
-		Count = atoi(Buffer);
+		Count = std::atoi(Buffer);
 		Buffer.Format(_T("%d"), (Count < 0) ? --Count : ++Count);
 		m_ItemList.SetItemText(ListIndex, 0, Buffer);
 		pRecInfo->UserData = Count;
@@ -402,7 +420,7 @@ LRESULT CEsmContainDlg::OnRecordKey(LPARAM lParam, LPARAM wParam) {
 
 		while (ListIndex >= 0) {
 			Buffer = m_ItemList.GetItemText(ListIndex, 0);
-			ItemCount = atoi(Buffer);
+			ItemCount = std::atoi(Buffer);
 			Buffer.Format(_T("%d"), ItemCount + AddCount);
 			m_ItemList.SetItemText(ListIndex, 0, Buffer);
 			ListIndex = m_ItemList.GetNextItem(ListIndex, LVNI_SELECTED);
@@ -553,8 +571,8 @@ void CEsmContainDlg::UpdateTotalWeight() {
 
 	for (Index = 0; Index < m_ItemList.GetItemCount(); Index++) {
 		pRecInfo = (esmrecinfo_t *)m_ItemList.GetItemData(Index);
-		Total += (float)atof(pRecInfo->pRecord->GetFieldString(ESM_FIELD_WEIGHT))
-		         * abs(pRecInfo->UserData);
+		Total += (float)std::atof(pRecInfo->pRecord->GetFieldString(ESM_FIELD_WEIGHT))
+		         * std::abs(pRecInfo->UserData);
 	}
 
 	Buffer.Format(_T("%.2f"), Total);
@@ -580,7 +598,7 @@ void CEsmContainDlg::UpdateUserData() {
 
 	for (Index = 0; Index < m_ItemList.GetItemCount(); Index++) {
 		Buffer = m_ItemList.GetItemText(Index, 0);
-		Count = atoi(Buffer);
+		Count = std::atoi(Buffer);
 		pRecInfo = (esmrecinfo_t *)m_ItemList.GetItemData(Index);
 		pRecInfo->UserData = Count;
 	}

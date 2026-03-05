@@ -9,9 +9,19 @@
  *=========================================================================*/
 #include "ui/header_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
+#include <winnt.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morrowind/sub_hedr.h"
+#include "game/morrowind/tes3.h"
+#include "ui/Resource.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -20,8 +30,6 @@
 #endif
 
 DEFINE_FILE("EsmHeaderDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin Class CEsmHeaderDlg Message Map

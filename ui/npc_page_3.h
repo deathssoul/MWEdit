@@ -10,13 +10,17 @@
 #ifndef __ESMNPCPAGE3_H
 #define __ESMNPCPAGE3_H
 
+#include <afx.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <windef.h>
+#include <winuser.h>
 
+#include "game/morrowind/file.h"
+#include "ui/dlg_array.h"
 #include "ui/list_ctrl.h"
-
-
-class CEsmDlgHandler;
-
-
+#include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
 /*===========================================================================
  *
  * Begin Class CEsmNpcPage3 Definition

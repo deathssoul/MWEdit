@@ -9,9 +9,25 @@
  *=========================================================================*/
 #include "ui/lock_pick_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
+
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/lock_pick.h"
+#include "game/morrowind/sub_lkdt.h"
+#include "ui/rec_dialog.h"
 #include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 
 #if _DEBUG
@@ -109,19 +125,19 @@ void CEsmLockPickDlg::GetControlData() {
 
 	/* Item uses */
 	m_UsesText.GetWindowText(Buffer);
-	pLockData->Uses = atoi(Buffer);
+	pLockData->Uses = std::atoi(Buffer);
 
 	/* Item quality */
 	m_QualityText.GetWindowText(Buffer);
-	pLockData->Quality = (float)atof(Buffer);
+	pLockData->Quality = (float)std::atof(Buffer);
 
 	/* Item weight */
 	m_WeightText.GetWindowText(Buffer);
-	pLockData->Weight = (float)atof(Buffer);
+	pLockData->Weight = (float)std::atof(Buffer);
 
 	/* Item value */
 	m_ValueText.GetWindowText(Buffer);
-	pLockData->Value = atoi(Buffer);
+	pLockData->Value = std::atoi(Buffer);
 
 	/* Item script */
 	m_ScriptList.GetWindowText(Buffer);

@@ -10,18 +10,18 @@
 #ifndef __ESMSCRTEMPPAGE2_H
 #define __ESMSCRTEMPPAGE2_H
 
+#include <afx.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
 
-#include "common/dl_err.h"
 #include "ui/dlg_array.h"
-
-
+#include "ui/Resource.h"
+#include "ui/scr_temp_view.h"
 /*===========================================================================
  *
  * Begin Class CEsmScrTempPage2 Definition
  *
  *=========================================================================*/
-class CEsmScrTempView;
-
 class CEsmScrTempPage2 : public CPropertyPage {
 	DECLARE_DYNCREATE(CEsmScrTempPage2);
 

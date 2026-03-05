@@ -9,19 +9,43 @@
  *=========================================================================*/
 #include "ui/script_dlg.h"
 
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <atltypes.h>
+#include <oleidl.h>
+#include <richedit.h>
+#include <richole.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
+
+#include <cctype>
+#include <cstddef>
+#include <cstring>
+
+#include "common/dl_base.h"
 #include "common/dl_err.h"
+#include "common/dl_log.h"
+#include "common/dl_mem.h"
 #include "common/dl_str.h"
 #include "common/dl_time.h"
-#include "common/string/sstring.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/script.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_schd.h"
+#include "mwedit/scr_func_data.h"
+#include "mwedit/script_defs.h"
+#include "mwedit/script_error.h"
 #include "mwedit/script_options.h"
-#include "mwedit/std_afx.h"
-#include "ui/child_frame_script.h"
+#include "ui/edit_undo.h"
+#include "ui/glob_options.h"
 #include "ui/mwedit.h"
-#include "ui/mwedit_doc.h"
+#include "ui/rec_dialog.h"
 #include "ui/Resource.h"
 #include "windows/win_util.h"
-//#include "afxole.h"
-
 
 IMPLEMENT_DYNCREATE(CEsmScriptDlg, CEsmRecDialog);
 DEFINE_FILE("EsmScriptDlg.cpp");
@@ -34,8 +58,6 @@ DEFINE_FILE("EsmScriptDlg.cpp");
 #endif
 
 static UINT WM_FINDREPLACE = ::RegisterWindowMessage(FINDMSGSTRING);
-
-
 /*===========================================================================
  *
  * Begin Class CEsmScriptDlg Message Map
@@ -319,7 +341,7 @@ void CEsmScriptDlg::FindScriptID() {
 		m_ScriptID.Empty();
 	} else {
 		pString += 6;
-		pString2 = strchr(pString, '\n');
+		pString2 = std::strchr(pString, '\n');
 
 		if (pString2 != NULL) {
 			CString TempStr(pString, pString2 - pString);
@@ -341,7 +363,7 @@ void CEsmScriptDlg::FindScriptID() {
 void CEsmScriptDlg::FormatText() {
 	int LineCount;
 	double StartTime;
-	double EndTime;
+	double EndTime;  // TODO: These two appear unused. Possibly remove?
 	long StartChar;
 	long EndChar;
 
@@ -442,7 +464,7 @@ int GetESMScriptWord(CString &WordBuffer,
 	int WordType;
 
 	/* Find the start of the word */
-	while (isspace(pEditBuffer[CharIndex])) {
+	while (std::isspace(pEditBuffer[CharIndex])) {
 		CharIndex++;
 	}
 
@@ -471,16 +493,16 @@ int GetESMScriptWord(CString &WordBuffer,
 		if (pEditBuffer[CharIndex] == '"') {
 			CharIndex++;
 		}
-	} else if (iscsymf(pEditBuffer[CharIndex])) {
+	} else if (std::isalpha(pEditBuffer[CharIndex]) || pEditBuffer[CharIndex] == '_') {
 		WordType = ESMSCRIPT_WORDTYPE_ALPHA;
 
-		while (iscsym(pEditBuffer[CharIndex])) {
+		while (std::isalnum(pEditBuffer[CharIndex]) || pEditBuffer[CharIndex] == '_') {
 			CharIndex++;
 		}
-	} else if (isdigit(pEditBuffer[CharIndex])) {
+	} else if (std::isdigit(pEditBuffer[CharIndex])) {
 		WordType = ESMSCRIPT_WORDTYPE_INTEGER;
 
-		while (!isspace(pEditBuffer[CharIndex]) && !ispunct(pEditBuffer[CharIndex])) {
+		while (!std::isspace(pEditBuffer[CharIndex]) && !std::ispunct(pEditBuffer[CharIndex])) {
 			CharIndex++;
 		}
 
@@ -489,7 +511,7 @@ int GetESMScriptWord(CString &WordBuffer,
 			CharIndex++;
 			WordType = ESMSCRIPT_WORDTYPE_FLOAT;
 
-			while (!isspace(pEditBuffer[CharIndex]) && !ispunct(pEditBuffer[CharIndex])) {
+			while (!std::isspace(pEditBuffer[CharIndex]) && !std::ispunct(pEditBuffer[CharIndex])) {
 				CharIndex++;
 			}
 		}
@@ -630,7 +652,7 @@ void CEsmScriptDlg::ParseLine(const int LineIndex) {
 		}
 	}
 
-	EndTime = GetHiClockTime();
+	EndTime = GetHiClockTime();  // TODO: Use is commented out. Possibly remove?
 	//m_ScriptText.SetSel(0,0);
 	//SystemLog.Printf("\t\tParseTime = %g secs", EndTime-StartTime);
 }
@@ -1468,7 +1490,7 @@ CString CEsmScriptDlg::GetCurrentScriptWord() {
 	while (Index < Buffer.GetLength()) {
 		Char = Buffer.GetAt(Index);
 
-		if (isalpha(Char)) {
+		if (std::isalpha(Char)) {
 			++Index;
 		} else {
 			Buffer.Delete(Index, Buffer.GetLength() - Index);
@@ -1482,7 +1504,7 @@ CString CEsmScriptDlg::GetCurrentScriptWord() {
 	while (Index >= 0) {
 		Char = Buffer.GetAt(Index);
 
-		if (isalpha(Char)) {
+		if (std::isalpha(Char)) {
 			--Index;
 		} else {
 			Buffer.Delete(0, Index + 1);
@@ -1616,12 +1638,12 @@ bool CEsmScriptDlg::OpenFunctionToolTip() {
 	}
 
 	/* Find the end of the word */
-	while (__iscsym(*pEndString)) {
+	while (__iscsym(*pEndString)/*std::isalnum(*pEndString) || *pEndString == '_'*/) {
 		pEndString++;
 	}
 
 	/* Find the start of the string */
-	while (Index >= 0 && __iscsym(*pParse)) {
+	while (Index >= 0 && __iscsym(*pParse) /*(std::isalnum(*pParse) || *pParse == '_')*/) {  // TODO: Investigate these lines: __iscsym takes an int but is being passed a char array.
 		Index--;
 		pParse--;
 	}
@@ -1692,7 +1714,7 @@ int CEsmScriptDlg::ParseFuncToolTip(const TCHAR *pLineBuffer, const int CharPos)
 		}
 
 		/* A number */
-		if (isdigit(WordBuffer.GetAt(0))) {
+		if (std::isdigit(WordBuffer.GetAt(0))) {
 			if (!LastComma) {
 				ArgCount++;
 			}

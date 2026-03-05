@@ -10,13 +10,14 @@
 #ifndef __SCRIPTERRORVIEW_H
 #define __SCRIPTERRORVIEW_H
 
+#include <afx.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atltypes.h>
+#include <windef.h>
 
-#ifndef __AFXEXT_H__
-	#include <afxext.h>
-#endif
 #include "mwedit/script_error.h"
-
-
+#include "ui/Resource.h"
 /*===========================================================================
  *
  * Begin Class CScriptErrorView Definition

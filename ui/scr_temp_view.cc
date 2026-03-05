@@ -9,10 +9,30 @@
  *=========================================================================*/
 #include "ui/scr_temp_view.h"
 
-#include "mwedit/script_compile.h"
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxdlgs.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/dl_err.h"
+#include "common/string/sstring.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/script.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_schd.h"
+#include "mwedit/script_compile.h"
+#include "mwedit/script_template.h"
+#include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -22,8 +42,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmScrTempView, CFormView);
 DEFINE_FILE("EsmScrTempView.cpp");
-
-
 /*===========================================================================
  *
  * Begin Class CEsmScrTempView Message Map
@@ -251,9 +269,7 @@ bool CEsmScrTempView::CreateScript(CCsvRow *pRow) {
 		if (pRecInfo == NULL) {
 			return false;
 		}
-	}
-	/* Existing record is incorrect type */
-	else if (!pRecInfo->pRecord->IsType(MWESM_REC_SCPT)) {
+	} else if (!pRecInfo->pRecord->IsType(MWESM_REC_SCPT)) { /* Existing record is incorrect type */
 		ErrorHandler.AddError(ERR_BADINPUT,
 		                      _T("The previous record '%s' is not a script (%s)!"),
 		                      ScriptName,

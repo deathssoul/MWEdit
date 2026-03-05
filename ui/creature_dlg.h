@@ -10,6 +10,10 @@
 #ifndef __ESMCREATUREDLG_H
 #define __ESMCREATUREDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
+
+#include "game/morrowind/creature.h"
 #include "ui/creature_page_1.h"
 #include "ui/creature_page_2.h"
 #include "ui/creature_page_3.h"
@@ -18,8 +22,6 @@
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
 #include "windows/tab_ctrl_sheet.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmCreatureDlg Definition

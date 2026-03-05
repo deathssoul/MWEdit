@@ -12,16 +12,51 @@
  *=========================================================================*/
 #include "ui/mwedit_doc.h"
 
+#include <afx.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
+#include <winnt.h>
+
+#include <cctype>
+#include <cstddef>
+#include <cstring>
+#include <ctime>
+
+#include "common/dl_base.h"
+#include "common/dl_err.h"
+#include "common/dl_file.h"
+#include "common/dl_log.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
 #include "common/dl_time.h"
+#include "common/file/gen_file.h"
+#include "game/morrowind/cell.h"
+#include "game/morrowind/class.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/dialogue.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/global.h"
+#include "game/morrowind/info.h"
+#include "game/morrowind/magic_effect.h"
+#include "game/morrowind/npc.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/script.h"
+#include "game/morrowind/spell.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_cell_ref.h"
+#include "game/morrowind/sub_enam.h"
+#include "game/morrowind/sub_hedr.h"
+#include "game/morrowind/sub_npcs.h"
+#include "game/morrowind/sub_pos_6.h"
+#include "game/morrowind/sub_schd.h"
+#include "game/morrowind/tes3.h"
+#include "mwedit/mw_record_map.h"
 #include "mwedit/script_compile.h"
-#include "mwedit/std_afx.h"
 #include "ui/error_dialog.h"
 #include "ui/glob_options.h"
 #include "ui/mwedit.h"
 #include "ui/utils.h"
-#include "windows/win_util.h"
-
 
 /* Debug definitions */
 #if _DEBUG
@@ -32,8 +67,6 @@
 
 IMPLEMENT_DYNCREATE(CMWEditDoc, CDocument);
 DEFINE_FILE("MWEditDoc.cpp");
-
-
 /*===========================================================================
  *
  * Begin Class CMWEditDoc Message Map
@@ -283,7 +316,7 @@ bool CMWEditDoc::BackupPlugin(const TCHAR *pFilename) {
 
 	/* Find the first available number */
 	for (Index = 1; Index < 999; Index++) {
-		snprintf(BackupBuffer, _MAX_PATH + 7, _T("%s.%03d"), pFilename, Index);
+		snprintf(BackupBuffer, _MAX_PATH + 7, _T("%s.%03d"), pFilename, Index);  // TODO: Swap this for std::snprintf
 
 		if (!FileExists(BackupBuffer)) {
 			Result = CopyFile(pFilename, BackupBuffer, FALSE);
@@ -546,7 +579,7 @@ void CMWEditDoc::CompareScriptData(const byte *pData1,
 
 	while (Index1 < Size1 && Index2 < Size2) {
 		if (*pParse1 != *pParse2) {
-			if (tolower(*pParse1) == tolower(*pParse2)) {
+			if (std::tolower(*pParse1) == std::tolower(*pParse2)) {
 				SystemLog.Printf("\t\t0x%04X: Case mismatch (%c, %c)", Index1, *pParse1, *pParse2);
 			} else if (pParse1[1] == pParse2[1]) {
 				SystemLog.Printf("\t\t0x%04X: %02X != %02X (single byte change)",
@@ -620,7 +653,7 @@ bool CMWEditDoc::CompileAllActiveScripts() {
 			++ErrorCount;
 		}
 
-		pScript = (CEsmScript*)m_ActiveFile.FindNext("SCPT", RecordPos);
+		pScript = (CEsmScript *)m_ActiveFile.FindNext("SCPT", RecordPos);
 	}
 
 	DeltaTime = GetHiClockTime() - StartTime;
@@ -688,7 +721,7 @@ bool CMWEditDoc::CompileActiveScript(CEsmScript *pScript) {
 	pScriptHeader = pScript->GetScriptHeader();
 
 	if (pScriptHeader == NULL) {
-		pScriptHeader = (CEsmSubSCHD*)pScript->AllocateSubRecord(MWESM_SUBREC_SCHD);
+		pScriptHeader = (CEsmSubSCHD *)pScript->AllocateSubRecord(MWESM_SUBREC_SCHD);
 	}
 
 	if (pScriptHeader != NULL) {
@@ -1357,7 +1390,7 @@ bool CMWEditDoc::ExportSpellMerchant(CEsmNpc *pNpc, CGenFile &File) {
 	bool Result;
 
 	/* Clear the effects array */
-	memset(m_OutputEffects, 0, sizeof(int) * MWESM_MAX_EFFECTS);
+	std::memset(m_OutputEffects, 0, sizeof(int) * MWESM_MAX_EFFECTS);
 	/* Get the first reference for the NPC, if any */
 	pCellRef = FindFirstCellRef(pNpc);
 
@@ -1524,20 +1557,39 @@ esmrecinfo_t *CMWEditDoc::FindExistingRecord(const TCHAR *pID, const TCHAR *pTyp
 
 	return pRecInfo;
 	/* Find the record with the given ID, any type */
-	//Index = m_RecInfo.FindFastFunc(l_FindRecNameSort, pTempID);
-	//if (Index < 0) return (NULL);
-	//pRecInfo = m_RecInfo[Index];
+//	Index = m_RecInfo.FindFastFunc(l_FindRecNameSort, pTempID);
+//	if (Index < 0) {
+//		return NULL;
+//	}
+//	pRecInfo = m_RecInfo[Index];
+
 	/* Does the type match? */
-	//if (pRecInfo && pRecInfo->pRecord->IsType(pType)) return pRecInfo;
-	//esmrecinfo_t* pRecInfoN1 = m_RecInfo[Index - 1];
-	//esmrecinfo_t* pRecInfoN2 = m_RecInfo[Index - 2];
-	//esmrecinfo_t* pRecInfoP1 = m_RecInfo[Index + 1];
-	//esmrecinfo_t* pRecInfoP2 = m_RecInfo[Index + 2];
+//	if (pRecInfo && pRecInfo->pRecord->IsType(pType)) {
+//		return pRecInfo;
+//	}
+
+//	esmrecinfo_t* pRecInfoN1 = m_RecInfo[Index - 1];
+//	esmrecinfo_t* pRecInfoN2 = m_RecInfo[Index - 2];
+//	esmrecinfo_t* pRecInfoP1 = m_RecInfo[Index + 1];
+//	esmrecinfo_t* pRecInfoP2 = m_RecInfo[Index + 2];
+
 	/* Check records 2 on each side of found record for matching ID and type */
-	//if (pRecInfoN1 && pRecInfoN1->pRecord->IsID(pID) && pRecInfoN1->pRecord->IsType(pType)) return pRecInfoN1;
-	//if (pRecInfoN2 && pRecInfoN2->pRecord->IsID(pID) && pRecInfoN2->pRecord->IsType(pType)) return pRecInfoN2;
-	//if (pRecInfoP1 && pRecInfoP1->pRecord->IsID(pID) && pRecInfoP1->pRecord->IsType(pType)) return pRecInfoP1;
-	//if (pRecInfoP2 && pRecInfoP2->pRecord->IsID(pID) && pRecInfoP2->pRecord->IsType(pType)) return pRecInfoP2;
+//	if (pRecInfoN1 && pRecInfoN1->pRecord->IsID(pID) && pRecInfoN1->pRecord->IsType(pType)) {
+//		return pRecInfoN1;
+//	}
+
+//	if (pRecInfoN2 && pRecInfoN2->pRecord->IsID(pID) && pRecInfoN2->pRecord->IsType(pType)) {
+//		return pRecInfoN2;
+//	}
+
+//	if (pRecInfoP1 && pRecInfoP1->pRecord->IsID(pID) && pRecInfoP1->pRecord->IsType(pType)) {
+//		return pRecInfoP1;
+//	}
+
+//	if (pRecInfoP2 && pRecInfoP2->pRecord->IsID(pID) && pRecInfoP2->pRecord->IsType(pType)) {
+//		return pRecInfoP2;
+//	}
+
 	/* Return initial record with matching ID but *not* type */
 //	return pRecInfo;
 }
@@ -1625,10 +1677,10 @@ esmrecinfo_t *CMWEditDoc::FindRecInfoByPtr(CEsmRecord *pRecord) {
  *=========================================================================*/
 esmrecinfo_t *CMWEditDoc::FindRecInfo(CEsmRecord *pRecord) {
 	esmrecinfo_t *pRecInfo;
-	//const TCHAR*  pID1;
-	//const TCHAR*  pID2;
-	//int       Index;
-	//int       Result;
+//	const TCHAR* pID1;
+//	const TCHAR* pID2;
+//	int Index;
+//	int Result;
 
 	/* Try a quick binary search */
 	if (pRecord == NULL) {
@@ -1643,47 +1695,60 @@ esmrecinfo_t *CMWEditDoc::FindRecInfo(CEsmRecord *pRecord) {
 		}
 	}
 
-	/*
-	  for (Index = 0; Index < m_RecInfo.GetSize(); Index++) {
-	    pRecInfo = m_RecInfo.GetAt(Index);
-	    if (pRecInfo->pRecord->IsSame(pRecord)) return (pRecInfo);
 
-	    pID1 = pRecInfo->pRecord->GetID();
-	    pID2 = pRecord->GetID();
-	    if (tolower(*pID1) != tolower(*pID2)) continue;
-	    Result =  _stricmp(pRecInfo->pRecord->GetID(), pRecord->GetID());
-	    if (Result > 0) break;
+//	for (Index = 0; Index < m_RecInfo.GetSize(); Index++) {
+//		pRecInfo = m_RecInfo.GetAt(Index);
+//		if (pRecInfo->pRecord->IsSame(pRecord)) {
+//			return (pRecInfo);
+//		}
 
-	    //SystemLog.Printf ("%s == %s", pRecInfo->pRecord->GetID(), pRecord->GetID());
-	   }//*/
+//		pID1 = pRecInfo->pRecord->GetID();
+//		pID2 = pRecord->GetID();
+
+//		if (std::tolower(*pID1) != std::tolower(*pID2)) {
+//			continue;
+//		}
+
+//		Result =  _stricmp(pRecInfo->pRecord->GetID(), pRecord->GetID());
+//		if (Result > 0) {
+//			break;
+//		}
+
+//		SystemLog.Printf("%s == %s", pRecInfo->pRecord->GetID(), pRecord->GetID());
+//	}
+
 	return NULL;
 }
 
 esmrecinfo_t *CMWEditDoc::FindRecord(const TCHAR *pID) {
-	//int   Index;
+//	int Index;
 	int Length;
 	TCHAR TempBuffer[MWESM_ID_MAXSIZE * 2 + 1];
 
 	/* Remove ID quotes if required */
 	if (*pID == '"') {
-		strnncpy(TempBuffer, pID + 1, MWESM_ID_MAXSIZE * 2);
+		strnncpy(TempBuffer, pID + 1, MWESM_ID_MAXSIZE * 2);  // TODO: Replace with function from standard-library
 		Length = TSTRLEN(TempBuffer);
 
 		if (Length > 0) {
 			TempBuffer[Length - 1] = NULL_CHAR;
 		}
 
-		//Index = m_RecInfo.FindFastFunc(l_FindRecNameSort, (void*) TempBuffer);
-		//Index = m_RecInfo.FindBSearch(l_RecSortPtr, (void *)pID);
+//		Index = m_RecInfo.FindFastFunc(l_FindRecNameSort, (void *) TempBuffer);
+//		Index = m_RecInfo.FindBSearch(l_RecSortPtr, (void *)pID);
 		return m_RecInfoSort.Get(TempBuffer);
 	} else {
-		//Index = m_RecInfo.FindFastFunc(l_FindRecNameSort, (void*) pID);
-		//Index = m_RecInfo.FindBSearch(l_RecSortPtr, (void *)pID);
+//		Index = m_RecInfo.FindFastFunc(l_FindRecNameSort, (void *) pID);
+//		Index = m_RecInfo.FindBSearch(l_RecSortPtr, (void *)pID);
 		return m_RecInfoSort.Get(pID);
 	}
 
-	//if (Index < 0) return (NULL);
-	//return m_RecInfo[Index];
+//	if (Index < 0) {
+//		return (NULL);
+//	}
+//	return m_RecInfo[Index];
+
+// TODO: Needs default return
 }
 
 /* Looks for a given ID of the given type */
@@ -1706,7 +1771,7 @@ esmrecinfo_t *CMWEditDoc::FindRecord(const TCHAR *pID, const TCHAR *pType) {
 		pNewID = TempBuffer;
 	}
 
-	//SystemLog.Printf("FindRecord(%s, %4.4s)", pNewID, pType);
+//	SystemLog.Printf("FindRecord(%s, %4.4s)", pNewID, pType);
 	pRecInfo = m_RecInfoSort.Get(pNewID);
 
 	if (pRecInfo != NULL && pRecInfo->pRecord->IsType(pType)) {
@@ -1779,14 +1844,17 @@ esmrecinfo_t *CMWEditDoc::FindRecordCarryable(const TCHAR *pID) {
 
 esmrecinfo_t *CMWEditDoc::FindRecordSort(CEsmRecord *pRecord) {
 	return m_RecInfoSort.Get(pRecord->GetID());
-	//int Index = m_RecInfoSort.FindFastFunc(l_FindRecSort1, (void*) pRecord);
-	//if (Index < 0) return (NULL);
-	//return (m_RecInfo[Index]);
+//	int Index = m_RecInfoSort.FindFastFunc(l_FindRecSort1, (void *)pRecord);
+//	if (Index < 0) {
+//		return (NULL);
+//	}
+
+//	return m_RecInfo[Index];
 }
 
 /* Looks for a given ID of the given type with the given dialogue parent */
 esmrecinfo_t *CMWEditDoc::FindInfoRecord(const TCHAR *pID, const TCHAR *pDialID) {
-	//MWMAPPOS      Position;
+//	MWMAPPOS Position;
 	CEsmInfo *pInfo;
 	esmrecinfo_t *pRecInfo;
 	int Index;
@@ -2360,7 +2428,7 @@ bool CMWEditDoc::LoadAppActive() {
 const TCHAR *CMWEditDoc::MakeNewINFOId() {
 	static TCHAR s_Buffer[MWESM_ID_MAXSIZE + 4];
 	static long s_Counter = 1;
-	time_t CurrentTime = time(NULL);
+	std::time_t CurrentTime = std::time(NULL);
 	BOOL Result;
 	DWORD SerialNumber;
 
@@ -2369,7 +2437,7 @@ const TCHAR *CMWEditDoc::MakeNewINFOId() {
 
 	/* Generate a 'random' serial number if the previous call failed */
 	if (!Result) {
-		SerialNumber = (DWORD)clock();
+		SerialNumber = (DWORD)std::clock();
 	}
 
 	/* Make the ID string */
@@ -2519,9 +2587,7 @@ int CMWEditDoc::OnPostSaveRecord(esmreceditinfo_t *pRecEditInfo) {
 	if (pRecEditInfo->IsNew) {
 		pRecEditInfo->IsNew = false;
 		UpdateAllViews(NULL, MWEDITDOC_HINT_NEWITEM, (CObject *)(void *)pRecEditInfo->pRecInfo);
-	}
-	/* Update the document views */
-	else {
+	} else { /* Update the document views */
 		UpdateAllViews(NULL, MWEDITDOC_HINT_UPDATEITEM, (CObject *)(void *)pRecEditInfo->pRecInfo);
 	}
 
@@ -2574,9 +2640,7 @@ int CMWEditDoc::OnPreSaveRecord(esmreceditinfo_t *pRecEditInfo) {
 			}
 
 			pRecEditInfo->HasAdded = true;
-		}
-		/* Update the recinfo sorted array */
-		else if (pRecEditInfo->HasNewID && pRecEditInfo->pRecInfo->pFile->IsActive()) {
+		} else if (pRecEditInfo->HasNewID && pRecEditInfo->pRecInfo->pFile->IsActive()) { /* Update the recinfo sorted array */
 			m_RecInfo.DeleteElement(pRecEditInfo->pRecInfo);
 			m_RecInfoSort.Delete(pRecEditInfo->pRecInfo, false);
 			pRecEditInfo->pRecInfo->pRecord->SetID(pRecEditInfo->NewID);

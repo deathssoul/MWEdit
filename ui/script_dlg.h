@@ -10,17 +10,28 @@
 #ifndef __RtfEditView_H
 #define __RtfEditView_H
 
-
+#include <afx.h>
+#include <afxcmn.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <atltypes.h>
+#include <oleidl.h>
+#include <richedit.h>
 #include <richole.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
 
-#include "common/container/ptr_array.h"
-#include "mwedit/scr_func_array.h"
+#include "mwedit/scr_func_data.h"
+#include "game/morrowind/script.h"
 #include "mwedit/script_compile.h"
 #include "mwedit/script_defs.h"
+#include "mwedit/script_options.h"
 #include "ui/cust_rich_edit.h"
 #include "ui/edit_undo.h"
-#include "ui/glob_options.h"
 #include "ui/rec_dialog.h"
+#include "ui/Resource.h"
 #include "windows/dl_tool_tip.h"
 
 /* Word Types */
@@ -44,8 +55,6 @@
 #define ESMSCR_PARSETTFUNC_NOCHANGE 0
 #define ESMSCR_PARSETTFUNC_UPDATE   1
 #define ESMSCR_PARSETTFUNC_NEWFUNC  2
-
-
 /*===========================================================================
 *
 * Begin Class CEsmScriptDlg Definition

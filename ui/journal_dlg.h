@@ -10,14 +10,17 @@
 #ifndef __ESMJOURNALDLG_H
 #define __ESMJOURNALDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
+#include <windef.h>
 
-#include "common/container/ptr_array.h"
+#include <cstddef>
+
 #include "game/morrowind/info.h"
-
-
-class CMWEditDoc;
-
-
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_scvr.h"
+#include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
 /*===========================================================================
  *
  * Begin Class CEsmJournalDlg Definition

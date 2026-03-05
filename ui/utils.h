@@ -11,10 +11,10 @@
 #define __ESMUTILS_H
 
 #include <afxwin.h>
+#include <atlstr.h>
+#include <winnt.h>
 
 #include "common/string/sstring.h"
-#include "mwedit/mw_common.h"
-
 
 /* Type conversion functions */
 int ConvertBipedToBodyPart(const int BipedType);

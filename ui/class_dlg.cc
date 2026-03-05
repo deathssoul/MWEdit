@@ -9,9 +9,25 @@
  *=========================================================================*/
 #include "ui/class_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
 
+#include <cstddef>
+#include <cstring>
+
+#include "common/dl_base.h"
+#include "game/morrowind/class.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sub_cldt.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -21,8 +37,6 @@
 
 DEFINE_FILE("EsmClassDlg.cpp");
 IMPLEMENT_DYNCREATE(CEsmClassDlg, CEsmRecDialog);
-
-
 /*===========================================================================
  *
  * Begin CEsmClassDlg Message Map
@@ -436,7 +450,7 @@ void CEsmClassDlg::OnSelChangeSkillList(CComboBox *pComboBox) {
 
 	CurrentSkillID = pComboBox->GetItemData(ListIndex);
 	/* Initialize the skill ID array */
-	memset(&SkillIDArray, 0, MWESM_MAX_SKILLS * sizeof(int));
+	std::memset(&SkillIDArray, 0, MWESM_MAX_SKILLS * sizeof(int));
 
 	for (Index = 0; Boxes[Index] != NULL; Index++) {
 		ListIndex = Boxes[Index]->GetCurSel();

@@ -9,9 +9,27 @@
  *=========================================================================*/
 #include "ui/spell_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
 
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/enchant.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/spell.h"
+#include "game/morrowind/sub_enam.h"
+#include "game/morrowind/sub_spdt.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -21,8 +39,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmSpellDlg, CEsmRecDialog);
 DEFINE_FILE("EsmSpellDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmSpellDlg Message Map
@@ -248,7 +264,7 @@ void CEsmSpellDlg::GetControlData() {
 
 	/* Spell cost */
 	m_CostText.GetWindowText(Buffer);
-	pSpellData->SpellCost = atoi(Buffer);
+	pSpellData->SpellCost = std::atoi(Buffer);
 
 	/* Item name */
 	m_NameText.GetWindowText(Buffer);
@@ -306,7 +322,7 @@ void CEsmSpellDlg::GetEffectData(const int EffectIndex) {
 
 	/* Set the enchant duration */
 	m_DurationText[EffectIndex].GetWindowText(Buffer);
-	pSpellData->Duration = (short)(atoi(Buffer));
+	pSpellData->Duration = (short)(std::atoi(Buffer));
 
 	if (pSpellData->Duration < 0) {
 		pSpellData->Duration = 0;
@@ -321,7 +337,7 @@ void CEsmSpellDlg::GetEffectData(const int EffectIndex) {
 
 	/* Set the enchant area */
 	m_AreaText[EffectIndex].GetWindowText(Buffer);
-	pSpellData->Area = (short)(atoi(Buffer));
+	pSpellData->Area = (short)(std::atoi(Buffer));
 
 	if (pSpellData->Area < 0) {
 		pSpellData->Area = 0;
@@ -329,14 +345,14 @@ void CEsmSpellDlg::GetEffectData(const int EffectIndex) {
 
 	/* Get the enchant magnitude */
 	m_Magnitude1Text[EffectIndex].GetWindowText(Buffer);
-	pSpellData->MagMin = (short)(atoi(Buffer));
+	pSpellData->MagMin = (short)(std::atoi(Buffer));
 
 	if (pSpellData->MagMin < 0) {
 		pSpellData->MagMin = 0;
 	}
 
 	m_Magnitude2Text[EffectIndex].GetWindowText(Buffer);
-	pSpellData->MagMax = (short)(atoi(Buffer));
+	pSpellData->MagMax = (short)(std::atoi(Buffer));
 
 	if (pSpellData->MagMax < 0) {
 		pSpellData->MagMax = 0;
@@ -783,13 +799,13 @@ void CEsmSpellDlg::UpdateSpellCost(const int EffectIndex) {
 
 	if (m_pEffectInfo[EffectIndex] != NULL) {
 		m_Magnitude1Text[EffectIndex].GetWindowText(Buffer);
-		EffectData.MagMin = atoi(Buffer);
+		EffectData.MagMin = std::atoi(Buffer);
 		m_Magnitude2Text[EffectIndex].GetWindowText(Buffer);
-		EffectData.MagMax = atoi(Buffer);
+		EffectData.MagMax = std::atoi(Buffer);
 		m_DurationText[EffectIndex].GetWindowText(Buffer);
-		EffectData.Duration = atoi(Buffer);
+		EffectData.Duration = std::atoi(Buffer);
 		m_AreaText[EffectIndex].GetWindowText(Buffer);
-		EffectData.Area = atoi(Buffer);
+		EffectData.Area = std::atoi(Buffer);
 		Cost = ((CEsmMagicEffect *)m_pEffectInfo[EffectIndex]->pRecord)->GetEnchantCost(EffectData);
 		Buffer.Format(_T("%.2f"),
 		              ((CEsmMagicEffect *)m_pEffectInfo[EffectIndex]->pRecord)->GetBaseCost());
@@ -838,7 +854,7 @@ void CEsmSpellDlg::UpdateTotalSpellCost() {
 	if (EnchantType != MWESM_ENCHTYPE_CONSTANT) {
 		for (Index = 0; Index < MWESM_ENCHANT_NUMENCHANTS; Index++) {
 			m_TotalCostText[Index].GetWindowText(Buffer);
-			SumValue += (float)atof(Buffer);
+			SumValue += (float)std::atof(Buffer);
 		}
 	}
 

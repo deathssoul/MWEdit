@@ -10,12 +10,15 @@
 #ifndef __ESMBIRTHSIGNDLG_H
 #define __ESMBIRTHSIGNDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
+#include <windef.h>
 
+#include "game/morrowind/birth_sign.h"
+#include "game/morrowind/file.h"
 #include "ui/list_ctrl.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmBirthSignDlg Definition

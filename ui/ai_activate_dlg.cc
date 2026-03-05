@@ -9,11 +9,19 @@
  *=========================================================================*/
 #include "ui/ai_activate_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/ai_wander_dlg.h"
-#include "ui/mwedit.h"
-#include "ui/utils.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/sub_ai_a.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -21,10 +29,7 @@
 	static char THIS_FILE[] = __FILE__;
 #endif
 
-
 DEFINE_FILE("EsmAiActivateDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmAiActivateDlg Message Map

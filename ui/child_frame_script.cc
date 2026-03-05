@@ -9,10 +9,20 @@
  *=========================================================================*/
 #include "ui/child_frame_script.h"
 
-#include "mwedit/std_afx.h"
+#include <afx.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atltypes.h>
+#include <windef.h>
+#include <winuser.h>
+
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "mwedit/script_defs.h"
+#include "mwedit/script_error.h"
 #include "ui/script_dlg.h"
 #include "ui/script_error_view.h"
-
 
 /* Debug defines */
 #if _DEBUG
@@ -23,8 +33,6 @@
 
 IMPLEMENT_DYNCREATE(CChildFrmScript, CMDIChildWnd);
 DEFINE_FILE("Childfrmscript.cpp");
-
-
 /*===========================================================================
  *
  * Begin CChildFrmScript Message Map
@@ -35,6 +43,7 @@ BEGIN_MESSAGE_MAP(CChildFrmScript, CMDIChildWnd)
 	ON_MESSAGE(MSG_SCRIPTFRM_CLEARERROR, (LRESULT(AFX_MSG_CALL CWnd::*)(WPARAM, LPARAM))OnClearError)
 	ON_MESSAGE(MSG_SCRIPTFRM_UPDATEERROR, (LRESULT(AFX_MSG_CALL CWnd::*)(WPARAM, LPARAM))OnUpdateError)
 	ON_MESSAGE(MSG_SCRIPTFRM_GOTOLINE, (LRESULT(AFX_MSG_CALL CWnd::*)(WPARAM, LPARAM))OnGotoError)
+
 	ON_WM_SIZE()
 	ON_WM_MOVE()
 	ON_WM_CLOSE()

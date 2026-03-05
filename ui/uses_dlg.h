@@ -10,14 +10,17 @@
 #ifndef __ESMUSESDLG_H
 #define __ESMUSESDLG_H
 
+#include <afx.h>
+#include <afxcmn.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atltypes.h>
+#include <windef.h>
 
+#include "game/morrowind/file.h"
+#include "ui/dlg_array.h"
 #include "ui/list_ctrl.h"
-#include "ui/mwedit_doc.h"
-
-
-class CEsmDlgHandler;
-
-
+#include "ui/Resource.h"
 /*===========================================================================
  *
  * Begin CEsmUsesDlg Definition

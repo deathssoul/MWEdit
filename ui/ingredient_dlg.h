@@ -10,11 +10,13 @@
 #ifndef __ESMINGREDIANTDLG_H
 #define __ESMINGREDIANTDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
 
+#include "game/morrowind/file.h"
+#include "game/morrowind/ingredient.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmIngrediantDlg Definition

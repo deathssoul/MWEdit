@@ -10,11 +10,13 @@
 #ifndef __ESMSTATICDLG_H
 #define __ESMSTATICDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
 
+#include "game/morrowind/file.h"
+#include "game/morrowind/static.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmStaticDlg Definition

@@ -10,11 +10,14 @@
 #ifndef __ESMALCHEMYDLG_H
 #define __ESMALCHEMYDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
 
+#include "game/morrowind/alchemy.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sub_enam.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmAlchemyDlg Definition

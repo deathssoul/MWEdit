@@ -10,12 +10,14 @@
 #ifndef __ESMAIACTIVATEDLG_H
 #define __ESMAIACTIVATEDLG_H
 
+#include <afx.h>
 #include <afxwin.h>
+#include <windef.h>
+
+#include <cstddef>
 
 #include "game/morrowind/sub_ai_a.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmAiActivateDlg

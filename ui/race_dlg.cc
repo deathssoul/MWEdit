@@ -9,9 +9,29 @@
  *=========================================================================*/
 #include "ui/race_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <commctrl.h>
+#include <windef.h>
 
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/race.h"
+#include "game/morrowind/sub_name_32.h"
+#include "game/morrowind/sub_radt.h"
+#include "ui/list_ctrl.h"
+#include "ui/mwedit_doc.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -21,8 +41,6 @@
 
 DEFINE_FILE("EsmRaceDlg.cpp");
 IMPLEMENT_DYNCREATE(CEsmRaceDlg, CEsmRecDialog);
-
-
 /*===========================================================================
  *
  * Begin Spell Column Data
@@ -246,63 +264,63 @@ void CEsmRaceDlg::GetControlData() {
 	GETLISTDATA(m_SkillList7, pRaceData->SkillBonuses[6].SkillID);
 
 	m_BonusText1.GetWindowText(Buffer);
-	pRaceData->SkillBonuses[0].Bonus = atoi(Buffer);
+	pRaceData->SkillBonuses[0].Bonus = std::atoi(Buffer);
 	m_BonusText2.GetWindowText(Buffer);
-	pRaceData->SkillBonuses[1].Bonus = atoi(Buffer);
+	pRaceData->SkillBonuses[1].Bonus = std::atoi(Buffer);
 	m_BonusText3.GetWindowText(Buffer);
-	pRaceData->SkillBonuses[2].Bonus = atoi(Buffer);
+	pRaceData->SkillBonuses[2].Bonus = std::atoi(Buffer);
 	m_BonusText4.GetWindowText(Buffer);
-	pRaceData->SkillBonuses[3].Bonus = atoi(Buffer);
+	pRaceData->SkillBonuses[3].Bonus = std::atoi(Buffer);
 	m_BonusText5.GetWindowText(Buffer);
-	pRaceData->SkillBonuses[4].Bonus = atoi(Buffer);
+	pRaceData->SkillBonuses[4].Bonus = std::atoi(Buffer);
 	m_BonusText6.GetWindowText(Buffer);
-	pRaceData->SkillBonuses[5].Bonus = atoi(Buffer);
+	pRaceData->SkillBonuses[5].Bonus = std::atoi(Buffer);
 	m_BonusText7.GetWindowText(Buffer);
-	pRaceData->SkillBonuses[6].Bonus = atoi(Buffer);
+	pRaceData->SkillBonuses[6].Bonus = std::atoi(Buffer);
 
 	/* Attributes */
 	m_StrText1.GetWindowText(Buffer);
-	pRaceData->Strength[0] = atoi(Buffer);
+	pRaceData->Strength[0] = std::atoi(Buffer);
 	m_StrText2.GetWindowText(Buffer);
-	pRaceData->Strength[1] = atoi(Buffer);
+	pRaceData->Strength[1] = std::atoi(Buffer);
 	m_IntText1.GetWindowText(Buffer);
-	pRaceData->Intelligence[0] = atoi(Buffer);
+	pRaceData->Intelligence[0] = std::atoi(Buffer);
 	m_IntText2.GetWindowText(Buffer);
-	pRaceData->Intelligence[1] = atoi(Buffer);
+	pRaceData->Intelligence[1] = std::atoi(Buffer);
 	m_WilText1.GetWindowText(Buffer);
-	pRaceData->Willpower[0] = atoi(Buffer);
+	pRaceData->Willpower[0] = std::atoi(Buffer);
 	m_WilText2.GetWindowText(Buffer);
-	pRaceData->Willpower[1] = atoi(Buffer);
+	pRaceData->Willpower[1] = std::atoi(Buffer);
 	m_AgiText1.GetWindowText(Buffer);
-	pRaceData->Agility[0] = atoi(Buffer);
+	pRaceData->Agility[0] = std::atoi(Buffer);
 	m_AgiText2.GetWindowText(Buffer);
-	pRaceData->Agility[1] = atoi(Buffer);
+	pRaceData->Agility[1] = std::atoi(Buffer);
 	m_SpdText1.GetWindowText(Buffer);
-	pRaceData->Speed[0] = atoi(Buffer);
+	pRaceData->Speed[0] = std::atoi(Buffer);
 	m_SpdText2.GetWindowText(Buffer);
-	pRaceData->Speed[1] = atoi(Buffer);
+	pRaceData->Speed[1] = std::atoi(Buffer);
 	m_EndText1.GetWindowText(Buffer);
-	pRaceData->Endurance[0] = atoi(Buffer);
+	pRaceData->Endurance[0] = std::atoi(Buffer);
 	m_EndText2.GetWindowText(Buffer);
-	pRaceData->Endurance[1] = atoi(Buffer);
+	pRaceData->Endurance[1] = std::atoi(Buffer);
 	m_PerText1.GetWindowText(Buffer);
-	pRaceData->Personality[0] = atoi(Buffer);
+	pRaceData->Personality[0] = std::atoi(Buffer);
 	m_PerText2.GetWindowText(Buffer);
-	pRaceData->Personality[1] = atoi(Buffer);
+	pRaceData->Personality[1] = std::atoi(Buffer);
 	m_LucText1.GetWindowText(Buffer);
-	pRaceData->Luck[0] = atoi(Buffer);
+	pRaceData->Luck[0] = std::atoi(Buffer);
 	m_LucText2.GetWindowText(Buffer);
-	pRaceData->Luck[1] = atoi(Buffer);
+	pRaceData->Luck[1] = std::atoi(Buffer);
 
 	/* Weight and height */
 	m_WeightText1.GetWindowText(Buffer);
-	pRaceData->Weight[0] = (float)atof(Buffer);
+	pRaceData->Weight[0] = (float)std::atof(Buffer);
 	m_WeightText2.GetWindowText(Buffer);
-	pRaceData->Weight[1] = (float)atof(Buffer);
+	pRaceData->Weight[1] = (float)std::atof(Buffer);
 	m_HeightText1.GetWindowText(Buffer);
-	pRaceData->Height[0] = (float)atof(Buffer);
+	pRaceData->Height[0] = (float)std::atof(Buffer);
 	m_HeightText2.GetWindowText(Buffer);
-	pRaceData->Height[1] = (float)atof(Buffer);
+	pRaceData->Height[1] = (float)std::atof(Buffer);
 
 	/* Race Flags */
 	pRaceData->Flags = 0;
@@ -677,37 +695,37 @@ void CEsmRaceDlg::UpdateAttribTotals() {
 	int FemaleTotal = 0;
 
 	m_StrText1.GetWindowText(Buffer);
-	MaleTotal += atoi(Buffer);
+	MaleTotal += std::atoi(Buffer);
 	m_IntText1.GetWindowText(Buffer);
-	MaleTotal += atoi(Buffer);
+	MaleTotal += std::atoi(Buffer);
 	m_WilText1.GetWindowText(Buffer);
-	MaleTotal += atoi(Buffer);
+	MaleTotal += std::atoi(Buffer);
 	m_AgiText1.GetWindowText(Buffer);
-	MaleTotal += atoi(Buffer);
+	MaleTotal += std::atoi(Buffer);
 	m_SpdText1.GetWindowText(Buffer);
-	MaleTotal += atoi(Buffer);
+	MaleTotal += std::atoi(Buffer);
 	m_EndText1.GetWindowText(Buffer);
-	MaleTotal += atoi(Buffer);
+	MaleTotal += std::atoi(Buffer);
 	m_PerText1.GetWindowText(Buffer);
-	MaleTotal += atoi(Buffer);
+	MaleTotal += std::atoi(Buffer);
 	m_LucText1.GetWindowText(Buffer);
-	MaleTotal += atoi(Buffer);
+	MaleTotal += std::atoi(Buffer);
 	m_StrText2.GetWindowText(Buffer);
-	FemaleTotal += atoi(Buffer);
+	FemaleTotal += std::atoi(Buffer);
 	m_IntText2.GetWindowText(Buffer);
-	FemaleTotal += atoi(Buffer);
+	FemaleTotal += std::atoi(Buffer);
 	m_WilText2.GetWindowText(Buffer);
-	FemaleTotal += atoi(Buffer);
+	FemaleTotal += std::atoi(Buffer);
 	m_AgiText2.GetWindowText(Buffer);
-	FemaleTotal += atoi(Buffer);
+	FemaleTotal += std::atoi(Buffer);
 	m_SpdText2.GetWindowText(Buffer);
-	FemaleTotal += atoi(Buffer);
+	FemaleTotal += std::atoi(Buffer);
 	m_EndText2.GetWindowText(Buffer);
-	FemaleTotal += atoi(Buffer);
+	FemaleTotal += std::atoi(Buffer);
 	m_PerText2.GetWindowText(Buffer);
-	FemaleTotal += atoi(Buffer);
+	FemaleTotal += std::atoi(Buffer);
 	m_LucText2.GetWindowText(Buffer);
-	FemaleTotal += atoi(Buffer);
+	FemaleTotal += std::atoi(Buffer);
 
 	Buffer.Format(_T("%d"), MaleTotal);
 	m_MaleTotal.SetWindowText(Buffer);

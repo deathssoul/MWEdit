@@ -10,20 +10,28 @@
 #ifndef __ESMSCRTEMPVIEW_H
 #define __ESMSCRTEMPVIEW_H
 
+#include <afx.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
 
-#include "common/dl_err.h"
+#include "common/dl_str.h"
 #include "file/csv_file.h"
 #include "mwedit/script_template.h"
+#include "ui/dlg_array.h"
+#include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
 #include "ui/scr_temp_page_1.h"
 #include "ui/scr_temp_page_2.h"
 #include "ui/scr_temp_page_3.h"
 #include "windows/tab_ctrl_sheet.h"
 
-
 /* Csv file definitions */
 #define ESMSCRTEMP_CSV_EXT      _T("csv")
 #define ESMSCRTEMP_CSV_FILTER   _T("CSV Files (*.csv)|*.csv|Text Files (*.txt)|*.txt|All Files (*.*)|*.*||")
-
 
 /* Template options */
 typedef struct esmscrtempoptions {
@@ -36,16 +44,11 @@ typedef struct esmscrtempoptions {
 		strnncpy(ScriptName, pString, ESMSCRTEMP_SCRIPTNAMESIZE);
 	}
 } esmscrtempoptions_t;
-
-
 /*===========================================================================
  *
  * Begin Class CEsmScrTempView Definition
  *
  *=========================================================================*/
-class CEsmScrTempView;
-class CMWEditDoc;
-
 class CEsmScrTempView : public CFormView {
   protected:
 	CEsmDlgHandler *m_pDlgHandler;         /* Parent dialog handler */

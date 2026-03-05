@@ -10,12 +10,15 @@
 #ifndef __ESMRACEDLG_H
 #define __ESMRACEDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
+#include <windef.h>
 
+#include "game/morrowind/file.h"
+#include "game/morrowind/race.h"
 #include "ui/list_ctrl.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmRaceDlg Definition

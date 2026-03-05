@@ -9,12 +9,27 @@
  *=========================================================================*/
 #include "ui/clothing_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/child_frame_fix.h"
-#include "ui/dlg_array.h"
-#include "ui/mwedit.h"
-#include "ui/Resource.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
 
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "game/morrowind/clothing.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_byte.h"
+#include "game/morrowind/sub_name.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -24,8 +39,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmClothingDlg, CEsmRecDialog);
 DEFINE_FILE("EsmClothingDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmClothingDlg Message Map
@@ -219,15 +232,15 @@ void CEsmClothingDlg::GetControlData() {
 
 	/* Armor weight */
 	m_WeightText.GetWindowText(Buffer);
-	m_pClothing->SetWeight((float)atof(Buffer));
+	m_pClothing->SetWeight((float)std::atof(Buffer));
 
 	/* Armor value */
 	m_ValueText.GetWindowText(Buffer);
-	m_pClothing->SetValue(atoi(Buffer));
+	m_pClothing->SetValue(std::atoi(Buffer));
 
 	/* Enchant points */
 	m_EnchantText.GetWindowText(Buffer);
-	m_pClothing->SetEnchantPts(atoi(Buffer));
+	m_pClothing->SetEnchantPts(std::atoi(Buffer));
 
 	/* Item script */
 	m_ScriptList.GetWindowText(Buffer);

@@ -1,17 +1,24 @@
 // ErrorDialog.cpp : implementation file
 #include "ui/error_dialog.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxwin.h>
+#include <windef.h>
+#include <winnt.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/dl_err.h"
+#include "common/dl_str.h"
+#include "ui/Resource.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
 	#undef THIS_FILE
 	static char THIS_FILE[] = __FILE__;
 #endif
-
-
 /////////////////////////////////////////////////////////////////////////////
 // CErrorDialog dialog
 
@@ -24,6 +31,7 @@ CErrorDialog::CErrorDialog(CWnd *pParent) : CDialog(CErrorDialog::IDD, pParent) 
 
 void CErrorDialog::DoDataExchange(CDataExchange *pDX) {
 	CDialog::DoDataExchange(pDX);
+
 	//{{AFX_DATA_MAP(CErrorDialog)
 	DDX_Control(pDX, IDC_EDIT1, m_Text);
 	DDX_Control(pDX, IDC_LABEL, m_Label);
@@ -55,7 +63,6 @@ BOOL CErrorDialog::OnInitDialog() {
 	OutputErrors = 0;
 
 	/* Output all required errors */
-
 	while (pError != NULL && OutputErrors < ErrorHandler.GetErrorCount()) {
 		pErrorRecord = ErrorDatabase.Find(pError->GetCode());
 

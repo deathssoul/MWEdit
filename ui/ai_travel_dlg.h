@@ -10,11 +10,13 @@
 #ifndef __ESMAITRAVELDLG_H
 #define __ESMAITRAVELDLG_H
 
+#include <afx.h>
 #include <afxwin.h>
+
+#include <cstddef>
 
 #include "game/morrowind/sub_ai_t.h"
 #include "ui/Resource.h"
-
 /*===========================================================================
  *
  * Begin Class CEsmAiTravelDlg

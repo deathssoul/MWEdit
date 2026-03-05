@@ -10,12 +10,14 @@
 #ifndef __ESMAIWANDERDLG_H
 #define __ESMAIWANDERDLG_H
 
+#include <afx.h>
 #include <afxwin.h>
+#include <windef.h>
+
+#include <cstddef>
 
 #include "game/morrowind/sub_ai_w.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmAiWanderDlg

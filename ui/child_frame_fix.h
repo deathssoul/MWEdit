@@ -10,7 +10,10 @@
 #ifndef __ChildFrmFixed_H
 #define __ChildFrmFixed_H
 
-
+#include <afx.h>
+#include <afxwin.h>
+#include <windef.h>
+#include <winuser.h>
 /*===========================================================================
  *
  * Class CChildFrameFix Definition

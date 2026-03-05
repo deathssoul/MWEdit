@@ -10,27 +10,28 @@
 #ifndef __ESMCSVIMPORTDLG_H
 #define __ESMCSVIMPORTDLG_H
 
+#include <afx.h>
+#include <afxcmn.h>
+#include <afxwin.h>
+#include <windef.h>
 
+#include "common/dl_base.h"
+#include "file/csv_file.h"
 #include "mwedit/csv_defs.h"
-
+#include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
 
 /* List definitions */
-
 #define ESMCSVIMP_LIST_COLWIDTH 80
 
 /* Csv file definitions */
-
 #define ESMCSVIMP_CSV_EXT     _T("csv")
 #define ESMCSVIMP_CSV_FILTER  _T("CSV Files (*.csv)|*.csv|Text Files (*.txt)|*.txt|All Files (*.*)|*.*||")
-
-
 /*===========================================================================
  *
  * Begin Class CEsmCsvImportDlg Definition
  *
  *=========================================================================*/
-class CMWEditDoc;
-
 class CEsmCsvImportDlg : public CDialog {
   protected:
 	CCsvFile m_CsvFile;      /* Csv file object */

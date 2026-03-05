@@ -9,9 +9,25 @@
  *=========================================================================*/
 #include "ui/skill_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
+#include <winnt.h>
 
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/skill.h"
+#include "game/morrowind/sub_skdt.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -21,8 +37,6 @@
 
 DEFINE_FILE("EsmSkillDlg.cpp");
 IMPLEMENT_DYNCREATE(CEsmSkillDlg, CEsmRecDialog);
-
-
 /*===========================================================================
  *
  * Begin CEsmSkillDlg Message Map
@@ -108,28 +122,28 @@ void CEsmSkillDlg::GetControlData() {
 
 	if (pAction != NULL) {
 		m_ValueText1.GetWindowText(Buffer);
-		pSkillData->UseValue1 = (float)atof(Buffer);
+		pSkillData->UseValue1 = (float)std::atof(Buffer);
 	}
 
 	pAction = GetESMSkillAction(m_pSkill->GetSkillID(), 1);
 
 	if (pAction != NULL) {
 		m_ValueText2.GetWindowText(Buffer);
-		pSkillData->UseValue2 = (float)atof(Buffer);
+		pSkillData->UseValue2 = (float)std::atof(Buffer);
 	}
 
 	pAction = GetESMSkillAction(m_pSkill->GetSkillID(), 2);
 
 	if (pAction != NULL) {
 		m_ValueText3.GetWindowText(Buffer);
-		pSkillData->UseValue3 = (float)atof(Buffer);
+		pSkillData->UseValue3 = (float)std::atof(Buffer);
 	}
 
 	pAction = GetESMSkillAction(m_pSkill->GetSkillID(), 3);
 
 	if (pAction != NULL) {
 		m_ValueText4.GetWindowText(Buffer);
-		pSkillData->UseValue4 = (float)atof(Buffer);
+		pSkillData->UseValue4 = (float)std::atof(Buffer);
 	}
 }
 

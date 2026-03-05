@@ -9,12 +9,24 @@
  *=========================================================================*/
 #include "ui/npc_page_2.h"
 
-#include "common/dl_err.h"
-#include "mwedit/std_afx.h"
-#include "ui/dlg_array.h"
-#include "ui/mwedit.h"
-#include "ui/mwedit_doc.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <commctrl.h>
+#include <windef.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/npc.h"
+#include "game/morrowind/sub_npcs.h"
+#include "ui/list_ctrl.h"
+#include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -24,8 +36,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmNpcPage2, CPropertyPage);
 DEFINE_FILE("EsmNpcPage2.cpp");
-
-
 /*===========================================================================
  *
  * Begin Spell List Column Data

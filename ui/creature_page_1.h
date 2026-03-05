@@ -10,13 +10,16 @@
 #ifndef __ESMCREATUREPAGE1_H
 #define __ESMCREATUREPAGE1_H
 
+#include <afx.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <windef.h>
 
-#include "ui/list_ctrl.h"
-
-
-class CEsmDlgHandler;
-
-
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "ui/dlg_array.h"
+#include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
 class CEsmCreaturePage1 : public CPropertyPage {
 	DECLARE_DYNCREATE(CEsmCreaturePage1);
 

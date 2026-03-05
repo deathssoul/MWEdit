@@ -10,11 +10,12 @@
 #ifndef __ESMSKILLDLG_H
 #define __ESMSKILLDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
 
+#include "game/morrowind/skill.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSkillDlg Definition

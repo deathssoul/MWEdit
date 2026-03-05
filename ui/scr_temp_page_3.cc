@@ -9,10 +9,20 @@
  *=========================================================================*/
 #include "ui/scr_temp_page_3.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
-#include "ui/scr_temp_view.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <commctrl.h>
+#include <windef.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/dl_err.h"
+#include "file/csv_file.h"
+#include "ui/Resource.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -22,8 +32,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmScrTempPage3, CPropertyPage);
 DEFINE_FILE("EsmScrTempPage2.cpp");
-
-
 /*===========================================================================
  *
  * Begin Class CEsmScrTempPage3 Message Map

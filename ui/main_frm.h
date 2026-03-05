@@ -10,6 +10,11 @@
 #ifndef __MainFrm_H
 #define __MainFrm_H
 
+#include <afx.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <windef.h>
+#include <winuser.h>
 
 /*===========================================================================
  *

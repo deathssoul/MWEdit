@@ -10,14 +10,15 @@
 #ifndef __ESMSCRIPTCOMPAREDLG_H
 #define __ESMSCRIPTCOMPAREDLG_H
 
+#include <afx.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <winnt.h>
 
-#include "ui/list_ctrl.h"
-#include "ui/mwedit_doc.h"
+#include <cstdarg>
 
-
-class CEsmDlgHandler;
-
-
+#include "ui/dlg_array.h"
+#include "ui/Resource.h"
 /*===========================================================================
  *
  * Begin CEsmScriptCompareDlg Definition
@@ -36,7 +37,7 @@ class CEsmScriptCompareDlg : public CFormView {
 
   public:
 	/* Add text to the log */
-	void AddLogText(const TCHAR *pString, va_list Args);
+	void AddLogText(const TCHAR *pString, std::va_list Args);
 
 	/* Clear the text */
 	void ClearText() {

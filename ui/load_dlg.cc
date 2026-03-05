@@ -9,9 +9,13 @@
  *=========================================================================*/
 #include "ui/load_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afxdd_.h>
+#include <afxwin.h>
+#include <windef.h>
+#include <winnt.h>
 
+#include "common/dl_base.h"
+#include "ui/Resource.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW

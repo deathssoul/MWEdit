@@ -9,20 +9,28 @@
  *=========================================================================*/
 #include "ui/edit_undo.h"
 
+#include <afxcmn.h>
+#include <atlstr.h>
+#include <tchar.h>
+#include <winnt.h>
+#include <winuser.h>
+
+#include <cctype>
+#include <cmath>
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
 #include "common/dl_str.h"
-#include "mwedit/std_afx.h"
 #include "windows/win_util.h"
 
-
 DEFINE_FILE("EditUndo.cpp");
-
-
 /*===========================================================================
  *
  * Class CEditUndo Constructor
  *
  *=========================================================================*/
-CEditUndo::CEditUndo () {
+CEditUndo::CEditUndo() {
 	//DEFINE_FUNCTION("CEditUndo::CEditUndo()");
 	m_pString = NULL;
 	m_Char = NULL_CHAR;
@@ -227,11 +235,11 @@ bool CEditUndoStack::GroupUndoInsertChar(CRichEditCtrl *pCtrl, CEditUndo *pUndo)
 			break;
 		}
 
-		if (!__iscsym(pUndo->GetChar())) {
+		if (!(/*__iscsym(pUndo->GetChar())*/std::isalnum(pUndo->GetChar()) || (pUndo->GetChar() == '_'))) {
 			break;
 		}
 
-		if (abs(pUndo->GetSelStart() - SelStart) >= 2) {
+		if (std::abs(pUndo->GetSelStart() - SelStart) >= 2) {
 			break;
 		}
 
@@ -292,7 +300,7 @@ bool CEditUndoStack::OnChar(CRichEditCtrl *pCtrl, const int CharCode) {
 				CreateDeleteString(Buffer, StartSel, EndSel);
 			}
 
-			CreateInsertChar((TCHAR) CharCode, StartSel, StartSel);
+			CreateInsertChar((TCHAR)CharCode, StartSel, StartSel);
 			return true;
 	}
 

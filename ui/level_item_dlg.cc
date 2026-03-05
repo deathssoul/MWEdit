@@ -9,9 +9,31 @@
  *=========================================================================*/
 #include "ui/level_item_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <commctrl.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
 
+#include <climits>
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/level_item.h"
+#include "game/morrowind/sub_name_fix.h"
+#include "game/morrowind/sub_short.h"
+#include "ui/list_ctrl.h"
+#include "ui/mwedit_doc.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -21,8 +43,6 @@
 
 DEFINE_FILE("EsmLevelItemDlg.cpp");
 IMPLEMENT_DYNCREATE(CEsmLevelItemDlg, CEsmRecDialog);
-
-
 /*===========================================================================
  *
  * Function - int CALLBACK l_LevItemSortCallBack (lParam1, lParam2, lParamSort);
@@ -190,7 +210,7 @@ void CEsmLevelItemDlg::GetControlData() {
 
 	/* Chance none */
 	m_ChanceNoneText.GetWindowText(Buffer);
-	Chance = atoi(Buffer);
+	Chance = std::atoi(Buffer);
 
 	if (Chance < 0) {
 		Chance = 0;
@@ -230,7 +250,7 @@ void CEsmLevelItemDlg::GetItemData() {
 
 	for (Index = 0; Index < m_ItemList.GetItemCount(); Index++) {
 		Buffer = m_ItemList.GetItemText(Index, 0);
-		Level = atoi(Buffer);
+		Level = std::atoi(Buffer);
 		Buffer = m_ItemList.GetItemText(Index, 1);
 
 		/* Create the new index sub-record */
@@ -268,7 +288,7 @@ int CEsmLevelItemDlg::GetSortCount(esmrecinfo_t *pRecInfo) {
 
 	/* Get the text and convert to a number value */
 	Buffer = m_ItemList.GetItemText(ListIndex, 0);
-	Count = atoi(Buffer);
+	Count = std::atoi(Buffer);
 
 	if (Count < 0) {
 		Count = 0;
@@ -289,7 +309,7 @@ void CEsmLevelItemDlg::OnEndlabeleditlist(NMHDR *pNMHDR, LRESULT *pResult) {
 	int Count;
 
 	if (pDispInfo->item.pszText != NULL) {
-		Count = atoi(pDispInfo->item.pszText);
+		Count = std::atoi(pDispInfo->item.pszText);
 
 		if (Count < SHRT_MIN) {
 			Count = SHRT_MIN;
@@ -406,7 +426,7 @@ LRESULT CEsmLevelItemDlg::OnRecordDrop(LPARAM lParam, LPARAM wParam) {
 		/* Add a new item to the list if the type is valid */
 		if (pRecInfo->pRecord->IsType(s_ValidTypes[Index])) {
 			ListIndex = m_ItemList.AddItem(pRecInfo);
-			m_ItemList.SetItemText(ListIndex, 0, _T("1")); /* Default 1 item */
+			m_ItemList.SetItemText(ListIndex, 0, _T("1"));  // Default 1 item
 			return 0;
 		}
 	}
@@ -434,7 +454,7 @@ LRESULT CEsmLevelItemDlg::OnRecordKey(LPARAM lParam, LPARAM wParam) {
 
 		while (ListIndex >= 0) {
 			Buffer = m_ItemList.GetItemText(ListIndex, 0);
-			Count = atoi(Buffer);
+			Count = std::atoi(Buffer);
 
 			if (Count < 0) {
 				Count = 0;

@@ -10,11 +10,13 @@
 #ifndef __ESMSOUNDGENDLG_H
 #define __ESMSOUNDGENDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
 
+#include "game/morrowind/file.h"
+#include "game/morrowind/sound_gen.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSoundGenDlg Definition

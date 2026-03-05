@@ -9,11 +9,25 @@
  *=========================================================================*/
 #include "ui/sound_gen_dlg.h"
 
-#include "mmsystem.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <mmsystem.h>
+#include <windef.h>
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <cstddef>
 
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sound.h"
+#include "game/morrowind/sound_gen.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -23,8 +37,6 @@
 
 DEFINE_FILE("EsmSoundGenDlg.cpp");
 IMPLEMENT_DYNCREATE(CEsmSoundGenDlg, CEsmRecDialog);
-
-
 /*===========================================================================
  *
  * Begin CEsmSoundGenDlg Message Map

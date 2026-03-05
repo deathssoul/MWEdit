@@ -10,10 +10,11 @@
 #ifndef __EDITUNDO_H
 #define __EDITUNDO_H
 
+#include <afxcmn.h>
+#include <winnt.h>
 
+#include "common/dl_base.h"
 #include "common/container/tem_array.h"
-#include "common/dl_err.h"
-
 
 /* Types of undo actions */
 #define EDITUNDO_NONE         0
@@ -25,8 +26,6 @@
 
 /* Default undo limit */
 #define EDITUNDO_DEFAULT_LIMIT 100
-
-
 /*===========================================================================
  *
  * Begin Class CEditUndo Definition
@@ -101,8 +100,6 @@ class CEditUndo {
 
 /* Array of undo actions */
 typedef TTemplateArray<CEditUndo> CEditUndoList;
-
-
 /*===========================================================================
  *
  * Begin Class CEditUndoStack Definition

@@ -9,9 +9,23 @@
  *=========================================================================*/
 #include "ui/journal_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
+
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/info.h"
+#include "game/morrowind/sub_byte.h"
+#include "game/morrowind/sub_info_data.h"
 #include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
 #include "ui/utils.h"
 #include "windows/win_util.h"
 
@@ -61,6 +75,7 @@ CEsmJournalDlg::CEsmJournalDlg(CWnd* pParent) : CDialog(CEsmJournalDlg::IDD, pPa
  *=========================================================================*/
 void CEsmJournalDlg::DoDataExchange(CDataExchange *pDX) {
 	CDialog::DoDataExchange(pDX);
+
 	//{{AFX_DATA_MAP(CEsmJournalDlg)
 	DDX_Control(pDX, IDC_DISPOSITIONTEXT, m_IndexText);
 	DDX_Control(pDX, IDC_RESTARTCHECK, m_RestartCheck);
@@ -132,7 +147,7 @@ void CEsmJournalDlg::GetControlData() {
 
 	/* Index */
 	m_IndexText.GetWindowText(Buffer);
-	pInfoData->Disposition = atoi(Buffer);
+	pInfoData->Disposition = std::atoi(Buffer);
 
 	/* Flags */
 	m_pInfo->DeleteSubRecords(MWESM_SUBREC_QSTF);

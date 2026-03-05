@@ -13,11 +13,36 @@
  *=========================================================================*/
 #include "ui/dialog_dlg.h"
 
-#include "mwedit/std_afx.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <atltypes.h>
+#include <commctrl.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
+
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/dl_log.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/dialogue.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/info.h"
+#include "game/morrowind/npc.h"
+#include "game/morrowind/record.h"
 #include "ui/info_dlg.h"
 #include "ui/journal_dlg.h"
-#include "ui/mwedit.h"
-
+#include "ui/list_ctrl.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -27,8 +52,6 @@
 
 DEFINE_FILE("EsmDialogDlg.cpp");
 IMPLEMENT_DYNCREATE(CEsmDialogDlg, CEsmRecDialog);
-
-
 /*===========================================================================
  *
  * Begin Item List Display Data Array
@@ -209,8 +232,8 @@ CEsmDialogDlg::~CEsmDialogDlg () {
  *
  *=========================================================================*/
 bool CEsmDialogDlg::CanCleanInfo(esmrecinfo_t *pRecInfo) {
-	CEsmInfo* pPrevInfo = (CEsmInfo *)pRecInfo->pRecord->GetPrevRecord();
-	CEsmInfo* pInfo = (CEsmInfo *)pRecInfo->pRecord;
+	CEsmInfo *pPrevInfo = (CEsmInfo *)pRecInfo->pRecord->GetPrevRecord();
+	CEsmInfo *pInfo = (CEsmInfo *)pRecInfo->pRecord;
 	esmrecinfo_t *pPrevRecInfo;
 	/* Try and find the previous record, if any */
 	pPrevRecInfo = GetDocument()->FindRecInfo(pPrevInfo);
@@ -243,7 +266,7 @@ bool CEsmDialogDlg::CanCleanInfo(esmrecinfo_t *pRecInfo) {
  *=========================================================================*/
 bool CEsmDialogDlg::CheckInfoLinks(esmrecinfo_t *pStartInfoRec,
                                    const bool FirstUpdate,
-                                   CEsmNpc* pFilterNpc) {
+                                   CEsmNpc *pFilterNpc) {
 	//DEFINE_FUNCTION("CEsmDialogDlg::CheckInfoLinks()");
 	esmrecinfo_t *pRecInfo;
 	esmrecinfo_t *pLastRecInfo = NULL;
@@ -693,9 +716,7 @@ void CEsmDialogDlg::GetControlData() {
 		m_pDialog->SetID(TrimStringSpace(Buffer));
 		/* Update all child INFOs */
 		CopyAllInfos(m_RecEditInfo.IsCopied);
-	}
-	/* Copy and rename all new INFOs */
-	else if (m_RecEditInfo.IsCopied) {
+	} else if (m_RecEditInfo.IsCopied) { /* Copy and rename all new INFOs */
 		CopyAllInfos(true);
 	}
 
@@ -771,7 +792,7 @@ bool CEsmDialogDlg::IsModified() {
  * Class CEsmDialogDlg Event - LRESULT OnEditRecord (lParam, wParam);
  *
  *=========================================================================*/
-LRESULT CEsmDialogDlg::OnEditRecord (LPARAM lParam, LPARAM wParam) {
+LRESULT CEsmDialogDlg::OnEditRecord(LPARAM lParam, LPARAM wParam) {
 	DEFINE_FUNCTION("CEsmDialogDlg::OnEditRecord()");
 	esmrecinfo_t *pRecInfo;
 
@@ -791,7 +812,7 @@ LRESULT CEsmDialogDlg::OnEditRecord (LPARAM lParam, LPARAM wParam) {
  * Class CEsmDialogDlg Event - LRESULT OnEditInfoRecord (lParam, wParam);
  *
  *=========================================================================*/
-LRESULT CEsmDialogDlg::OnEditInfoRecord (LPARAM lParam, LPARAM wParam) {
+LRESULT CEsmDialogDlg::OnEditInfoRecord(LPARAM lParam, LPARAM wParam) {
 	DEFINE_FUNCTION("CEsmDialogDlg::OnEditInfoRecord()");
 	esmrecinfo_t *pRecInfo = (esmrecinfo_t *)lParam;
 	esminfodata_t *pInfoData;
@@ -867,7 +888,7 @@ LRESULT CEsmDialogDlg::OnEditInfoRecord (LPARAM lParam, LPARAM wParam) {
 		}
 
 		/* Update the list data */
-		m_InfoList.SetItemData(ListIndex, (DWORD) pInfoData->pNewRecInfo);
+		m_InfoList.SetItemData(ListIndex, (DWORD)pInfoData->pNewRecInfo);
 		m_InfoList.SetItem(ListIndex, pInfoData->pNewRecInfo);
 	} else { /* Update an existing new info record in the list */
 		m_InfoList.SetItem(ListIndex, pRecInfo);
@@ -886,7 +907,7 @@ void CEsmDialogDlg::OnInitialUpdate() {
 	CEsmRecDialog::OnInitialUpdate();
 	UpdateTitle(NULL);
 	ResizeParentToFit();
-	SetScrollSizes(MM_TEXT, CSize(0, 0) );
+	SetScrollSizes(MM_TEXT, CSize(0, 0));
 
 	/* Initialize the list control */
 	m_InfoList.OnInitCtrl();
@@ -966,9 +987,7 @@ int CEsmDialogDlg::OnUpdateItem(esmrecinfo_t *pRecInfo) {
 	/* Update the filter list */
 
 	if (pRecInfo->pRecord->IsType(MWESM_REC_NPC_)) {
-	}
-	/* Update a dialogue info item */
-	else if (pRecInfo->pRecord->IsType(MWESM_REC_INFO)) {
+	} else if (pRecInfo->pRecord->IsType(MWESM_REC_INFO)) { /* Update a dialogue info item */
 		Index = m_InfoList.FindRecord(pRecInfo);
 
 		if (Index >= 0) {
@@ -1422,7 +1441,8 @@ void CEsmDialogDlg::OnEditClean() {
 	if (!CanCleanInfo(pRecInfo)) {
 		MessageBox(
 		    _T("This info record cannot be safely cleaned as it could\r\ndestroy the order of other info records."),
-		    _T("Clean Info Record"), MB_OK | MB_ICONWARNING);
+		    _T("Clean Info Record"),
+		    MB_OK | MB_ICONWARNING);
 		return;
 	}
 
@@ -1741,7 +1761,7 @@ void CEsmDialogDlg::OnSize(UINT nType, int cx, int cy) {
  *
  *=========================================================================*/
 void CEsmDialogDlg::RemoveInfo(esmrecinfo_t *pRecInfo) {
-	CEsmInfo* pInfo = (CEsmInfo *)pRecInfo->pRecord;
+	CEsmInfo *pInfo = (CEsmInfo *)pRecInfo->pRecord;
 	esmrecinfo_t *pNextRecInfo;
 	esmrecinfo_t *pPrevRecInfo;
 

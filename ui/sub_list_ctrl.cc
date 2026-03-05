@@ -9,10 +9,27 @@
  *=========================================================================*/
 #include "ui/sub_list_ctrl.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
-#include "ui/Resource.h"
+#include <afx.h>
+#include <afxcmn.h>
+#include <afxwin.h>
+#include <commctrl.h>
+#include <windef.h>
+#include <winuser.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/dl_log.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_cell_ref.h"
+#include "game/morrowind/sub_frmr.h"
+#include "game/morrowind/sub_name.h"
+#include "game/morrowind/sub_name_fix.h"
+#include "ui/list_ctrl.h"
+#include "ui/Resource.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -22,8 +39,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmSubListCtrl, CEsmListCtrl);
 DEFINE_FILE("EsmSubListCtrl.cpp");
-
-
 /*===========================================================================
  *
  * Begin Default List Sort Functions

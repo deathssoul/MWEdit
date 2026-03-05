@@ -9,9 +9,24 @@
  *=========================================================================*/
 #include "ui/probe_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
 
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/probe.h"
+#include "game/morrowind/sub_pbdt.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -21,8 +36,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmProbeDlg, CEsmRecDialog);
 DEFINE_FILE("EsmProbeDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmProbeDlg Message Map
@@ -108,19 +121,19 @@ void CEsmProbeDlg::GetControlData() {
 
 	/* Item uses */
 	m_UsesText.GetWindowText(Buffer);
-	pProbeData->Uses = atoi(Buffer);
+	pProbeData->Uses = std::atoi(Buffer);
 
 	/* Item quality */
 	m_QualityText.GetWindowText(Buffer);
-	pProbeData->Quality = (float)atof(Buffer);
+	pProbeData->Quality = (float)std::atof(Buffer);
 
 	/* Item weight */
 	m_WeightText.GetWindowText(Buffer);
-	pProbeData->Weight = (float)atof(Buffer);
+	pProbeData->Weight = (float)std::atof(Buffer);
 
 	/* Item value */
 	m_ValueText.GetWindowText(Buffer);
-	pProbeData->Value = atoi(Buffer);
+	pProbeData->Value = std::atoi(Buffer);
 
 	/* Item script */
 	m_ScriptList.GetWindowText(Buffer);

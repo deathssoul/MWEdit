@@ -9,11 +9,24 @@
  *=========================================================================*/
 #include "ui/sound_dlg.h"
 
-#include "mmsystem.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <mmsystem.h>
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <cstddef>
+#include <cstdlib>
 
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sound.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -23,8 +36,6 @@
 
 DEFINE_FILE("EsmSoundDlg.cpp");
 IMPLEMENT_DYNCREATE(CEsmSoundDlg, CEsmRecDialog);
-
-
 /*===========================================================================
  *
  * Begin CEsmSoundDlg Message Map
@@ -90,13 +101,13 @@ void CEsmSoundDlg::GetControlData() {
 
 	/* Sound volume */
 	m_VolumeText.GetWindowText(Buffer);
-	m_pSound->SetVolume((float)atof(Buffer));
+	m_pSound->SetVolume((float)std::atof(Buffer));
 
 	/* Range */
 	m_MinRangeText.GetWindowText(Buffer);
-	m_pSound->SetMinRange(atoi(Buffer));
+	m_pSound->SetMinRange(std::atoi(Buffer));
 	m_MaxRangeText.GetWindowText(Buffer);
-	m_pSound->SetMaxRange(atoi(Buffer));
+	m_pSound->SetMaxRange(std::atoi(Buffer));
 
 	/* Sound filename */
 	m_SoundButton.GetWindowText(Buffer);

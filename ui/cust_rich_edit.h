@@ -10,13 +10,18 @@
 #ifndef __CUSTRICHEDIT_H
 #define __CUSTRICHEDIT_H
 
+#include <afx.h>
 #include <afxcmn.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <atltypes.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
 
 /* Custom events */
 #define CRE_UPDATEPOS       0x8001
 #define CRE_UPDATESCROLL    0x8002
-
-
 /*===========================================================================
  *
  * Begin CCustRichEdit Class Definition

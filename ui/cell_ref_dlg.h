@@ -10,11 +10,15 @@
 #ifndef __ESMCELLREFDLG_H
 #define __ESMCELLREFDLG_H
 
-#include "common/container/ptr_array.h"
+#include <afx.h>
+#include <afxwin.h>
+#include <windef.h>
+
+#include <cstddef>
+
 #include "game/morrowind/cell.h"
 #include "game/morrowind/sub_cell_ref.h"
-
-
+#include "ui/Resource.h"
 /*===========================================================================
  *
  * Begin Class CEsmCellRefDlg Definition

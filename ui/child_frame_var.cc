@@ -9,9 +9,15 @@
  *=========================================================================*/
 #include "ui/child_frame_var.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxwin.h>
+#include <atltypes.h>
+#include <windef.h>
+#include <winuser.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -21,8 +27,6 @@
 
 IMPLEMENT_DYNCREATE(CChildFrameVar, CMDIChildWnd)
 DEFINE_FILE("ChildFrmVar.cpp");
-
-
 /*===========================================================================
  *
  * Class CChildFrameVar Message Map
@@ -66,7 +70,7 @@ BOOL CChildFrameVar::PreCreateWindow(CREATESTRUCT &cs) {
 	//cs.style &= ~WS_MAXIMIZEBOX;
 	cs.style &= ~WS_MAXIMIZE;
 
-	if ( !CMDIChildWnd::PreCreateWindow(cs) ) {
+	if (!CMDIChildWnd::PreCreateWindow(cs)) {
 		return FALSE;
 	}
 

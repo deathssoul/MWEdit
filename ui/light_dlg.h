@@ -10,12 +10,15 @@
 #ifndef __ESMLIGHTDLG_H
 #define __ESMLIGHTDLG_H
 
+#include <afx.h>
+#include <afxcmn.h>
+#include <afxwin.h>
 
+#include "game/morrowind/file.h"
+#include "game/morrowind/light.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
 #include "windows/color_static.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmLightDlg Definition

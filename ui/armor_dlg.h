@@ -10,11 +10,14 @@
 #ifndef __ESMARMORDLG_H
 #define __ESMARMORDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
 
+#include "game/morrowind/armor.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sub_byte.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmArmorDlg Definition

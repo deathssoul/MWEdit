@@ -9,13 +9,23 @@
  *=========================================================================*/
 #include "ui/icon_frame.h"
 
-#include "IL/il.h"
-#include "IL/ilut.h"
+#include <stdlib.h>  // Required for non-portable Windows extension _makepath()
 
+#include <afxwin.h>
+#include <atlstr.h>
+#include <atltypes.h>
+#include <windef.h>
+#include <wingdi.h>
+#include <winnt.h>
+
+#include <IL/il.h>
+#include <IL/ilut.h>
+
+#include <cstddef>
+
+#include "common/dl_base.h"
 #include "game/morrowind/defs.h"
-#include "mwedit/std_afx.h"
 #include "ui/utils.h"
-
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -24,8 +34,6 @@
 #endif
 
 DEFINE_FILE("EsmIconFrame.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmIconFrame Message Map
@@ -139,7 +147,7 @@ void CEsmIconFrame::SetEsmIcon(const TCHAR *pFilename, const bool RelativePath) 
 		TCHAR FileBuffer[_MAX_PATH + 1];
 		CString Path = GetMWDataPath();
 		Path += MWPATH_ICONS;
-		_makepath(FileBuffer, NULL, Path, pFilename, NULL);
+		_makepath(FileBuffer, NULL, Path, pFilename, NULL);  // TODO: Non-portable extension to stdlib.h
 		//_makepath(FileBuffer, NULL, "c:\\temp\\test\\", pFilename, NULL);
 		hBMP = ilutWinLoadImage(FileBuffer, pDC->GetSafeHdc());
 	} else {

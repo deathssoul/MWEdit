@@ -10,7 +10,11 @@
 #ifndef __ChildFrmVar_H
 #define __ChildFrmVar_H
 
-
+#include <afx.h>
+#include <afxwin.h>
+#include <atltypes.h>
+#include <windef.h>
+#include <winuser.h>
 /*===========================================================================
  *
  * Class CChildFrameVar Definition

@@ -10,11 +10,12 @@
 #ifndef __ESMSETTINGDLG_H
 #define __ESMSETTINGDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
 
+#include "game/morrowind/game_setting.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSettingDlg Definition

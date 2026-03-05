@@ -10,11 +10,16 @@
 #ifndef __ESMLEVELITEMDLG_H
 #define __ESMLEVELITEMDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
+#include <windef.h>
+#include <winuser.h>
+
+#include "game/morrowind/file.h"
+#include "game/morrowind/level_item.h"
 #include "ui/list_ctrl.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmLevelItemDlg Definition

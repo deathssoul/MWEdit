@@ -10,20 +10,25 @@
 #ifndef __ESMREFCELLPAGE_H
 #define __ESMREFCELLPAGE_H
 
+#include <afx.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <atltypes.h>
+#include <windef.h>
 
+#include "common/container/ptr_array.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sub_cell_ref.h"
+#include "ui/mwedit_doc.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
 #include "ui/sub_list_ctrl.h"
-#include "windows/color_static.h"
-
 
 /* Types of modified records */
 #define ESMCELLREF_MODTYPE_NEW    1
 #define ESMCELLREF_MODTYPE_DEL    2
 #define ESMCELLREF_MODTYPE_CLEAN  3
 #define ESMCELLREF_MODTYPE_MOD    4
-
-
-class CEsmRecDialog;
-class CMWEditDoc;
 
 /* Holds information on modified references */
 typedef struct {
@@ -34,8 +39,6 @@ typedef struct {
 } cellrefdata_t;
 
 typedef TPtrArray<cellrefdata_t> CEsmCellRefArray;
-
-
 /*===========================================================================
  *
  * Begin Class CEsmRefCellPage Definition

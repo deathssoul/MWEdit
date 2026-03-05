@@ -10,7 +10,13 @@
 #ifndef __ESMNPCDLG_H
 #define __ESMNPCDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
+#include <windef.h>
+#include <winuser.h>
 
+#include "game/morrowind/file.h"
+#include "game/morrowind/npc.h"
 #include "ui/npc_page_1.h"
 #include "ui/npc_page_2.h"
 #include "ui/npc_page_3.h"
@@ -19,8 +25,6 @@
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
 #include "windows/tab_ctrl_sheet.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmNpcDlg Definition

@@ -9,16 +9,28 @@
  *=========================================================================*/
 #include "ui/dlg_array.h"
 
-#include "mwedit/std_afx.h"
+#include <afx.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <winnt.h>
+
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/dl_err.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/dialogue.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
 #include "ui/activator_dlg.h"
 #include "ui/alchemy_dlg.h"
 #include "ui/apparatus_dlg.h"
 #include "ui/armor_dlg.h"
 #include "ui/birth_sign_dlg.h"
-#include "ui/book_dlg.h"
 #include "ui/body_part_dlg.h"
+#include "ui/book_dlg.h"
 #include "ui/cell_dlg.h"
-#include "ui/child_frame.h"
 #include "ui/child_frame_fix.h"
 #include "ui/child_frame_script.h"
 #include "ui/child_frame_var.h"
@@ -43,11 +55,13 @@
 #include "ui/npc_dlg.h"
 #include "ui/probe_dlg.h"
 #include "ui/race_dlg.h"
+#include "ui/rec_dialog.h"
 #include "ui/region_dlg.h"
 #include "ui/repair_dlg.h"
+#include "ui/Resource.h"
 #include "ui/scr_temp_view.h"
-#include "ui/script_compare_dlg.h"
 #include "ui/script_dlg.h"
+#include "ui/script_compare_dlg.h"
 #include "ui/setting_dlg.h"
 #include "ui/skill_dlg.h"
 #include "ui/sound_dlg.h"
@@ -57,12 +71,8 @@
 #include "ui/static_dlg.h"
 #include "ui/uses_dlg.h"
 #include "ui/weapon_dlg.h"
-//#include "mmsystem.h"
-
 
 DEFINE_FILE("EsmDlgArray.cpp");
-
-
 /*===========================================================================
  *
  * Begin Dialog Creation Array
@@ -533,7 +543,7 @@ CFrameWnd *CEsmDlgHandler::CreateDialogueDlg(esmrecinfo_t *pRecInfo) {
 	Context.m_pLastView = NULL;
 
 	/* Create the dialog parent frame */
-	pFrame = (CFrameWnd*)(RUNTIME_CLASS(CChildFrameVar)->CreateObject());
+	pFrame = (CFrameWnd *)(RUNTIME_CLASS(CChildFrameVar)->CreateObject());
 	ASSERT_KINDOF(CFrameWnd, pFrame);
 
 	/* Create formview new from resource depending on the dialog type */
@@ -570,7 +580,7 @@ CFrameWnd *CEsmDlgHandler::CreateESMDialog(esmdlgcreateinfo_t &CreateInfo) {
 
 	/* Create the dialog parent frame */
 	Context.m_pNewViewClass = CreateInfo.pViewClass;
-	pFrame = (CFrameWnd*)CreateInfo.pFrameClass->CreateObject();
+	pFrame = (CFrameWnd *)CreateInfo.pFrameClass->CreateObject();
 	ASSERT_KINDOF(CFrameWnd, pFrame);
 
 	/* Create form view new from resource */
@@ -948,7 +958,7 @@ void CEsmDlgHandler::OpenScrTempDlg() {
  *=========================================================================*/
 void CEsmDlgHandler::OpenUsesDlg(esmrecinfo_t *pRecInfo) {
 	CEsmUsesDlg *pUsesView;
-	CWnd* pWnd;
+	CWnd *pWnd;
 
 	/* Just active the existing uses window */
 

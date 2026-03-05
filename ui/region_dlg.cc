@@ -9,9 +9,32 @@
  *=========================================================================*/
 #include "ui/region_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxdlgs.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <commctrl.h>
+#include <windef.h>
+#include <wingdi.h>
+#include <winuser.h>
 
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/region.h"
+#include "game/morrowind/sub_snam.h"
+#include "game/morrowind/sub_weat.h"
+#include "ui/list_ctrl.h"
+#include "ui/mwedit_doc.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -21,8 +44,6 @@
 
 DEFINE_FILE("EsmRegionDlg.cpp");
 IMPLEMENT_DYNCREATE(CEsmRegionDlg, CEsmRecDialog);
-
-
 /*===========================================================================
  *
  * Begin Spell Column Data
@@ -183,29 +204,29 @@ void CEsmRegionDlg::GetControlData() {
 
 	/* Weather data */
 	m_ClearText.GetWindowText(Buffer);
-	pWeatherData->Clear = (atoi(Buffer) & 0xFF);
+	pWeatherData->Clear = (std::atoi(Buffer) & 0xFF);
 	m_CloudyText.GetWindowText(Buffer);
-	pWeatherData->Cloudy = (atoi(Buffer) & 0xFF);
+	pWeatherData->Cloudy = (std::atoi(Buffer) & 0xFF);
 	m_FoggyText.GetWindowText(Buffer);
-	pWeatherData->Foggy = (atoi(Buffer) & 0xFF);
+	pWeatherData->Foggy = (std::atoi(Buffer) & 0xFF);
 	m_OvercastText.GetWindowText(Buffer);
-	pWeatherData->Overcast = (atoi(Buffer) & 0xFF);
+	pWeatherData->Overcast = (std::atoi(Buffer) & 0xFF);
 	m_AshText.GetWindowText(Buffer);
-	pWeatherData->Ash = (atoi(Buffer) & 0xFF);
+	pWeatherData->Ash = (std::atoi(Buffer) & 0xFF);
 	m_BlightText.GetWindowText(Buffer);
-	pWeatherData->Blight = (atoi(Buffer) & 0xFF);
+	pWeatherData->Blight = (std::atoi(Buffer) & 0xFF);
 	m_RainText.GetWindowText(Buffer);
-	pWeatherData->Rain = (atoi(Buffer) & 0xFF);
+	pWeatherData->Rain = (std::atoi(Buffer) & 0xFF);
 	m_ThunderText.GetWindowText(Buffer);
-	pWeatherData->Thunder = (atoi(Buffer) & 0xFF);
+	pWeatherData->Thunder = (std::atoi(Buffer) & 0xFF);
 
 	/* Color */
 	m_RedText.GetWindowText(Buffer);
-	Red = atoi(Buffer);
+	Red = std::atoi(Buffer);
 	m_GreenText.GetWindowText(Buffer);
-	Green = atoi(Buffer);
+	Green = std::atoi(Buffer);
 	m_BlueText.GetWindowText(Buffer);
-	Blue = atoi(Buffer);
+	Blue = std::atoi(Buffer);
 	m_pRegion->SetColor(RGB(Red, Green, Blue));
 
 	/* Sounds */
@@ -217,7 +238,7 @@ void CEsmRegionDlg::GetControlData() {
 		Buffer = m_SoundList.GetItemText(Index, 2);
 		pSoundRec->SetName(Buffer);
 		Buffer = m_SoundList.GetItemText(Index, 0);
-		pSoundRec->SetChance(atoi(Buffer));
+		pSoundRec->SetChance(std::atoi(Buffer));
 	}
 }
 
@@ -274,7 +295,7 @@ void CEsmRegionDlg::OnChangeColor() {
 	}
 
 	m_RedText.GetWindowText(Buffer);
-	Red = atoi(Buffer);
+	Red = std::atoi(Buffer);
 
 	if (Red < 0) {
 		Red = 0;
@@ -285,7 +306,7 @@ void CEsmRegionDlg::OnChangeColor() {
 	}
 
 	m_GreenText.GetWindowText(Buffer);
-	Green = atoi(Buffer);
+	Green = std::atoi(Buffer);
 
 	if (Green < 0) {
 		Green = 0;
@@ -296,7 +317,7 @@ void CEsmRegionDlg::OnChangeColor() {
 	}
 
 	m_BlueText.GetWindowText(Buffer);
-	Blue = atoi(Buffer);
+	Blue = std::atoi(Buffer);
 
 	if (Blue < 0) {
 		Blue = 0;
@@ -323,7 +344,7 @@ void CEsmRegionDlg::OnColorbutton() {
 	int Green;
 	int Blue;
 	m_RedText.GetWindowText(Buffer);
-	Red = atoi(Buffer);
+	Red = std::atoi(Buffer);
 
 	if (Red < 0) {
 		Red = 0;
@@ -334,7 +355,7 @@ void CEsmRegionDlg::OnColorbutton() {
 	}
 
 	m_GreenText.GetWindowText(Buffer);
-	Green = atoi(Buffer);
+	Green = std::atoi(Buffer);
 
 	if (Green < 0) {
 		Green = 0;
@@ -345,7 +366,7 @@ void CEsmRegionDlg::OnColorbutton() {
 	}
 
 	m_BlueText.GetWindowText(Buffer);
-	Blue = atoi(Buffer);
+	Blue = std::atoi(Buffer);
 
 	if (Blue < 0) {
 		Blue = 0;
@@ -388,7 +409,7 @@ void CEsmRegionDlg::OnEndlabeleditItemlist(NMHDR *pNMHDR, LRESULT *pResult) {
 	int Count;
 
 	if (pDispInfo->item.pszText != NULL) {
-		Count = atoi(pDispInfo->item.pszText);
+		Count = std::atoi(pDispInfo->item.pszText);
 
 		if (Count < 0) {
 			Count = 0;
@@ -511,7 +532,7 @@ LRESULT CEsmRegionDlg::OnRecordKey(LPARAM lParam, LPARAM wParam) {
 
 		/* Redo the list priorities */
 
-		for (ListIndex = 0; ListIndex < m_SoundList.GetItemCount(); ListIndex++) {
+		for (ListIndex = 0; ListIndex < m_SoundList.GetItemCount(); ListIndex++) {  // TODO: What is this for? ListIndex isn't used again. If not needed, remove the loop as it uses up cycles
 		}
 
 		return 1;
@@ -524,7 +545,7 @@ LRESULT CEsmRegionDlg::OnRecordKey(LPARAM lParam, LPARAM wParam) {
 
 		while (ListIndex >= 0) {
 			Buffer = m_SoundList.GetItemText(ListIndex, 0);
-			Count = atoi(Buffer);
+			Count = std::atoi(Buffer);
 			Count += AddCount;
 
 			if (Count < 0) {
@@ -567,7 +588,7 @@ int CEsmRegionDlg::OnUpdateItem(esmrecinfo_t *pRecInfo) {
 		}
 
 		FillEsmCreatureCombo(m_CreatureList, true, true);
-		FindComboListItem(m_CreatureList, (DWORD) pRecInfo, true);
+		FindComboListItem(m_CreatureList, (DWORD)pRecInfo, true);
 	}
 
 	return 0;

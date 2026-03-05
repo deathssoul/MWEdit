@@ -10,10 +10,13 @@
 #ifndef __ESMCLASSDLG_H
 #define __ESMCLASSDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
+
+#include "game/morrowind/class.h"
+#include "game/morrowind/file.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmClassDlg Definition

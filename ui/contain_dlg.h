@@ -10,12 +10,16 @@
 #ifndef __ESMCONTAINDLG_H
 #define __ESMCONTAINDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
+#include <windef.h>
+#include <winuser.h>
 
+#include "game/morrowind/container.h"
+#include "game/morrowind/file.h"
 #include "ui/list_ctrl.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmContainDlg Definition

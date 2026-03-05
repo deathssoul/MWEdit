@@ -10,13 +10,18 @@
 #ifndef __ESMREGIONDLG_H
 #define __ESMREGIONDLG_H
 
+#include <afx.h>
+#include <afxcmn.h>
+#include <afxwin.h>
+#include <windef.h>
+#include <winuser.h>
 
+#include "game/morrowind/file.h"
+#include "game/morrowind/region.h"
 #include "ui/list_ctrl.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
 #include "windows/color_static.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmRegionDlg Definition

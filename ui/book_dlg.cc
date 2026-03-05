@@ -9,10 +9,24 @@
  *=========================================================================*/
 #include "ui/book_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
-#include "ui/dlg_array.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
 
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "game/morrowind/book.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -22,8 +36,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmBookDlg, CEsmRecDialog);
 DEFINE_FILE("EsmBookDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmBookDlg Message Map
@@ -117,15 +129,15 @@ void CEsmBookDlg::GetControlData() {
 
 	/* Object weight */
 	m_WeightText.GetWindowText(Buffer);
-	m_pBook->SetWeight((float)atof(Buffer));
+	m_pBook->SetWeight((float)std::atof(Buffer));
 
 	/* Object value */
 	m_ValueText.GetWindowText(Buffer);
-	m_pBook->SetValue(atoi(Buffer));
+	m_pBook->SetValue(std::atoi(Buffer));
 
 	/* Enchant points */
 	m_EnchantText.GetWindowText(Buffer);
-	m_pBook->SetEnchantPts(atoi(Buffer));
+	m_pBook->SetEnchantPts(std::atoi(Buffer));
 
 	/* Item script */
 	m_ScriptList.GetWindowText(Buffer);

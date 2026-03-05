@@ -10,11 +10,13 @@
 #ifndef __ESMDOORDLG_H
 #define __ESMDOORDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
 
+#include "game/morrowind/door.h"
+#include "game/morrowind/file.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmDoorDlg Definition

@@ -10,11 +10,16 @@
 #ifndef __ESMOPTIONSDLG_H
 #define __ESMOPTIONSDLG_H
 
+#include <afx.h>
+#include <afxwin.h>
+#include <windef.h>
+
+#include <cstddef>
 
 #include "mwedit/options.h"
+#include "mwedit/script_options.h"
+#include "ui/Resource.h"
 #include "windows/color_static.h"
-
-
 /*===========================================================================
 *
 * Begin Class CEsmOptionsDlg Definition

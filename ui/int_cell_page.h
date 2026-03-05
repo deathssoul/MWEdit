@@ -10,13 +10,17 @@
 #ifndef __ESMINTCELLPAGE_H
 #define __ESMINTCELLPAGE_H
 
+#include <afx.h>
+#include <afxcmn.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <windef.h>
+
 #include "game/morrowind/file.h"
+#include "ui/mwedit_doc.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
 #include "windows/color_static.h"
-
-
-class CEsmRecDialog;
-class CMWEditDoc;
-
 
 /*===========================================================================
  *

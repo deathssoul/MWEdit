@@ -10,14 +10,18 @@
 #ifndef __ESMFINDDLG_H
 #define __ESMFINDDLG_H
 
+#include <afx.h>
+#include <afxcmn.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atltypes.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
 
+#include "ui/dlg_array.h"
 #include "ui/list_ctrl.h"
-#include "ui/mwedit_doc.h"
-
-
-class CEsmDlgHandler;
-
-
+#include "ui/Resource.h"
 /*===========================================================================
  *
  * Begin Class CEsmFindDlg Definition

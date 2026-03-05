@@ -9,10 +9,27 @@
  *=========================================================================*/
 #include "ui/csv_import_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
-#include "ui/mwedit_doc.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <commctrl.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/dl_err.h"
+#include "common/string/sstring.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "file/csv_file.h"
+#include "mwedit/csv_defs.h"
+#include "ui/Resource.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -21,8 +38,6 @@
 #endif
 
 DEFINE_FILE("EsmCsvImportDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmCsvImportDlg Message Map
@@ -157,7 +172,7 @@ bool CEsmCsvImportDlg::CheckRow(const int RowIndex) {
 		}
 
 		/* Check for a valid type field value */
-		const TCHAR* pRecType = GetEsmCsvRecordType(*pString);
+		const TCHAR *pRecType = GetEsmCsvRecordType(*pString);
 
 		if (pRecType == NULL) {
 			ErrorHandler.AddError(ERR_BADINPUT,
@@ -254,7 +269,7 @@ bool CEsmCsvImportDlg::CreateRecord(CCsvRow *pRow) {
 	CSString *pString;
 	CSString *pHeaderString;
 	esmrecinfo_t *pRecInfo;
-	CCsvRow* pHeaderRow;
+	CCsvRow *pHeaderRow;
 	const TCHAR *pRecordType;
 	bool Result;
 	int ColIndex;
@@ -280,16 +295,12 @@ bool CEsmCsvImportDlg::CreateRecord(CCsvRow *pRow) {
 		if (pRecInfo == NULL) {
 			return false;
 		}
-	}
-	/* Existing record is incorrect type */
-	else if (!pRecInfo->pRecord->IsType(pRecordType)) {
+	} else if (!pRecInfo->pRecord->IsType(pRecordType)) { /* Existing record is incorrect type */
 		ErrorHandler.AddError(ERR_BADINPUT,
 		                      _T("The previous record '%s' is not the correct type (%s)!"),
 		                      *pIDCol, pRecInfo->pRecord->GetItemType());
 		return false;
-	}
-	/* Use an existing record */
-	else {
+	} else { /* Use an existing record */
 		pRecInfo = m_pDocument->CopyToActive(pRecInfo);
 
 		if (pRecInfo == NULL) {

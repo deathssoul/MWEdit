@@ -10,10 +10,20 @@
 #ifndef __MWEditView_H
 #define __MWEditView_H
 
+#include <afx.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atltypes.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
 
+#include "game/morrowind/dialogue.h"
+#include "game/morrowind/file.h"
 #include "ui/dlg_array.h"
 #include "ui/list_ctrl.h"
-
+#include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
 
 /* Object tab data */
 #define OBJECT_TAB_ACTIVATOR    1
@@ -80,8 +90,6 @@ typedef struct {
 	int DefaultSort;        /* Field id for the initial sort */
 	FILLVIEW_VIEWFUNC FillFunc;
 } esmtabinfo_t;
-
-
 /*===========================================================================
  *
  * Begin Class CMWEditView Definition
@@ -239,11 +247,9 @@ class CMWEditView : public CFormView {
 
 
 #ifndef _DEBUG
-
 inline CMWEditDoc *CMWEditView::GetDocument() {
 	return (CMWEditDoc *)m_pDocument;
 }
-
 #endif
 
 

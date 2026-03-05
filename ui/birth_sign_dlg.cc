@@ -9,9 +9,27 @@
  *=========================================================================*/
 #include "ui/birth_sign_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <commctrl.h>  // May not be needed but an internet search says LVCFMT_LEFT is defined there even though it's being used in a CListCtrl which is from afxcmn.h
+#include <windef.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morrowind/birth_sign.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sub_name_32.h"
+#include "ui/list_ctrl.h"
+#include "ui/mwedit_doc.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -21,8 +39,6 @@
 
 DEFINE_FILE("EsmBirthSignDlg.cpp");
 IMPLEMENT_DYNCREATE(CEsmBirthSignDlg, CEsmRecDialog);
-
-
 /*===========================================================================
  *
  * Begin Spell Column Data

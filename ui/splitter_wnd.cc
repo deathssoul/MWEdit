@@ -9,17 +9,24 @@
  *=========================================================================*/
 #include "ui/splitter_wnd.h"
 
+#include <afx.h>
+#include <afxext.h>
 #include <afxpriv.h>
+#include <afxwin.h>
+#include <atltypes.h>
+#include <windef.h>
+#include <winuser.h>
 
-#include "mwedit/std_afx.h"
+#include <climits>
+#include <cstddef>
 
+#include "common/dl_base.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
 	#undef THIS_FILE
 	static char THIS_FILE[] = __FILE__;
 #endif
-
 
 //static DWORD s_dwVersion;
 //static int   s_nWinVer;
@@ -29,8 +36,6 @@ static int s_cxBorder2;
 static int s_cyBorder2;
 static int CX_BORDER = 1;
 static int CY_BORDER = 1;
-
-
 /*===========================================================================
  *
  * Begin CMwSplitterWnd Message Map
@@ -68,7 +73,7 @@ AFX_STATIC void AFXAPI _AfxDeferClientPos(AFX_SIZEPARENTPARAMS *lpLayout,
 
 	CRect rect(x, y, x + cx, y + cy);
 	// adjust for border size (even if zero client size)
-	//if (!s_bWin4)
+	//if (!s_bWin4)  // TODO: Is this intentional? The following line wasn't commented out
 	{
 		if (bScrollBar) {
 			rect.InflateRect(CX_BORDER, CY_BORDER);
@@ -120,7 +125,7 @@ void l_ObLayoutRowCol(CSplitterWnd::CRowColInfo *pInfoArray,
 	// 480 == 480 x
 
 	if (nSize < 0) {
-		nSize = 0; // if really too small, layout as zero size
+		nSize = 0;  // if really too small, layout as zero size
 	}
 
 	// start with ideal sizes
@@ -132,7 +137,7 @@ void l_ObLayoutRowCol(CSplitterWnd::CRowColInfo *pInfoArray,
 		}
 
 		if (pInfo->nIdealSize < pInfo->nMinSize) {
-			pInfo->nIdealSize = 0; // too small to see
+			pInfo->nIdealSize = 0;  // too small to see
 		}
 
 		pInfo->nCurSize = pInfo->nIdealSize;
@@ -143,7 +148,7 @@ void l_ObLayoutRowCol(CSplitterWnd::CRowColInfo *pInfoArray,
 	}
 
 	TotalSize += pInfo->nCurSize;
-	pInfo->nCurSize = INT_MAX; // last row/column takes the rest
+	pInfo->nCurSize = INT_MAX;  // last row/column takes the rest
 
 	if (TotalSize < nSize && !bNoSize && nMax > 1) {
 		pInfoArray[0].nCurSize += nSize - TotalSize;
@@ -155,7 +160,7 @@ void l_ObLayoutRowCol(CSplitterWnd::CRowColInfo *pInfoArray,
 		if (nSize == 0) {
 			// no more room (set pane to be invisible)
 			pInfo->nCurSize = 0;
-			continue; // don't worry about splitters
+			continue;  // don't worry about splitters
 		} else if (nSize < pInfo->nMinSize && i != 0) {
 			// additional panes below the recommended minimum size
 			// aren't shown and the size goes to the previous pane
@@ -206,7 +211,7 @@ void l_ObLayoutRowCol(CSplitterWnd::CRowColInfo *pInfoArray,
 		}
 	}
 
-	ASSERT(nSize == 0); // all space should be allocated
+	ASSERT(nSize == 0);  // all space should be allocated
 }
 
 

@@ -9,12 +9,24 @@
  *=========================================================================*/
 #include "ui/creature_page_2.h"
 
-#include "common/dl_err.h"
-#include "mwedit/std_afx.h"
-#include "ui/dlg_array.h"
-#include "ui/mwedit.h"
-#include "ui/mwedit_doc.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <commctrl.h>
+#include <windef.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morrowind/creature.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sub_npcs.h"
+#include "ui/list_ctrl.h"
+#include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -24,8 +36,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmCreaturePage2, CPropertyPage);
 DEFINE_FILE("EsmCreaturePage2.cpp");
-
-
 /*===========================================================================
  *
  * Begin Spell List Column Data
@@ -203,6 +213,7 @@ CMWEditDoc *CEsmCreaturePage2::GetDocument() {
  *=========================================================================*/
 BOOL CEsmCreaturePage2::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
+
 	/* Spell List */
 	m_SpellList.OnInitCtrl();
 	m_SpellList.SetDlgHandler(m_pDlgHandler);
@@ -210,6 +221,7 @@ BOOL CEsmCreaturePage2::OnInitDialog() {
 	m_SpellList.SetAcceptDrag(true);
 	m_SpellList.SetWantKeys(true);
 	m_SpellList.InitObjectList(&l_SpellColData[0]);
+
 	return TRUE;
 }
 

@@ -9,9 +9,27 @@
  *=========================================================================*/
 #include "ui/enchant_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
 
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "common/dl_log.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/enchant.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sub_enam.h"
+#include "game/morrowind/sub_endt.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -21,8 +39,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmEnchantDlg, CEsmRecDialog);
 DEFINE_FILE("EsmEnchantDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmEnchantDlg Message Map
@@ -244,11 +260,11 @@ void CEsmEnchantDlg::GetControlData() {
 
 	/* Item cost */
 	m_CostText.GetWindowText(Buffer);
-	pEnchantData->EnchantCost = atoi(Buffer);
+	pEnchantData->EnchantCost = std::atoi(Buffer);
 
 	/* Item charge */
 	m_ChargeText.GetWindowText(Buffer);
-	pEnchantData->Charge = atoi(Buffer);
+	pEnchantData->Charge = std::atoi(Buffer);
 
 	/* Record flags */
 	pEnchantData->AutoCalc = (m_AutoCalcCheck.GetCheck() != 0);
@@ -283,7 +299,7 @@ void CEsmEnchantDlg::GetEffectData(const int EffectIndex) {
 
 	/* Set the enchant duration */
 	m_DurationText[EffectIndex].GetWindowText(Buffer);
-	pEnchantData->Duration = (short)(atoi(Buffer));
+	pEnchantData->Duration = (short)(std::atoi(Buffer));
 
 	if (pEnchantData->Duration < 0) {
 		pEnchantData->Duration = 0;
@@ -298,7 +314,7 @@ void CEsmEnchantDlg::GetEffectData(const int EffectIndex) {
 
 	/* Set the enchant area */
 	m_AreaText[EffectIndex].GetWindowText(Buffer);
-	pEnchantData->Area = (short)(atoi(Buffer));
+	pEnchantData->Area = (short)(std::atoi(Buffer));
 
 	if (pEnchantData->Area < 0) {
 		pEnchantData->Area = 0;
@@ -306,14 +322,14 @@ void CEsmEnchantDlg::GetEffectData(const int EffectIndex) {
 
 	/* Get the enchant magnitude */
 	m_Magnitude1Text[EffectIndex].GetWindowText(Buffer);
-	pEnchantData->MagMin = (short)(atoi(Buffer));
+	pEnchantData->MagMin = (short)(std::atoi(Buffer));
 
 	if (pEnchantData->MagMin < 0) {
 		pEnchantData->MagMin = 0;
 	}
 
 	m_Magnitude2Text[EffectIndex].GetWindowText(Buffer);
-	pEnchantData->MagMax = (short)(atoi(Buffer));
+	pEnchantData->MagMax = (short)(std::atoi(Buffer));
 
 	if (pEnchantData->MagMax < 0) {
 		pEnchantData->MagMax = 0;
@@ -754,13 +770,13 @@ void CEsmEnchantDlg::UpdateSpellCost(const int EffectIndex) {
 
 	if (m_pEffectInfo[EffectIndex] != NULL) {
 		m_Magnitude1Text[EffectIndex].GetWindowText(Buffer);
-		EffectData.MagMin = atoi(Buffer);
+		EffectData.MagMin = std::atoi(Buffer);
 		m_Magnitude2Text[EffectIndex].GetWindowText(Buffer);
-		EffectData.MagMax = atoi(Buffer);
+		EffectData.MagMax = std::atoi(Buffer);
 		m_DurationText[EffectIndex].GetWindowText(Buffer);
-		EffectData.Duration = atoi(Buffer);
+		EffectData.Duration = std::atoi(Buffer);
 		m_AreaText[EffectIndex].GetWindowText(Buffer);
-		EffectData.Area = atoi(Buffer);
+		EffectData.Area = std::atoi(Buffer);
 		Cost = ((CEsmMagicEffect *)m_pEffectInfo[EffectIndex]->pRecord)->GetEnchantCost(EffectData);
 		Buffer.Format(_T("%.2f"),
 		              ((CEsmMagicEffect *)m_pEffectInfo[EffectIndex]->pRecord)->GetBaseCost());
@@ -809,7 +825,7 @@ void CEsmEnchantDlg::UpdateTotalSpellCost() {
 	if (EnchantType != MWESM_ENCHTYPE_CONSTANT) {
 		for (Index = 0; Index < MWESM_ENCHANT_NUMENCHANTS; Index++) {
 			m_TotalCostText[Index].GetWindowText(Buffer);
-			SumValue += (float)atof(Buffer);
+			SumValue += (float)std::atof(Buffer);
 		}
 	}
 

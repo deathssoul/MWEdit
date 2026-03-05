@@ -7,24 +7,44 @@
  * Defines the class behaviors for the application.
  *
  *=========================================================================*/
-#include "IL/il.h"
-
-#include "common/dl_err.h"
-#include "common/dl_math.h"
-#include "mwedit/script_compile.h"
-#include "mwedit/std_afx.h"
-#include "ui/child_frame.h"
-#include "ui/child_frame_fix.h"
-#include "ui/child_frame_var.h"
-#include "ui/list_ctrl.h"
-#include "ui/main_frm.h"
 #include "ui/mwedit.h"
+
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxdisp.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <shlobj.h>
+#include <tchar.h>
+#include <windef.h>
+#include <wingdi.h>
+#include <winnt.h>
+
+#include <IL/il.h>
+
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "common/dl_err.h"
+#include "common/dl_log.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/file.h"
+#include "mwedit/reg_defs.h"
+#include "mwedit/script_compile.h"
+#include "mwedit/script_defs.h"
+#include "ui/child_frame.h"
+#include "ui/func_help_view.h"
+#include "ui/list_ctrl.h"
+#include "ui/load_dlg.h"
+#include "ui/main_frm.h"
 #include "ui/mwedit_doc.h"
 #include "ui/mwedit_view.h"
 #include "ui/open_plugin_dlg.h"
 #include "ui/Resource.h"
 #include "ui/utils.h"
-
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -37,8 +57,6 @@
 CMWEditApp theApp;
 
 DEFINE_FILE("MWEdit.cpp");
-
-
 /*===========================================================================
  *
  * Begin CMWEditApp Message Map
@@ -52,7 +70,6 @@ BEGIN_MESSAGE_MAP(CMWEditApp, CWinApp)
 	/* Standard file based document commands */
 	ON_COMMAND(ID_FILE_NEW, CWinApp::OnFileNew)
 	ON_COMMAND(ID_FILE_OPEN, CMWEditApp::OnFileOpen)
-
 END_MESSAGE_MAP()
 
 
@@ -326,7 +343,7 @@ BOOL CMWEditApp::InitInstance() {
 	CString path = "E:\\GitHub\\MWEdit\\project\\Debug\\MWEdit.ini";
 	//First free the string allocated by MFC at CWinApp startup
 	//The string is allocated before InitInstance is called..
-	free((void *)m_pszProfileName);
+	std::free((void *)m_pszProfileName);
 	//Change the name of the .INI file.
 	//The CWinApp destructor will free the memory.
 	m_pszProfileName = _tcsdup(_T(path));

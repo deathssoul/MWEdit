@@ -12,6 +12,10 @@
 
 #include <afxcmn.h>
 #include <afxwin.h>
+#include <windef.h>
+#include <winnt.h>
+
+#include <cstddef>
 
 #include "ui/Resource.h"
 

@@ -9,10 +9,31 @@
  *=========================================================================*/
 #include "ui/find_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/dlg_array.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <atltypes.h>
+#include <commctrl.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/info.h"
+#include "game/morrowind/sub_base.h"
+#include "ui/dlg_array.h"
+#include "ui/list_ctrl.h"
+#include "ui/mwedit.h"
+#include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -22,8 +43,6 @@
 
 DEFINE_FILE("EsmFindDlg.cpp");
 IMPLEMENT_DYNCREATE(CEsmFindDlg, CFormView)
-
-
 /*===========================================================================
  *
  * Begin Record List Display Data Array
@@ -292,7 +311,7 @@ LRESULT CEsmFindDlg::OnEditRecord(LPARAM lParam, LPARAM wParam) {
 
 		if (pNewRecInfo != NULL) {
 			m_pDlgHandler->EditRecord(pNewRecInfo);
-			CFrameWnd* pWnd = m_pDlgHandler->FindDialog(pNewRecInfo);
+			CFrameWnd *pWnd = m_pDlgHandler->FindDialog(pNewRecInfo);
 
 			if (pWnd != NULL) {
 				pWnd->SendMessageToDescendants(ESMDLG_MSG_ONINFOEDIT,

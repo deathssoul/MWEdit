@@ -9,9 +9,25 @@
  *=========================================================================*/
 #include "ui/repair_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
 
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/repair.h"
+#include "game/morrowind/sub_ridt.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -21,8 +37,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmRepairDlg, CEsmRecDialog);
 DEFINE_FILE("EsmRepairDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmRepairDlg Message Map
@@ -106,19 +120,19 @@ void CEsmRepairDlg::GetControlData() {
 
 	/* Item uses */
 	m_UsesText.GetWindowText(Buffer);
-	pRepairData->Uses = atoi(Buffer);
+	pRepairData->Uses = std::atoi(Buffer);
 
 	/* Item quality */
 	m_QualityText.GetWindowText(Buffer);
-	pRepairData->Quality = (float)atof(Buffer);
+	pRepairData->Quality = (float)std::atof(Buffer);
 
 	/* Item weight */
 	m_WeightText.GetWindowText(Buffer);
-	pRepairData->Weight = (float)atof(Buffer);
+	pRepairData->Weight = (float)std::atof(Buffer);
 
 	/* Item value */
 	m_ValueText.GetWindowText(Buffer);
-	pRepairData->Value = atoi(Buffer);
+	pRepairData->Value = std::atoi(Buffer);
 
 	/* Item script */
 	m_ScriptList.GetWindowText(Buffer);

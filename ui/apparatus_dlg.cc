@@ -9,9 +9,25 @@
  *=========================================================================*/
 #include "ui/apparatus_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
 
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "game/morrowind/apparatus.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sub_aadt.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -21,8 +37,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmApparatusDlg, CEsmRecDialog);
 DEFINE_FILE("EsmApparatusDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmApparatusDlg Message Map
@@ -111,15 +125,15 @@ void CEsmApparatusDlg::GetControlData() {
 
 	/* Item quality */
 	m_QualityText.GetWindowText(Buffer);
-	pAppaData->Quality = (float)atof(Buffer);
+	pAppaData->Quality = (float)std::atof(Buffer);
 
 	/* Item weight */
 	m_WeightText.GetWindowText(Buffer);
-	pAppaData->Weight = (float)atof(Buffer);
+	pAppaData->Weight = (float)std::atof(Buffer);
 
 	/* Item value */
 	m_ValueText.GetWindowText(Buffer);
-	pAppaData->Value = atoi(Buffer);
+	pAppaData->Value = std::atoi(Buffer);
 
 	/* Item script */
 	m_ScriptList.GetWindowText(Buffer);

@@ -15,11 +15,28 @@
  *=========================================================================*/
 #include "ui/ref_cell_page.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/cell_ref_dlg.h"
-#include "ui/mwedit.h"
-#include "ui/rec_dialog.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <atltypes.h>
+#include <commctl.h>
+#include <windef.h>
+#include <winuser.h>
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/cell.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sub_cell_ref.h"
+#include "ui/cell_ref_dlg.h"
+#include "ui/list_ctrl.h"
+#include "ui/mwedit_doc.h"
+#include "ui/Resource.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -29,8 +46,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmRefCellPage, CPropertyPage);
 DEFINE_FILE("EsmRefCellPage.cpp");
-
-
 /*===========================================================================
  *
  * Begin Item List Display Data Array
@@ -375,9 +390,7 @@ bool CEsmRefCellPage::DeleteCellRef(cellrefdata_t *pCellRefData) {
 	if (pCellRef != NULL) {
 		pCellRef->Copy(pCellRefData->pNewCellRef);
 		DestroyPointer(pCellRefData->pNewCellRef);
-	}
-	/* Create a new active cell reference sub-record */
-	else {
+	} else { /* Create a new active cell reference sub-record */
 		pCell->AddCellRef(pCellRefData->pNewCellRef);
 	}
 
@@ -563,9 +576,7 @@ bool CEsmRefCellPage::ModifyCellRef(cellrefdata_t *pCellRefData) {
 	if (pCellRef != NULL) {
 		pCellRef->Copy(pCellRefData->pNewCellRef);
 		DestroyPointer(pCellRefData->pNewCellRef);
-	}
-	/* Create a new active cell reference sub-record */
-	else {
+	} else { /* Create a new active cell reference sub-record */
 		pCell->AddCellRef(pCellRefData->pNewCellRef);
 	}
 

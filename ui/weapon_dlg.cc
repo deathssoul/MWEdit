@@ -9,10 +9,25 @@
  *=========================================================================*/
 #include "ui/weapon_dlg.h"
 
-#include "mwedit/std_afx.h"
-#include "ui/dlg_array.h"
-#include "ui/mwedit.h"
+#include <afx.h>
+#include <afxdd_.h>
+#include <afxext.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <windef.h>
 
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sub_wpdt.h"
+#include "game/morrowind/weapon.h"
+#include "ui/rec_dialog.h"
+#include "ui/Resource.h"
+#include "ui/utils.h"
+#include "windows/win_util.h"
 
 #if _DEBUG
 	#define new DEBUG_NEW
@@ -22,8 +37,6 @@
 
 IMPLEMENT_DYNCREATE(CEsmWeaponDlg, CEsmRecDialog);
 DEFINE_FILE("EsmWeaponDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmWeaponDlg Message Map
@@ -133,27 +146,27 @@ void CEsmWeaponDlg::GetControlData() {
 
 	/* Weapon speed */
 	m_SpeedText.GetWindowText(Buffer);
-	pWeaponData->Speed = (float)atof(Buffer);
+	pWeaponData->Speed = (float)std::atof(Buffer);
 
 	/* Weapon reach */
 	m_ReachText.GetWindowText(Buffer);
-	pWeaponData->Reach = (float)atof(Buffer);
+	pWeaponData->Reach = (float)std::atof(Buffer);
 
 	/* Weapon health */
 	m_HealthText.GetWindowText(Buffer);
-	pWeaponData->Health = (short)atoi(Buffer);
+	pWeaponData->Health = (short)std::atoi(Buffer);
 
 	/* Weapon weight */
 	m_WeightText.GetWindowText(Buffer);
-	pWeaponData->Weight = (float)atof(Buffer);
+	pWeaponData->Weight = (float)std::atof(Buffer);
 
 	/* Weapon value */
 	m_ValueText.GetWindowText(Buffer);
-	pWeaponData->Value = atoi(Buffer);
+	pWeaponData->Value = std::atoi(Buffer);
 
 	/* Enchant points */
 	m_EnchantText.GetWindowText(Buffer);
-	pWeaponData->EnchantPts = atoi(Buffer);
+	pWeaponData->EnchantPts = std::atoi(Buffer);
 
 	/* Item script */
 	m_ScriptList.GetWindowText(Buffer);
@@ -184,17 +197,17 @@ void CEsmWeaponDlg::GetControlData() {
 
 	/* Damage */
 	m_ChopMinText.GetWindowText(Buffer);
-	pWeaponData->ChopMin = (byte)atoi(Buffer);
+	pWeaponData->ChopMin = (byte)std::atoi(Buffer);
 	m_ChopMaxText.GetWindowText(Buffer);
-	pWeaponData->ChopMax = (byte)atoi(Buffer);
+	pWeaponData->ChopMax = (byte)std::atoi(Buffer);
 	m_SlashMinText.GetWindowText(Buffer);
-	pWeaponData->SlashMin = (byte)atoi(Buffer);
+	pWeaponData->SlashMin = (byte)std::atoi(Buffer);
 	m_SlashMaxText.GetWindowText(Buffer);
-	pWeaponData->SlashMax = (byte)atoi(Buffer);
+	pWeaponData->SlashMax = (byte)std::atoi(Buffer);
 	m_ThrustMinText.GetWindowText(Buffer);
-	pWeaponData->ThrustMin = (byte)atoi(Buffer);
+	pWeaponData->ThrustMin = (byte)std::atoi(Buffer);
 	m_ThrustMaxText.GetWindowText(Buffer);
-	pWeaponData->ThrustMax = (byte)atoi(Buffer);
+	pWeaponData->ThrustMax = (byte)std::atoi(Buffer);
 
 	/* Record flags */
 	m_pWeapon->SetPersist(m_PersistCheck.GetCheck() != 0);
