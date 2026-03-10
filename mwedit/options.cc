@@ -9,14 +9,19 @@
  *=========================================================================*/
 #include "mwedit/options.h"
 
+#include <afx.h>
+#include <afxwin.h>
+#include <atlstr.h>
+
+#include <cstddef>
+
+#include "common/dl_base.h"
 #include "common/dl_file.h"
-#include "mwedit/std_afx.h"
+#include "mwedit/options_def.h"
+#include "mwedit/reg_defs.h"
 #include "ui/utils.h"
 
-
 DEFINE_FILE("EsmOptions.cpp");
-
-
 /*===========================================================================
  *
  * Class CEsmOptions Constructor
@@ -108,41 +113,41 @@ bool CEsmOptions::ReadFromRegistry() {
 		SetMWDataPath(Buffer);
 	}
 
-	m_BackupSaves = (pApp->GetProfileInt(ESMSCR_REGSEC_SCRIPT,
-	                                     ESMSCR_REGENTRY_BACKUPSAVES,
-	                                     m_BackupSaves) != 0);
-	m_AllowExtFuncs = (pApp->GetProfileInt(ESMSCR_REGSEC_SCRIPT,
-	                                       ESMSCR_REGENTRY_ALLOWEXTFUNCS,
-	                                       m_AllowExtFuncs) != 0);
-	m_StrictIDs = (pApp->GetProfileInt(ESMSCR_REGSEC_SCRIPT,
-	                                   ESMSCR_REGENTRY_STRICTIDS,
-	                                   m_StrictIDs) != 0);
-	m_AllowBloodmoon = (pApp->GetProfileInt(ESMSCR_REGSEC_SCRIPT,
-	                                        ESMSCR_REGENTRY_ALLOWBLOODMOON,
-	                                        m_AllowBloodmoon) != 0);
-	m_AllowTribunal = (pApp->GetProfileInt(ESMSCR_REGSEC_SCRIPT,
-	                                       ESMSCR_REGENTRY_ALLOWTRIBUNAL,
-	                                       m_AllowTribunal) != 0);
+	m_BackupSaves = pApp->GetProfileInt(ESMSCR_REGSEC_SCRIPT,
+	                                    ESMSCR_REGENTRY_BACKUPSAVES,
+	                                    m_BackupSaves) != 0;
+	m_AllowExtFuncs = pApp->GetProfileInt(ESMSCR_REGSEC_SCRIPT,
+	                                      ESMSCR_REGENTRY_ALLOWEXTFUNCS,
+	                                      m_AllowExtFuncs) != 0;
+	m_StrictIDs = pApp->GetProfileInt(ESMSCR_REGSEC_SCRIPT,
+	                                  ESMSCR_REGENTRY_STRICTIDS,
+	                                  m_StrictIDs) != 0;
+	m_AllowBloodmoon = pApp->GetProfileInt(ESMSCR_REGSEC_SCRIPT,
+	                                       ESMSCR_REGENTRY_ALLOWBLOODMOON,
+	                                       m_AllowBloodmoon) != 0;
+	m_AllowTribunal = pApp->GetProfileInt(ESMSCR_REGSEC_SCRIPT,
+	                                      ESMSCR_REGENTRY_ALLOWTRIBUNAL,
+	                                      m_AllowTribunal) != 0;
 
 	/* Script options */
 	m_ScriptWarnLevel = pApp->GetProfileInt(ESMSCR_REGSEC_SCRIPT,
 	                                        ESMSCR_REGENTRY_WARNLEVEL,
 	                                        m_ScriptWarnLevel);
-	m_NoScriptFormat = (pApp->GetProfileInt(ESMSCR_REGSEC_SCRIPT,
-	                                        ESMSCR_REGENTRY_NOSCRFORMAT,
-	                                        m_NoScriptFormat) != 0);
-	m_UseExtraFile = (pApp->GetProfileInt(ESMSCR_REGSEC_SCRIPT,
-	                                      ESMSCR_REGENTRY_USEEXTRAFILE,
-	                                      m_UseExtraFile) != 0);
-	m_NoScriptPrompt = (pApp->GetProfileInt(ESMSCR_REGSEC_SCRIPT,
-	                                        ESMSCR_REGENTRY_NOSCRPROMPT,
-	                                        m_NoScriptPrompt) != 0);
-	m_InitialIndentLevel = (pApp->GetProfileInt(ESMSCR_REGSEC_SCRIPT,
-	                                            ESMSCR_REGENTRY_INITIALINDENTLEVEL,
-	                                            m_InitialIndentLevel) != 0);
-	m_IndentCommentsMore = (pApp->GetProfileInt(ESMSCR_REGSEC_SCRIPT,
-	                                            ESMSCR_REGENTRY_INDENTCOMMENTSMORE,
-	                                            m_IndentCommentsMore) != 0);
+	m_NoScriptFormat = pApp->GetProfileInt(ESMSCR_REGSEC_SCRIPT,
+	                                       ESMSCR_REGENTRY_NOSCRFORMAT,
+	                                       m_NoScriptFormat) != 0;
+	m_UseExtraFile = pApp->GetProfileInt(ESMSCR_REGSEC_SCRIPT,
+	                                     ESMSCR_REGENTRY_USEEXTRAFILE,
+	                                     m_UseExtraFile) != 0;
+	m_NoScriptPrompt = pApp->GetProfileInt(ESMSCR_REGSEC_SCRIPT,
+	                                       ESMSCR_REGENTRY_NOSCRPROMPT,
+	                                       m_NoScriptPrompt) != 0;
+	m_InitialIndentLevel = pApp->GetProfileInt(ESMSCR_REGSEC_SCRIPT,
+	                                           ESMSCR_REGENTRY_INITIALINDENTLEVEL,
+	                                           m_InitialIndentLevel) != 0;
+	m_IndentCommentsMore = pApp->GetProfileInt(ESMSCR_REGSEC_SCRIPT,
+	                                           ESMSCR_REGENTRY_INDENTCOMMENTSMORE,
+	                                           m_IndentCommentsMore) != 0;
 	m_ScriptFormatType = pApp->GetProfileInt(ESMSCR_REGSEC_SCRIPT,
 	                                         ESMSCR_REGENTRY_SCRFORMAT,
 	                                         m_ScriptFormatType);

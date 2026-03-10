@@ -9,14 +9,19 @@
  *=========================================================================*/
 #include "mwedit/mw_common.h"
 
-#include "common/dl_file.h"
-#include "mwedit/std_afx.h"
-#include "windows/win_util.h"
+#include <stdlib.h>  // Required for non-standarad extension _MAX_PATH
 
+#include <windef.h>
+#include <winerror.h>
+#include <winnt.h>
+#include <winreg.h>
+
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/dl_file.h"
 
 DEFINE_FILE("MWCommon.cpp");
-
-
 /*===========================================================================
  *
  * Function - const TCHAR* GetMWInstallPath (void);

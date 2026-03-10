@@ -10,12 +10,14 @@
 #ifndef __ESMSCRIPTDEFS_H
 #define __ESMSCRIPTDEFS_H
 
+#include <winnt.h>
+#include <winuser.h>
+
+#include <cstdint>
+
+#include "common/dl_base.h"
 
 //#define MWEDIT_SCRIPT_MWSE
-
-
-#include "common/dl_err.h"
-
 
 /* Number of script word types */
 #define MWESM_SCRIPT_NUMRESERVED      16
@@ -145,7 +147,6 @@
 #define MSG_SCRIPTFRM_GOTOLINE       (WM_USER + 1073)
 #define MSG_SCRIPTFRM_VIEWERROR      (WM_USER + 1074)
 
-
 //#if MWEDIT_SCRIPT_MWSE
 #define MWESM_OPCODE_COPYFROMSTACK        0x3807
 #define MWESM_OPCODE_JUMP                 0x3809
@@ -169,14 +170,13 @@
 #define MWESM_OPCODE_SUB                  0x3821
 //#endif
 
-
 /* Holds information about a script function */
 typedef struct {
 	TCHAR Name[MWESM_SCRIPT_FUNCNAMESIZE + 1]; /* Function name (not case sensitive) */
 	short OpCode;                              /* Output function code */
 	dword Flags;                               /* Basic flags */
 	dword Return;                              /* Return variable type */
-	__int64 Var[MWESM_SCRIPT_MAXARGS];         /* Variable types/flags */
+	std::int64_t Var[MWESM_SCRIPT_MAXARGS];    /* Variable types/flags */
 } esmscrfuncinfo_t;
 
 

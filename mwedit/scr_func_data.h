@@ -10,18 +10,19 @@
 #ifndef __ESMSCRFUNCDATA_H
 #define __ESMSCRFUNCDATA_H
 
+#include <string.h>  // TODO: Required for non-standard extension _stricmp()
 
-#include "common/dl_err.h"
+#include <winnt.h>
+
+#include "common/dl_base.h"
+#include "common/dl_str.h"
 #include "common/file/gen_file.h"
 #include "common/string/sstring.h"
 #include "mwedit/script_defs.h"
 
-
 /* Max string lengths */
 #define ESM_SFDATA_NAMESIZE   31
 #define ESM_SFDATA_LINELENGTH 255
-
-
 /*===========================================================================
  *
  * Begin Class CEsmScrFuncData Definition

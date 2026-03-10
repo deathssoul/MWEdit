@@ -14,6 +14,8 @@
 #include <richedit.h>
 #include <windef.h>
 
+#include <cstddef>
+
 /* Format type indices */
 #define ESMSCRIPT_FORMAT_DEFAULT    0
 #define ESMSCRIPT_FORMAT_SYMBOL     1
@@ -27,8 +29,6 @@
 #define ESMSCRIPT_FORMAT_ERROR      9
 #define ESMSCRIPT_FORMAT_MAX        9
 #define ESMSCRIPT_NUMFORMATS        10
-
-
 /*===========================================================================
  *
  * Begin Class CEsmScriptOptions Definition

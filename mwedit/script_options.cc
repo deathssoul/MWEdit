@@ -9,14 +9,20 @@
  *=========================================================================*/
 #include "mwedit/script_options.h"
 
-#include "mwedit/options.h"
-#include "mwedit/std_afx.h"
+#include <afx.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <richedit.h>
+#include <windef.h>
+#include <wingdi.h>
+
+#include <cstring>
+
+#include "common/dl_base.h"
+#include "mwedit/reg_defs.h"
 #include "windows/win_util.h"
 
-
 DEFINE_FILE("EsmScriptOptions.cpp");
-
-
 /*===========================================================================
  *
  * Class CEsmScriptOptions Constructor
@@ -165,7 +171,7 @@ bool CEsmScriptOptions::ReadRegCharFormat() {
 		Result = pApp->GetProfileBinary(ESMSCR_REGSEC_SCRIPT, RegName, &pData, &Size);
 
 		if (Result) {
-			memcpy(&m_Formats[Index], pData, sizeof(CHARFORMAT2));
+			std::memcpy(&m_Formats[Index], pData, sizeof(CHARFORMAT2));
 			delete[] pData;
 		}
 	}
@@ -305,6 +311,6 @@ const CEsmScriptOptions &CEsmScriptOptions::operator= (CEsmScriptOptions &Option
 	/* Copy the rest of the class members */
 	m_BackgroundColor = Options.m_BackgroundColor;
 	m_NoToolTips = Options.m_NoToolTips;
-	memcpy(&m_Formats[0], &Options.m_Formats[0], sizeof(m_Formats[0]) * ESMSCRIPT_NUMFORMATS);
+	std::memcpy(&m_Formats[0], &Options.m_Formats[0], sizeof(m_Formats[0]) * ESMSCRIPT_NUMFORMATS);
 	return *this;
 }

@@ -9,15 +9,22 @@
  *=========================================================================*/
 #include "mwedit/win_utils.h"
 
-#include "mwedit/std_afx.h"
-#include "windows/win_util.h"
+//#include <stdlib.h>  // TODO: Required for non-standard extension _MAX_PATH
 
+//#include <atlstr.h>
+//#include <windef.h>
+//#include <winerror.h>
+//#include <winnt.h>
+//#include <winreg.h>
+
+//#include <cstddef>
+
+#include "common/dl_base.h"
+//#include "windows/win_util.h"
 
 DEFINE_FILE("EsmWinUtils.cpp");
 
 //CString l_MWDataPath = _T(""); /* Absolute path to the Morrowind data files */
-
-
 /*===========================================================================
  *
  * Function - void FindMWRegistryPath (void);

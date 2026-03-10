@@ -8,21 +8,23 @@
  * non-standard script extenions.
  *
  *=========================================================================*/
-//#include <stdafx.h>
-#include <ctype.h>
+#include <tchar.h>
+#include <winnt.h>
 
-#include "game/morrowind/global.h"
+#include <cstddef>
+#include <cstdlib>
+#include <cstring>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
 #include "mwedit/script_compile.h"
-#include "mwedit/std_afx.h"
-#include "ui/glob_options.h"
-#include "ui/mwedit_doc.h"
-
+#include "mwedit/script_defs.h"
+#include "mwedit/script_error.h"
 
 DEFINE_FILE("EsmScriptCompileEx.cpp");
 
-
 //#if MWEDIT_SCRIPT_MWSE
-
 /*===========================================================================
  *
  * Class CEsmScriptCompile Method - int ParseFuncArgX (void);
@@ -67,7 +69,7 @@ int CEsmScriptCompile::PushFuncOp() {
 
 int CEsmScriptCompile::OutputFuncOp() {
 	DEFINE_FUNCTION("CEsmScriptCompile::OutputFuncOp()");
-	WriteFuncOp((const TCHAR*)m_LastToken);
+	WriteFuncOp((const TCHAR *)m_LastToken);
 	return 0;
 }
 
@@ -310,9 +312,9 @@ int CEsmScriptCompile::OutputFuncXArgNum(int type, const TCHAR *token) {
 	pushcmd.pushcode = MWESM_OPCODE_PUSH;
 
 	if (type & ESMSCR_FUNC_FLOAT) {
-		pushcmd.value.fval = (float)atof(token);
+		pushcmd.value.fval = (float)std::atof(token);
 	} else {
-		pushcmd.value.lval = atol(token);
+		pushcmd.value.lval = std::atol(token);
 	}
 
 	AddScriptData(&pushcmd, sizeof(pushcmd));
@@ -326,14 +328,14 @@ int CEsmScriptCompile::PushFuncXArgString() {
 }
 
 char *CEsmScriptCompile::OutputFuncXArgStringCat(char *buf, const void *newdata, int newdatalen) {
-	memcpy(buf, newdata, newdatalen);
+	std::memcpy(buf, newdata, newdatalen);
 	return buf + newdatalen;
 }
 
 int CEsmScriptCompile::OutputFuncXArgString(const TCHAR *token) {
 	short opcode = MWESM_OPCODE_PUSHS;
 	// TODO checks
-	char StringLen = static_cast<char>(strlen(token));
+	char StringLen = static_cast<char>(std::strlen(token));
 	char BStringLen = StringLen % 2 ? StringLen : StringLen + 1;
 	short script_pos = m_ScriptDataSize + 8;
 	char *pushstring = new char[BStringLen + 10];
@@ -347,13 +349,13 @@ int CEsmScriptCompile::OutputFuncXArgString(const TCHAR *token) {
 	current = OutputFuncXArgStringCat(current, &StringLen, sizeof(StringLen));
 	current = OutputFuncXArgStringCat(current, token, StringLen);
 
-	if (BStringLen > StringLen) { //TODO: use a messagebox so fixupscript still works
+	if (BStringLen > StringLen) {  // TODO: use a messagebox so fixupscript still works
 		char padding = 0;
 		current = OutputFuncXArgStringCat(current, &padding, sizeof(padding));
 	}
 
 	AddScriptData(pushstring, current - pushstring);
-	delete[]pushstring;
+	delete[] pushstring;
 	return 0;
 }
 

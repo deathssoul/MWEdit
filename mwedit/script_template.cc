@@ -9,10 +9,22 @@
  *=========================================================================*/
 #include "mwedit/script_template.h"
 
+#include <string.h>  // TODO: Required for non-standard extension _stricmp()
+
+#include <winnt.h>
+
+#include <cstddef>
+#include <cstring>
+
+#include "common/dl_base.h"
+#include "common/dl_err.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "common/file/gen_file.h"
+#include "common/string/sstring.h"
+#include "file/csv_file.h"
 
 DEFINE_FILE("ScriptTemplate.cpp");
-
-
 /*===========================================================================
  *
  * Class CEsmScriptTemplate Constructor
@@ -188,7 +200,7 @@ bool CEsmScriptTemplate::ConvertText(TCHAR *pOutBuffer, const int BufferSize, CC
 		if (EndVar) {
 			CurrentVar.Copy(pLastVarStart + 1, (int)(pParse - pLastVarStart - 1));
 			/* Get the variable value */
-			pCsvString = GetCsvString (CurrentVar, pRow);
+			pCsvString = GetCsvString(CurrentVar, pRow);
 
 			if (pCsvString == NULL) {
 				return false;
@@ -205,13 +217,13 @@ bool CEsmScriptTemplate::ConvertText(TCHAR *pOutBuffer, const int BufferSize, CC
 			}
 
 			/* Shift the right-hand portion of the string */
-			memmove((pParse + (1 + LengthDiff) * sizeof(TCHAR)),
-			        (void *)(pParse + sizeof(TCHAR)),
-			        (OutSize - Index) * sizeof(TCHAR));
+			std::memmove((pParse + (1 + LengthDiff) * sizeof(TCHAR)),
+			             (void *)(pParse + sizeof(TCHAR)),
+			             (OutSize - Index) * sizeof(TCHAR));
 			/* Copy in the new variable value */
-			memcpy((void *)pLastVarStart,
-			       (const TCHAR *)*pCsvString,
-			       pCsvString->GetLength() * sizeof(TCHAR));
+			std::memcpy((void *)pLastVarStart,
+			            (const TCHAR *)*pCsvString,
+			            pCsvString->GetLength() * sizeof(TCHAR));
 			pParse += LengthDiff;
 			Index += LengthDiff;
 			OutSize += LengthDiff;
@@ -327,7 +339,7 @@ bool CEsmScriptTemplate::Load(const TCHAR *pFilename) {
 	m_Filename = pFilename;
 	/* Read the text all at once */
 	m_TemplateText.SetSize(FileSize);
-	Result = File.Read((TCHAR *)(const TCHAR *)m_TemplateText, FileSize);
+	Result = File.Read((TCHAR *)(const TCHAR *)m_TemplateText, FileSize);  // TODO: Investigate double casting
 
 	if (!Result) {
 		return false;

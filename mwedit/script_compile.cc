@@ -27,22 +27,39 @@
 //#include <stdafx.h>
 #include "mwedit/script_compile.h"
 
-#include <ctype.h>
+#include <string.h>  // TODO: Required for non-standard extension _stricmp()
 
+#include <winnt.h>
+
+#include <cctype>
+#include <cstdarg>
+#include <cstddef>
+#include <cstdint>
+#include <cstdlib>
+#include <cstring>
+
+#include "common/dl_base.h"
+#include "common/dl_err.h"
+#include "common/dl_log.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "common/string/sstring.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/dialogue.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/global.h"
-//#include "mwedit/options.h"
-#include "mwedit/std_afx.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/script.h"
+#include "game/morrowind/sub_name_fix.h"
+#include "mwedit/script_defs.h"
+#include "mwedit/script_error.h"
 #include "ui/glob_options.h"
-#include "ui/mwedit_doc.h"
-
 
 DEFINE_FILE("EsmScriptCompile.cpp");
 
 /* Static class members */
 CEsmFile CEsmScriptCompile::m_ExtraFile;
 CEsmRecordRefMap CEsmScriptCompile::m_ExtraRecords;
-
-
 /*===========================================================================
  *
  * Begin Parsing Tables
@@ -2278,12 +2295,12 @@ bool CEsmScriptCompile::AddLocalVar(const TCHAR *pName, const int Type) {
 void CEsmScriptCompile::AddError(const TCHAR *pString, ...) {
 	TCHAR UserMsg[256];
 	TCHAR ErrorString[512];
-	va_list Args;
+	std::va_list Args;
 
 	/* Create the input message */
-	va_start(Args, pString);
+	std::va_start(Args, pString);
 	vsnprintf(UserMsg, 255, pString, Args);
-	va_end(Args);
+	std::va_end(Args);
 
 	/* Create the expanded error message */
 	snprintf(ErrorString,
@@ -2313,7 +2330,7 @@ bool CEsmScriptCompile::AddScriptData(const void *pData, const int Size) {
 		return false;
 	}
 
-	memcpy(m_ScriptData + m_ScriptDataSize, pData, Size);
+	std::memcpy(m_ScriptData + m_ScriptDataSize, pData, Size);
 
 	/* Modify the last line data pos to adjust for data output after
 	 * the EOL has been found */
@@ -2336,12 +2353,12 @@ bool CEsmScriptCompile::AddScriptData(const void *pData, const int Size) {
 void CEsmScriptCompile::AddWarning(const TCHAR *pString, ...) {
 	TCHAR UserMsg[256];
 	TCHAR ErrorString[512];
-	va_list Args;
+	std::va_list Args;
 
 	/* Create the input message */
-	va_start(Args, pString);
+	std::va_start(Args, pString);
 	vsnprintf(UserMsg, 255, pString, Args);
-	va_end(Args);
+	std::va_end(Args);
 
 	/* Create the expanded error message */
 	snprintf(ErrorString,
@@ -2372,15 +2389,15 @@ bool CEsmScriptCompile::AddMessage(const int MessageID, const TCHAR *pString, ..
 	DEFINE_FUNCTION("CEsmScriptCompile::AddMessage()");
 	CEsmScriptError *pError;
 	TCHAR UserMsg[256];
-	va_list Args;
+	std::va_list Args;
 	bool ReturnValue = true;
 	int MsgLevel;
 	int MsgType;
 
 	/* Create the user message */
-	va_start(Args, pString);
+	std::va_start(Args, pString);
 	vsnprintf(UserMsg, 255, pString, Args);
-	va_end(Args);
+	std::va_end(Args);
 
 	/* Find the current message level for the message */
 	MsgLevel = FindMsgLevel(MessageID);
@@ -3443,14 +3460,14 @@ int CEsmScriptCompile::GetNumberToken() {
 	do {
 		m_CurrentCharPos++;
 		m_pParse++;
-	} while (!isspace(*m_pParse) && !ispunct(*m_pParse));
+	} while (!std::isspace(*m_pParse) && !std::ispunct(*m_pParse));
 
 	/* Check for floats */
 	if (*m_pParse == '.') {
 		do {
 			m_CurrentCharPos++;
 			m_pParse++;
-		} while (!isspace(*m_pParse) && !ispunct(*m_pParse));
+		} while (!std::isspace(*m_pParse) && !std::ispunct(*m_pParse));
 
 		m_TokenID = ESMSCR_TOKEN_FLOAT;
 	} else {
@@ -3531,13 +3548,13 @@ int CEsmScriptCompile::GetOperatorToken() {
 	}
 	/* Check for whitespace surrounding brackets */
 	else if (m_TokenID == ESMSCR_TOKEN_OPENBRAC || m_TokenID == ESMSCR_TOKEN_CLOSEBRAC) {
-		if (!isspace(m_pParse[-2]) || !isspace(m_pParse[0])) {
+		if (!std::isspace(m_pParse[-2]) || !std::isspace(m_pParse[0])) {
 			AddMessage(ESMSCR_WARNING_NOSPACE,
 			           _T("Open/closing bracket missing space characters on one/both sides!"));
 		}
 	} else if (m_TokenID == ESMSCR_TOKEN_RELOP) { /* Check for whitespace surround relational operators */
 		if (m_Token.GetLength() == 1) {
-			if (!isspace(m_pParse[-2]) || !isspace(m_pParse[0])) {
+			if (!std::isspace(m_pParse[-2]) || !std::isspace(m_pParse[0])) {
 				Result = AddMessage(ESMSCR_WARNING_NOSPACE,
 				                    _T("Comparison operator missing space characters on one/both sides!"));
 
@@ -3546,7 +3563,7 @@ int CEsmScriptCompile::GetOperatorToken() {
 				}
 			}
 		} else if (m_Token.GetLength() == 2) {
-			if (!isspace(m_pParse[-3]) || !isspace(m_pParse[0])) {
+			if (!std::isspace(m_pParse[-3]) || !std::isspace(m_pParse[0])) {
 				Result = AddMessage(ESMSCR_WARNING_NOSPACE,
 				                    _T("Comparison operator missing space characters on one/both sides!"));
 
@@ -3758,22 +3775,22 @@ bool CEsmScriptCompile::InsertScriptDataRef(const TCHAR *pData, int Size) {
 
 	/* Shift existing line output data */
 	if (m_ScriptDataSize >= m_LastLineDataPos) {
-		memmove(m_ScriptData + m_LastLineDataPos + Size + 3,
-		        m_ScriptData + m_LastLineDataPos,
-		        m_ScriptDataSize - m_LastLineDataPos);
+		std::memmove(m_ScriptData + m_LastLineDataPos + Size + 3,
+		             m_ScriptData + m_LastLineDataPos,
+		             m_ScriptDataSize - m_LastLineDataPos);
 	}
 
 	/* Insert the object reference data */
 	OpCode = 0x010C;
-	memcpy(m_ScriptData + m_LastLineDataPos, &OpCode, 2);
+	std::memcpy(m_ScriptData + m_LastLineDataPos, &OpCode, 2);
 
 	if (pData[0] == '"') {
 		Size -= 2;
 		m_ScriptData[m_LastLineDataPos + 2] = (byte)Size;
-		memcpy(m_ScriptData + m_LastLineDataPos + 3, pData + 1, (byte)Size);
+		std::memcpy(m_ScriptData + m_LastLineDataPos + 3, pData + 1, (byte)Size);
 	} else {
 		m_ScriptData[m_LastLineDataPos + 2] = (byte)Size;
-		memcpy(m_ScriptData + m_LastLineDataPos + 3, pData, (byte)Size);
+		std::memcpy(m_ScriptData + m_LastLineDataPos + 3, pData, (byte)Size);
 	}
 
 	/* Adjust the set position if required */
@@ -3854,20 +3871,20 @@ void CEsmScriptCompile::MakeScriptVarData() {
 
 	/* Add all the short locals */
 	for (Index = 0; Index < m_NumShortVars; Index++) {
-		strcpy(pData, m_ShortVars[Index].Name);
-		pData += strlen(m_ShortVars[Index].Name) + 1;
+		std::strcpy(pData, m_ShortVars[Index].Name);
+		pData += std::strlen(m_ShortVars[Index].Name) + 1;
 	}
 
 	/* Add all the long locals */
 	for (Index = 0; Index < m_NumLongVars; Index++) {
-		strcpy(pData, m_LongVars[Index].Name);
-		pData += strlen(m_LongVars[Index].Name) + 1;
+		std::strcpy(pData, m_LongVars[Index].Name);
+		pData += std::strlen(m_LongVars[Index].Name) + 1;
 	}
 
 	/* Add all the float locals */
 	for (Index = 0; Index < m_NumFloatVars; Index++) {
-		strcpy(pData, m_FloatVars[Index].Name);
-		pData += strlen(m_FloatVars[Index].Name) + 1;
+		std::strcpy(pData, m_FloatVars[Index].Name);
+		pData += std::strlen(m_FloatVars[Index].Name) + 1;
 	}
 }
 
@@ -3915,7 +3932,7 @@ short CEsmScriptCompile::GetAnimGroupID(const TCHAR *pString) {
 int CEsmScriptCompile::CheckFuncArg() {
 	bool Result;
 	int iResult;
-	__int64 FuncFlags;
+	std::int64_t FuncFlags;
 	bool NoMessage;
 	bool IsOptional;
 
@@ -3977,7 +3994,7 @@ int CEsmScriptCompile::CheckFuncArg() {
 
 		case ESMSCR_TOKEN_NUMBER:
 			if ((FuncFlags & ESMSCR_FUNC_EFFECT) != 0) {
-				iResult = atoi(m_Token);
+				iResult = std::atoi(m_Token);
 
 				if (iResult < 0 || iResult >= MWESM_EFFECT_MAX) {
 					if (NoMessage) {
@@ -4445,7 +4462,7 @@ int CEsmScriptCompile::ParseChoiceFunction() {
 				break;
 
 			case ESMSCR_TOKEN_NUMBER:
-				if (strchr(m_Token, '.') != NULL) {
+				if (std::strchr(m_Token, '.') != NULL) {
 					Result = AddMessage(ESMSCR_ERROR_BADNUMBER,
 					                    "Invalid float number '%s' in Choice function call!",
 					                    m_Token);
@@ -4489,7 +4506,7 @@ int CEsmScriptCompile::ParseChoiceFunction() {
 	}
 
 	/* Update the output bytes */
-	memcpy(m_ScriptData + SizeOffset, &OutputSize, 2);
+	std::memcpy(m_ScriptData + SizeOffset, &OutputSize, 2);
 	return ESMSCR_RESULT_TABLEEND;
 }
 
@@ -4502,7 +4519,7 @@ int CEsmScriptCompile::ParseChoiceFunction() {
 int CEsmScriptCompile::ParseCheckFuncArg() {
 	bool Result;
 	int ParseResult;
-	__int64 FuncFlags;
+	std::int64_t FuncFlags;
 
 	if (m_pCurrentFunc == NULL) {
 		return ESMSCR_RESULT_OK;
@@ -4548,7 +4565,7 @@ int CEsmScriptCompile::ParseFuncArg() {
 	bool Result;
 	bool OptError = false;
 	int iResult;
-	__int64 FuncFlags;
+	std::int64_t FuncFlags;
 	/* Shouldn't happen, but just in case */
 	m_TokenParsed = true;
 
@@ -5176,7 +5193,7 @@ int CEsmScriptCompile::ParsePushToken() {
 				}
 
 				AddScriptData(" ", 1);
-				AddScriptData(pNewStack->Token, strlen(pNewStack->Token));
+				AddScriptData(pNewStack->Token, std::strlen(pNewStack->Token));
 				DestroyPointer(pNewStack);
 				pNewStack = (esmscrstack_t *)m_ExprStack.Pop();
 			}
@@ -5192,7 +5209,7 @@ int CEsmScriptCompile::ParsePushToken() {
 				while (pNewStack != NULL && (pNewStack->TokenID == ESMSCR_TOKEN_ADDOP
 				                             || pNewStack->TokenID == ESMSCR_TOKEN_MULOP)) {
 					AddScriptData(" ", 1);
-					AddScriptData(pNewStack->Token, strlen(pNewStack->Token));
+					AddScriptData(pNewStack->Token, std::strlen(pNewStack->Token));
 					m_ExprStack.Pop();
 					DestroyPointer(pNewStack);
 					pNewStack = (esmscrstack_t *)m_ExprStack.Peek();
@@ -5214,7 +5231,7 @@ int CEsmScriptCompile::ParsePushToken() {
 				//AddScriptData(m_Token, m_Token.GetLength());
 				while (pNewStack != NULL && pNewStack->TokenID == ESMSCR_TOKEN_MULOP) {
 					AddScriptData(" ", 1);
-					AddScriptData(pNewStack->Token, strlen(pNewStack->Token));
+					AddScriptData(pNewStack->Token, std::strlen(pNewStack->Token));
 					m_ExprStack.Pop();
 					DestroyPointer(pNewStack);
 					pNewStack = (esmscrstack_t *)m_ExprStack.Peek();
@@ -5862,7 +5879,7 @@ void CEsmScriptCompile::SetScriptText(const TCHAR *pString, const int Size) {
 
 	/* Create and copy the script text */
 	CreateArrayPointer(m_pScriptText, TCHAR, Size + 64);
-	memcpy(m_pScriptText, pString, Size * sizeof(TCHAR));
+	std::memcpy(m_pScriptText, pString, Size * sizeof(TCHAR));
 
 	/* Ensure it is NULL terminated */
 	m_pScriptText[Size] = NULL_CHAR;
@@ -6554,7 +6571,7 @@ int CEsmScriptCompile::OutputExprStack() {
 		if (pNewStack->TokenID != ESMSCR_TOKEN_OPENBRAC
 		    && pNewStack->TokenID != ESMSCR_TOKEN_CLOSEBRAC) {
 			AddScriptData(" ", 1);
-			AddScriptData(pNewStack->Token, strlen(pNewStack->Token));
+			AddScriptData(pNewStack->Token, std::strlen(pNewStack->Token));
 		} else {
 			Done = true;
 		}
@@ -6626,11 +6643,11 @@ int CEsmScriptCompile::OutputFuncArgXYZ() {
 }
 
 int CEsmScriptCompile::OutputFuncArgNum() {
-	float fValue = (float)atof(m_Token);
-	long lValue = (long)atol(m_Token);
-	short sValue = (short)atoi(m_Token);
+	float fValue = (float)std::atof(m_Token);
+	long lValue = (long)std::atol(m_Token);
+	short sValue = (short)std::atoi(m_Token);
 	char bValue = (char)sValue;
-	__int64 FuncArgFlag;
+	std::int64_t FuncArgFlag;
 
 	if (m_LastTokenNegative) {
 		fValue = -fValue;

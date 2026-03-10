@@ -10,12 +10,12 @@
 #ifndef __ESMSCRIPTERROR_H
 #define __ESMSCRIPTERROR_H
 
+#include <winnt.h>
 
-#include "common/dl_err.h"
+#include "common/dl_base.h"
 #include "common/container/ptr_array.h"
 #include "common/string/sstring.h"
 #include "mwedit/script_defs.h"
-
 
 /* Error/warning types */
 #define ESMSCR_ERROR_TOOMANYARGS     -1008
@@ -41,8 +41,6 @@
 /* Message types */
 #define ESMSCR_MESSAGE_WARNING 0
 #define ESMSCR_MESSAGE_ERROR   1
-
-
 /*===========================================================================
  *
  * Begin Class CEsmScriptError Definition
@@ -130,7 +128,6 @@ class CEsmScriptError {
 	}
 
 	/* Set class members */
-
 	void SetMessage(const TCHAR *pString) {
 		m_Message = pString;
 	}

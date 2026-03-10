@@ -10,8 +10,9 @@
 #ifndef __MWCOMMON_H
 #define __MWCOMMON_H
 
-#include "common/dl_err.h"
+#include <winnt.h>
 
+#include "common/dl_base.h"
 
 /* Morrowind registries */
 #define MWESM_REG_INSTALLPATH _T("SOFTWARE\\Bethesda Softworks\\Morrowind\\Installed Path")
@@ -22,6 +23,5 @@
 const TCHAR *GetMWInstallPath();
 const TCHAR *GetMWDataFilePath();
 const TCHAR *GetMWTexturesPath();
-
 
 #endif

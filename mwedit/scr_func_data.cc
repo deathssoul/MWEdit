@@ -9,12 +9,23 @@
  *=========================================================================*/
 #include "mwedit/scr_func_data.h"
 
-#include "common/string/sstring.h"
+#include <string.h>  // TODO: Required for non-standard extension _stricmp()
 
+#include <winnt.h>
+
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "common/dl_chr.h"
+#include "common/dl_err.h"
+#include "common/dl_file.h"
+#include "common/dl_str.h"
+#include "common/file/gen_file.h"
+#include "common/string/sstring.h"
+#include "mwedit/script_defs.h"
 
 DEFINE_FILE("EsmScrFuncData.cpp");
-
-
 /*===========================================================================
  *
  * Class CEsmScrFuncData Constructor
@@ -51,7 +62,6 @@ void CEsmScrFuncData::Destroy() {
 	m_OpCode = 0;
 
 	/* Clear parameters */
-
 	for (Index = 0; Index < m_NumParams; Index++) {
 		m_ParamDesc[Index].Empty();
 		m_ParamFlags[Index] = 0;
@@ -73,7 +83,6 @@ const TCHAR *CEsmScrFuncData::CreateParamString(const int Index) const {
 	static TCHAR s_Buffer[64];
 
 	/* Ensure the input parameter index is valid */
-
 	if (!IsValidIndex(Index)) {
 		s_Buffer[0] = NULL_CHAR;
 		return s_Buffer;
@@ -103,7 +112,6 @@ const TCHAR *CEsmScrFuncData::GetFuncForm() const {
 	s_Buffer = GetFunction();
 
 	/* Add all parameters to the function title string */
-
 	for (Index = 0; Index < GetNumParams(); Index++) {
 		s_Buffer += _T(", ");
 		s_Buffer += CreateParamString(Index);
@@ -131,7 +139,6 @@ const TCHAR *CEsmScrFuncData::GetExFuncForm(const int ParamIndex, const int Line
 	MaxLength = LineLength;
 
 	/* Add all parameters to the function title string */
-
 	for (Index = 0; Index < GetNumParams(); Index++) {
 		s_Buffer += _T(", ");
 
@@ -166,7 +173,6 @@ const TCHAR *CEsmScrFuncData::GetParamDetail(const int Index) const {
 	CSString Buffer;
 
 	/* Ensure the input parameter index is valid */
-
 	if (!IsValidIndex(Index)) {
 		s_Buffer[0] = NULL_CHAR;
 		return s_Buffer;
@@ -430,12 +436,11 @@ bool CEsmScrFuncData::ReadData(CGenFile &File) {
 		/* Seperate the input line into its basic two components */
 		Result = SeperateVarValue(&pVariable, &pValue, LineBuffer);
 
-		if (_stricmp(pVariable, _T("End")) == 0) {
+		if (_stricmp(pVariable, _T("End")) == 0) {  // TODO: Replace with something portable
 			return true;
 		}
 
 		/* Save the input parameter on success */
-
 		if (Result) {
 			SetValue(pVariable, pValue);
 		}
@@ -477,11 +482,11 @@ void CEsmScrFuncData::SetParamValue(const int ParamIndex, TCHAR *pValue) {
 
 	if (pParse != NULL) {
 		*pParse = NULL_CHAR;
-		SetParamFlags(ParamIndex, strtoul(pValue, NULL, 0));
+		SetParamFlags(ParamIndex, std::strtoul(pValue, NULL, 0));
 		SetParamDesc(ParamIndex, UnquoteString(pParse + 1));
 	} else {
 		/* Input string doesn't have any comma */
-		SetParamFlags(ParamIndex, strtoul(pValue, NULL, 0));
+		SetParamFlags(ParamIndex, std::strtoul(pValue, NULL, 0));
 		SetParamDesc(ParamIndex, _T(""));
 	}
 }
@@ -506,11 +511,11 @@ void CEsmScrFuncData::SetReturnValue(TCHAR *pValue) {
 
 	if (pParse != NULL) {
 		*pParse = NULL_CHAR;
-		m_ReturnFlags = strtoul(pValue, NULL, 0);
+		m_ReturnFlags = std::strtoul(pValue, NULL, 0);
 		SetReturnDesc(UnquoteString(pParse + 1));
 	} else {
 		/* String doesn't contain a comma character */
-		m_ReturnFlags = strtoul(pValue, NULL, 0);
+		m_ReturnFlags = std::strtoul(pValue, NULL, 0);
 		SetReturnDesc(_T(""));
 	}
 }

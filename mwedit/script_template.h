@@ -10,12 +10,14 @@
 #ifndef __SCRIPTTEMPLATE_H
 #define __SCRIPTTEMPLATE_H
 
+#include <winnt.h>
 
-#include "common/dl_err.h"
+#include "common/dl_base.h"
+#include "common/dl_str.h"
 #include "common/container/ptr_array.h"
+#include "common/string/sstring.h"
 #include "file/csv_file.h"
 #include "game/morrowind/script.h"
-
 
 /* Maximum size of template files */
 #define ESM_SCRTEMP_MAXTEMPSIZE   ESM_SCRIPT_MAXTEXT
@@ -51,8 +53,6 @@ typedef struct esmscrtempvar {
 } esmscrtempvar_t;
 
 typedef TPtrArray<esmscrtempvar_t> CEsmScrTempVarArray;
-
-
 /*===========================================================================
  *
  * Begin Class CEsmScriptTemplate Definition
@@ -136,6 +136,5 @@ class CEsmScriptTemplate {
 		m_ScriptName = pString;
 	}
 };
-
 
 #endif

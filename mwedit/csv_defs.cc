@@ -9,10 +9,15 @@
  *=========================================================================*/
 #include "mwedit/csv_defs.h"
 
+#include <winnt.h>
+
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
 
 DEFINE_FILE("EsmCsvDefs.cpp");
-
-
 /*===========================================================================
  *
  * Begin Csv Record Arrays

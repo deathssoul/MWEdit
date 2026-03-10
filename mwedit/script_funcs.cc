@@ -7,9 +7,13 @@
  * Description
  *
  *=========================================================================*/
+#include <winnt.h>
+
+#include <cstddef>
+
+#include "common/dl_base.h"
 #include "common/file/gen_file.h"
 #include "mwedit/script_defs.h"
-
 
 /* Shorter definitions for convienence */
 #define VN     0

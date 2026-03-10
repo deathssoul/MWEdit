@@ -10,13 +10,13 @@
 #ifndef __ESMWINUTILS_H
 #define __ESMWINUTILS_H
 
+//#include <winnt.h>
 
-#include "game/morrowind/file.h"
-
+//#include "common/dl_base.h"
 
 /* Morrowind registries */
-#define MWESM_REG_INSTALLPATH _T("SOFTWARE\\Bethesda Softworks\\Morrowind\\Installed Path")
-#define MWESM_REG_PATH        _T("SOFTWARE\\Bethesda Softworks\\Morrowind")
+//#define MWESM_REG_INSTALLPATH _T("SOFTWARE\\Bethesda Softworks\\Morrowind\\Installed Path")
+//#define MWESM_REG_PATH        _T("SOFTWARE\\Bethesda Softworks\\Morrowind")
 
 
 /* Path functions */

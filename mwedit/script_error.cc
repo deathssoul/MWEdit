@@ -9,10 +9,14 @@
  *=========================================================================*/
 #include "mwedit/script_error.h"
 
+#include <winnt.h>
+
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/dl_str.h"
 
 DEFINE_FILE("EsmScriptError.cpp");
-
-
 /*===========================================================================
  *
  * Class CEsmScriptError Constructor

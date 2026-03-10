@@ -10,17 +10,23 @@
 #ifndef __MWRECORDMAP_H
 #define __MWRECORDMAP_H
 
+#include <string.h>  // TODO: Required for non-standard extension _stricmp()
 
-#include "game/morrowind/record.h"
+#include <winnt.h>
 
+#include <cstddef>
+#include <cstring>
+
+#include "common/dl_base.h"
+#include "common/string/sstring.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/sub_base.h"
 
 /* Default size of the hash map tables */
 #define MW_RECORDMAP_DEFAULTSIZE 1009
 
 /* Used to iterate through records */
 typedef void *MWMAPPOS;
-
-
 /*===========================================================================
  *
  * Begin Class CMwBaseRecordMap Definition
@@ -92,7 +98,7 @@ class CMwBaseRecordMap {
 
 	/* Checks if the given record is valid or not */
 	virtual bool IsValidRecord(TRecord *pRecord) {
-		return (pRecord != NULL);
+		return pRecord != NULL;
 	}
 
 	/* Find an existing value by its key */
@@ -402,7 +408,7 @@ void CMwBaseRecordMap<TKey, TRecord, TKeyArg>::InitHashTable(const dword Size) {
 	m_HashTableSize = Size;
 	m_ppHashTable = new CMwMapAssoc *[m_HashTableSize];
 	m_RecordCount = 0;
-	memset(m_ppHashTable, 0, sizeof(CMwMapAssoc *) * m_HashTableSize);
+	std::memset(m_ppHashTable, 0, sizeof(CMwMapAssoc *) * m_HashTableSize);
 }
 
 
@@ -576,11 +582,11 @@ inline bool CMwTypeRecordMap::CompareKeys(esmrecinfo_t *Record, esmrectype_t Key
 }
 
 inline bool CMwIdRecordMap::CompareKeys(const TCHAR *Key1, const TCHAR *Key2) {
-	return stricmp(Key1, Key2) == 0;
+	return _stricmp(Key1, Key2) == 0;
 }
 
 inline bool CMwIdRecordMap::CompareKeys(esmrecinfo_t *Record1, esmrecinfo_t *Record2) {
-	return stricmp(Record1->pRecord->GetID(), Record2->pRecord->GetID()) == 0;
+	return _stricmp(Record1->pRecord->GetID(), Record2->pRecord->GetID()) == 0;
 }
 
 inline bool CMwIdRecordMap::CompareKeys(esmrecinfo_t *Record, const TCHAR *Key) {
@@ -692,6 +698,5 @@ inline void CMwIdRecordMap::SetAt(esmrecinfo_t *pRecord) {
 	CMwBaseRecordMap<CSString, esmrecinfo_t, const TCHAR *>::SetAt(pRecord->pRecord->GetID(),
 	                                                               pRecord);
 }
-
 
 #endif

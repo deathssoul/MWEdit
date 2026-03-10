@@ -10,9 +10,10 @@
 #ifndef __ESMCSVDEFS_H
 #define __ESMCSVDEFS_H
 
+#include <winnt.h>
+
 #include "file/csv_file.h"
 #include "game/morrowind/defs.h"
-
 
 /* Holds extended CSV import/export column information */
 typedef struct {
@@ -35,6 +36,5 @@ const TCHAR *GetEsmCsvRecordType(const TCHAR *pString);
 const TCHAR *GetEsmCsvRecordString(const TCHAR *pString);
 int *GetEsmCsvColArray(const TCHAR *pType);
 esmcsvcol_t *GetEsmCsvExColArray(const TCHAR *pType);
-
 
 #endif

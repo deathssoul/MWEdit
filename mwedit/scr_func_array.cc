@@ -9,10 +9,20 @@
  *=========================================================================*/
 #include "mwedit/scr_func_array.h"
 
+#include <string.h>  // TODO: Required for non-standard extension _stricmp()
+
+#include <winnt.h>
+
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/dl_file.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "common/file/gen_file.h"
+#include "mwedit/scr_func_data.h"
 
 DEFINE_FILE("EsmScrFuncArray.cpp");
-
-
 /*===========================================================================
  *
  * Class CEsmScrFuncArray Constructor

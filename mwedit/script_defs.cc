@@ -9,12 +9,17 @@
  *=========================================================================*/
 #include "mwedit/script_defs.h"
 
+#include <string.h>  // TODO: Required for non-standard extension _stricmp()
+
+#include <winnt.h>
+
+#include <cctype>
+#include <cstddef>
+
+#include "common/dl_base.h"
 #include "mwedit/mw_custom_func.h"
 
-
 DEFINE_FILE("EsmScriptDefs.cpp");
-
-
 /*===========================================================================
  *
  * Begin Reserved String Array
@@ -67,7 +72,7 @@ const TCHAR *l_Reserved[] = {
  *=========================================================================*/
 bool IsESMScriptFunction(const TCHAR *pString) {
 	//DEFINE_FUNCTION("IsESMScriptFunction()");
-	int FirstChar = toupper(*pString) - (int)'A';
+	int FirstChar = std::toupper(*pString) - (int)'A';
 	esmscrfuncinfo_t *pStartSearch;
 	int Result;
 	int Index;
@@ -136,7 +141,7 @@ esmscrfuncinfo_t *GetESMScriptCustomFuncInfo(const TCHAR *pString) {
  *
  *=========================================================================*/
 esmscrfuncinfo_t *GetESMScriptFuncInfo(const TCHAR *pString) {
-	int FirstChar = toupper(*pString) - (int)'A';
+	int FirstChar = std::toupper(*pString) - (int)'A';
 	esmscrfuncinfo_t *pStartSearch;
 	int Result;
 	int Index;
@@ -508,7 +513,7 @@ bool IsESMScriptReserved(const TCHAR *pString) {
 }
 
 int GetESMScriptResToken(const TCHAR *pString) {
-	switch (toupper(pString[0])) {
+	switch (std::toupper(pString[0])) {
 		case 'B':
 			if (_stricmp(pString + 1, _T("egin")) == 0) {
 				return ESMSCR_TOKEN_BEGIN;

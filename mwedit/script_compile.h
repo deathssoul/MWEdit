@@ -10,19 +10,23 @@
 #ifndef __ESMSCRIPTCOMPILE_H
 #define __ESMSCRIPTCOMPILE_H
 
+#include <winnt.h>
+
 //#if MWEDIT_SCRIPT_MWSE
 #include <queue>
 #include <stack>
 //#endif
 
-#include "common/container/ptr_array.h"
+#include "common/dl_base.h"
+#include "common/dl_str.h"
 #include "common/container/gen_stack.h"
 #include "common/string/sstring.h"
 #include "game/morrowind/file.h"
-#include "mwedit/mw_custom_func.h"
+#include "game/morrowind/global.h"
+#include "game/morrowind/record.h"
 #include "mwedit/script_defs.h"
 #include "mwedit/script_error.h"
-
+#include "ui/mwedit_doc.h"
 
 /* Token flags */
 #define ESTF_ONE                        1
@@ -92,7 +96,6 @@
 
 /* Class forward definition */
 class CEsmScriptCompile;
-class CMWEditDoc;
 
 /* Custom block parsing function type */
 typedef int (CEsmScriptCompile::* ESMSCRBLOCK_FUNC) (void);

@@ -11,18 +11,17 @@
 #ifndef __ESMOPTIONS_H
 #define __ESMOPTIONS_H
 
+#include <stdlib.h>  // TODO: Required for non-standard extension _MAX_PATH
 
+#include <winnt.h>
+
+#include "common/dl_base.h"
 #include "common/dl_str.h"
-#include "game/morrowind/defs.h"
 #include "mwedit/options_def.h"
 #include "mwedit/script_options.h"
-#include "mwedit/reg_defs.h"
-
 
 #define MWEDIT_DEFAULT_EXTRAFILE    _T("mweditextrafile.esp")
 #define MWEDIT_DEFAULT_SCRIPTINDENT _T("\t")
-
-
 /*===========================================================================
  *
  * Begin Class CEsmOptions Definition
@@ -55,7 +54,7 @@ class CEsmOptions {
 	TCHAR m_AuthorName[ESMSCR_OPTION_NAMESIZE + 1];
 
 	/* Optional custom game path */
-	TCHAR m_DataPath[_MAX_PATH + 4];
+	TCHAR m_DataPath[_MAX_PATH + 4];  // TODO: Replace non-standard extension with something portable
 
 	bool m_UseExtraFile;                   /* Use extra file for script compilations */
 	TCHAR m_ExtraFile[_MAX_PATH + 4];
