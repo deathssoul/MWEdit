@@ -22,15 +22,37 @@
  *=========================================================================*/
 #include "windows/win_util.h"
 
-#include "process.h"
+#include <stdlib.h>  // TODO: Required for non-standard extension _MAX_PATH
+#include <string.h>  // TODO: Required for non-standard extension _stricmp()
 
+#include <afx.h>
+#include <afxcmn.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <atltime.h>
+#include <atltypes.h>
+#include <combaseapi.h>
+#include <objidl.h>
+#include <process.h>
+#include <shellapi.h>
+#include <shlobj_core.h>
+#include <shtypes.h>
+#include <stringapiset.h>
+#include <tchar.h>
+#include <winbase.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
+
+#include <cctype>
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/dl_err.h"
 #include "common/dl_file.h"
-#include "mwedit/std_afx.h"
-
+#include "common/dl_str.h"
 
 DEFINE_FILE("WinUtil.cpp");
-
-
 /*===========================================================================
  *
  * Function - bool AddComboString (ComboBox, pString, Data);
@@ -778,7 +800,7 @@ bool GetStringWord(CString &OutputString, const TCHAR *pBuffer, int &StartPos) {
 	int BeginPos;
 
 	/* Ignore initial whitespace */
-	while (isspace(pBuffer[StartPos])) {
+	while (std::isspace(pBuffer[StartPos])) {
 		StartPos++;
 	}
 
@@ -791,8 +813,8 @@ bool GetStringWord(CString &OutputString, const TCHAR *pBuffer, int &StartPos) {
 	BeginPos = StartPos;
 
 	/* Alphanumeric string */
-	if (isalnum(pBuffer[StartPos])) {
-		while (isalnum(pBuffer[StartPos]) || pBuffer[StartPos] == '.') {
+	if (std::isalnum(pBuffer[StartPos])) {
+		while (std::isalnum(pBuffer[StartPos]) || pBuffer[StartPos] == '.') {
 			StartPos++;
 		}
 
@@ -801,9 +823,7 @@ bool GetStringWord(CString &OutputString, const TCHAR *pBuffer, int &StartPos) {
 		TCHAR *pString = OutputString.GetBuffer(Size + 1);
 		strnncpy(pString, pBuffer + BeginPos, Size);
 		OutputString.ReleaseBuffer(Size);
-	}
-	/* Quoted string */
-	else if (pBuffer[StartPos] == '"') {
+	} else if (pBuffer[StartPos] == '"') { /* Quoted string */
 		StartPos++;
 
 		while (pBuffer[StartPos] != '"' && pBuffer[StartPos] != NULL_CHAR) {
@@ -819,9 +839,7 @@ bool GetStringWord(CString &OutputString, const TCHAR *pBuffer, int &StartPos) {
 		TCHAR *pString = OutputString.GetBuffer(Size + 1);
 		strnncpy(pString, pBuffer + BeginPos, Size);
 		OutputString.ReleaseBuffer(Size);
-	}
-	/* Other, operator, single character */
-	else {
+	} else { /* Other, operator, single character */
 		OutputString = pBuffer[StartPos];
 		StartPos++;
 	}
@@ -962,7 +980,7 @@ bool StringToInteger(const TCHAR *pString, int &DestValue) {
 	iValue = (int)TSTRTOL(pString, &pEndPtr, 0);
 
 	/* Check for conversion errors */
-	if (*pEndPtr != (TCHAR) 0 && !TISSPACE(*pEndPtr)) {
+	if (*pEndPtr != (TCHAR)0 && !TISSPACE(*pEndPtr)) {
 		ErrorHandler.AddError(ERR_BADINPUT, _T("Invalid integer parameter string!"));
 		return false;
 	}
@@ -982,7 +1000,7 @@ bool StringToFloat(const TCHAR *pString, float &DestValue) {
 	fValue = (float)TSTRTOD(pString, &pEndPtr);
 
 	/* Check for conversion errors */
-	if (*pEndPtr != (TCHAR) 0 && !TISSPACE(*pEndPtr)) {
+	if (*pEndPtr != (TCHAR)0 && !TISSPACE(*pEndPtr)) {
 		ErrorHandler.AddError(ERR_BADINPUT, _T("Invalid float parameter string!"));
 		return false;
 	}
@@ -1008,7 +1026,7 @@ bool StringToBool(const TCHAR *pString, bool &DestValue) {
 	} else { /* Check for a numeric boolean value */
 		iValue = (int)TSTRTOL(pString, &pEndPtr, 0);
 
-		if ((*pEndPtr != (TCHAR) 0 && !TISSPACE(*pEndPtr)) || iValue < 0 || iValue > 1) {
+		if ((*pEndPtr != (TCHAR)0 && !TISSPACE(*pEndPtr)) || iValue < 0 || iValue > 1) {
 			ErrorHandler.AddError(ERR_BADINPUT, _T("Invalid boolean parameter string!"));
 			return false;
 		}

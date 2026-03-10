@@ -10,10 +10,14 @@
 #ifndef __WINUTIL_H
 #define __WINUTIL_H
 
+#include <afx.h>
 #include <afxcmn.h>
-
-#include "common/dl_err.h"
-
+#include <afxwin.h>
+#include <atlstr.h>
+#include <atltypes.h>
+#include <windef.h>
+#include <wingdi.h>
+#include <winnt.h>
 
 /* Options for the MakeTimeString() function, bit field values */
 #define TIMESTRING_SHORTTIME 1

@@ -9,10 +9,18 @@
  *=========================================================================*/
 #include "windows/tab_ctrl_sheet.h"
 
-#include "mwedit/std_afx.h"
+#include <afxcmn.h>
+#include <afxdlgs.h>
+#include <afxwin.h>
+#include <atltypes.h>
+#include <commctrl.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
 
+#include <cstddef>
 
-DEFINE_FILE("TabStrlSheet.cpp");
+#include "common/dl_base.h"
 
 /* Debug definitions */
 #ifdef _DEBUG
@@ -21,7 +29,7 @@ DEFINE_FILE("TabStrlSheet.cpp");
 	static char THIS_FILE[] = __FILE__;
 #endif
 
-
+DEFINE_FILE("TabStrlSheet.cpp");
 /*===========================================================================
  *
  * Begin CTabCtrlSheet Message Map

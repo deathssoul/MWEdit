@@ -9,9 +9,11 @@
  *=========================================================================*/
 #include "windows/color_static.h"
 
-#include "common/dl_err.h"
-#include "mwedit/std_afx.h"
+#include <afxwin.h>
+#include <atltypes.h>
+#include <winuser.h>
 
+#include "common/dl_base.h"
 
 #ifdef _DEBUG
 	#define new DEBUG_NEW
@@ -20,8 +22,6 @@
 #endif
 
 DEFINE_FILE("ColorStatic.cpp");
-
-
 /*===========================================================================
  *
  * Begin CColorStatic Message Map

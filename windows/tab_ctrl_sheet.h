@@ -10,14 +10,17 @@
 #ifndef __TABCTRLSHEET_H
 #define __TABCTRLSHEET_H
 
+#include <afx.h>
+#include <afxcmn.h>
+#include <afxdlgs.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
 
-#include "common/dl_err.h"
-
+#include <cstddef>
 
 /* Number of sheets allowed in the extended tab control */
 #define TCS_ARRAYSIZE 32
-
-
 /*===========================================================================
  *
  * Begin Class CTabCtrlSheet Definition

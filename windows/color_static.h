@@ -10,6 +10,10 @@
 #ifndef __COLORSTATIC_H
 #define __COLORSTATIC_H
 
+#include <afx.h>
+#include <afxwin.h>
+#include <windef.h>
+#include <wingdi.h>
 
 class CColorStatic : public CStatic {
   public:

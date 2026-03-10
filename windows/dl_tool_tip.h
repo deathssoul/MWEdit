@@ -10,9 +10,16 @@
 #ifndef __DL_TOOLTIP_H
 #define __DL_TOOLTIP_H
 
+#include <afx.h>
+#include <afxwin.h>
+#include <atlstr.h>
+#include <atltypes.h>
+#include <basetsd.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
 
-#include "windows/win_util.h"
-
+#include <cstddef>
 
 /* Timer events */
 #define DLTOOLTIP_TIMER_SHOW  1
@@ -27,8 +34,6 @@
 #define DLTOOLTIP_CY_ROUNDED  3
 #define DLTOOLTIP_CX_LEADER   25
 #define DLTOOLTIP_CY_LEADER   25
-
-
 /*===========================================================================
  *
  * Begin Class CDlToolTip Definition

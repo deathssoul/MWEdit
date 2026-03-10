@@ -7,9 +7,19 @@
  * Description
  *
  *=========================================================================*/
-#include "mwedit/std_afx.h"
 #include "windows/dl_tool_tip.h"
 
+#include <afx.h>
+#include <afxwin.h>
+#include <atltypes.h>
+#include <basetsd.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
+
+#include <cstddef>
+
+#include "common/dl_base.h"
 
 #ifdef _DEBUG
 	#define new DEBUG_NEW
@@ -18,8 +28,6 @@
 #endif
 
 DEFINE_FILE("dl_ToolTip.cpp");
-
-
 /*===========================================================================
  *
  * Begin CDlToolTip Message Map
