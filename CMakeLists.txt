@@ -114,9 +114,9 @@ set(mwedit_src "mwedit/csv_defs.cc"
                "mwedit/script_error.cc"
                "mwedit/script_funcs.cc"
                "mwedit/script_options.cc"
-               "mwedit/script_template.cc"
-               "mwedit/std_afx.cc"
-               "mwedit/win_utils.cc")
+               "mwedit/script_template.cc")
+#               "mwedit/std_afx.cc"
+#               "mwedit/win_utils.cc")
 
 set(ui_src "ui/activator_dlg.cc"
            "ui/ai_activate_dlg.cc"
