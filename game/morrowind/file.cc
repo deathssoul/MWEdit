@@ -57,7 +57,7 @@
 #include "game/morrowind/static.h"
 #include "game/morrowind/sub_hedr.h"
 #include "game/morrowind/weapon.h"
-#include "game/morrowind/tes_3.h"
+#include "game/morrowind/tes3.h"
 
 DEFINE_FILE("EsmFile.cpp");
 /*===========================================================================
