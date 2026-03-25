@@ -166,6 +166,7 @@ typedef unsigned long dword;
 /* Define the TCHAR type if required */
 #if _WIN32
 	#include <tchar.h>
+	#include <winnt.h>
 #else
 	#ifndef _TCHAR_DEFINED
 		#if _UNICODE
