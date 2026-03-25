@@ -11,7 +11,7 @@
 #define __SPLITTERWND_H
 
 #include <afxext.h>
-#include <afxwin.>
+#include <afxwin.h>
 /*===========================================================================
  *
  * Begin Class CMwSplitterWnd Definition

@@ -16,7 +16,7 @@
 #include <winuser.h>
 
 #include "game/morrowind/file.h"
-#include "game/morroiwnd/sub_cell_ref.h"
+#include "game/morrowind/sub_cell_ref.h"
 #include "ui/list_ctrl.h"
 /*===========================================================================
  *
