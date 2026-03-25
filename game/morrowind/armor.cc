@@ -21,7 +21,7 @@
 #include "game/morrowind/record.h"
 #include "game/morrowind/sub_aodt.h"
 #include "game/morrowind/sub_base.h"
-#include "game/morroiwnd/sub_byte.h"
+#include "game/morrowind/sub_byte.h"
 #include "game/morrowind/sub_name_fix.h"
 
 DEFINE_FILE("EsmArmor.cpp");
