@@ -15,7 +15,7 @@
 #include "common/dl_base.h"
 #include "common/dl_mem.h"
 #include "common/dl_str.h"
-#include "game/mororwind/defs.h"
+#include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
 #include "game/morrowind/item_1.h"
 #include "game/morrowind/record.h"

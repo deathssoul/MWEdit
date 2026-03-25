@@ -13,7 +13,7 @@
 
 #include "common/dl_base.h"
 #include "common/dl_mem.h"
-#inlcude "common/dl_str.h"
+#include "common/dl_str.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
 #include "game/morrowind/record.h"
