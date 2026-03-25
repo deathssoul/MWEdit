@@ -15,7 +15,7 @@
 #include "common/dl_base.h"
 #include "common/dl_mem.h"
 #include "common/file/gen_file.h"
-#include "game/morroiwnd/activator.h"
+#include "game/morrowind/activator.h"
 #include "game/morrowind/alchemy.h"
 #include "game/morrowind/apparatus.h"
 #include "game/morrowind/armor.h"

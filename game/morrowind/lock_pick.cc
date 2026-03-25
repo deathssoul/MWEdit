@@ -21,7 +21,7 @@
 #include "game/morrowind/record.h"
 #include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_ldt.h"
-#include "game/morroiwnd/sub_name.h"
+#include "game/morrowind/sub_name.h"
 #include "game/morrowind/sub_name_fix.h"
 
 DEFINE_FILE("EsmLockPick.cpp");

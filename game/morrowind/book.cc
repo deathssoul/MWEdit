@@ -21,8 +21,8 @@
 #include "game/morrowind/record.h"
 #include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_bkdt.h"
-#inlcude "game/morrowind/sub_name.h"
-#inlcude "game/morrowind/sub_name_fix.h"
+#include "game/morrowind/sub_name.h"
+#include "game/morrowind/sub_name_fix.h"
 
 DEFINE_FILE("EsmBook.cpp");
 /*===========================================================================
