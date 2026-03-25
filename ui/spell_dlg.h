@@ -15,7 +15,7 @@
 
 #include "game/morrowind/enchant.h"
 #include "game/morrowind/file.h"
-#include "game/morrwind/spell.h"
+#include "game/morrowind/spell.h"
 #include "game/morrowind/sub_enam.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
