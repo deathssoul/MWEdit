@@ -20,7 +20,7 @@
 #include "game/morrowind/item_2.h"
 #include "game/morrowind/record.h"
 #include "game/morrowind/sub_base.h"
-#include "game/morrowind/sub_ldt.h"
+#include "game/morrowind/sub_lkdt.h"
 #include "game/morrowind/sub_name.h"
 #include "game/morrowind/sub_name_fix.h"
 

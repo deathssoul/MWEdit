@@ -19,8 +19,8 @@
 #include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_long.h"
 #include "game/morrowind/sub_name_fix.h"
-#include "game/morrowind/npco.h"
-#include "game/morrowind/npcs.h"
+#include "game/morrowind/sub_npco.h"
+#include "game/morrowind/sub_npcs.h"
 #include "game/morrowind/sub_npdt.h"
 /*===========================================================================
  *

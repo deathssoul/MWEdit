@@ -22,7 +22,7 @@
 #include "game/morrowind/sub_byte.h"
 #include "game/morrowind/sub_long.h"
 #include "game/morrowind/sub_name_fix.h"
-#include "game/mororwind/sub_short.h"
+#include "game/morrowind/sub_short.h"
 
 DEFINE_FILE("EsmLevelCrea.cpp");
 /*===========================================================================
