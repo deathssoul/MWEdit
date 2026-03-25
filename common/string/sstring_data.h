@@ -1,7 +1,7 @@
 #ifndef COMMON_STRING_SSTRING_DATA_H_
 #define COMMON_STRING_SSTRING_DATA_H_
 
-#include "dl_base.h"
+#include "common/dl_base.h"
 
 class CSStringData {
   public:
