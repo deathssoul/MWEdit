@@ -23,7 +23,7 @@
 
 #include <cstddef>
 #include <cstdlib>
-#include <cstring.h>
+#include <cstring>
 
 #include "common/dl_base.h"
 #include "common/dl_err.h"

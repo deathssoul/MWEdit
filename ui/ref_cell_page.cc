@@ -21,7 +21,7 @@
 #include <afxwin.h>
 #include <atlstr.h>
 #include <atltypes.h>
-#include <commctl.h>
+#include <commctrl.h>
 #include <windef.h>
 #include <winuser.h>
 
