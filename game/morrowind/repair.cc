@@ -20,7 +20,7 @@
 #include "game/morrowind/item_2.h"
 #include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_name_fix.h"
-#include "game/morrowind/ridt.h"
+#include "game/morrowind/sub_ridt.h"
 
 DEFINE_FILE("EsmRepair.cpp");
 /*===========================================================================

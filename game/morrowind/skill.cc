@@ -19,7 +19,7 @@
 #include "game/morrowind/record.h"
 #include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_long.h"
-#include "game/morowind/sub_name.h"
+#include "game/morrowind/sub_name.h"
 #include "game/morrowind/sub_skdt.h"
 
 DEFINE_FILE("EsmSkill.cpp");
