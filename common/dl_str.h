@@ -10,6 +10,8 @@
 #ifndef __DL_STR_H
 #define __DL_STR_H
 
+#include <winnt.h>
+
 #include <cstddef>
 
 #include "common/dl_base.h"
