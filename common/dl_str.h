@@ -40,7 +40,7 @@ std::size_t SafeStrLen(const TCHAR *pString);
 
 /* Seperate a string in a variable/value pair */
 bool SeperateVarValue(TCHAR **ppVariable,
-                      TCHAR** ppValue,
+                      TCHAR **ppValue,
                       TCHAR *pString,
                       const TCHAR SeperatorTCHAR = _T('='),
                       const TCHAR CommentTCHAR = _T('#'));

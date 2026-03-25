@@ -13,7 +13,7 @@
 #include <cstddef>
 
 #include "common/dl_base.h"
-#include "game/morroiwnd/file.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/record.h"
 #include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_data.h"
