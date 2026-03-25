@@ -10,8 +10,10 @@
 #ifndef __FILE3DS_H
 #define __FILE3DS_H
 
+#include <cstdio>
+
+#include "common/dl_base.h"
 #include "common/file/gen_file.h"
-#include "common/images/rgb_pal.h"
 
 /* Flags for the 3DS chunk types */
 #define CHUNK3DS_FLAG_SIMPLECONTAINER 1
@@ -105,8 +107,8 @@ class C3dsFile : public CGenFile {
 
   protected:
 	/* Helper function to dump chunks recursively */
-	bool DumpChunk(FILE *pFileHandle);
-	bool DumpMeshMatrix(FILE *pFileHandle);
+	bool DumpChunk(std::FILE *pFileHandle);
+	bool DumpMeshMatrix(std::FILE *pFileHandle);
 
 	/* Helper input functions */
 	bool ReadName(char *pBuffer);
@@ -136,7 +138,7 @@ class C3dsFile : public CGenFile {
 	                             const float ZAngle);
 
 	/* Dump the chunks found in the 3DS file */
-	bool DumpContents(FILE *pFileHandle);
+	bool DumpContents(std::FILE *pFileHandle);
 
 	/* End writing major chunk sections */
 	bool EndMainChunk();

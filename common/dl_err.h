@@ -11,8 +11,11 @@
 #ifndef __DL_ERR_H
 #define __DL_ERR_H
 
-#include "common/dl_mem.h"
+#include <cstdarg>
+#include <cstddef>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
 
 /* Maximum size of a message string for the error message strings */
 #define MAX_ERROR_MESSAGESIZE   1024
@@ -25,11 +28,6 @@
 #define ERROR_NOTIFYLIST_BUFFER 1024
 
 
-/*===========================================================================
- *
- * Begin Custom Error Code Defines
- *
- *=========================================================================*/
 #define ERR_NONE          ((errcode_t) 0)
 #define ERR_MEM           ((errcode_t) 1)
 #define ERR_OPENFILE      ((errcode_t) 2)
@@ -62,8 +60,7 @@ typedef int (ERR_NOTIFY_FUNCTION) (const TCHAR *pTitle, const TCHAR *pMsg);
 typedef int (*PERR_NOTIFY_FUNCTION) (const TCHAR *pTitle, const TCHAR *pMsg);
 
 /* Error hook callback function type */
-typedef void (*PERROR_HOOKPROC) (void *pData, const TCHAR *pString, va_list Args);
-
+typedef void (*PERROR_HOOKPROC) (void *pData, const TCHAR *pString, std::va_list Args);
 
 /*===========================================================================
  *
@@ -77,7 +74,6 @@ typedef void (*PERROR_HOOKPROC) (void *pData, const TCHAR *pString, va_list Args
  *=========================================================================*/
 typedef const TCHAR *(ERR_CUSTOM_FUNCTION) (const errcode_t Code);
 typedef const TCHAR *(*PERR_CUSTOM_FUNCTION) (const errcode_t Code);
-
 
 /*===========================================================================
  *
@@ -261,11 +257,11 @@ class CErrorIncident {
 		pNext = pNewNext;
 	}
 
-	void SetMsg(const TCHAR* pString) {
+	void SetMsg(const TCHAR *pString) {
 		ReplaceString(&pMessage, pString);
 	}
 
-	void SetMsg(const TCHAR *pString, va_list Args);
+	void SetMsg(const TCHAR *pString, std::va_list Args);
 };
 
 
@@ -310,7 +306,7 @@ class CErrorHandler {
 	void AddErrorV(const errcode_t Code,
 	               const errcode_t SubCode,
 	               const TCHAR *pString,
-	               va_list Args);
+	               std::va_list Args);
 
 	/* Delete all errors in the list */
 	void ClearErrors();
@@ -353,7 +349,7 @@ class CErrorHandler {
 
 	/* Standard error message output function */
 	void Printf(const TCHAR *pTitle, const TCHAR *pString, ...);
-	void Printf(const TCHAR *pTitle, const TCHAR *pString, va_list Args);
+	void Printf(const TCHAR *pTitle, const TCHAR *pString, std::va_list Args);
 
 	/* Change the user notify function */
 	void SetNotifyFunc(PERR_NOTIFY_FUNCTION NewFunc) {
@@ -373,10 +369,9 @@ extern CErrorDatabase ErrorDatabase;
 
 /* Returns the system error message associated with the error code */
 const TCHAR *SystemErrorFunction(const errcode_t Code);
-const TCHAR *TCGraphErrorFunction(const errcode_t Code);
 
 #if _WIN32
-	const TCHAR *WindowsErrorFunction(const errcode_t Code);
+const TCHAR *WindowsErrorFunction(const errcode_t Code);
 #endif
 
 
@@ -388,7 +383,7 @@ const TCHAR *TCGraphErrorFunction(const errcode_t Code);
  * available in DEBUG builds.
  *
  *=========================================================================*/
-
+#if _DEBUG
 /* Custom error codes for testing error handler */
 #define TEST_ERR1 100
 #define TEST_ERR2 101
@@ -405,6 +400,6 @@ void Test_HandlerAddError();
 void Test_HandlerNotify();
 void Test_DLErr();
 const TCHAR *Test_CustomErrFunc(const errcode_t Code);
-
+#endif  // _DEBUG
 
 #endif

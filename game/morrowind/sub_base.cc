@@ -9,8 +9,14 @@
  *=========================================================================*/
 #include "game/morrowind/sub_base.h"
 
-DEFINE_FILE("EsmSubBase.cpp");
+#include <cstddef>
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/file/gen_file.h"
+
+DEFINE_FILE("EsmSubBase.cpp");
 /*===========================================================================
  *
  * Class CEsmSubRecord Constructor
@@ -48,7 +54,7 @@ void CEsmSubRecord::Copy(CEsmSubRecord *pSubRecord) {
 
 	if (pSubRecord->m_pData != NULL) {
 		CreateArrayPointer(m_pData, byte, m_RecordSize);
-		memcpy(m_pData, pSubRecord->m_pData, m_RecordSize);
+		std::memcpy(m_pData, pSubRecord->m_pData, m_RecordSize);
 	}
 }
 
@@ -69,7 +75,7 @@ void CEsmSubRecord::CopyData(char *pData, const int Size) {
 	}
 
 	CreateArrayPointer(m_pData, byte, Size);
-	memcpy(m_pData, pData, Size);
+	std::memcpy(m_pData, pData, Size);
 	m_RecordSize = Size;
 }
 
@@ -168,8 +174,8 @@ bool CEsmSubRecord::ReadData(CGenFile &File) {
  *=========================================================================*/
 bool CEsmSubRecord::Write(CGenFile &File) {
 	bool Result;
-	Result = WriteHeader (File);
-	Result &= WriteData (File);
+	Result = WriteHeader(File);
+	Result &= WriteData(File);
 	return Result;
 }
 

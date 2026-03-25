@@ -12,6 +12,7 @@
 #include <winnt.h>
 
 #include <cstddef>
+#include <cstdio>
 
 #include "common/dl_base.h"
 #include "common/dl_str.h"
@@ -73,7 +74,7 @@ const TCHAR *CEsmScriptError::GetFuncArgString() const {
 	} else if (m_pFunction->Var[m_FuncArgIndex] == 0) {
 		strnncpy(s_Buffer, _T("Invalid"), 63);
 	} else {
-		snprintf(s_Buffer, 63, _T("0x%08I64X"), m_pFunction->Var[m_FuncArgIndex]);
+		std::snprintf(s_Buffer, 63, _T("0x%08I64X"), m_pFunction->Var[m_FuncArgIndex]);
 	}
 
 	return s_Buffer;

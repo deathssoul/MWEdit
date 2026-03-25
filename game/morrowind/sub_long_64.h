@@ -10,13 +10,12 @@
 #ifndef __ESMSUBLONG64_H
 #define __ESMSUBLONG64_H
 
+#include "common/dl_mem.h"
+#include "common/file/gen_file.h"
 #include "game/morrowind/sub_base.h"
-
 
 #pragma pack(push, 1)
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubLong64 Definition
@@ -31,7 +30,7 @@ class CEsmSubLong64 : public CEsmSubRecord {
 
 
 	virtual bool ReadData(CGenFile &File) {
-		return File.ReadLong(m_Long1) & File.ReadLong(m_Long2);
+		return File.ReadLong(m_Long1) & File.ReadLong(m_Long2);  // TODO: What is the return result here? Needs documentation once deciphered
 	}
 
 	virtual bool WriteData(CGenFile &File) {

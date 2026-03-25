@@ -11,90 +11,24 @@
 #ifndef __GENFIND_H
 #define __GENFIND_H
 
-#if _WIN32
-	#include "io.h"
-#endif
+#include <ctime>
 
-#include "common/dl_file.h"
-
+#include "common/dl_base.h"
+#include "common/file/file_block.h"
 
 /* Used to indicate an invalid find handle */
 #define NULL_FIND_HANDLE (-1l)
 
 /* Platform specific defines */
 #if _WIN32
-	/* Define the base file block type */
-	typedef struct _finddata_t fileblock_t;
-
-	/* Redefine attribute values */
-	#define FA_ARCH     _A_ARCH
-	#define FA_DIREC    _A_SUBDIR
-	#define FA_RDONLY   _A_RDONLY
-	#define FA_HIDDEN   _A_HIDDEN
-	#define FA_SYSTEM   _A_SYSTEM
-	#define FA_NORMAL   _A_NORMAL
+/* Redefine attribute values */
+#define FA_ARCH     _A_ARCH
+#define FA_DIREC    _A_SUBDIR
+#define FA_RDONLY   _A_RDONLY
+#define FA_HIDDEN   _A_HIDDEN
+#define FA_SYSTEM   _A_SYSTEM
+#define FA_NORMAL   _A_NORMAL
 #endif
-
-
-/*=========================================================================
- *
- * Class CFileBlock Definition
- *
- * A class to handle the different variations of the fileblock structure
- * under the various operating systems.
- *
- *=======================================================================*/
-class CFileBlock {
-  protected:
-	fileblock_t BlockData;
-
-  public:
-	/* Class Constructor */
-	CFileBlock() {
-		Destroy();
-	}
-
-	/* Class Destructor */
-	virtual void Destroy();
-
-	/* Return various members of the file block data */
-	fileblock_t &GetBlock() {
-		return BlockData;
-	}
-
-	fileblock_t *GetBlockPtr() {
-		return &BlockData;
-	}
-
-	/* Define the get methods depending on the platform */
-#if _WIN32
-	char *GetName() {
-		return &BlockData.name[0];
-	}
-
-	int GetAttribute() const {
-		return BlockData.attrib;
-	}
-
-	time_t GetCreationTime() const {
-		return BlockData.time_create;
-	}
-
-	time_t GetAccessTime() const {
-		return BlockData.time_access;
-	}
-
-	time_t GetWriteTime() const {
-		return BlockData.time_write;
-	}
-
-	ulong GetSize() const {
-		return BlockData.size;
-	}
-#endif
-};
-
-
 /*=========================================================================
  *
  * Begin Class CFindFile Definition
@@ -137,15 +71,15 @@ class CFindFile {
 		return FileBlock.GetAttribute();
 	}
 
-	time_t GetCreationTime() {
+	std::time_t GetCreationTime() {
 		return FileBlock.GetCreationTime();
 	}
 
-	time_t GetAccessTime() {
+	std::time_t GetAccessTime() {
 		return FileBlock.GetAccessTime();
 	}
 
-	time_t GetWriteTime() {
+	std::time_t GetWriteTime() {
 		return FileBlock.GetWriteTime();
 	}
 

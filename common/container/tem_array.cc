@@ -10,8 +10,8 @@
  *=========================================================================*/
 #include "common/container/tem_array.h"
 
-#include <cstddef>
 #include <climits>
+#include <cstddef>
 #include <cstring>
 
 #include "common/dl_base.h"
@@ -41,7 +41,6 @@ typedef struct {
 typedef TTemplateArray<testdata_t> CTestDataArray;
 typedef TTemplateArray<char> CPCharArray;
 #endif  // _DEBUG
-
 /*===========================================================================
  *
  * Class TTemplateArray Constructor - TTemplateArray (MaxSize);
@@ -444,7 +443,7 @@ void Test_StressTemplateArray(const std::size_t NumTests) {
 			StringArray2.AddElement(CreateString(TestSize));
 
 			/* Run the DeleteElement() method */
-			if ((rand() % 4) == 0) {
+			if ((std::rand() % 4) == 0) {
 				StringArray1.DeleteElement((int)((float)std::rand() * (StringArray1.GetNumElements() - 1) / RAND_MAX));
 				StringArray2.DeleteElement((int)((float)std::rand() * (StringArray2.GetNumElements() - 1) / RAND_MAX));
 			} else if ((std::rand() % 10) == 0) { /* Run the FreeExtra() method */

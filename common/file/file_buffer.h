@@ -10,12 +10,12 @@
 #ifndef __FILEBUFFER_H
 #define __FILEBUFFER_H
 
-#include "common/dl_err.h"
+#include <winnt.h>
+
+#include <cstdio>
 
 /* Default input buffer size in bytes */
 #define FILEBUF_DEFAULT_BUFFER_SIZE 1024
-
-
 /*===========================================================================
  *
  * Begin Class CFileBuffer Definition
@@ -25,10 +25,10 @@
  *=========================================================================*/
 class CFileBuffer {
   private:
-	FILE *m_pFile;   /* File handle */
-	bool m_Attached; /* Does handle belong to us? */
+	std::FILE *m_pFile;   /* File handle */
+	bool m_Attached;      /* Does handle belong to us? */
 
-	char *m_pBuffer; /* Buffered input data */
+	char *m_pBuffer;      /* Buffered input data */
 	int m_BufferSize;
 	int m_MaxBufferSize;
 	int m_BufferIndex;
@@ -50,7 +50,7 @@ class CFileBuffer {
 	virtual void Destroy();
 
 	/* Attach an existing file handle */
-	void Attach(FILE *pFile);
+	void Attach(std::FILE *pFile);
 
 	/* Close or detach a file */
 	void Close();
@@ -73,7 +73,7 @@ class CFileBuffer {
 	}
 
 	bool IsEOF() {
-		return (feof(m_pFile) != 0 && m_BufferIndex >= m_BufferSize);
+		return (std::feof(m_pFile) != 0 && m_BufferIndex >= m_BufferSize);
 	}
 
 	/* Open a file */

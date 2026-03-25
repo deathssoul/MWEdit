@@ -10,7 +10,7 @@
 #ifndef __ESMSCRFUNCDATA_H
 #define __ESMSCRFUNCDATA_H
 
-#include <string.h>  // TODO: Required for non-standard extension _stricmp()
+//#include <string.h>  // TODO: Required for non-standard extension _stricmp()
 
 #include <winnt.h>
 

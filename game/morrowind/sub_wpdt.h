@@ -10,8 +10,11 @@
 #ifndef __ESMSUBWPDT_H
 #define __ESMSUBWPDT_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/sub_base.h"
 
 /* Armor types */
 #define MWESM_WEAPONTYPE_MIN           0
@@ -55,8 +58,6 @@ typedef struct {
 } weapondata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubWPDT Definition
@@ -83,7 +84,7 @@ class CEsmSubWPDT : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(weapondata_t));
 		m_RecordSize = sizeof(weapondata_t);
-		memset(m_pData, 0, sizeof(weapondata_t));
+		std::memset(m_pData, 0, sizeof(weapondata_t));
 	}
 
 	/* Get class members */

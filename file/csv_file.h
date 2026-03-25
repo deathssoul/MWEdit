@@ -10,8 +10,11 @@
 #ifndef __CSVFILE_H
 #define __CSVFILE_H
 
-#include "common/container/tem_array.h"
+#include <cstddef>
+
+#include "common/dl_base.h"
 #include "common/container/ptr_array.h"
+#include "common/container/tem_array.h"
 #include "common/file/gen_file.h"
 #include "common/string/sstring.h"
 
@@ -27,8 +30,6 @@ typedef TTemplateArray<CSString> CCsvRow;
 
 /* Array of CSV row points */
 typedef TPtrArray<CCsvRow> CCsvRowArray;
-
-
 /*===========================================================================
  *
  * Begin Class CCsvFile Definition

@@ -29,24 +29,31 @@
  *=========================================================================*/
 #include "common/dl_file.h"
 
-#include <direct.h>
-#include <errno.h>
-//#include <limits.h>
-//#include <sys\stat.h>
-//#include <io.h>
-#include <ctype.h>
+#include <stdlib.h>  // TODO: Required for non-standard extension _MAX_PATH
+
+#include <cctype>
+#include <cerrno>
+#include <cstddef>
+#include <cstdio>
+
+#include "common/dl_base.h"
+#include "common/dl_chr.h"
+#include "common/dl_err.h"
+#include "common/dl_log.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
 
 #ifndef _MSC_VER
-	#include <dir.h>
+#include <dir.h>  // TODO: What is this for?
 #endif
 
 #if _WIN32
-	#include <windows.h>
+#include <tchar.h>
+#else
+#include <unistd.h>
 #endif
 
 DEFINE_FILE("DL_File.h");
-
-
 /*=========================================================================
  *
  * Function - bool ChangeDirectory (pPath);
@@ -100,9 +107,9 @@ bool ChangeDirectory(const TCHAR *pPath) {
 TCHAR *ChangeExtension(TCHAR *pDestFilename,
                        const TCHAR *pSourceFilename,
                        const TCHAR *pNewExtension,
-                       const size_t MaxStringLength) {
+                       const std::size_t MaxStringLength) {
 	DEFINE_FUNCTION("ChangeExtension()");
-	size_t DestLength;
+	std::size_t DestLength;
 	/* Ensure valid input */
 	ASSERT(pDestFilename != NULL && pSourceFilename != NULL && pNewExtension != NULL);
 	/* Create the new filename without an extension */
@@ -163,8 +170,8 @@ bool CompareExtension(const TCHAR *pFilename, const TCHAR *pExtension) {
  *=========================================================================*/
 bool CompareFiles(const TCHAR *pFilename1, const TCHAR *pFilename2) {
 	//DEFINE_FUNCTION("CompareFiles()");
-	FILE *pFileHandle1;
-	FILE *pFileHandle2;
+	std::FILE *pFileHandle1;
+	std::FILE *pFileHandle2;
 	bool ReturnValue = true;
 
 	/* Ignore invalid input */
@@ -182,31 +189,31 @@ bool CompareFiles(const TCHAR *pFilename1, const TCHAR *pFilename2) {
 	pFileHandle2 = TFOPEN(pFilename2, _T("rb"));
 
 	if (pFileHandle2 == NULL) {
-		fclose(pFileHandle1);
+		std::fclose(pFileHandle1);
 		return false;
 	}
 
 	/* Compare each file, byte by byte */
-	while (!feof(pFileHandle1) && !feof(pFileHandle2)) {
-		if (fgetc(pFileHandle1) != fgetc(pFileHandle2)) {
+	while (!std::feof(pFileHandle1) && !std::feof(pFileHandle2)) {
+		if (std::fgetc(pFileHandle1) != std::fgetc(pFileHandle2)) {
 			ReturnValue = false;
 			break;
 		}
 
 		/* Abort on any error */
-		if (ferror(pFileHandle1) != 0 || ferror(pFileHandle2) != 0) {
+		if (std::ferror(pFileHandle1) != 0 || std::ferror(pFileHandle2) != 0) {
 			ReturnValue = false;
 			break;
 		}
 	}
 
 	/* Ensure both files are the samesize */
-	if (feof(pFileHandle1) != feof(pFileHandle2)) {
+	if (std::feof(pFileHandle1) != std::feof(pFileHandle2)) {
 		ReturnValue = false;
 	}
 
-	fclose(pFileHandle1);
-	fclose(pFileHandle2);
+	std::fclose(pFileHandle1);
+	std::fclose(pFileHandle2);
 	return ReturnValue;
 }
 
@@ -223,11 +230,11 @@ bool CompareFiles(const TCHAR *pFilename1, const TCHAR *pFilename2) {
  *=======================================================================*/
 bool CopyOneFile(const TCHAR *pInputFile, const TCHAR *pOutputFile) {
 	DEFINE_FUNCTION("CopyOneFile()");
-	FILE *pInputHandle = NULL;
-	FILE *pOutputHandle = NULL;
+	std::FILE *pInputHandle = NULL;
+	std::FILE *pOutputHandle = NULL;
 	byte *Buffer;
-	size_t ReadSize;
-	size_t WriteSize;
+	std::size_t ReadSize;
+	std::size_t WriteSize;
 	bool ReturnValue = TRUE;
 	/* Ensure valid input */
 	ASSERT(pInputFile != NULL && pOutputFile != NULL);
@@ -242,7 +249,7 @@ bool CopyOneFile(const TCHAR *pInputFile, const TCHAR *pOutputFile) {
 	pOutputHandle = OpenFile(pOutputFile, _T("wb"));
 
 	if (pOutputHandle == NULL) {
-		fclose(pInputHandle);
+		std::fclose(pInputHandle);
 		return FALSE;
 	}
 
@@ -252,11 +259,11 @@ bool CopyOneFile(const TCHAR *pInputFile, const TCHAR *pOutputFile) {
 	/* Read and write file in sections until finished */
 	do {
 		/* Input data from source file and output to destination */
-		ReadSize = fread(Buffer, 1, COPYFILE_BUFFERSIZE, pInputHandle);
-		WriteSize = fwrite(Buffer, 1, ReadSize, pOutputHandle);
+		ReadSize = std::fread(Buffer, 1, COPYFILE_BUFFERSIZE, pInputHandle);
+		WriteSize = std::fwrite(Buffer, 1, ReadSize, pOutputHandle);
 
 		/* Ensure both the input and output was successful */
-		if (WriteSize != ReadSize || ferror(pInputHandle) || ferror(pOutputHandle)) {
+		if (WriteSize != ReadSize || std::ferror(pInputHandle) || std::ferror(pOutputHandle)) {
 			ErrorHandler.AddError(ERR_SYSTEM,
 			                      (errcode_t)errno,
 			                      _T("Failed to copy file '%s' to '%s'!"),
@@ -269,8 +276,8 @@ bool CopyOneFile(const TCHAR *pInputFile, const TCHAR *pOutputFile) {
 
 	/* Close files */
 	DestroyPointer(Buffer);
-	fclose(pInputHandle);
-	fclose(pOutputHandle);
+	std::fclose(pInputHandle);
+	std::fclose(pOutputHandle);
 	return ReturnValue;
 }
 
@@ -285,7 +292,7 @@ bool CopyOneFile(const TCHAR *pInputFile, const TCHAR *pOutputFile) {
  * Returns a pointer to the new string.
  *
  *=======================================================================*/
-TCHAR *CreatePath(TCHAR *pNewPath, const TCHAR *pString, const size_t MaxStringLength) {
+TCHAR *CreatePath(TCHAR *pNewPath, const TCHAR *pString, const std::size_t MaxStringLength) {
 	DEFINE_FUNCTION("CreatePath()");
 	/* Ensure all input is valid */
 	ASSERT(pNewPath != NULL && pString != NULL);
@@ -293,7 +300,7 @@ TCHAR *CreatePath(TCHAR *pNewPath, const TCHAR *pString, const size_t MaxStringL
 	strnncpy(pNewPath, pString, MaxStringLength);
 
 	/* Ensure the path ends with a path TCHARacter */
-	if ((size_t)TSTRLEN(pNewPath) < MaxStringLength) {
+	if ((std::size_t)TSTRLEN(pNewPath) < MaxStringLength) {
 		TerminatePath(pNewPath);
 	}
 
@@ -336,7 +343,7 @@ bool DelOneFile(const TCHAR *pFilename) {
  * a pointer to the file string.
  *
  *=======================================================================*/
-TCHAR *ExtractFilename(TCHAR *pFilename, const TCHAR *pPath, const size_t MaxStringLength) {
+TCHAR *ExtractFilename(TCHAR *pFilename, const TCHAR *pPath, const std::size_t MaxStringLength) {
 	DEFINE_FUNCTION("ExtractFilename()");
 	/* Ensure valid input */
 	ASSERT(pFilename != NULL && pPath != NULL);
@@ -369,7 +376,7 @@ TCHAR *ExtractFilename(TCHAR *pFilename, const TCHAR *pPath, const size_t MaxStr
  * Both the drive and filename are optional.
  *
  *=======================================================================*/
-TCHAR *ExtractPath(TCHAR *pPath, const TCHAR *pString, const size_t MaxStringLength) {
+TCHAR *ExtractPath(TCHAR *pPath, const TCHAR *pString, const std::size_t MaxStringLength) {
 	DEFINE_FUNCTION("ExtractPath()");
 	TCHAR *pFilePtr;
 	/* Ensure all the input is valid */
@@ -381,7 +388,7 @@ TCHAR *ExtractPath(TCHAR *pPath, const TCHAR *pString, const size_t MaxStringLen
 	*pFilePtr = NULL_CHAR;
 
 	/* Ensure the path terminates properly, if possible */
-	if ((size_t)TSTRLEN(pPath) < MaxStringLength) {
+	if ((std::size_t)TSTRLEN(pPath) < MaxStringLength) {
 		TerminatePath(pPath);
 	}
 
@@ -399,7 +406,7 @@ TCHAR *ExtractPath(TCHAR *pPath, const TCHAR *pString, const size_t MaxStringLen
  *=======================================================================*/
 bool FileExists(const TCHAR *pFilename) {
 	DEFINE_FUNCTION("FileExists()");
-	FILE *pFileHandle;
+	std::FILE *pFileHandle;
 	/* Ensure valid input */
 	ASSERT(pFilename != NULL);
 
@@ -416,7 +423,7 @@ bool FileExists(const TCHAR *pFilename) {
 	}
 
 	/* File was opened and therefore exists, close and return success */
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 	return TRUE;
 }
 
@@ -434,7 +441,7 @@ bool FileExists(const TCHAR *pFilename) {
  *=========================================================================*/
 const TCHAR *FindExtension(const TCHAR *pFilename) {
 	DEFINE_FUNCTION("FindExtension()");
-	size_t StringIndex;
+	std::size_t StringIndex;
 	/* Ensure valid input */
 	ASSERT(pFilename != NULL);
 	/* Find the end of the filename */
@@ -469,7 +476,7 @@ const TCHAR *FindExtension(const TCHAR *pFilename) {
  *=======================================================================*/
 const TCHAR *FindFilename(const TCHAR *pPath) {
 	DEFINE_FUNCTION("FindFilename()");
-	size_t StringIndex;
+	std::size_t StringIndex;
 	/* Ensure the input is valid */
 	ASSERT(pPath != NULL);
 	/* Start at the end of the given path */
@@ -542,7 +549,7 @@ long GetFileSize(const TCHAR *pFilename) {
  * The current file position remains unchanged.
  *
  *=========================================================================*/
-long GetFileSize(FILE *pFileHandle) {
+long GetFileSize(std::FILE *pFileHandle) {
 	//DEFINE_FUNCTION("GetFileSize(FILE*)");
 	long FileSize;
 	bool Result;
@@ -567,7 +574,7 @@ long GetFileSize(FILE *pFileHandle) {
  *=========================================================================*/
 bool GetFileSize(long &FileSize, const TCHAR *pFilename) {
 	DEFINE_FUNCTION("GetFileSize(long&, TCHAR*)");
-	FILE *pFileHandle;
+	std::FILE *pFileHandle;
 	bool Result;
 	/* Ensure valid input */
 	ASSERT(pFilename != NULL);
@@ -589,7 +596,7 @@ bool GetFileSize(long &FileSize, const TCHAR *pFilename) {
 	}
 
 	Result = GetFileSize(FileSize, pFileHandle);
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 	return Result;
 }
 
@@ -605,14 +612,14 @@ bool GetFileSize(long &FileSize, const TCHAR *pFilename) {
  * may not report the file size correctly.
  *
  *=========================================================================*/
-bool GetFileSize(long &FileSize, FILE *pFileHandle) {
+bool GetFileSize(long &FileSize, std::FILE *pFileHandle) {
 	DEFINE_FUNCTION("GetFileSize(long&, FILE*)");
 	long PrevFilePos;
 	int Result;
 	/* Ensure valid input */
 	ASSERT(pFileHandle != NULL);
 	/* Save the current file position */
-	PrevFilePos = ftell(pFileHandle);
+	PrevFilePos = std::ftell(pFileHandle);
 
 	if (PrevFilePos < 0) {
 		ErrorHandler.AddError(ERR_SYSTEM,
@@ -622,7 +629,7 @@ bool GetFileSize(long &FileSize, FILE *pFileHandle) {
 	}
 
 	/* Attempt to move to the end of the file */
-	Result = fseek(pFileHandle, 0, SEEK_END);
+	Result = std::fseek(pFileHandle, 0, SEEK_END);
 
 	if (Result < 0) {
 		ErrorHandler.AddError(ERR_SYSTEM,
@@ -632,7 +639,7 @@ bool GetFileSize(long &FileSize, FILE *pFileHandle) {
 	}
 
 	/* Get the size of the file in bytes */
-	FileSize = ftell(pFileHandle);
+	FileSize = std::ftell(pFileHandle);
 
 	if (FileSize < 0) {
 		ErrorHandler.AddError(ERR_SYSTEM,
@@ -641,7 +648,7 @@ bool GetFileSize(long &FileSize, FILE *pFileHandle) {
 		return FALSE;
 	}
 
-	Result = fseek(pFileHandle, PrevFilePos, SEEK_SET);
+	Result = std::fseek(pFileHandle, PrevFilePos, SEEK_SET);
 
 	if (Result < 0) {
 		ErrorHandler.AddError(ERR_SYSTEM,
@@ -722,7 +729,7 @@ bool IsDirectory(const TCHAR *pPath) {
 #if _WIN32
 	pResult = _tgetcwd(InitialPath, _MAX_PATH);
 #else
-	pResult = getcwd(InitialPath, _MAX_PATH);
+	pResult = getcwd(InitialPath, _MAX_PATH);  // TODO: Will fail to work. _MAX_PATH doesn't exist in the *nix C library.
 #endif
 
 	if (pResult == NULL) {
@@ -755,7 +762,7 @@ bool IsDirectory(const TCHAR *pPath) {
  *======================================================================*/
 bool IsFileWriteable(const TCHAR *pFilename) {
 	DEFINE_FUNCTION("IsFileWriteable()");
-	FILE *pFileHandle;
+	std::FILE *pFileHandle;
 	/* Ensure valid input */
 	ASSERT(pFilename != NULL);
 
@@ -765,14 +772,14 @@ bool IsFileWriteable(const TCHAR *pFilename) {
 	}
 
 	/* Attempt to open the file for appending */
-	pFileHandle = TFOPEN (pFilename, _T("ab"));
+	pFileHandle = TFOPEN(pFilename, _T("ab"));
 
 	if (pFileHandle == NULL) {
 		return FALSE;
 	}
 
 	/* Close the now open file and return success */
-	fclose (pFileHandle);
+	std::fclose(pFileHandle);
 	return TRUE;
 }
 
@@ -815,17 +822,17 @@ bool IsWildCard(const TCHAR *pFilename) {
 TCHAR *MakeSpaceLabel(TCHAR *Buffer, const int BufferSize, const double Value) {
 	//DEFINE_FUNCTION("MakeSpaceLabel()");
 	if ((int)Value == 0) {
-		snprintf(Buffer, BufferSize, _T("0 b"));
+		std::snprintf(Buffer, BufferSize, _T("0 b"));
 	} else if (Value < 0.0) {
-		snprintf(Buffer, BufferSize, _T("? b"));
+		std::snprintf(Buffer, BufferSize, _T("? b"));
 	} else if (Value <= 1500.0) {
-		snprintf(Buffer, BufferSize, _T("%d b"), (int)Value);
+		std::snprintf(Buffer, BufferSize, _T("%d b"), (int)Value);
 	} else if (Value <= 1500000.0) {
-		snprintf(Buffer, BufferSize, _T("%.1f kb"), Value / 1000.0);
+		std::snprintf(Buffer, BufferSize, _T("%.1f kb"), Value / 1000.0);
 	} else if (Value <= 1500000000.0) {
-		snprintf(Buffer, BufferSize, _T("%.1f Mb"), Value / 1000000.0);
+		std::snprintf(Buffer, BufferSize, _T("%.1f Mb"), Value / 1000000.0);
 	} else {
-		snprintf(Buffer, BufferSize, _T("%.1f Gb"), Value / 1000000000.0);
+		std::snprintf(Buffer, BufferSize, _T("%.1f Gb"), Value / 1000000000.0);
 	}
 
 	return Buffer;
@@ -918,9 +925,9 @@ const TCHAR *l_GetFileMode(const TCHAR *pMode) {
 	}
 }
 
-FILE *OpenFile (const TCHAR *pFilename, const TCHAR *pMode) {
+std::FILE *OpenFile (const TCHAR *pFilename, const TCHAR *pMode) {
 	DEFINE_FUNCTION("OpenFile(TCHAR*, TCHAR*)");
-	FILE *pFileHandle = NULL;
+	std::FILE *pFileHandle = NULL;
 	/* Ensure valid input */
 	ASSERT(pFilename != NULL && pMode != NULL);
 
@@ -953,7 +960,7 @@ FILE *OpenFile (const TCHAR *pFilename, const TCHAR *pMode) {
  * string pointer is invalid.
  *
  *=========================================================================*/
-bool OpenFile(FILE **ppFileHandle, const TCHAR *pFilename, const TCHAR *pMode) {
+bool OpenFile(std::FILE **ppFileHandle, const TCHAR *pFilename, const TCHAR *pMode) {
 	DEFINE_FUNCTION("OpenFile(FILE**, TCHAR*, TCHAR*)");
 	/* Ensure valid input */
 	ASSERT(ppFileHandle != NULL);
@@ -982,11 +989,11 @@ bool OpenFile(FILE **ppFileHandle, const TCHAR *pFilename, const TCHAR *pMode) {
  * on some systems, the two modes are identical.
  *
  *=========================================================================*/
-bool ReadFile(byte **ppBuffer, size_t &BytesRead, const TCHAR *pFilename, const bool TextMode) {
+bool ReadFile(byte **ppBuffer, std::size_t &BytesRead, const TCHAR *pFilename, const bool TextMode) {
 	DEFINE_FUNCTION("ReadFile()");
-	FILE *pFileHandle;
+	std::FILE *pFileHandle;
 	long FileSize;
-	size_t BufferSize;
+	std::size_t BufferSize;
 	bool Result;
 	bool ReturnValue = TRUE;
 	/* Ensure valid input */
@@ -1002,27 +1009,23 @@ bool ReadFile(byte **ppBuffer, size_t &BytesRead, const TCHAR *pFilename, const 
 
 	/* Attempt to get the file size in bytes */
 	Result = GetFileSize(FileSize, pFileHandle);
-	BufferSize = (size_t)FileSize;
+	BufferSize = (std::size_t)FileSize;
 
 	/* If an error occured getting the file size, do nothing */
 	if (!Result) {
 		ReturnValue = FALSE;
-	}
-	/* For systems with long/int having different bit sizes */
-	else if (FileSize != (long)BufferSize) {
+	} else if (FileSize != (long)BufferSize) { /* For systems with long/int having different bit sizes */
 		ErrorHandler.AddError(ERR_MEM,
 		                      _T("Cannot read the file '%s' as it's size exceeds the maximum allocation size!"),
 		                      pFilename);
 		ReturnValue = FALSE;
-	}
-	/* Allocate input buffer and read data from file */
-	else {
+	} else { /* Allocate input buffer and read data from file */
 		CreateArrayPointer(*ppBuffer, byte, BufferSize + 1);
-		BytesRead = fread(*ppBuffer, 1, BufferSize, pFileHandle);
+		BytesRead = std::fread(*ppBuffer, 1, BufferSize, pFileHandle);
 		(*ppBuffer)[BufferSize] = NULL_CHAR;
 
 		/* Ensure the input was entirely successfull */
-		if (ferror(pFileHandle)) {
+		if (std::ferror(pFileHandle)) {
 			ErrorHandler.AddError(ERR_SYSTEM,
 			                      (errcode_t)errno,
 			                      _T("Could not read the entire file '%s' (%u of %u bytes read)!"),
@@ -1034,7 +1037,7 @@ bool ReadFile(byte **ppBuffer, size_t &BytesRead, const TCHAR *pFilename, const 
 		}
 	}
 
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 	return ReturnValue;
 }
 
@@ -1049,16 +1052,16 @@ bool ReadFile(byte **ppBuffer, size_t &BytesRead, const TCHAR *pFilename, const 
  *
  *=========================================================================*/
 bool ReadFileCB(byte **ppBuffer,
-                size_t &BytesRead,
+                std::size_t &BytesRead,
                 const TCHAR *pFilename,
                 READFILE_CALLBACK CallBackFunc,
                 void *pUserData) {
 	DEFINE_FUNCTION("ReadFileCB()");
-	FILE *pFileHandle;
+	std::FILE *pFileHandle;
 	byte *pCurrentPos;
 	long FileSize;
 	long TotalBytes;
-	size_t BufferSize;
+	std::size_t BufferSize;
 	bool Result;
 	bool ReturnValue = TRUE;
 	int CBResult;
@@ -1076,11 +1079,11 @@ bool ReadFileCB(byte **ppBuffer,
 
 	/* Attempt to get the file size in bytes */
 	Result = GetFileSize(FileSize, pFileHandle);
-	BufferSize = (size_t)FileSize;
+	BufferSize = (std::size_t)FileSize;
 
 	/* If an error occured getting the file size, do nothing */
 	if (!Result) {
-		fclose(pFileHandle);
+		std::fclose(pFileHandle);
 		return false;
 	}
 
@@ -1089,7 +1092,7 @@ bool ReadFileCB(byte **ppBuffer,
 		ErrorHandler.AddError(ERR_MEM,
 		                      _T("Cannot read the file '%s' as it's size exceeds the maximum allocation size!"),
 		                      pFilename);
-		fclose(pFileHandle);
+		std::fclose(pFileHandle);
 		return false;
 	}
 
@@ -1099,11 +1102,11 @@ bool ReadFileCB(byte **ppBuffer,
 	TotalBytes = 0;
 
 	/* Input file by chunks */
-	while (!feof(pFileHandle)) {
+	while (!std::feof(pFileHandle)) {
 		if (READFILECB_NUMBYTES > FileSize - TotalBytes) {
-			BytesRead = fread(pCurrentPos, 1, FileSize - TotalBytes, pFileHandle);
+			BytesRead = std::fread(pCurrentPos, 1, FileSize - TotalBytes, pFileHandle);
 		} else {
-			BytesRead = fread(pCurrentPos, 1, READFILECB_NUMBYTES, pFileHandle);
+			BytesRead = std::fread(pCurrentPos, 1, READFILECB_NUMBYTES, pFileHandle);
 		}
 
 		pCurrentPos += BytesRead;
@@ -1131,7 +1134,7 @@ bool ReadFileCB(byte **ppBuffer,
 	(*ppBuffer)[BufferSize] = NULL_CHAR;
 
 	/* Ensure the input was entirely successfull */
-	if (ferror(pFileHandle)) {
+	if (std::ferror(pFileHandle)) {
 		ErrorHandler.AddError(ERR_SYSTEM,
 		                      (errcode_t)errno,
 		                      _T("Could not read the entire file '%s' (%u of %u bytes read)!"),
@@ -1143,7 +1146,7 @@ bool ReadFileCB(byte **ppBuffer,
 	}
 
 	BytesRead = TotalBytes;
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 	return ReturnValue;
 }
 
@@ -1164,14 +1167,14 @@ bool ReadFileCB(byte **ppBuffer,
  *
  *=========================================================================*/
 bool ReadFileBuffer(byte **ppBuffer,
-                    size_t &BytesRead,
+                    std::size_t &BytesRead,
                     const TCHAR *pFilename,
-                    const size_t MaxInputSize,
+                    const std::size_t MaxInputSize,
                     const bool TextMode) {
 	DEFINE_FUNCTION("ReadFileBuffer()");
-	FILE *pFileHandle;
+	std::FILE *pFileHandle;
 	long FileSize;
-	size_t BufferSize;
+	std::size_t BufferSize;
 	bool Result;
 	bool ReturnValue = TRUE;
 
@@ -1187,29 +1190,25 @@ bool ReadFileBuffer(byte **ppBuffer,
 
 	/* Attempt to get the file size in bytes */
 	Result = GetFileSize(FileSize, pFileHandle);
-	BufferSize = (size_t)FileSize;
+	BufferSize = (std::size_t)FileSize;
 
 	/* If an error occured getting the file size, do nothing */
 	if (!Result) {
 		ReturnValue = FALSE;
-	}
-	/* For systems with long/int having different bit sizes */
-	else if (FileSize != (long)BufferSize) {
+	} else if (FileSize != (long)BufferSize) { /* For systems with long/int having different bit sizes */
 		ErrorHandler.AddError(ERR_MEM,
 		                      _T("Cannot read the file '%s' as it's size exceeds the maximum allocation size!"),
 		                      pFilename);
 		ReturnValue = FALSE;
-	}
-	/* Read data from file */
-	else {
+	} else { /* Read data from file */
 		if (BufferSize > MaxInputSize) {
 			BufferSize = MaxInputSize;
 		}
 
-		BytesRead = fread(*ppBuffer, 1, BufferSize, pFileHandle);
+		BytesRead = std::fread(*ppBuffer, 1, BufferSize, pFileHandle);
 
 		/* Ensure the input was entirely successfull */
-		if (ferror(pFileHandle)) {
+		if (std::ferror(pFileHandle)) {
 			ErrorHandler.AddError(ERR_SYSTEM,
 			                      (errcode_t)errno,
 			                      _T("Could not read the file '%s' (%u of %u bytes read)!"),
@@ -1229,7 +1228,7 @@ bool ReadFileBuffer(byte **ppBuffer,
 		}
 	}
 
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 	return ReturnValue;
 }
 
@@ -1250,16 +1249,16 @@ bool ReadFileBuffer(byte **ppBuffer,
  * than 0.
  *
  *=======================================================================*/
-int ReadLine(FILE *pFileHandle, TCHAR *pString, const size_t MaxStringLength) {
+int ReadLine(std::FILE *pFileHandle, TCHAR *pString, const std::size_t MaxStringLength) {
 	DEFINE_FUNCTION("ReadLine()");
 	int ReturnValue = READLINE_OK;
 	int InputChar;
-	size_t StringLength = 0;
+	std::size_t StringLength = 0;
 	/* Ignore any invalid file handle input */
 	ASSERT(pFileHandle != NULL);
 
 	/* Check if at the eof already */
-	if (feof(pFileHandle)) {
+	if (std::feof(pFileHandle)) {
 		ErrorHandler.AddError(ERR_READFILE,
 		                      _T("Could not read line, already at the end of the file!"));
 		return READLINE_ERROR;
@@ -1268,11 +1267,11 @@ int ReadLine(FILE *pFileHandle, TCHAR *pString, const size_t MaxStringLength) {
 	/* Main input loop (infinite) */
 	do {
 		/* Read in next character from file */
-		InputChar = fgetc(pFileHandle);
+		InputChar = std::fgetc(pFileHandle);
 
 		/* Check for EOF or Error conditions */
 		if (InputChar == EOF) {
-			if (!feof(pFileHandle)) {
+			if (!std::feof(pFileHandle)) {
 				ErrorHandler.AddError(ERR_SYSTEM,
 				                      (errcode_t)errno,
 				                      _T("Failed to read line from file!"));
@@ -1318,13 +1317,13 @@ int ReadLine(FILE *pFileHandle, TCHAR *pString, const size_t MaxStringLength) {
  * in Windows it is 32 bit, etc...  ASSERTs if the input handle is invalid.
  *
  *=======================================================================*/
-bool read_int(FILE *pFileHandle, int &Value) {
+bool read_int(std::FILE *pFileHandle, int &Value) {
 	DEFINE_FUNCTION("read_int()");
-	size_t InputSize;
+	std::size_t InputSize;
 	/* Make sure the file handle is valid */
 	ASSERT(pFileHandle != NULL);
 	/* Read in the integer value */
-	InputSize = fread(&Value, 1, sizeof(int), pFileHandle);
+	InputSize = std::fread(&Value, 1, sizeof(int), pFileHandle);
 
 	/* Check for any read error */
 	if (InputSize != sizeof(int)) {
@@ -1350,13 +1349,13 @@ bool read_int(FILE *pFileHandle, int &Value) {
  * ASSERTs if the input handle is invalid.
  *
  *=======================================================================*/
-bool read_long(FILE *pFileHandle, long &Value) {
+bool read_long(std::FILE *pFileHandle, long &Value) {
 	DEFINE_FUNCTION("read_long()");
-	size_t InputSize;
+	std::size_t InputSize;
 	/* Ensure valid input */
 	ASSERT(pFileHandle != NULL);
 	/* Read the value */
-	InputSize = fread (&Value, 1, sizeof(long), pFileHandle);
+	InputSize = std::fread(&Value, 1, sizeof(long), pFileHandle);
 
 	/* Ensure the value was correctly read */
 	if (InputSize != sizeof(long)) {
@@ -1382,13 +1381,13 @@ bool read_long(FILE *pFileHandle, long &Value) {
  * ASSERTs if the input handle is invalid.
  *
  *=======================================================================*/
-bool read_short(FILE *pFileHandle, short &Value) {
+bool read_short(std::FILE *pFileHandle, short &Value) {
 	DEFINE_FUNCTION("read_short()");
-	size_t InputSize;
+	std::size_t InputSize;
 	/* Ensure valid input */
 	ASSERT(pFileHandle != NULL);
 	/* Read in the integer value */
-	InputSize = fread(&Value, 1, sizeof(short), pFileHandle);
+	InputSize = std::fread(&Value, 1, sizeof(short), pFileHandle);
 
 	/* Check for any read error */
 	if (InputSize != sizeof(short)) {
@@ -1414,14 +1413,14 @@ bool read_short(FILE *pFileHandle, short &Value) {
  * is usually 32 bit but may depend on the platform compiled under.
  *
  *=======================================================================*/
-bool read_motlong(FILE *pFileHandle, long &Value) {
+bool read_motlong(std::FILE *pFileHandle, long &Value) {
 	DEFINE_FUNCTION("read_motlong()");
 	unsigned char InputData[sizeof(long)];
-	size_t InputSize;
+	std::size_t InputSize;
 	/* Ensure valid input */
 	ASSERT(pFileHandle != NULL);
 	/* Read in the integer value */
-	InputSize = fread(&InputData, 1, sizeof(long), pFileHandle);
+	InputSize = std::fread(&InputData, 1, sizeof(long), pFileHandle);
 
 	/* Check for any read error */
 	if (InputSize != sizeof(long)) {
@@ -1476,7 +1475,7 @@ TCHAR *RemoveExtension(TCHAR *pFilename) {
  *=========================================================================*/
 TCHAR *TerminatePath(TCHAR *pPath) {
 	DEFINE_FUNCTION("TerminatePath()");
-	size_t PathLength;
+	std::size_t PathLength;
 	/* Ensure the input path is valid */
 	ASSERT(pPath != NULL);
 	PathLength = TSTRLEN(pPath);
@@ -1526,7 +1525,7 @@ bool WildcardCompare(const TCHAR *pFilename, const TCHAR *pFilter) {
 				break;
 
 			default:
-				if (toupper(*pFilename) != toupper(*pFilter)) {
+				if (std::toupper(*pFilename) != std::toupper(*pFilter)) {
 					return false;
 				}
 
@@ -1553,12 +1552,12 @@ bool WildcardCompare(const TCHAR *pFilename, const TCHAR *pFilter) {
  *
  *=========================================================================*/
 bool WriteFile(const byte *pBuffer,
-               const size_t Size,
+               const std::size_t Size,
                const TCHAR *pFilename,
                const bool TextMode) {
 	DEFINE_FUNCTION("WriteFile()");
-	FILE *pFileHandle;
-	size_t OutputBytes;
+	std::FILE *pFileHandle;
+	std::size_t OutputBytes;
 	bool ReturnValue = TRUE;
 	/* Ensure valid input */
 	ASSERT(pBuffer != NULL && pFilename != NULL);
@@ -1570,9 +1569,9 @@ bool WriteFile(const byte *pBuffer,
 	}
 
 	/* Attempt to output string buffer to file */
-	OutputBytes = fwrite(pBuffer, 1, Size, pFileHandle);
+	OutputBytes = std::fwrite(pBuffer, 1, Size, pFileHandle);
 
-	if (ferror(pFileHandle)) {
+	if (std::ferror(pFileHandle)) {
 		ErrorHandler.AddError(ERR_SYSTEM,
 		                      (errcode_t)errno,
 		                      _T("Failed to write to the file '%s' (only %u of %u bytes output)!"),
@@ -1582,7 +1581,7 @@ bool WriteFile(const byte *pBuffer,
 		ReturnValue = FALSE;
 	}
 
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 	return ReturnValue;
 }
 
@@ -1597,13 +1596,13 @@ bool WriteFile(const byte *pBuffer,
  * handle.
  *
  *=======================================================================*/
-bool write_short(FILE *pFileHandle, const short OutputValue) {
+bool write_short(std::FILE *pFileHandle, const short OutputValue) {
 	DEFINE_FUNCTION("write_short()");
-	size_t OutputSize;
+	std::size_t OutputSize;
 	/* Ensure valid input */
 	ASSERT(pFileHandle != NULL);
 	/* Output the data */
-	OutputSize = fwrite(&OutputValue, 1, sizeof(short), pFileHandle);
+	OutputSize = std::fwrite(&OutputValue, 1, sizeof(short), pFileHandle);
 
 	/* Ensure the data was properly output */
 	if (OutputSize != sizeof(short)) {
@@ -1629,13 +1628,13 @@ bool write_short(FILE *pFileHandle, const short OutputValue) {
  * ASSERTs if given an invalid file handle.
  *
  *=======================================================================*/
-bool write_int(FILE *pFileHandle, const int OutputValue) {
+bool write_int(std::FILE *pFileHandle, const int OutputValue) {
 	DEFINE_FUNCTION("write_int()");
-	size_t OutputSize;
+	std::size_t OutputSize;
 	/* Ensure valid input */
 	ASSERT(pFileHandle != NULL);
 	/* Output the data */
-	OutputSize = fwrite(&OutputValue, 1, sizeof(int), pFileHandle);
+	OutputSize = std::fwrite(&OutputValue, 1, sizeof(int), pFileHandle);
 
 	/* Ensure the data was properly output */
 	if (OutputSize != sizeof(int)) {
@@ -1661,13 +1660,13 @@ bool write_int(FILE *pFileHandle, const int OutputValue) {
  * but may depend on the system compiled under.
  *
  *=======================================================================*/
-bool write_long(FILE *pFileHandle, const long OutputValue) {
+bool write_long(std::FILE *pFileHandle, const long OutputValue) {
 	DEFINE_FUNCTION("write_long()");
-	size_t OutputSize;
+	std::size_t OutputSize;
 	/* Ensure valid input */
 	ASSERT(pFileHandle != NULL);
 	/* Output the data */
-	OutputSize = fwrite(&OutputValue, 1, sizeof(long), pFileHandle);
+	OutputSize = std::fwrite(&OutputValue, 1, sizeof(long), pFileHandle);
 
 	/* Ensure the data was properly output */
 	if (OutputSize != sizeof(long)) {
@@ -1694,10 +1693,10 @@ bool write_long(FILE *pFileHandle, const long OutputValue) {
  * in size, but may depend on the system compiled under.
  *
  *=======================================================================*/
-bool write_motlong(FILE *pFileHandle, const long OutputValue) {
+bool write_motlong(std::FILE *pFileHandle, const long OutputValue) {
 	DEFINE_FUNCTION("write_motlong()");
 	unsigned char OutputData[sizeof(long)];
-	size_t OutputSize;
+	std::size_t OutputSize;
 	/* Ensure valid input */
 	ASSERT(pFileHandle != NULL);
 
@@ -1707,7 +1706,7 @@ bool write_motlong(FILE *pFileHandle, const long OutputValue) {
 	OutputData[2] = (unsigned char)((OutputValue >> 8) & 0xFF);
 	OutputData[3] = (unsigned char)(OutputValue & 0xFF);
 	/* Output the data */
-	OutputSize = fwrite(OutputData, 1, sizeof(long), pFileHandle);
+	OutputSize = std::fwrite(OutputData, 1, sizeof(long), pFileHandle);
 
 	/* Ensure the data was properly output */
 	if (OutputSize != sizeof(long)) {

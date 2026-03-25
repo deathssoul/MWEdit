@@ -10,6 +10,7 @@
 #ifndef __XMLATTR_H
 #define __XMLATTR_H
 
+#include "common/dl_base.h"
 #include "common/container/ptr_array.h"
 #include "common/file/gen_file.h"
 #include "common/string/sstring.h"

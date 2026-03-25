@@ -9,8 +9,14 @@
  *=========================================================================*/
 #include "file/csv_file.h"
 
-DEFINE_FILE("CsvFile.cpp");
+#include <cstddef>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/file/gen_file.h"
+#include "common/string/sstring.h"
+
+DEFINE_FILE("CsvFile.cpp");
 /*===========================================================================
  *
  * Class CCsvFile Constructor

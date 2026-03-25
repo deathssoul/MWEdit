@@ -10,14 +10,14 @@
 #ifndef __ESMLEVELCREA_H
 #define __ESMLEVELCREA_H
 
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_byte.h"
 #include "game/morrowind/sub_long.h"
-#include "game/morrowind/sub_name.h"
-#include "game/morrowind/sub_short.h"
 
 #define MWESM_LEVCREAFLAG_ALLPC 1
-
 /*===========================================================================
  *
  * Begin Class CEsmLevelCrea Definition
@@ -74,7 +74,7 @@ class CEsmLevelCrea : public CEsmRecord {
 	}
 
 	int GetChanceNone() {
-		return (int)(GetNNamFlag());
+		return (int)(GetNNamFlag());  // TODO: Already an int, doesn't need casting
 	}
 
 	int GetListSize() {

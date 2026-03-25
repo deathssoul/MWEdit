@@ -10,14 +10,15 @@
 #ifndef __ESMMAGICEFFECT_H
 #define __ESMMAGICEFFECT_H
 
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/record.h"
-#include "game/morrowind/sub_byte.h"
+#include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_enam.h"
 #include "game/morrowind/sub_long.h"
 #include "game/morrowind/sub_medt.h"
 #include "game/morrowind/sub_name.h"
-#include "game/morrowind/sub_short.h"
-
+#include "game/morrowind/sub_name_fix.h"
 /*===========================================================================
  *
  * Begin Class CEsmMagicEffect Definition

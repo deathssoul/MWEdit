@@ -9,8 +9,18 @@
  *=========================================================================*/
 #include "file/pcx_file.h"
 
-DEFINE_FILE("pcx.cpp");
+#include <climits>
+#include <cstddef>
+#include <cstdio>
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_err.h"
+#include "common/dl_mem.h"
+#include "common/file/gen_file.h"
+#include "common/images/rgb_pal.h"
+
+DEFINE_FILE("pcx.cpp");
 /*===========================================================================
  *
  * Class CPcxFile Constructor
@@ -39,7 +49,7 @@ void CPcxFile::Destroy() {
 	DestroyArrayPointer(m_pPalette);
 	m_PaletteSize = 0;
 	m_ImageSize = 0;
-	memset(&m_Header, 0, sizeof(pcxheader_t));
+	std::memset(&m_Header, 0, sizeof(pcxheader_t));
 }
 
 
@@ -52,7 +62,7 @@ void CPcxFile::Destroy() {
  *=========================================================================*/
 void CPcxFile::CreateStandardHeader() {
 	/* Clear header */
-	memset(&m_Header, 0, sizeof(pcxheader_t));
+	std::memset(&m_Header, 0, sizeof(pcxheader_t));
 	/* Set header defaults */
 	m_Header.Manufacturer = 10;
 	m_Header.Version = 5;
@@ -190,9 +200,9 @@ bool CPcxFile::ReadHeader() {
  *=========================================================================*/
 bool CPcxFile::ReadImage() {
 	DEFINE_FUNCTION("CPcxFile::ReadImage()");
-	size_t Count = 0;
-	size_t BytesInput;
-	size_t DataIndex;
+	std::size_t Count = 0;
+	std::size_t BytesInput;
+	std::size_t DataIndex;
 
 	int Column;
 	int RowDiff;
@@ -215,7 +225,7 @@ bool CPcxFile::ReadImage() {
 	}
 
 	/* Allocate image data */
-	CreateArrayPointer(m_pData, byte, (size_t)m_ImageSize);
+	CreateArrayPointer(m_pData, byte, (std::size_t)m_ImageSize);
 	/* Initialize input and uncompression variables */
 	DataIndex = 0;
 	BytesInput = 0;
@@ -224,7 +234,7 @@ bool CPcxFile::ReadImage() {
 	RowDiff = m_Header.BytesPerLine - m_Header.Width;
 
 	/* Read in the image data */
-	while (DataIndex <= (size_t)m_ImageSize) {
+	while (DataIndex <= (std::size_t)m_ImageSize) {
 		ClearError();
 
 		/* Remove any row padding */
@@ -238,11 +248,11 @@ bool CPcxFile::ReadImage() {
 				Row++;
 
 				while (Column != RowDiff) {
-					InputChar = fgetc(GetHandle());
+					InputChar = std::fgetc(GetHandle());
 					BytesInput++;
 
 					if (InputChar >= PCX_RLE_VALUE) {
-						InputChar = fgetc(GetHandle());
+						InputChar = std::fgetc(GetHandle());
 						BytesInput++;
 					}
 
@@ -252,14 +262,14 @@ bool CPcxFile::ReadImage() {
 				Column = 0;
 			}
 		} else { /* Read in regular or RLE pixel data */
-			InputChar = fgetc(GetHandle());
+			InputChar = std::fgetc(GetHandle());
 			BytesInput++;
 
 			/* Is this byte a RLE code? */
 			if (InputChar >= PCX_RLE_VALUE) {
 				NumBytes = InputChar - PCX_RLE_VALUE;
 				/* Get the actual pixel data for the run */
-				InputChar = fgetc(GetHandle());
+				InputChar = std::fgetc(GetHandle());
 				BytesInput++;
 
 				/* Replicate data in image buffer */
@@ -414,13 +424,13 @@ bool CPcxFile::WriteImage() {
 		/* Output single pixel data value */
 		if (ByteCount == 1) {
 			if (PrevData >= PCX_RLE_VALUE) {
-				fputc(PCX_RLE_VALUE + 1, GetHandle());
+				std::fputc(PCX_RLE_VALUE + 1, GetHandle());
 			}
 
 			fputc(PrevData, GetHandle());
 		} else { /* Output RLE encoded bytes */
-			fputc((byte)(PCX_RLE_VALUE + ByteCount), GetHandle());
-			fputc(PrevData, GetHandle());
+			std::fputc((byte)(PCX_RLE_VALUE + ByteCount), GetHandle());
+			std::fputc(PrevData, GetHandle());
 		}
 
 		/* Check for error conditions */

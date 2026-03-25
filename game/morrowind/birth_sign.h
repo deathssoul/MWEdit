@@ -10,11 +10,12 @@
 #ifndef __ESMBIRTHSIGN_H
 #define __ESMBIRTHSIGN_H
 
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_name.h"
-#include "game/morrowind/sub_name_32.h"
 #include "game/morrowind/sub_name_fix.h"
-
 /*===========================================================================
  *
  * Begin Class CEsmBirthSign Definition

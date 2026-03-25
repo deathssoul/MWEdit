@@ -10,8 +10,13 @@
 #ifndef __ESMSUBNPCS_H
 #define __ESMSUBNPCS_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/sub_base.h"
 
 #pragma pack(push, 1)
 
@@ -20,8 +25,6 @@ typedef struct {
 } npcsdata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubNPCS Definition
@@ -48,7 +51,7 @@ class CEsmSubNPCS : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(npcsdata_t));
 		m_RecordSize = sizeof(npcsdata_t);
-		memset(m_pData, 0, sizeof(npcsdata_t));
+		std::memset(m_pData, 0, sizeof(npcsdata_t));
 	}
 
 	/* Get class methods */

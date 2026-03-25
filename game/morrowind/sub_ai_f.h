@@ -10,6 +10,10 @@
 #ifndef __ESMSUBAI_F_H
 #define __ESMSUBAI_F_H
 
+#include <cstring>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
 #include "game/morrowind/sub_base.h"
 
 #pragma pack(push, 1)
@@ -24,7 +28,6 @@ typedef struct {
 } ai_fdata_t;
 
 #pragma pack(pop)
-
 /*===========================================================================
  *
  * Begin Class CEsmSubAI_F Definition
@@ -51,7 +54,7 @@ class CEsmSubAI_F : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(ai_fdata_t));
 		m_RecordSize = sizeof(ai_fdata_t);
-		memset(m_pData, 0, sizeof(ai_fdata_t));
+		std::memset(m_pData, 0, sizeof(ai_fdata_t));
 	}
 
 	/* Get class methods */

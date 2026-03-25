@@ -9,6 +9,12 @@
  *=========================================================================*/
 #include "common/utility/profile.h"
 
+#if _DEBUG
+#include <cstddef>
+
+#include "common/dl_log.h"
+#endif  // _DEBUG
+
 /* Only open log file in debug builds */
 #if _DEBUG
 	/* Define and automatically open the profile log file */

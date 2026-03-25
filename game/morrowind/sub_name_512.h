@@ -10,10 +10,15 @@
 #ifndef __ESMSUBNAME512_H
 #define __ESMSUBNAME512_H
 
-#include "common/string/sstring.h"
+#include <cstddef>
+#include <cstring>
+
+#include "common/dl_base.h"
+#include "common/dl_err.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "common/file/gen_file.h"
 #include "game/morrowind/sub_base.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubName512 Definition
@@ -35,7 +40,7 @@ class CEsmSubName512 : public CEsmSubRecord {
 			return false;
 		}
 
-		memset(m_NameData, 0, 513);
+		std::memset(m_NameData, 0, 513);
 		return File.Read((TCHAR *)(const TCHAR *)m_NameData, m_RecordSize);
 	}
 
@@ -47,7 +52,7 @@ class CEsmSubName512 : public CEsmSubRecord {
   public:
 	/* Class Constructors/Destructors */
 	CEsmSubName512() {
-		memset(m_NameData, 0, 513);
+		std::memset(m_NameData, 0, 513);
 	}
 
 	//virtual ~CEsmSubName512() { Destroy(); }
@@ -95,7 +100,7 @@ class CEsmSubName512 : public CEsmSubRecord {
 
 	/* Set class methods */
 	void SetName(const TCHAR *pName) {
-		memset(m_NameData, 0, 513);
+		std::memset(m_NameData, 0, 513);
 		TSTRNCPY(m_NameData, pName, 512);
 		m_RecordSize = TSTRLEN(m_NameData);
 	}

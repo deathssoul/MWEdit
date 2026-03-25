@@ -10,6 +10,10 @@
 #ifndef __ESMSUBAMBI_H
 #define __ESMSUBAMBI_H
 
+#include <cstring>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
 #include "game/morrowind/sub_base.h"
 
 #pragma pack(push, 1)
@@ -22,7 +26,6 @@ typedef struct {
 } ambidata_t;
 
 #pragma pack(pop)
-
 /*===========================================================================
  *
  * Begin Class CEsmSubAMBI Definition
@@ -49,7 +52,7 @@ class CEsmSubAMBI : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(ambidata_t));
 		m_RecordSize = sizeof(ambidata_t);
-		memset(m_pData, 0, sizeof(ambidata_t));
+		std::memset(m_pData, 0, sizeof(ambidata_t));
 	}
 
 	/* Get class methods */

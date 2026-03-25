@@ -9,10 +9,14 @@
  *=========================================================================*/
 #include "file/xml/xml_attribute.h"
 
+#include <stdlib.h>  // TODO: Required for non-standard extension _ltoa()
+
+//#include <cstdio>
+
+#include "common/dl_base.h"
+#include "common/file/gen_file.h"
 
 DEFINE_FILE("XmlAttr.cpp");
-
-
 /*===========================================================================
  *
  * Class CXmlAttribute Constructor
@@ -161,7 +165,8 @@ bool CXmlAttribute::ReadValue(TCHAR *pBuffer,
  *=========================================================================*/
 void CXmlAttribute::SetValue(const long Value) {
 	TCHAR Buffer[48];
-	ltoa(Value, Buffer, 10);
+	_ltoa(Value, Buffer, 10);  // TODO: Replace with something portable
+//	std::snprintf(Buffer, sizeof(Buffer), "%ld", Value);  // TODO: Possibly replace this with C++ operations?
 	SetValue(Buffer);
 }
 

@@ -10,8 +10,12 @@
 #ifndef __ESMSUBFADT_H
 #define __ESMSUBFADT_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstddef>
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/sub_base.h"
 
 /* Flags */
 #define MWESM_FACTFLAG_HIDDEN     1
@@ -46,8 +50,6 @@ typedef struct {
 } factiondata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubFADT Definition
@@ -74,7 +76,7 @@ class CEsmSubFADT : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(factiondata_t));
 		m_RecordSize = sizeof(factiondata_t);
-		memset(m_pData, 0, sizeof(factiondata_t));
+		std::memset(m_pData, 0, sizeof(factiondata_t));
 
 		GetFactionData()->AttributeID1 = 0;
 		GetFactionData()->AttributeID2 = 1;

@@ -11,10 +11,10 @@
 #ifndef __POINTER_H
 #define __POINTER_H
 
+#include <cstddef>
+
 #include "common/dl_base.h"
 #include "common/dl_mem.h"
-
-
 /*===========================================================================
  *
  * Begin Class CSPointer Definition

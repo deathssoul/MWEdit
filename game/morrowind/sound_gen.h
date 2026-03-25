@@ -10,9 +10,11 @@
 #ifndef __ESMSOUNDGEN_H
 #define __ESMSOUNDGEN_H
 
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_long.h"
-#include "game/morrowind/sub_name.h"
 #include "game/morrowind/sub_name_fix.h"
 
 /* SoundGen types */
@@ -29,7 +31,6 @@
 
 const TCHAR *GetESMSoundGenType(const int Type);
 int GetESMSoundGenType(const TCHAR *pString);
-
 /*===========================================================================
  *
  * Begin Class CEsmSoundGen Definition

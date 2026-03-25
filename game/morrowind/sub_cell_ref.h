@@ -10,22 +10,18 @@
 #ifndef __ESMSUBCELLREF_H
 #define __ESMSUBCELLREF_H
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/file/gen_file.h"
+#include "game/morrowind/cell.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_pos_6.h"
 
-
 #define MWESM_CELLREF_INDEXMASK 0x00FFFFFF
 #define MWESM_CELLREF_MODFLAG   0x01000000
-
-
-//#pragma pack(push, 1)
-
-struct esmrecinfo_t;
-class CEsmCell;
-
-//#pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubCellRef Definition

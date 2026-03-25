@@ -10,10 +10,9 @@
 #ifndef __ESMACTIVATOR_H
 #define __ESMACTIVATOR_H
 
-
+#include "common/dl_base.h"
 #include "game/morrowind/item_1.h"
-
-
+#include "game/morrowind/record.h"
 /*===========================================================================
  *
  * Begin Class CEsmActivator Definition
@@ -30,10 +29,12 @@ class CEsmActivator : public CEsmItem1 {
 	virtual void Destroy();
 	/* Return a new record object */
 	static CEsmRecord *Create();
+
 	/* Return a text representation of the item type */
 	virtual const TCHAR *GetItemType() {
 		return _T("Activator");
 	}
+
 	/* Set a certain field of the record */
 	virtual bool SetFieldValue(const int FieldID, const TCHAR *pString);
 };

@@ -9,8 +9,20 @@
  *=========================================================================*/
 #include "game/morrowind/global.h"
 
-DEFINE_FILE("EsmGlobal.cpp");
+#include <cstddef>
+#include <cstdio>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_byte.h"
+#include "game/morrowind/sub_float.h"
+#include "game/morrowind/sub_name_fix.h"
+
+DEFINE_FILE("EsmGlobal.cpp");
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -117,6 +129,7 @@ CEsmRecord *CEsmGlobal::Create() {
 void CEsmGlobal::CreateNew(CEsmFile *pFile) {
 	/* Call the base class record first */
 	CEsmRecord::CreateNew(pFile);
+
 	/* Create the item sub-records */
 	AllocateSubRecord(MWESM_SUBREC_FNAM);
 	AllocateSubRecord(MWESM_SUBREC_FLTV);
@@ -140,9 +153,9 @@ const TCHAR *CEsmGlobal::GetFieldString(const int FieldID) {
 	switch (FieldID) {
 		case ESM_FIELD_VALUE:
 			if (GetType() == MWESM_GLOBAL_FLOAT) {
-				snprintf(s_Buffer, 31, _T("%g"), GetValue());
+				std::snprintf(s_Buffer, 31, _T("%g"), GetValue());
 			} else {
-				snprintf(s_Buffer, 31, _T("%d"), (int)GetValue());
+				std::snprintf(s_Buffer, 31, _T("%d"), (int)GetValue());
 			}
 
 			return s_Buffer;
@@ -178,15 +191,15 @@ const TCHAR *CEsmGlobal::GetTypeString() {
 }
 
 int CEsmGlobal::GetTypeID(const TCHAR *pString) {
-	if (stricmp(pString, _T("float")) == 0) {
+	if (_stricmp(pString, _T("float")) == 0) {
 		return MWESM_GLOBAL_FLOAT;
 	}
 
-	if (stricmp(pString, _T("long")) == 0) {
+	if (_stricmp(pString, _T("long")) == 0) {
 		return MWESM_GLOBAL_LONG;
 	}
 
-	if (stricmp(pString, _T("short")) == 0) {
+	if (_stricmp(pString, _T("short")) == 0) {
 		return MWESM_GLOBAL_SHORT;
 	}
 

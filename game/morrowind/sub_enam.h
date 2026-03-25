@@ -10,8 +10,13 @@
 #ifndef __ESMSUBENAM_H
 #define __ESMSUBENAM_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/sub_base.h"
 
 #define MWESM_ALCH_MAXENCHANTS    8
 
@@ -37,8 +42,6 @@ typedef struct {
 } enchanteffect_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubENAM Definition
@@ -65,7 +68,8 @@ class CEsmSubENAM : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(enchanteffect_t));
 		m_RecordSize = sizeof(enchanteffect_t);
-		memset(m_pData, 0, sizeof(enchanteffect_t));
+		std::memset(m_pData, 0, sizeof(enchanteffect_t));
+
 		GetEnchantData()->EffectID = -1;
 		GetEnchantData()->SkillID = -1;
 		GetEnchantData()->AttributeID = -1;

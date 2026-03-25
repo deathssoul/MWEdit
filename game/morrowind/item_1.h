@@ -14,12 +14,14 @@
 #ifndef __ESMITEM1_H
 #define __ESMITEM1_H
 
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/record.h"
-#include "game/morrowind/sub_name.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_name_fix.h"
 
 /* Class type flag (bit field) */
 #define MWESM_CLASSTYPE_ITEM1 2
-
 /*===========================================================================
  *
  * Begin Class CEsmItem1 Definition

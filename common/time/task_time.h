@@ -11,8 +11,8 @@
 #ifndef __TASKTIME_H
 #define __TASKTIME_H
 
+#include "common/dl_base.h"
 #include "common/dl_err.h"
-
 
 /* Number of different tasks we can handle */
 #define MAX_TIMER_TASKS 20
@@ -22,7 +22,6 @@
 
 /* The timer interrupt under DOS */
 #define DOS_TIMER_INT 0x1C
-
 
 /* DOS timer interrupt function type */
 SYS_MSDOS(typedef void interrupt (*PDOS_TIMER_INT)(...));
@@ -42,8 +41,6 @@ typedef struct {
 	PTASK_FUNC pFunc;  /* The task function to call */
 	long UserData;     /* User data to pass to function */
 } task_t;
-
-
 /*===========================================================================
  *
  * Begin Class CTaskTimer Definition

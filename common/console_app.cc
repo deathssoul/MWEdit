@@ -37,15 +37,30 @@
  *=========================================================================*/
 #include "common/console_app.h"
 
-#include <conio.h>
-#include <ctype.h>
+#include <cctype>
+#include <cerrno>
+#include <cstdarg>
+#include <cstddef>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+
+#include "common/dl_base.h"
+#include "common/dl_err.h"
+#include "common/dl_file.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+
+#if _DEBUG
+#include <stdlib.h>  // Required for non-standard extension _MAX_FNAME: Maximum length of file name
+
+#include "common/dl_log.h"
+#endif  // _DEBUG
 
 DEFINE_FILE("ConApp.cpp");
 
 /* A pointer to the one and only console application object */
 CConsoleApp *pTheConsoleApp = NULL;
-
-
 /*===========================================================================
  *
  * Class CConsoleApp Constructor
@@ -55,30 +70,37 @@ CConsoleApp::CConsoleApp() {
 	//DEFINE_FUNCTION("CConsoleApp::CConsoleApp()");
 	/* Add the custom class errors only once */
 	static bool InitErrors = AddClassErrors();
+
 	/* Initialize the program command line arguments */
 	NumArguments = 0;
 	pArguments = NULL;
 	pOutputStream = stdout;
+
 	/* Initialize the program information */
 	pProgramName = NULL;
 	pAppName = CreateString(DL_BASE_NAME);
 	pAppDate = CreateString(DL_BASE_DATE);
 	pAppAuthor = CreateString(DL_BASE_AUTHOR);
 	ppHelpText = NULL;
+
 	/* Create the compiled-on date */
 	pCompiledDate = CreateString(__DL_TIMESTAMP__);
+
 	/* Set the initial version information */
 	MajorVersion = 0;
 	MinorVersion = 0;
 	ReleaseType = RELEASE_UNKNOWN;
 	BuildNumber = -1;
+
 	/* Set the command parsing options */
 	DoParseCommands = TRUE;
 	DoParseParameters = TRUE;
 	DoFlagParsing = TRUE;
+
 	/* Set the various display options */
 	DisplayTitle = TRUE;
 	DoOpenLog = TRUE;
+
 	/* Set the initial paging options */
 	OutputLineCount = 0;
 	DoPaging = TRUE;
@@ -139,10 +161,10 @@ bool CConsoleApp::AddClassErrors() {
  *=========================================================================*/
 void CConsoleApp::AbortProgram() {
 	//DEFINE_FUNCTION("CConsoleApp::AbortProgram()");
-	fprintf(pOutputStream, "   Program Error...Aborting!\n");
-	fprintf(pOutputStream, "\t%s\n\n", ErrorHandler.GetLastErrorMsg());
+	std::fprintf(pOutputStream, "   Program Error...Aborting!\n");
+	std::fprintf(pOutputStream, "\t%s\n\n", ErrorHandler.GetLastErrorMsg());
 	/* Exit program with failure code */
-	exit(EXIT_FAILURE);
+	std::exit(EXIT_FAILURE);
 }
 
 
@@ -225,7 +247,7 @@ bool CConsoleApp::OutputTitle() {
 
 	/* Output the program name if present */
 	if (pAppName) {
-		Result = fprintf(pOutputStream, "%s ", pAppName);
+		Result = std::fprintf(pOutputStream, "%s ", pAppName);
 	}
 
 	/* Output the application version */
@@ -233,25 +255,25 @@ bool CConsoleApp::OutputTitle() {
 		Result = (OutputVersion() == TRUE) ? 0 : - 1;
 
 		if (Result >= 0) {
-			Result = fprintf(pOutputStream, ", ");
+			Result = std::fprintf(pOutputStream, ", ");
 		}
 	}
 
 	/* Output application date, author name, and line feed */
 	if (pAppDate && Result >= 0) {
-		Result = fprintf(pOutputStream, "%s, ", pAppDate);
+		Result = std::fprintf(pOutputStream, "%s, ", pAppDate);
 	}
 
 	if (pAppAuthor && Result >= 0) {
-		Result = fprintf(pOutputStream, "by %s", pAppAuthor);
+		Result = std::fprintf(pOutputStream, "by %s", pAppAuthor);
 	}
 
 	if (Result >= 0) {
-		Result = fprintf(pOutputStream, "\n");
+		Result = std::fprintf(pOutputStream, "\n");
 	}
 
 	/* Check for an error condition */
-	if (Result < 0 || ferror(pOutputStream)) {
+	if (Result < 0 || std::ferror(pOutputStream)) {
 		ErrorHandler.AddError(ERR_SYSTEM, errno, "Error writing to the output file stream!");
 		return FALSE;
 	}
@@ -274,14 +296,14 @@ bool CConsoleApp::OutputVersion() {
 	int Result;
 	/* Ensure a valid output stream handle */
 	ASSERT(pOutputStream != NULL);
-	Result = fprintf(pOutputStream,
-	                 "v%0d.%0d%c",
-	                 MajorVersion,
-	                 MinorVersion,
-	                 ReleaseTypeToChar(ReleaseType));
+	Result = std::fprintf(pOutputStream,
+	                      "v%0d.%0d%c",
+	                      MajorVersion,
+	                      MinorVersion,
+	                      ReleaseTypeToChar(ReleaseType));
 
 	if (Result >= 0 && ReleaseType != RELEASE_FINAL && BuildNumber >= 0) {
-		Result = fprintf(pOutputStream, "(build %d)", BuildNumber);
+		Result = std::fprintf(pOutputStream, "(build %d)", BuildNumber);
 	}
 
 	/* Check for an error condition */
@@ -330,12 +352,12 @@ bool CConsoleApp::ParseAllParameters() {
  *=========================================================================*/
 cmdparse_t CConsoleApp::ParseCommand(char *pCommand, const bool Flag) {
 	//DEFINE_FUNCTION("CConsoleApp::ParseCommand()");
-	switch (tolower(*pCommand)) {
+	switch (std::tolower(*pCommand)) {
 		/* Standard help display, do not return but exit program */
 		case '?':
 		case 'h':
 			OutputHelp();
-			exit(EXIT_SUCCESS);
+			std::exit(EXIT_SUCCESS);
 
 		/* Paging options */
 		case 'p':
@@ -380,7 +402,7 @@ cmdparse_t CConsoleApp::ParseOneParameter(char *pString) {
 			pString++;
 		}
 
-		StringSize = strlen(pString);
+		StringSize = std::strlen(pString);
 
 		/* Check for a terminating -/+ flag */
 		if (pString[StringSize - 1] == '-') {
@@ -416,7 +438,7 @@ cmdparse_t CConsoleApp::ParsePagingCommand(char *pString, const bool Flag) {
 	}
 
 	/* Parse the number of lines per page from the string */
-	LinesPerPage = atoi(pString);
+	LinesPerPage = std::atoi(pString);
 
 	/* Ensure a valid number */
 	if (LinesPerPage < 1) {
@@ -460,30 +482,30 @@ cmdparse_t CConsoleApp::ParseParameter(char */*pString*/ ) {
 bool CConsoleApp::PrintLine(const char *pString, ...) {
 	//DEFINE_FUNCTION("CConsoleApp::PrintLine()");
 	int Result = 0;
-	va_list Args;
+	std::va_list Args;
 
 	/* Output the variable list of arguments */
 	if (pString != NULL) {
-		va_start(Args, pString);
-		Result = vfprintf(pOutputStream, pString, Args);
-		va_end(Args);
+		std::va_start(Args, pString);
+		Result = std::vfprintf(pOutputStream, pString, Args);
+		std::va_end(Args);
 	}
 
 	/* Output the line feed character */
 	if (Result >= 0) {
-		Result = fputs("\n", pOutputStream);
+		Result = std::fputs("\n", pOutputStream);
 	}
 
 	OutputLineCount++;
 
 	/* Check for a paging condition */
 	if (DoPaging && (OutputLineCount % LinesPerPage) == 0) {
-		Result = fprintf(pOutputStream, "Press any key to continue...\n");
-		int InputChar = getch();
+		Result = std::fprintf(pOutputStream, "Press any key to continue...\n");
+		int InputChar = std::getchar();
 
 		//getch();
 		if (Result >= 0) {
-			Result = fprintf(pOutputStream, "\n");
+			Result = std::fprintf(pOutputStream, "\n");
 		}
 
 		if (InputChar == ESC_CHAR) {
@@ -493,7 +515,7 @@ bool CConsoleApp::PrintLine(const char *pString, ...) {
 	}
 
 	/* Check for an error */
-	if (Result < 0 || ferror(pOutputStream)) {
+	if (Result < 0 || std::ferror(pOutputStream)) {
 		ErrorHandler.AddError(ERR_SYSTEM, errno, "Error writing to the output file stream!");
 		return FALSE;
 	}

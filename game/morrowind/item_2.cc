@@ -9,8 +9,20 @@
  *=========================================================================*/
 #include "game/morrowind/item_2.h"
 
-DEFINE_FILE("EsmItem2.cpp");
+#include <cstddef>
+#include <cstdio>
+#include <cstdlib>
 
+#include "common/dl_base.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/item_1.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_name_fix.h"
+
+DEFINE_FILE("EsmItem2.cpp");
 /*===========================================================================
  *
  * Class CEsmItem2 Constructor
@@ -109,11 +121,11 @@ const TCHAR *CEsmItem2::GetFieldString(const int FieldID) {
 			return m_pIcon->GetName();
 
 		case ESM_FIELD_WEIGHT:
-			snprintf(s_Buffer, 31, _T("%.2f"), GetWeight());
+			std::snprintf(s_Buffer, 31, _T("%.2f"), GetWeight());
 			return s_Buffer;
 
 		case ESM_FIELD_VALUE:
-			snprintf(s_Buffer, 31, _T("%lu"), (unsigned long)GetValue());
+			std::snprintf(s_Buffer, 31, _T("%lu"), (unsigned long)GetValue());
 			return s_Buffer;
 
 		default:    /* Call the base class record */
@@ -151,11 +163,11 @@ bool CEsmItem2::SetFieldValue(const int FieldID, const TCHAR *pString) {
 			return true;
 
 		case ESM_FIELD_WEIGHT:
-			SetWeight((float)atof(pString));
+			SetWeight((float)std::atof(pString));
 			return true;
 
 		case ESM_FIELD_VALUE:
-			SetValue(atol(pString));
+			SetValue(std::atol(pString));
 			return true;
 	}
 

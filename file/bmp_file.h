@@ -11,6 +11,7 @@
 #ifndef __BMPFILE_H
 #define __BMPFILE_H
 
+#include "common/dl_base.h"
 #include "common/images/rgb_pal.h"
 #include "common/file/gen_file.h"
 

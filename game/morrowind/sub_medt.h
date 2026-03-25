@@ -10,8 +10,11 @@
 #ifndef __ESMSUBMEDT_H
 #define __ESMSUBMEDT_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/sub_base.h"
 
 /* Magic effect flags */
 #define MWESM_EFFECTFLAG_SPELLMAKING 0x0200
@@ -34,8 +37,6 @@ typedef struct {
 } magiceffectdata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubMEDT Definition
@@ -62,7 +63,7 @@ class CEsmSubMEDT : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(magiceffectdata_t));
 		m_RecordSize = sizeof(magiceffectdata_t);
-		memset(m_pData, 0, sizeof(magiceffectdata_t));
+		std::memset(m_pData, 0, sizeof(magiceffectdata_t));
 
 		GetEffectData()->Red = 128;
 		GetEffectData()->Blue = 128;

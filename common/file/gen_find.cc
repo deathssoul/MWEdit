@@ -9,31 +9,15 @@
  *=========================================================================*/
 #include "common/file/gen_find.h"
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+
 #if _WIN32
-	#include "io.h"
+#include <io.h>
 #endif
 
 DEFINE_FILE("GenFind.cpp");
-
-/*=========================================================================
- *
- * Class CFileBlock Destructor
- *
- *=======================================================================*/
-void CFileBlock::Destroy() {
-	//DEFINE_FUNCTION("CFileBlock::Destroy");
-	/* Clear all elements to 0 initially depending on platform */
-#if _WIN32
-	BlockData.attrib = FA_NORMAL;
-	BlockData.name[0] = NULL_CHAR;
-	BlockData.time_create = -1;
-	BlockData.time_access = -1;
-	BlockData.time_write = -1;
-	BlockData.size = 0;
-#endif
-}
-
-
 /*=========================================================================
  *
  * Class CFindFile Constructor

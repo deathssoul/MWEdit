@@ -9,8 +9,19 @@
  *=========================================================================*/
 #include "game/morrowind/item_3.h"
 
-DEFINE_FILE("EsmItem3.cpp");
+#include <cstddef>
+#include <cstdio>
 
+#include "common/dl_base.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/item_2.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_name_fix.h"
+
+DEFINE_FILE("EsmItem3.cpp");
 /*===========================================================================
  *
  * Class CEsmItem3 Constructor
@@ -64,7 +75,7 @@ int CEsmItem3::CompareFields(const int FieldID, CEsmRecord *pRecord) {
 		case ESM_FIELD_ENCHANTPTS:
 			return (int)(GetEnchantPts() - pRecord3->GetEnchantPts());
 
-		default:    /* Call the base class method */
+		default:  /* Call the base class method */
 			return CEsmItem2::CompareFields(FieldID, pRecord);
 	}
 }
@@ -105,7 +116,7 @@ const TCHAR *CEsmItem3::GetFieldString(const int FieldID) {
 			return m_pEnchant->GetName();
 
 		case ESM_FIELD_ENCHANTPTS:
-			snprintf(s_Buffer, 31, _T("%ld"), GetEnchantPts());
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetEnchantPts());
 			return s_Buffer;
 
 		default:    /* Call the base class record */

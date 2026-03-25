@@ -12,12 +12,31 @@
  *=========================================================================*/
 #include "game/morrowind/cell.h"
 
+#include <cstddef>
+#include <cstdio>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "common/file/gen_file.h"
+#include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_ambi.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_byte.h"
+#include "game/morrowind/sub_cell_data.h"
+#include "game/morrowind/sub_cell_ref.h"
+#include "game/morrowind/sub_float.h"
+#include "game/morrowind/sub_frmr.h"
+#include "game/morrowind/sub_long.h"
+#include "game/morrowind/sub_name.h"
+#include "game/morrowind/sub_name_fix.h"
+#include "game/morrowind/sub_pos_6.h"
 
 DEFINE_FILE("EsmCell.cpp");
 
 int g_NextCellRefIndex = 1; /* Used for cell reference indices */
-
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -423,7 +442,7 @@ const TCHAR *CEsmCell::GetFieldString(const int FieldID) {
 			return GetGrid();
 
 		case ESM_FIELD_REFCOUNT:
-			snprintf(s_Buffer, 31, _T("%ld"), GetRefCount());
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetRefCount());
 			return s_Buffer;
 
 		default:
@@ -444,7 +463,7 @@ const TCHAR *CEsmCell::GetGrid() {
 		return _T("Interior");
 	}
 
-	snprintf(s_Buffer, 31, _T("%d, %d"), GetGridX(), GetGridY());
+	std::snprintf(s_Buffer, 31, _T("%d, %d"), GetGridX(), GetGridY());
 	return s_Buffer;
 }
 

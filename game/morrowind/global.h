@@ -10,7 +10,10 @@
 #ifndef __ESMGLOBAL_H
 #define __ESMGLOBAL_H
 
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_byte.h"
 #include "game/morrowind/sub_float.h"
 
@@ -18,7 +21,6 @@
 #define MWESM_GLOBAL_SHORT    ('s')
 #define MWESM_GLOBAL_LONG     ('l')
 #define MWESM_GLOBAL_FLOAT    ('f')
-
 /*===========================================================================
  *
  * Begin Class CEsmGlobal Definition

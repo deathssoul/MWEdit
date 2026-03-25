@@ -10,7 +10,12 @@
 #ifndef __ESMLAND_H
 #define __ESMLAND_H
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_long.h"
 #include "game/morrowind/sub_long_64.h"
 
@@ -58,7 +63,6 @@ struct mwesm_vtexdata_t {
 };
 
 #pragma pack(pop)
-
 /*===========================================================================
  *
  * Begin Class CEsmLand Definition

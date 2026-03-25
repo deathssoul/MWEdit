@@ -14,12 +14,13 @@
  *=========================================================================*/
 #include "game/morrowind/defs.h"
 
+#include <cstddef>
+
+#include "common/dl_base.h"
 #include "common/dl_str.h"
 #include "common/utility/name_list.h"
-#include "ui/glob_options.h"
 
 DEFINE_FILE("EsmBase.cpp")
-
 /*===========================================================================
  *
  * Begin Magic Effect Array

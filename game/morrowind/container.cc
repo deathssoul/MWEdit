@@ -9,8 +9,23 @@
  *=========================================================================*/
 #include "game/morrowind/container.h"
 
-DEFINE_FILE("EsmContainer.cpp");
+#include <cstddef>
+#include <cstdio>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/mororwind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/item_1.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_cndt.h"
+#include "game/morrowind/sub_long.h"
+#include "game/morrowind/sub_name_fix.h"
+#include "game/morrowind/sub_npco.h"
+
+DEFINE_FILE("EsmContainer.cpp");
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -149,6 +164,7 @@ CEsmRecord *CEsmContainer::Create() {
 void CEsmContainer::CreateNew(CEsmFile *pFile) {
 	/* Call the base class record first */
 	CEsmItem1::CreateNew(pFile);
+
 	/* Create the item sub-records */
 	AllocateSubRecord(MWESM_SUBREC_CNDT);
 	AllocateSubRecord(MWESM_SUBREC_FLAG);
@@ -171,7 +187,7 @@ const TCHAR *CEsmContainer::GetFieldString(const int FieldID) {
 
 	switch (FieldID) {
 		case ESM_FIELD_WEIGHT:
-			snprintf(s_Buffer, 31, _T("%.2f"), GetWeight());
+			std::snprintf(s_Buffer, 31, _T("%.2f"), GetWeight());
 			return s_Buffer;
 
 		case ESM_FIELD_ORGANIC:

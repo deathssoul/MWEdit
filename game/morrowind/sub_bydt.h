@@ -10,8 +10,11 @@
 #ifndef __ESMSUBBYDT_H
 #define __ESMSUBBYDT_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/sub_base.h"
 
 /* Part types */
 #define MWESM_PARTTYPE_MIN      0
@@ -54,8 +57,6 @@ typedef struct {
 } bodypartdata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubBYDT Definition
@@ -82,7 +83,7 @@ class CEsmSubBYDT : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(bodypartdata_t));
 		m_RecordSize = sizeof(bodypartdata_t);
-		memset(m_pData, 0, sizeof(bodypartdata_t));
+		std::memset(m_pData, 0, sizeof(bodypartdata_t));
 	}
 
 	/* Get class methods */

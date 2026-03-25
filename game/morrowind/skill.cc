@@ -9,8 +9,20 @@
  *=========================================================================*/
 #include "game/morrowind/skill.h"
 
-DEFINE_FILE("EsmSkill.cpp");
+#include <cstddef>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_long.h"
+#include "game/morowind/sub_name.h"
+#include "game/morrowind/sub_skdt.h"
+
+DEFINE_FILE("EsmSkill.cpp");
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -122,10 +134,12 @@ CEsmRecord *CEsmSkill::Create() {
 void CEsmSkill::CreateNew(CEsmFile *pFile) {
 	/* Call the base class record first */
 	CEsmRecord::CreateNew(pFile);
+
 	/* Create the item sub-records */
 	AllocateSubRecord(MWESM_SUBREC_INDX);
 	AllocateSubRecord(MWESM_SUBREC_DESC);
 	AllocateSubRecord(MWESM_SUBREC_SKDT);
+
 	m_pIndexData->CreateNew();
 	m_pSkillData->CreateNew();
 }

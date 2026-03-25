@@ -10,8 +10,12 @@
 #ifndef __ESMSUBRADT_H
 #define __ESMSUBRADT_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstddef>
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/sub_base.h"
 
 /* Number of skill bonuses for each race */
 #define MWESM_RACEDATA_NUMBONUSES 7
@@ -44,8 +48,6 @@ typedef struct {
 } racedata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubRADT Definition
@@ -72,7 +74,7 @@ class CEsmSubRADT : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(racedata_t));
 		m_RecordSize = sizeof(racedata_t);
-		memset(m_pData, 0, sizeof(racedata_t));
+		std::memset(m_pData, 0, sizeof(racedata_t));
 
 		GetRaceData()->SkillBonuses[0].SkillID = 0;
 		GetRaceData()->SkillBonuses[1].SkillID = 1;

@@ -9,9 +9,22 @@
  *=========================================================================*/
 #include "game/morrowind/weapon.h"
 
+#include <cstddef>
+#include <cstdio>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/item_3.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_name.h"
+#include "game/morrowind/sub_wpdt.h"
+
 DEFINE_FILE("EsmWeapon.cpp");
-
-
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -185,6 +198,7 @@ CEsmRecord *CEsmWeapon::Create() {
 void CEsmWeapon::CreateNew(CEsmFile *pFile) {
 	/* Call the base class record first */
 	CEsmItem3::CreateNew(pFile);
+
 	/* Create the item sub-records */
 	AllocateSubRecord(MWESM_SUBREC_WPDT);
 	m_pWeaponData->CreateNew();
@@ -208,39 +222,39 @@ const TCHAR *CEsmWeapon::GetFieldString(const int FieldID) {
 			return GetWeaponType();
 
 		case ESM_FIELD_HEALTH:
-			snprintf(s_Buffer, 31, _T("%d"), GetHealth());
+			std::snprintf(s_Buffer, 31, _T("%d"), GetHealth());
 			return s_Buffer;
 
 		case ESM_FIELD_SPEED:
-			snprintf(s_Buffer, 31, _T("%.2f"), GetSpeed());
+			std::snprintf(s_Buffer, 31, _T("%.2f"), GetSpeed());
 			return s_Buffer;
 
 		case ESM_FIELD_REACH:
-			snprintf(s_Buffer, 31, _T("%.2f"), GetReach());
+			std::snprintf(s_Buffer, 31, _T("%.2f"), GetReach());
 			return s_Buffer;
 
 		case ESM_FIELD_CHOPMIN:
-			snprintf(s_Buffer, 31, _T("%d"), GetChopMin());
+			std::snprintf(s_Buffer, 31, _T("%d"), GetChopMin());
 			return s_Buffer;
 
 		case ESM_FIELD_CHOPMAX:
-			snprintf(s_Buffer, 31, _T("%d"), GetChopMax());
+			std::snprintf(s_Buffer, 31, _T("%d"), GetChopMax());
 			return s_Buffer;
 
 		case ESM_FIELD_SLASHMIN:
-			snprintf(s_Buffer, 31, _T("%d"), GetSlashMin());
+			std::snprintf(s_Buffer, 31, _T("%d"), GetSlashMin());
 			return s_Buffer;
 
 		case ESM_FIELD_SLASHMAX:
-			snprintf(s_Buffer, 31, _T("%d"), GetSlashMax());
+			std::snprintf(s_Buffer, 31, _T("%d"), GetSlashMax());
 			return s_Buffer;
 
 		case ESM_FIELD_THRUSTMIN:
-			snprintf(s_Buffer, 31, _T("%d"), GetThrustMin());
+			std::snprintf(s_Buffer, 31, _T("%d"), GetThrustMin());
 			return s_Buffer;
 
 		case ESM_FIELD_THRUSTMAX:
-			snprintf(s_Buffer, 31, _T("%d"), GetThrustMax());
+			std::snprintf(s_Buffer, 31, _T("%d"), GetThrustMax());
 			return s_Buffer;
 
 		case ESM_FIELD_IGNORERESIST:
@@ -287,39 +301,39 @@ bool CEsmWeapon::SetFieldValue(const int FieldID, const TCHAR *pString) {
 		}
 
 		case ESM_FIELD_HEALTH:
-			SetHealth(atoi(pString));
+			SetHealth(std::atoi(pString));
 			return true;
 
 		case ESM_FIELD_SPEED:
-			SetSpeed((float)atof(pString));
+			SetSpeed((float)std::atof(pString));
 			return true;
 
 		case ESM_FIELD_REACH:
-			SetReach((float)atof(pString));
+			SetReach((float)std::atof(pString));
 			return true;
 
 		case ESM_FIELD_CHOPMIN:
-			SetChopMin(atoi(pString));
+			SetChopMin(std::atoi(pString));
 			return true;
 
 		case ESM_FIELD_CHOPMAX:
-			SetChopMax(atoi(pString));
+			SetChopMax(std::atoi(pString));
 			return true;
 
 		case ESM_FIELD_SLASHMIN:
-			SetSlashMin(atoi(pString));
+			SetSlashMin(std::atoi(pString));
 			return true;
 
 		case ESM_FIELD_SLASHMAX:
-			SetSlashMax(atoi(pString));
+			SetSlashMax(std::atoi(pString));
 			return true;
 
 		case ESM_FIELD_THRUSTMIN:
-			SetThrustMin(atoi(pString));
+			SetThrustMin(std::atoi(pString));
 			return true;
 
 		case ESM_FIELD_THRUSTMAX:
-			SetThrustMax(atoi(pString));
+			SetThrustMax(std::atoi(pString));
 			return true;
 
 		case ESM_FIELD_IGNORERESIST:

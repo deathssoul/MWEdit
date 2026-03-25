@@ -10,8 +10,11 @@
 #ifndef __ESMSUBCELLDATA_H
 #define __ESMSUBCELLDATA_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/sub_base.h"
 
 #define MWESM_CELLFLAG_INTERIOR       0x01
 #define MWESM_CELLFLAG_HASWATER       0x02
@@ -28,8 +31,6 @@ typedef struct {
 } celldata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubCellDATA Definition
@@ -56,7 +57,7 @@ class CEsmSubCellDATA : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(celldata_t));
 		m_RecordSize = sizeof(celldata_t);
-		memset(m_pData, 0, sizeof(celldata_t));
+		std::memset(m_pData, 0, sizeof(celldata_t));
 	}
 
 	/* Get class methods */

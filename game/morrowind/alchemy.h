@@ -10,14 +10,17 @@
 #ifndef __ESMALCHEMY_H
 #define __ESMALCHEMY_H
 
-#include "game/morrowind/item_2.h"
+#include <cstddef>
 
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/item_2.h"
+#include "game/morrowind/record.h"
 #include "game/morrowind/sub_aldt.h"
-#include "game/morrowind/sub_enam.h"
+#include "game/morrowind/sub_base.h"
 
 /* Number of enchantments allowed per alchemy object */
 #define MWESM_ALCHEMY_NUMENCHANTS 8
-
 /*===========================================================================
  *
  * Begin Class CEsmAlchemy Definition
@@ -44,42 +47,52 @@ class CEsmAlchemy : public CEsmItem2 {
 	virtual void CreateNew(CEsmFile *pFile);
 	/* Get a string representation of a particular field */
 	virtual const TCHAR *GetFieldString(const int FieldID);
+
 	/* Return a text representation of the item type */
 	virtual const TCHAR *GetItemType() {
 		return _T("Alchemy");
 	}
+
 	/* Get class members */
 	alchemydata_t *GetAlchemyData() {
 		return m_pAlchemyData == NULL ? NULL : m_pAlchemyData->GetAlchemyData();
 	}
+
 	virtual float GetWeight() {
 		return m_pAlchemyData == NULL ? 0 : m_pAlchemyData->GetWeight();
 	}
+
 	virtual long GetValue() {
 		return m_pAlchemyData == NULL ? 0 : m_pAlchemyData->GetValue();
 	}
+
 	bool IsAutoCalc() {
 		return m_pAlchemyData ? m_pAlchemyData->IsAutoCalc() : false;
 	}
+
 	/* Used to save the various record elements */
 	virtual void OnAddSubRecord(CEsmSubRecord *pSubRecord);
 	/* Set class members */
 	virtual void SetIcon(const TCHAR *pIcon);
+
 	void SetAutoCalc(const bool Flag) {
 		if (m_pAlchemyData) {
 			m_pAlchemyData->SetAutoCalc(Flag);
 		}
 	}
+
 	virtual void SetWeight(const float Weight) {
 		if (m_pAlchemyData) {
 			m_pAlchemyData->SetWeight(Weight);
 		}
 	}
+
 	virtual void SetValue(const long Value) {
 		if (m_pAlchemyData) {
 			m_pAlchemyData->SetValue(Value);
 		}
 	}
+
 	/* Set a certain field of the record */
 	virtual bool SetFieldValue(const int FieldID, const TCHAR *pString);
 };

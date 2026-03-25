@@ -10,119 +10,12 @@
 #ifndef __CONFIGFILE_H
 #define __CONFIGFILE_H
 
-#include "common/container/ptr_array.h"
+#include <winnt.h>
+
+#include "common/file/config_group.h"
 #include "common/file/gen_file.h"
-#include "common/string/sstring.h"
 
 #define CONFIG_LINE_LENGTH 256
-
-
-/*===========================================================================
- *
- * Begin Class CConfigEntry Definition
- *
- * One variable/value pair in the config file.
- *
- *=========================================================================*/
-class CConfigEntry {
-  private:
-	CSString m_Variable;
-	CSString m_Value;
-
-
-  public:
-	/* Class Constructors/Destructors */
-	CConfigEntry() { ; }
-
-	virtual ~CConfigEntry() {
-		Destroy();
-	}
-
-	virtual void Destroy() {
-		m_Variable.Empty();
-		m_Value.Empty();
-	}
-
-	/* Get class members */
-	const TCHAR *GetVariable() const {
-		return m_Variable;
-	}
-
-	const TCHAR *GetValue() const {
-		return m_Value;
-	}
-
-	/* Set class members */
-	void SetVariable(const TCHAR *pString) {
-		m_Variable = pString;
-	}
-
-	void SetValue(const TCHAR *pString) {
-		m_Value = pString;
-	}
-
-	/* Output entry to file */
-	bool Write(CGenFile &File);
-};
-
-typedef TPtrArray<CConfigEntry> CCfgEntryArray;
-
-
-/*===========================================================================
- *
- * Begin Class CConfigGroup Definition
- *
- * A single group of config variables in a config file.
- *
- *=========================================================================*/
-class CConfigGroup {
-  private:
-	CSString m_Name;          /* Group name */
-	CCfgEntryArray m_Entries; /* Array of config entries */
-
-
-  public:
-	/* Class Constructors/Destructors */
-	CConfigGroup() : m_Entries(2) {;}
-
-	virtual ~CConfigGroup() {
-		Destroy();
-	}
-
-	virtual void Destroy();
-
-	/* Adds a new entry to the group */
-	CConfigEntry *AddEntry(const TCHAR *pVar, const TCHAR *pValue);
-
-	/* Find the first matching entry */
-	CConfigEntry *FindEntry(const TCHAR *pVariable);
-
-	/* Find an existing entry or create it */
-	CConfigEntry *GetEntry(const TCHAR *pVariable);
-
-	/* Get class members */
-	const TCHAR *GetName() const {
-		return m_Name;
-	}
-
-	/* Find a variable value */
-	const TCHAR *GetValue(const TCHAR *pVariable);
-
-	/* Set class members */
-	void SetName(const TCHAR *pName) {
-		m_Name = pName;
-	}
-
-	/* Set a variable value */
-	bool SetValue(const TCHAR *pVariable, const TCHAR *pValue);
-
-	/* Output the group to the given file */
-	bool Write(CGenFile &File);
-};
-
-typedef TPtrArray<CConfigGroup> CCfgGroupArray;
-
-
 /*===========================================================================
  *
  * Begin Class CConfigFile Definition

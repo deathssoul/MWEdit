@@ -9,8 +9,18 @@
  *=========================================================================*/
 #include "game/morrowind/land.h"
 
-DEFINE_FILE("EsmLand.cpp");
+#include <cstddef>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_long.h"
+#include "game/morrowind/sub_long_64.h"
+
+DEFINE_FILE("EsmLand.cpp");
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -188,20 +198,20 @@ const TCHAR *CEsmLand::GetFieldString(const int FieldID) {
 
 	switch (FieldID) {
 		case ESM_FIELD_CELLX:
-			snprintf(s_Buffer, 31, _T("%ld"), GetCellX());
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetCellX());
 			return s_Buffer;
 
 		case ESM_FIELD_CELLY:
-			snprintf(s_Buffer, 31, _T("%ld"), GetCellY());
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetCellY());
 			return s_Buffer;
 
 		case ESM_FIELD_CELL:
 		case ESM_FIELD_GRID:
-			snprintf(s_Buffer, 31, _T("%ld, %ld"), GetCellX(), GetCellY());
+			std::snprintf(s_Buffer, 31, _T("%ld, %ld"), GetCellX(), GetCellY());
 			return s_Buffer;
 
 		case ESM_FIELD_DATA:
-			snprintf(s_Buffer, 31, _T("%ld"), GetData());
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetData());
 			return s_Buffer;
 
 		default:

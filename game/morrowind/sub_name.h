@@ -10,10 +10,10 @@
 #ifndef __ESMSUBNAME_H
 #define __ESMSUBNAME_H
 
+#include "common/dl_base.h"
+#include "common/file/gen_file.h"
 #include "common/string/sstring.h"
 #include "game/morrowind/sub_base.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubName Definition

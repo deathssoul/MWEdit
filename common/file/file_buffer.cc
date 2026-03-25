@@ -8,17 +8,19 @@
  *
  *=========================================================================*/
 #include "common/file/file_buffer.h"
+
+#include <winnt.h>
+
+#include <cstddef>
+#include <cstdio>
+#include <cstring>
+
+#include "common/dl_base.h"
+#include "common/dl_err.h"
 #include "common/dl_file.h"
+#include "common/dl_mem.h"
 
-
-/*===========================================================================
- *
- * Begin Local Definitions
- *
- *=========================================================================*/
 DEFINE_FILE("FileBuffer.cpp");
-
-
 /*===========================================================================
  *
  * Class CFileBuffer Constructor
@@ -69,12 +71,12 @@ void CFileBuffer::Destroy() {
  * is closed.
  *
  *=========================================================================*/
-void CFileBuffer::Attach(FILE *pFile) {
+void CFileBuffer::Attach(std::FILE *pFile) {
 	/* Close the current file, if any */
 	Close();
 	m_Attached = true;
 	m_pFile = pFile;
-	m_FileIndex = ftell(m_pFile);
+	m_FileIndex = std::ftell(m_pFile);
 }
 
 
@@ -91,7 +93,7 @@ void CFileBuffer::Close() {
 		m_pFile = NULL;
 		m_Attached = false;
 	} else if (m_pFile != NULL) { /* Close the file if it is open */
-		fclose(m_pFile);
+		std::fclose(m_pFile);
 		m_pFile = NULL;
 	}
 
@@ -132,20 +134,20 @@ bool CFileBuffer::GetData_Priv(const int Size) {
 	if (m_pFile == NULL) {
 		ErrorHandler.AddError(ERR_MAXINDEX, _T("File buffer not currently open!"));
 		return false;
-	} else if (feof(m_pFile)) {
+	} else if (std::feof(m_pFile)) {
 		ErrorHandler.AddError(ERR_MAXINDEX, _T("End-of-file reached in file buffer!"));
 		return false;
 	}
 
 	/* Shift data in preparation for a read */
-	memmove(m_pBuffer, m_pBuffer + m_BufferIndex, m_BufferSize - m_BufferIndex);
+	std::memmove(m_pBuffer, m_pBuffer + m_BufferIndex, m_BufferSize - m_BufferIndex);
 	ReadSize = m_BufferIndex + (m_MaxBufferSize - m_BufferSize);
 	m_BufferSize -= m_BufferIndex;
 	m_BufferIndex = 0;
-	m_FileIndex = ftell(m_pFile) - m_BufferSize;
+	m_FileIndex = std::ftell(m_pFile) - m_BufferSize;
 
 	/* Attempt to read the data  */
-	Result = fread(m_pBuffer + m_BufferSize, 1, ReadSize, m_pFile);
+	Result = std::fread(m_pBuffer + m_BufferSize, 1, ReadSize, m_pFile);
 	m_BufferSize += Result;
 
 	/* Have we read enough data? */
@@ -198,7 +200,7 @@ bool CFileBuffer::Read(char *pData, const int Size) {
 	}
 
 	/* Copy the data */
-	memcpy(pData, m_pBuffer + m_BufferIndex, Size);
+	std::memcpy(pData, m_pBuffer + m_BufferIndex, Size);
 	m_BufferIndex += Size;
 	m_FileIndex += Size;
 	return true;
@@ -251,7 +253,7 @@ bool CFileBuffer::ReadData(char *pData, const int Size) {
 			CopySize = Size - ReadSize;
 		}
 
-		memcpy(pData + ReadSize, m_pBuffer + m_BufferIndex, CopySize);
+		std::memcpy(pData + ReadSize, m_pBuffer + m_BufferIndex, CopySize);
 		ReadSize += CopySize;
 		m_BufferIndex += CopySize;
 		m_FileIndex += CopySize;
@@ -363,10 +365,10 @@ void CFileBuffer::SetBufferSize(const int Size) {
 
 	/* Copy any current data into the new buffer */
 	if (Size < m_BufferSize) {
-		memcpy(pNewBuffer, m_pBuffer, Size);
+		std::memcpy(pNewBuffer, m_pBuffer, Size);
 		NewBufferSize = Size;
 	} else {
-		memcpy(pNewBuffer, m_pBuffer, m_BufferSize);
+		std::memcpy(pNewBuffer, m_pBuffer, m_BufferSize);
 		NewBufferSize = m_BufferSize;
 	}
 

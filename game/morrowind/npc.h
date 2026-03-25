@@ -8,22 +8,20 @@
 #ifndef __ESMNPC_H
 #define __ESMNPC_H
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/info.h"
 #include "game/morrowind/item_1.h"
-#include "game/morrowind/sub_ai_a.h"
-#include "game/morrowind/sub_ai_e.h"
-#include "game/morrowind/sub_ai_f.h"
-#include "game/morrowind/sub_ai_t.h"
-#include "game/morrowind/sub_ai_w.h"
+#include "game/morrowind/record.h"
 #include "game/morrowind/sub_aidt.h"
-#include "game/morrowind/sub_float.h"
+#include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_long.h"
-#include "game/morrowind/sub_name.h"
-#include "game/morrowind/sub_npco.h"
-#include "game/morrowind/sub_npcs.h"
+#include "game/morrowind/sub_name_fix.h"
+#include "game/morrowind/npco.h"
+#include "game/morrowind/npcs.h"
 #include "game/morrowind/sub_npdt.h"
-
-class CEsmInfo;
-
 /*===========================================================================
  *
  * Begin Class CEsmNpc Definition

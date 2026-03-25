@@ -12,6 +12,8 @@
  *=========================================================================*/
 #include "ui/open_plugin_dlg.h"
 
+#include <stdlib.h>  // TODO: Required for non-standard extension _MAX_PATH
+
 #include <afx.h>
 #include <afxdd_.h>
 #include <afxwin.h>
@@ -31,7 +33,6 @@
 #include "common/file/gen_find.h"
 #include "ui/Resource.h"
 #include "ui/utils.h"
-
 
 #if _DEBUG
 	#define new DEBUG_NEW

@@ -22,12 +22,24 @@
  *=========================================================================*/
 #include "common/dl_math.h"
 
-#include <float.h>
-#include <limits.h>
-#include <string.h>
-#include <time.h>
+#include <cerrno>
+#include <climits>
+#include <cmath>
+#include <cstddef>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
 
-#include "common/dl_str.h"
+#include "common/dl_base.h"
+#include "common/dl_err.h"
+
+#if _DEBUG
+#include <cfloat>
+#include <cstring>
+
+#include "common/dl_log.h"
+#include "common/dl_mem.h"
+#endif  // _DEBUG
 
 DEFINE_FILE("dl_math.cpp");
 
@@ -35,8 +47,6 @@ DEFINE_FILE("dl_math.cpp");
 ulong RandomSeed = 1;
 ulong RandomAdd  = 1725;
 ulong RandomMult = 621;
-
-
 /*===========================================================================
  *
  * Begin Global Hexadecimal Value Array
@@ -307,8 +317,8 @@ double GetNiceTickLength(double &AxisStart, double &AxisEnd, const int NumTicks)
 	NiceTick = NiceNumber(NiceRange / (NumTicks - 1), 1);
 
 	/* Compute the new nice start and end values */
-	NewAxisStart = floor(AxisStart / NiceTick) * NiceTick;
-	NewAxisEnd = ceil(AxisEnd / NiceTick) * NiceTick;
+	NewAxisStart = std::floor(AxisStart / NiceTick) * NiceTick;
+	NewAxisEnd = std::ceil(AxisEnd / NiceTick) * NiceTick;
 
 	//NumFrac = MAX(-floor(log10(NiceTick)), 0);
 	AxisStart = NewAxisStart;
@@ -346,8 +356,8 @@ double GetNiceTickLengthC(const double AxisStart, const double AxisEnd, const in
 	NiceTick = NiceNumber(NiceRange / (NumTicks - 1), 1);
 
 	/* Compute the new nice start and end values */
-	NewAxisStart = floor(AxisStart / NiceTick) * NiceTick;
-	NewAxisEnd = ceil(AxisEnd / NiceTick) * NiceTick;
+	NewAxisStart = std::floor(AxisStart / NiceTick) * NiceTick;
+	NewAxisEnd = std::ceil(AxisEnd / NiceTick) * NiceTick;
 	//NumFrac = MAX(-floor(log10(NiceTick)), 0);
 	return NiceTick;
 }
@@ -370,7 +380,7 @@ unit_prefix_t *GetUnitPrefix(boolean &OverFlow, const double Value) {
 
 	/* Compute the proper base-10 of input value */
 	if (Value != 0.0) {
-		Base10 = (int)floor(log10(fabs(Value)));
+		Base10 = (int)std::floor(std::log10(std::fabs(Value)));
 	}
 
 	OverFlow = FALSE;
@@ -428,25 +438,28 @@ TCHAR *Metricize(TCHAR *Buffer, const int BufferSize, const double Value, const 
 
 	/* Output the modified value to the string */
 	if (OverFlow) {
-		Result = snprintf(Buffer,
-		                  BufferSize,
-		                  _T("%g %c%s"),
-		                  Value / exp10(pUnitPrefix->LogBase10),
-		                  pUnitPrefix->PrefixChar,
-		                  pUnits);
+		Result = std::snprintf(Buffer,
+		                       BufferSize,
+		                       _T("%g %c%s"),
+		                       Value / exp10(pUnitPrefix->LogBase10),
+		                       //Value / std::pow(10.0, pUnitPrefix->LogBase10),
+		                       pUnitPrefix->PrefixChar,
+		                       pUnits);
 	} else if (pUnitPrefix->LogBase10 == 0) {
-		Result = snprintf(Buffer,
-		                  BufferSize,
-		                  _T("%3g %s"),
-		                  Value / exp10(pUnitPrefix->LogBase10),
-		                  pUnits);
+		Result = std::snprintf(Buffer,
+		                       BufferSize,
+		                       _T("%3g %s"),
+		                       Value / exp10(pUnitPrefix->LogBase10),
+		                       //Value / std::pow(10.0, pUnitPrefix->LogBase10),
+		                       pUnits);
 	} else {
-		Result = snprintf(Buffer,
-		                  BufferSize,
-		                  _T("%3g %c%s"),
-		                  Value / exp10(pUnitPrefix->LogBase10),
-		                  pUnitPrefix->PrefixChar,
-		                  pUnits);
+		Result = std::snprintf(Buffer,
+		                       BufferSize,
+		                       _T("%3g %c%s"),
+		                       Value / exp10(pUnitPrefix->LogBase10),
+		                       //Value / std::pow(10.0, pUnitPrefix->LogBase10),,
+		                       pUnitPrefix->PrefixChar,
+		                       pUnits);
 	}
 
 	/* Check for errors */
@@ -470,11 +483,12 @@ TCHAR *Metricize(TCHAR *Buffer, const int BufferSize, const double Value, const 
  *
  *=========================================================================*/
 double NiceNumber(const double Value, const int Round) {
-	int Exponent;                               /* Exponent of x */
-	double Fraction;                            /* Fractional part of x */
-	double NiceFraction;                        /* Nice, rounded fraction */
-	Exponent = (int)floor(log10(Value));
-	Fraction = Value / pow10((double)Exponent); /* between 1 and 10 */
+	int Exponent;                                        /* Exponent of x */
+	double Fraction;                                     /* Fractional part of x */
+	double NiceFraction;                                 /* Nice, rounded fraction */
+	Exponent = (int)std::floor(std::log10(Value));
+	//Fraction = Value / std::pow(10.0, (double)Exponent); /* between 1 and 10 */
+	Fraction = Value / pow((double)Exponent); /* between 1 and 10 */
 
 	if (Round) {
 		if (Fraction < 1.5) {
@@ -498,6 +512,7 @@ double NiceNumber(const double Value, const int Round) {
 		}
 	}
 
+	//return NiceFraction * std::pow(10.0, (double)Exponent);
 	return NiceFraction * pow10((double)Exponent);
 }
 
@@ -576,8 +591,8 @@ int Random(const int MinNumber, const int MaxNumber) {
  *=========================================================================*/
 void RandomizeTimer() {
 	//DEFINE_FUNCTION("RandomizeTimer()");
-	srand((uint)time(NULL));
-	SeedRandom((ulong)time(NULL));
+	std::srand((uint)std::time(NULL));
+	SeedRandom((ulong)std::time(NULL));
 }
 
 
@@ -602,8 +617,6 @@ void SeedRandom(const ulong NewSeed) {
  *
  *=========================================================================*/
 #if _DEBUG
-
-
 /*===========================================================================
  *
  * Function - void Test_HexCharToInt (void);
@@ -755,22 +768,22 @@ void Test_Metricize() {
  *  2. Outputs the frequency of the numbers (0 to 65535)
  *
  *=========================================================================*/
-void Test_Random(const size_t NumTests) {
+void Test_Random(const std::size_t NumTests) {
 	DEFINE_FUNCTION("Test_Random()");
-	const size_t ArraySize = 65535u;
-	const size_t ShiftSize = 16;
-	size_t *NumberCount;
-	size_t *NumberCount1;
-	size_t LoopCounter;
+	const std::size_t ArraySize = 65535u;
+	const std::size_t ShiftSize = 16;
+	std::size_t *NumberCount;
+	std::size_t *NumberCount1;
+	std::size_t LoopCounter;
 	ulong RandNumber;
-	FILE *pFileHandle;
+	std::FILE *pFileHandle;
 
 	/* Allocate arrays due to problem with large stack variables in Win16 */
-	NumberCount = (size_t *)CreateString(ArraySize * sizeof(size_t));
-	NumberCount1 = (size_t *)CreateString(ArraySize * sizeof(size_t));
+	NumberCount = (std::size_t *)CreateString(std::ArraySize * sizeof(std::size_t));
+	NumberCount1 = (std::size_t *)CreateString(ArraySize * sizeof(std::size_t));
 	SystemLog.Printf(stdout, _T("================= Testing Random() ==================="));
-	memset(NumberCount, 0, sizeof(size_t) * (size_t)ArraySize);
-	memset(NumberCount1, 0, sizeof(size_t) * (size_t)ArraySize);
+	std::memset(NumberCount, 0, sizeof(std::size_t) * (std::size_t)ArraySize);
+	std::memset(NumberCount1, 0, sizeof(std::size_t) * (std::size_t)ArraySize);
 
 	/* Output random number data */
 	pFileHandle = TFOPEN(_T("c:\\temp\\rand1.dat"), _T("wt"));
@@ -785,11 +798,11 @@ void Test_Random(const size_t NumTests) {
 		         RandNumber,
 		         (RandNumber >> ShiftSize),
 		         RandNumber & ArraySize);
-		NumberCount[size_t((RandNumber >> ShiftSize) & ArraySize)]++;
-		NumberCount1[size_t(RandNumber & ArraySize)]++;
+		NumberCount[std::size_t((RandNumber >> ShiftSize) & ArraySize)]++;
+		NumberCount1[std::size_t(RandNumber & ArraySize)]++;
 	}
 
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 	/* Output random number frequency data */
 	pFileHandle = TFOPEN(_T("c:\\temp\\rand2.dat"), _T("wt"));
 	ASSERT(pFileHandle != NULL);
@@ -803,7 +816,7 @@ void Test_Random(const size_t NumTests) {
 		         NumberCount1[LoopCounter]);
 	}
 
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 	DestroyPointer(NumberCount);
 	DestroyPointer(NumberCount1);
 }
@@ -820,19 +833,19 @@ void Test_Random(const size_t NumTests) {
  *  3. Test for range 0 to -2, outputting frequency results
  *
  *=========================================================================*/
-void Test_Random1(const size_t NumTests) {
+void Test_Random1(const std::size_t NumTests) {
 	DEFINE_FUNCTION("Test_Random1()");
-	size_t LoopCounter;
-	size_t NumberCount1[1001];
-	size_t NumberCount2[3];
-	size_t NumberCount3[4];
-	FILE* pFileHandle;
+	std::size_t LoopCounter;
+	std::size_t NumberCount1[1001];
+	std::size_t NumberCount2[3];
+	std::size_t NumberCount3[4];
+	std::FILE *pFileHandle;
 	int RandNumber;
 
 	SystemLog.Printf(stdout, _T("================= Testing Random(int) ==================="));
-	memset(NumberCount1, 0, sizeof(size_t) * (size_t)1001);
-	memset(NumberCount2, 0, sizeof(size_t) * (size_t)3);
-	memset(NumberCount3, 0, sizeof(size_t) * (size_t)4);
+	std::memset(NumberCount1, 0, sizeof(std::size_t) * (std::size_t)1001);
+	std::memset(NumberCount2, 0, sizeof(std::size_t) * (std::size_t)3);
+	std::memset(NumberCount3, 0, sizeof(std::size_t) * (std::size_t)4);
 
 	/* Generate random numbers from 0 to 1000 */
 	for (LoopCounter = 0; LoopCounter < NumTests; LoopCounter++) {
@@ -864,7 +877,7 @@ void Test_Random1(const size_t NumTests) {
 		TFPRINTF(pFileHandle, _T("%10lu, %10u\n"), LoopCounter, NumberCount1[LoopCounter]);
 	}
 
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 	/* Output random number frequency data for 0 to 1 */
 	pFileHandle = TFOPEN(_T("c:\\temp\\rnd1f.dat"), _T("wt"));
 	ASSERT(pFileHandle != NULL);
@@ -874,7 +887,7 @@ void Test_Random1(const size_t NumTests) {
 		TFPRINTF(pFileHandle, _T("%10lu, %10u\n"), LoopCounter, NumberCount2[LoopCounter]);
 	}
 
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 	/* Output random number frequency data for 0 to -2 */
 	pFileHandle = TFOPEN(_T("c:\\temp\\rnd-2f.dat"), _T("wt"));
 	ASSERT(pFileHandle != NULL);
@@ -884,7 +897,7 @@ void Test_Random1(const size_t NumTests) {
 		TFPRINTF(pFileHandle, _T("-%10lu, %10u\n"), LoopCounter, NumberCount3[LoopCounter]);
 	}
 
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 }
 
 
@@ -898,19 +911,19 @@ void Test_Random1(const size_t NumTests) {
  *  3. Output frequency data for a range of -6105 to -6107
  *
  *=========================================================================*/
-void Test_Random2(const size_t NumTests) {
+void Test_Random2(const std::size_t NumTests) {
 	DEFINE_FUNCTION("Test_Random2()");
-	size_t LoopCounter;
-	size_t NumberCount1[1001];
-	size_t NumberCount2[3];
-	size_t NumberCount3[4];
-	FILE* pFileHandle;
+	std::size_t LoopCounter;
+	std::size_t NumberCount1[1001];
+	std::size_t NumberCount2[3];
+	std::size_t NumberCount3[4];
+	std::FILE *pFileHandle;
 	int RandNumber;
 
 	SystemLog.Printf(stdout, _T("================= Testing Random(int, int) ==================="));
-	memset(NumberCount1, 0, sizeof(size_t) * (size_t)1001);
-	memset(NumberCount2, 0, sizeof(size_t) * (size_t)3);
-	memset(NumberCount3, 0, sizeof(size_t) * (size_t)4);
+	std::memset(NumberCount1, 0, sizeof(std::size_t) * (std::size_t)1001);
+	std::memset(NumberCount2, 0, sizeof(std::size_t) * (std::size_t)3);
+	std::memset(NumberCount3, 0, sizeof(std::size_t) * (std::size_t)4);
 
 	/* Generate random numbers from 0 to 1000 */
 	for (LoopCounter = 0; LoopCounter < NumTests; LoopCounter++) {
@@ -942,7 +955,7 @@ void Test_Random2(const size_t NumTests) {
 		TFPRINTF(pFileHandle, _T("%10lu, %10u\n"), LoopCounter + 905, NumberCount1[LoopCounter]);
 	}
 
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 	/* Output random number frequency data for 1001 to 1002 */
 	pFileHandle = TFOPEN(_T("c:\\temp\\rnd1001f.dat"), _T("wt"));
 	ASSERT(pFileHandle != NULL);
@@ -952,7 +965,7 @@ void Test_Random2(const size_t NumTests) {
 		TFPRINTF(pFileHandle, _T("%10lu, %10u\n"), LoopCounter + 1001, NumberCount2[LoopCounter]);
 	}
 
-	fclose (pFileHandle);
+	std::fclose(pFileHandle);
 	/* Output random number frequency data for -6105 to -6107 */
 	pFileHandle = TFOPEN(_T("c:\\temp\\rnd-6105f.dat"), _T("wt"));
 	ASSERT(pFileHandle != NULL);
@@ -965,7 +978,7 @@ void Test_Random2(const size_t NumTests) {
 		         NumberCount3[LoopCounter]);
 	}
 
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 }
 
 
@@ -978,9 +991,9 @@ void Test_Random2(const size_t NumTests) {
  * for each test.
  *
  *=========================================================================*/
-void Test_RandomRate(const size_t NumTests) {
+void Test_RandomRate(const std::size_t NumTests) {
 	//DEFINE_FUNCTION("Test_RandomRate()");
-	size_t LoopCounter;
+	std::size_t LoopCounter;
 	ulong Counter;
 	ulong InitialSeed;
 
@@ -1083,4 +1096,4 @@ void Test_DL_Math() {
 }
 
 
-#endif
+#endif  // _DEBUG

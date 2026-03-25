@@ -10,8 +10,13 @@
 #ifndef __ESMSUBIRDT_H
 #define __ESMSUBIRDTXH
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/sub_base.h"
 
 /* Number of effects per ingrediant */
 #define MWESM_INGRE_NUMEFFECTS 4
@@ -28,8 +33,6 @@ typedef struct {
 } ingredata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubIRDT Definition
@@ -56,7 +59,7 @@ class CEsmSubIRDT : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(ingredata_t));
 		m_RecordSize = sizeof(ingredata_t);
-		memset(m_pData, 0, sizeof(ingredata_t));
+		std::memset(m_pData, 0, sizeof(ingredata_t));
 
 		GetIngreData()->EffectID[0] = -1;
 		GetIngreData()->EffectID[1] = -1;

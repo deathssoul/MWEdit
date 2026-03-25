@@ -10,9 +10,10 @@
 #ifndef __ESMDIALOGUE_H
 #define __ESMDIALOGUE_H
 
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/record.h"
-#include "game/morrowind/sub_byte.h"
-#include "game/morrowind/sub_name_fix.h"
+#include "game/morrowind/sub_base.h"
 
 /* Dialogue types */
 #define MWESM_DIALTYPE_MIN        0
@@ -24,7 +25,6 @@
 #define MWESM_DIALTYPE_MAX        4
 
 const TCHAR *GetESMDialogType(const int Type);
-
 /*===========================================================================
  *
  * Begin Class CEsmDialogue Definition

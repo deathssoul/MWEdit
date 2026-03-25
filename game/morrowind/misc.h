@@ -10,9 +10,14 @@
 #ifndef __ESMMISC_H
 #define __ESMMISC_H
 
-#include "game/morrowind/item_2.h"
-#include "game/morrowind/sub_mcdt.h"
+#include <cstddef>
 
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/item_2.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_mcdt.h"
 /*===========================================================================
  *
  * Begin Class CEsmMisc Definition

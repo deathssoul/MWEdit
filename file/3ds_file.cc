@@ -9,24 +9,18 @@
  *=========================================================================*/
 #include "file/3ds_file.h"
 
-#include <math.h>
+#include <cmath>
+#include <cstddef>
+#include <cstdio>
+#include <cstring>
 
-/*===========================================================================
- *
- * Begin Chunk ID Structure
- *
- * Contains information for each of the known 3DS chunk IDs.  Use the
- * static C3dsFile methods
- *  chunk3ds_t*  FindChunk(ID);
- *  char*        GetChunkName(ID);
- *  int      GetChunkFlag(ID);
- * to access the array elements.
- *
- *=========================================================================*/
+#include "common/dl_base.h"
+#include "common/dl_err.h"
+#include "common/dl_log.h"
+#include "common/images/rgb_pal.h"
 #include "file/chunk_3ds.h"
 
 DEFINE_FILE("file3ds.cpp");
-
 /*===========================================================================
  *
  * Class C3dsFile Method -
@@ -57,12 +51,12 @@ void C3dsFile::CreateMeshMatrix(float *pMeshMatrix,
 	/* Ensure valid input */
 	ASSERT(pMeshMatrix != NULL);
 	/* Initialize the matrix */
-	memset(pMeshMatrix, 0, sizeof(float) * 12);
+	std::memset(pMeshMatrix, 0, sizeof(float) * 12);
 
 	/* Set just the z-axis rotation transform for now */
-	pMeshMatrix[0] = (float)cos(ZAngle);
+	pMeshMatrix[0] = (float)std::cos(ZAngle);
 	pMeshMatrix[4] = pMeshMatrix[0];
-	pMeshMatrix[1] = (float)sin(ZAngle);
+	pMeshMatrix[1] = (float)std::sin(ZAngle);
 	pMeshMatrix[3] = -pMeshMatrix[1];
 	pMeshMatrix[8] = (float)1.0;
 
@@ -87,7 +81,7 @@ void C3dsFile::CreateMeshMatrix(float *pMeshMatrix,
  * FALSE on any error.  Protected class method.
  *
  *=========================================================================*/
-bool C3dsFile::DumpChunk(FILE *pFileHandle) {
+bool C3dsFile::DumpChunk(std::FILE *pFileHandle) {
 	//DEFINE_FUNCTION("C3dsFile::DumpChunk()");
 	bool Result;
 	ushort ChunkID;
@@ -158,7 +152,7 @@ bool C3dsFile::DumpChunk(FILE *pFileHandle) {
  * SystemLog file.  Returns FALSE on any error.
  *
  *=========================================================================*/
-bool C3dsFile::DumpContents(FILE *pFileHandle) {
+bool C3dsFile::DumpContents(std::FILE *pFileHandle) {
 	DEFINE_FUNCTION("C3dsFile::DumpContents()");
 	bool Result;
 
@@ -193,7 +187,7 @@ bool C3dsFile::DumpContents(FILE *pFileHandle) {
  * Protected class method.
  *
  *=========================================================================*/
-bool C3dsFile::DumpMeshMatrix(FILE *pFileHandle) {
+bool C3dsFile::DumpMeshMatrix(std::FILE *pFileHandle) {
 	DEFINE_FUNCTION("C3dsFile::DumpMeshMatrix()");
 	char Buffer[256];
 	char NumBuffer[32];
@@ -213,8 +207,8 @@ bool C3dsFile::DumpMeshMatrix(FILE *pFileHandle) {
 				return FALSE;
 			}
 
-			sprintf(NumBuffer, "%8.3f  ", InputFloat);
-			strcat(Buffer, NumBuffer);
+			std::sprintf(NumBuffer, "%8.3f  ", InputFloat);
+			std::strcat(Buffer, NumBuffer);
 		}
 
 		SystemLog.Printf(stdout, "%s", Buffer);
@@ -679,10 +673,10 @@ bool C3dsFile::StartMainChunk() {
 bool C3dsFile::StartMatGroupChunk(const char *pMatName, const short Count) {
 	DEFINE_FUNCTION("C3dsFile::StartMatGroupChunk()");
 	bool Result;
-	size_t NameLength;
+	std::size_t NameLength;
 	/* Ensure valid input */
 	ASSERT(pMatName != NULL);
-	NameLength = strlen(pMatName) + 1;
+	NameLength = std::strlen(pMatName) + 1;
 	/* Output the object chunk header, name, and array size */
 	Result = PushChunkStack(CHUNK3DS_ID_MATGROUP);
 
@@ -709,10 +703,10 @@ bool C3dsFile::StartMatGroupChunk(const char *pMatName, const short Count) {
 bool C3dsFile::StartObjectChunk(const char *pName) {
 	DEFINE_FUNCTION("C3dsFile::StartObjectChunk()");
 	bool Result;
-	size_t NameLength;
+	std::size_t NameLength;
 	/* Ensure valid input */
 	ASSERT(pName != NULL);
-	NameLength = strlen(pName) + 1;
+	NameLength = std::strlen(pName) + 1;
 	/* Output the object chunk header and name */
 	Result = PushChunkStack(CHUNK3DS_ID_NAMEDOBJECT);
 
@@ -967,10 +961,10 @@ bool C3dsFile::WriteIntPercent(const short Percentage) {
 bool C3dsFile::WriteString(const ushort ChunkID, const char *pString) {
 	DEFINE_FUNCTION("C3dsFile::WriteString()");
 	bool Result;
-	size_t StringLength;
+	std::size_t StringLength;
 	/* Ensure valid input */
 	ASSERT(pString != NULL);
-	StringLength = strlen(pString) + 1;
+	StringLength = std::strlen(pString) + 1;
 	/* Output the string chunk */
 	Result = WriteShort(ChunkID);
 

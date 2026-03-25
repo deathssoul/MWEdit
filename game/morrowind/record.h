@@ -10,11 +10,16 @@
 #ifndef __ESMRECORD_H
 #define __ESMRECORD_H
 
+#include <cstddef>
+
+#include "common/dl_base.h"
 #include "common/container/dl_map.h"
+#include "common/file/gen_file.h"
+#include "common/string/sstring.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_long.h"
 #include "game/morrowind/sub_name.h"
-#include "game/morrowind/sub_name_fix.h"
 
 /* Offset of the recordsize from the end of the record header */
 #define MWESM_RECSIZE_OFFSET 12
@@ -38,8 +43,6 @@
  * Base class for the main records in the ESM/ESP files.
  *
  *=========================================================================*/
-class CEsmFile;
-
 class CEsmRecord {
 	DECLARE_SUBRECCREATE();
 

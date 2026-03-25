@@ -10,6 +10,9 @@
 #ifndef __XMLFILE_H
 #define __XMLFILE_H
 
+#include "common/dl_base.h"
+#include "common/file/gen_file.h"
+#include "common/string/sstring.h"
 #include "file/xml/xml_element.h"
 
 /* Callback event codes */
@@ -20,7 +23,6 @@
 #define XMLFILE_CBCODE_WRITESTART 121
 #define XMLFILE_CBCODE_WRITEDONE  122
 #define XMLFILE_CBCODE_WRITING    123
-
 /*===========================================================================
  *
  * Begin Class CXmlFile Definition

@@ -23,7 +23,7 @@
 #include "windows/win_util.h"
 
 #include <stdlib.h>  // TODO: Required for non-standard extension _MAX_PATH
-#include <string.h>  // TODO: Required for non-standard extension _stricmp()
+//#include <string.h>  // TODO: Required for non-standard extension _stricmp()
 
 #include <afx.h>
 #include <afxcmn.h>

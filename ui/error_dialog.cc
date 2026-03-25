@@ -8,10 +8,10 @@
 #include <winnt.h>
 
 #include <cstddef>
+#include <cstdio>
 
 #include "common/dl_base.h"
 #include "common/dl_err.h"
-#include "common/dl_str.h"
 #include "ui/Resource.h"
 
 #if _DEBUG
@@ -67,18 +67,18 @@ BOOL CErrorDialog::OnInitDialog() {
 		pErrorRecord = ErrorDatabase.Find(pError->GetCode());
 
 		if (pErrorRecord == NULL) {
-			snprintf(ErrorBuffer,
-			         MAX_ERROR_MESSAGESIZE,
-			         _T("%d) %s\r\n"),
-			         OutputErrors + 1,
-			         pError->GetMsg());
+			std::snprintf(ErrorBuffer,
+			              MAX_ERROR_MESSAGESIZE,
+			              _T("%d) %s\r\n"),
+			              OutputErrors + 1,
+			              pError->GetMsg());
 		} else {
-			snprintf(ErrorBuffer,
-			         MAX_ERROR_MESSAGESIZE,
-			         _T("%d) %s\r\n\t%s\r\n"),
-			         OutputErrors + 1,
-			         pError->GetMsg(),
-			         pErrorRecord->GetMsg(pError->GetSubCode()));
+			std::snprintf(ErrorBuffer,
+			              MAX_ERROR_MESSAGESIZE,
+			              _T("%d) %s\r\n\t%s\r\n"),
+			              OutputErrors + 1,
+			              pError->GetMsg(),
+			              pErrorRecord->GetMsg(pError->GetSubCode()));
 		}
 
 		Length = m_Text.GetWindowTextLength();

@@ -10,12 +10,16 @@
 #ifndef __ESMINGREDIANT_H
 #define __ESMINGREDIANT_H
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/item_2.h"
-#include "game/morrowind/sub_enam.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_irdt.h"
 
 #define MWESM_INGRE_NUMENCHANTS 4
-
 /*===========================================================================
  *
  * Begin Class CEsmIngrediant Definition

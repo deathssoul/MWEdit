@@ -9,8 +9,22 @@
  *=========================================================================*/
 #include "game/morrowind/book.h"
 
-DEFINE_FILE("EsmBook.cpp");
+#include <cstddef>
+#include <cstdio>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morroiwnd/item_3.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_bkdt.h"
+#inlcude "game/morrowind/sub_name.h"
+#inlcude "game/morrowind/sub_name_fix.h"
+
+DEFINE_FILE("EsmBook.cpp");
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -143,6 +157,7 @@ CEsmRecord *CEsmBook::Create() {
 void CEsmBook::CreateNew(CEsmFile *pFile) {
 	/* Call the base class record first */
 	CEsmItem3::CreateNew(pFile);
+
 	/* Create the item sub-records */
 	AllocateSubRecord(MWESM_SUBREC_BKDT);
 	AllocateSubRecord(MWESM_SUBREC_TEXT);
@@ -165,7 +180,7 @@ const TCHAR *CEsmBook::GetFieldString(const int FieldID) {
 
 	switch (FieldID) {
 		case ESM_FIELD_ENCHANTPTS:
-			snprintf(s_Buffer, 31, _T("%ld"), GetEnchantPts());
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetEnchantPts());
 			return s_Buffer;
 
 		case ESM_FIELD_SKILL:

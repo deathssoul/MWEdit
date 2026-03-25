@@ -9,8 +9,18 @@
  *=========================================================================*/
 #include "game/morrowind/door.h"
 
-DEFINE_FILE("EsmDoor.cpp");
+#include <cstddef>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/item_1.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_name_fix.h"
+
+DEFINE_FILE("EsmDoor.cpp");
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -100,6 +110,7 @@ CEsmRecord *CEsmDoor::Create() {
 void CEsmDoor::CreateNew(CEsmFile *pFile) {
 	/* Call the base class record first */
 	CEsmItem1::CreateNew(pFile);
+
 	/* Create the item sub-records */
 	AllocateSubRecord(MWESM_SUBREC_SNAM);
 	AllocateSubRecord(MWESM_SUBREC_ANAM);

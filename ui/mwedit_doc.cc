@@ -12,6 +12,8 @@
  *=========================================================================*/
 #include "ui/mwedit_doc.h"
 
+#include <stdlib.h>  // TODO: Required for non-standard extension _MAX_PATH
+
 #include <afx.h>
 #include <afxwin.h>
 #include <atlstr.h>
@@ -20,6 +22,7 @@
 
 #include <cctype>
 #include <cstddef>
+#include <cstdio>
 #include <cstring>
 #include <ctime>
 
@@ -316,7 +319,7 @@ bool CMWEditDoc::BackupPlugin(const TCHAR *pFilename) {
 
 	/* Find the first available number */
 	for (Index = 1; Index < 999; Index++) {
-		snprintf(BackupBuffer, _MAX_PATH + 7, _T("%s.%03d"), pFilename, Index);  // TODO: Swap this for std::snprintf
+		std::snprintf(BackupBuffer, _MAX_PATH + 7, _T("%s.%03d"), pFilename, Index);
 
 		if (!FileExists(BackupBuffer)) {
 			Result = CopyFile(pFilename, BackupBuffer, FALSE);
@@ -2441,7 +2444,7 @@ const TCHAR *CMWEditDoc::MakeNewINFOId() {
 	}
 
 	/* Make the ID string */
-	snprintf(s_Buffer, 31, _T("%lu%llu%010lu"), s_Counter, CurrentTime, SerialNumber);
+	std::snprintf(s_Buffer, 31, _T("%lu%llu%010lu"), s_Counter, CurrentTime, SerialNumber);
 	//SystemLog.Printf ("INFO = '%s'", s_Buffer);
 	s_Counter++;
 

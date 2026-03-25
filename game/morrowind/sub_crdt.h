@@ -10,8 +10,11 @@
 #ifndef __ESMSUBCRDT_H
 #define __ESMSUBCRDT_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/sub_base.h"
 
 /* Creature types */
 #define MWESM_CREATYPE_MIN      0
@@ -52,8 +55,6 @@ typedef struct {
 } creaturedata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubCRDT Definition
@@ -80,7 +81,7 @@ class CEsmSubCRDT : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(creaturedata_t));
 		m_RecordSize = sizeof(creaturedata_t);
-		memset(m_pData, 0, sizeof(creaturedata_t));
+		std::memset(m_pData, 0, sizeof(creaturedata_t));
 	}
 
 	/* Get class members */

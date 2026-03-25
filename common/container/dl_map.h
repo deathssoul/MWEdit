@@ -15,7 +15,6 @@
 #include "common/dl_base.h"
 #include "common/dl_str.h"
 
-
 /* Default size of the hash map tables */
 #define DLMAP_DEFAULTSIZE 1009
 
@@ -45,7 +44,6 @@ inline dword HashKey(const char *Key) {
 
 	return nHash;
 }
-
 /*===========================================================================
  *
  * Begin Class TGenMap Definition

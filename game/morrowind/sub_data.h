@@ -10,8 +10,11 @@
 #ifndef __ESMSUBDATA_H
 #define __ESMSUBDATA_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/sub_base.h"
 
 #pragma pack(push, 1)
 
@@ -22,8 +25,6 @@ typedef struct {
 } sounddata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubDATA Definition
@@ -50,7 +51,7 @@ class CEsmSubDATA : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(sounddata_t));
 		m_RecordSize = sizeof(sounddata_t);
-		memset(m_pData, 0, sizeof(sounddata_t));
+		std::memset(m_pData, 0, sizeof(sounddata_t));
 	}
 
 	/* Get class members */

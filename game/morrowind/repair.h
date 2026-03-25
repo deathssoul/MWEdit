@@ -10,9 +10,14 @@
 #ifndef __ESMREPAIR_H
 #define __ESMREPAIR_H
 
-#include "game/morrowind/item_2.h"
-#include "game/morrowind/sub_ridt.h"
+#include <cstddef>
 
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/item_2.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_ridt.h"
 /*===========================================================================
  *
  * Begin Class CEsmRepair Definition

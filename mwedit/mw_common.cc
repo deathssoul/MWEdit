@@ -9,7 +9,7 @@
  *=========================================================================*/
 #include "mwedit/mw_common.h"
 
-#include <stdlib.h>  // Required for non-standarad extension _MAX_PATH
+#include <stdlib.h>  // TODO: Required for non-standarad extension _MAX_PATH
 
 #include <windef.h>
 #include <winerror.h>

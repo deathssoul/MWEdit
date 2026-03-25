@@ -10,16 +10,24 @@
 #ifndef __DL_MEM_H
 #define __DL_MEM_H
 
+#include <cstddef>
+#include <cstdio>
+
 #include "common/dl_base.h"
-#include "common/dl_block.h"
 #include "common/dl_log.h"
+
+#if _DEBUG
+#include "common/dl_block.h"
+
+#if _WIN32
+#include <crtdbg.h>
+#endif  // WIN32
+#endif  // _DEBUG
 
 #define DL_MEM_NAME    _T("DL_Mem.cpp")
 #define DL_MEM_VERSION _T("0.01d")
 #define DL_MEM_AUTHOR  _T("Dave Humphrey (uesp@m0use.net)")
 #define DL_MEM_DATE    _T("1 April 2001")
-
-
 /*===========================================================================
  *
  * Begin Pointer Creation Definitions
@@ -93,7 +101,7 @@
 		} \
 		\
 		if ((pObject) == NULL) { \
-			SystemLog.Printf(stderr, _T("Failed to allocate %u bytes (%u[%u]) in file %s, function %s, line #%d!"), sizeof(Type)*Number, sizeof(Type), Number, ThisFile, ThisFunction, __LINE__); \
+			SystemLog.Printf(stderr, _T("Failed to allocate %u bytes (%u[%u]) in file %s, function %s, line #%d!"), sizeof(Type) * Number, sizeof(Type), Number, ThisFile, ThisFunction, __LINE__); \
 			throw (_T("Out of Memory!")); \
 		} }
 
@@ -101,14 +109,14 @@
 		(pObject) = new Type[Number]; \
 		\
 		if ((pObject) != NULL) { \
-			if (!CreateBlockInfo((pObject), sizeof(Type)*Number, _T(#pObject), NULL)) { \
+			if (!CreateBlockInfo((pObject), sizeof(Type) * Number, _T(#pObject), NULL)) { \
 				delete pObject; \
 				pObject = NULL; \
 			} \
 		} \
 		\
 		if ((pObject) == NULL) { \
-			SystemLog.Printf(stderr, _T("Failed to allocate %u bytes (%u[%u]) in file %s, function %s, line #%d!"), sizeof(Type)*Number, sizeof(Type), Number, __FILE__, "", __LINE__); \
+			SystemLog.Printf(stderr, _T("Failed to allocate %u bytes (%u[%u]) in file %s, function %s, line #%d!"), sizeof(Type) * Number, sizeof(Type), Number, __FILE__, "", __LINE__); \
 			throw (_T("Out of Memory!")); \
 		} }
 
@@ -158,7 +166,7 @@
 #define CreateArrayPointer(pObject, Type, Number) { \
 		(pObject) = new Type[Number]; \
 		if ((pObject) == NULL) { \
-			SystemLog.Printf(stderr, _T("Failed to allocate %u bytes!"), sizeof(Type)*Number); \
+			SystemLog.Printf(stderr, _T("Failed to allocate %u bytes!"), sizeof(Type) * Number); \
 			throw (_T("Out of Memory!")); \
 		} }
 
@@ -171,7 +179,7 @@
 			throw (_T("Out of Memory!")); \
 		} }
 
-#endif
+#endif  // _DEBUG
 
 
 /*===========================================================================
@@ -215,7 +223,7 @@
 		else { \
 			SystemLog.Printf(_T("Attempted NULL pointer release! (%s in function %s, line %d, %s)"), ThisFile, ThisFunction, __LINE__, #pObject); \
 		} }
-#endif
+#endif  // RELEASE
 
 
 /* Release build definitions */
@@ -239,9 +247,9 @@
 		if ((pObject) != NULL) { \
 			(pObject)->Release(); \
 			(pObject) = NULL; } }
-#endif
+#endif  // _RELEASE
 
-#endif
+#endif  // _DEBUG
 
 
 /*===========================================================================
@@ -260,23 +268,23 @@
 	#define HEAP_OK       (1)
 	#define HEAP_CORRUPT  (0)
 	#define HEAP_EMPTY    (-9)
-#endif
+#endif  // _WIN32
 
 /* Common values */
 #define HEAP_NOTDEFINED  (-10)
 
 
 /* Allocate a block of memory */
-void *AllocateMemory(const size_t Size);
+void *AllocateMemory(const std::size_t Size);
 
 /* Attempts to allocate and initialize a string pointer */
 TCHAR *CreateString(const TCHAR *pString);
 //wchar_t* CreateStringW (const wchar_t*  pString);
-TCHAR *CreateString(const size_t Length);
+TCHAR *CreateString(const std::size_t Length);
 
 /* Attempt to create a new string from the given string */
 bool CreateString(TCHAR **pNewString, const TCHAR *pSourceString);
-bool CreateString(TCHAR **pNewString, const size_t StringSize);
+bool CreateString(TCHAR **pNewString, const std::size_t StringSize);
 
 /* Memory status routines */
 bool GetTotalMemory(long &Memory);
@@ -288,20 +296,20 @@ const TCHAR *GetHeapStatusString();
 /* Search binary memory buffer for a sub-buffer */
 TCHAR *memsearch(const TCHAR *pBuffer,
                  const TCHAR *pSearchBuffer,
-                 const size_t BufferLength,
-                 const size_t SearchLength,
-                 const size_t StartIndex);
+                 const std::size_t BufferLength,
+                 const std::size_t SearchLength,
+                 const std::size_t StartIndex);
 
 /* Search binary memory buffer for a sub-buffer, case insensitive */
 int memisearch(const TCHAR *pBuffer,
                const TCHAR *pSearchBuffer,
-               const size_t BufferLength,
-               const size_t SearchLength,
-               const size_t StartIndex);
+               const std::size_t BufferLength,
+               const std::size_t SearchLength,
+               const std::size_t StartIndex);
 
 /* Deletes the current string and allocates a new string */
 bool ReplaceString(TCHAR **pNewString, const TCHAR *pSourceString);
-bool ReplaceString(TCHAR **pNewString, const size_t Length);
+bool ReplaceString(TCHAR **pNewString, const std::size_t Length);
 
 
 /*===========================================================================
@@ -313,10 +321,10 @@ bool ReplaceString(TCHAR **pNewString, const size_t Length);
  *
  *=========================================================================*/
 #if _DEBUG
-	#if _WIN32
-		#define DebugHeapCheckMemory() (_CrtDumpMemoryLeaks() == TRUE)
-	#endif
-#endif
+#if _WIN32
+#define DebugHeapCheckMemory() (_CrtDumpMemoryLeaks() == TRUE)
+#endif  // _WIN32
+#endif  // _DEBUG
 
 
 /*===========================================================================
@@ -334,7 +342,7 @@ bool ReplaceString(TCHAR **pNewString, const size_t Length);
 	void Test_CreateString3();
 	void Test_memsearch();
 	void Test_ReplaceString();
-#endif
+#endif  // _DEBUG
 
 
 #endif

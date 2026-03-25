@@ -10,10 +10,13 @@
 #ifndef __ESMSUBBASE_H
 #define __ESMSUBBASE_H
 
+#include <cstring>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
 #include "common/container/ptr_array.h"
 #include "common/file/gen_file.h"
 #include "game/morrowind/defs.h"
-
 
 /* The record and sub-record type */
 union esmrectype_t {
@@ -113,7 +116,7 @@ class CEsmSubRecord {
 		Destroy();
 		CreateArrayPointerL(m_pData, byte, Size);
 		m_RecordSize = Size;
-		memset(m_pData, 0, Size);
+		std::memset(m_pData, 0, Size);
 	}
 
 	/* Finds text in the sub-record */

@@ -9,11 +9,12 @@
  *=========================================================================*/
 #include "mwedit/scr_func_data.h"
 
-#include <string.h>  // TODO: Required for non-standard extension _stricmp()
+//#include <string.h>  // TODO: Required for non-standard extension _stricmp()
 
 #include <winnt.h>
 
 #include <cstddef>
+#include <cstdio>
 #include <cstdlib>
 
 #include "common/dl_base.h"
@@ -88,7 +89,7 @@ const TCHAR *CEsmScrFuncData::CreateParamString(const int Index) const {
 		return s_Buffer;
 	}
 
-	snprintf(s_Buffer, 60, _T("[%s]"), static_cast<const TCHAR *>(m_ParamDesc[Index]));
+	std::snprintf(s_Buffer, 60, _T("[%s]"), static_cast<const TCHAR *>(m_ParamDesc[Index]));
 
 	if ((m_ParamFlags[Index] & ESMSCR_FUNC_OPTIONAL) != 0) {
 		chrcat(s_Buffer, '*');
@@ -476,7 +477,7 @@ void CEsmScrFuncData::SetParamValue(const int ParamIndex, TCHAR *pValue) {
 		m_NumParams = ParamIndex + 1;
 	}
 
-	pParse = strchr(pValue, ',');
+	pParse = std::strchr(pValue, ',');
 
 	/* Parse out the flags and description from the input string */
 

@@ -9,8 +9,22 @@
  *=========================================================================*/
 #include "game/morrowind/light.h"
 
-DEFINE_FILE("EsmLight.cpp");
+#include <cstddef>
+#include <cstdio>
+#include <cstdlib>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/item_2.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_lhdt.h"
+#include "game/morrowind/sub_name_fix.h"
+
+DEFINE_FILE("EsmLight.cpp");
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -139,6 +153,7 @@ CEsmRecord *CEsmLight::Create() {
 void CEsmLight::CreateNew(CEsmFile *pFile) {
 	/* Call the base class record first */
 	CEsmItem2::CreateNew(pFile);
+
 	/* Create the item sub-records */
 	AllocateSubRecord(MWESM_SUBREC_LHDT);
 	m_pLightData->CreateNew();
@@ -159,11 +174,11 @@ const TCHAR *CEsmLight::GetFieldString(const int FieldID) {
 
 	switch (FieldID) {
 		case ESM_FIELD_TIME:
-			snprintf(s_Buffer, 31, _T("%ld"), GetTime());
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetTime());
 			return s_Buffer;
 
 		case ESM_FIELD_RADIUS:
-			snprintf(s_Buffer, 31, _T("%ld"), GetRadius());
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetRadius());
 			return s_Buffer;
 
 		case ESM_FIELD_SOUND:
@@ -202,11 +217,11 @@ void CEsmLight::OnAddSubRecord(CEsmSubRecord *pSubRecord) {
 bool CEsmLight::SetFieldValue(const int FieldID, const TCHAR *pString) {
 	switch (FieldID) {
 		case ESM_FIELD_TIME:
-			SetTime(atol(pString));
+			SetTime(std::atol(pString));
 			return true;
 
 		case ESM_FIELD_RADIUS:
-			SetRadius(atol(pString));
+			SetRadius(std::atol(pString));
 			return true;
 
 		case ESM_FIELD_SOUND:

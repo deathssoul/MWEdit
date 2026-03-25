@@ -12,8 +12,23 @@
  *=========================================================================*/
 #include "game/morrowind/script.h"
 
-DEFINE_FILE("EsmScript.cpp");
+#include <stdlib.h>  // TODO: Required for non-standard extension _MAX_PATH
 
+#include <cstddef>
+#include <cstdio>
+#include <cstring>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "game/morroiwnd/sub_base.h"
+#include "game/morrowind/sub_name.h"
+#include "game/morrowind/sub_schd.h"
+
+DEFINE_FILE("EsmScript.cpp");
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -154,11 +169,13 @@ CEsmRecord *CEsmScript::Create() {
 void CEsmScript::CreateNew(CEsmFile *pFile) {
 	/* Call the base class record first */
 	CEsmRecord::CreateNew(pFile);
+
 	/* Create the item sub-records */
 	AllocateSubRecord(MWESM_SUBREC_SCHD);
 	AllocateSubRecord(MWESM_SUBREC_SCVR);
 	AllocateSubRecord(MWESM_SUBREC_SCDT);
 	AllocateSubRecord(MWESM_SUBREC_SCTX);
+
 	m_pScriptVars->CreateNew();
 	m_pScriptData->CreateNew();
 	m_pScriptHeader->CreateNew();
@@ -178,7 +195,7 @@ bool CEsmScript::ExportScript(const TCHAR *pPath) {
 	bool Result;
 	TCHAR Filename[_MAX_PATH + 64];
 	/* Create the output filename */
-	snprintf(Filename, _MAX_PATH + 40, _T("%s%s.txt"), pPath, GetID());
+	std::snprintf(Filename, _MAX_PATH + 40, _T("%s%s.txt"), pPath, GetID());
 	/* Output the script text */
 	Result = WriteFile((const byte*)GetScriptText(), GetScriptSize(), Filename, false);
 	return Result;
@@ -196,6 +213,7 @@ short CEsmScript::FindLocalVar(const TCHAR *pLocalVar, char &VarType) {
 	int DataIndex;
 	int Length;
 	int TypeIndex;
+
 	bool IsShort = false;
 	bool IsLong = false;
 	bool IsFloat = false;
@@ -287,7 +305,7 @@ const TCHAR *CEsmScript::GetFieldString(const int FieldID) {
 			return GetID();
 
 		case ESM_FIELD_VALUE:
-			snprintf(s_Buffer, 31, _T("%d"), GetScriptSize());
+			std::snprintf(s_Buffer, 31, _T("%d"), GetScriptSize());
 			return s_Buffer;
 
 		default:
@@ -336,10 +354,8 @@ bool CEsmScript::IsUsed(const TCHAR *pID) {
 		/* Plain string, exact length */
 		if (pCheckData[0] == IDSize) {
 			return true;
-		}
-		/* Special short variables */
-		else if (pCheckData[0] == 4 && IDSize < 4) {
-			if (memcmp(pData + FindIndex + IDSize, _T("\0\0\0\0\0"), 4 - IDSize) == 0) {
+		} else if (pCheckData[0] == 4 && IDSize < 4) { /* Special short variables */
+			if (std::memcmp(pData + FindIndex + IDSize, _T("\0\0\0\0\0"), 4 - IDSize) == 0) {
 				return true;
 			}
 		}

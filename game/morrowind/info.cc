@@ -9,13 +9,27 @@
  *=========================================================================*/
 #include "game/morrowind/info.h"
 
-#include <ctype.h>
+#include <cstddef>
+#include <cstdio>
+#include <cwctype>
 
-#include "game/morrowind/dialogue.h"
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_byte.h"
 #include "game/morrowind/sub_float.h"
+#include "game/morrowind/sub_info_data.h"
+#include "game/morrowind/sub_long.h"
+#include "game/morrowind/sub_name.h"
+#include "game/morrowind/sub_name_512.h"
+#include "game/morrowind/sub_name_fix.h"
+#include "game/morrowind/sub_scvr.h"
 
 DEFINE_FILE("EsmInfo.cpp");
-
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -646,7 +660,7 @@ const TCHAR *CEsmInfo::GetFieldString(const int FieldID) {
 			return GetFuncText(5);
 
 		case ESM_FIELD_DISPOSITION:
-			snprintf(s_Buffer, 31, _T("%d"), GetDisposition());
+			std::snprintf(s_Buffer, 31, _T("%d"), GetDisposition());
 			return s_Buffer;
 
 		case ESM_FIELD_NEXT:
@@ -727,21 +741,21 @@ const TCHAR *CEsmInfo::GetFuncText(const int Index) {
 	}
 
 	if (pFuncRec->GetInfoFuncData()->Type == MWESM_SCVRFUNC_FUNCTION) {
-		snprintf(s_Buffer,
-		         127,
-		         _T("%s %s %g"),
-		         GetESMInfoFunction(pFuncData->Function),
-		         GetESMInfoCompareOp(pFuncData->CompareOp),
-		         FuncValue);
+		std::snprintf(s_Buffer,
+		              127,
+		              _T("%s %s %g"),
+		              GetESMInfoFunction(pFuncData->Function),
+		              GetESMInfoCompareOp(pFuncData->CompareOp),
+		              FuncValue);
 	} else if (pFuncRec->GetInfoFuncData()->Type == MWESM_SCVRFUNC_NONE) {
 		return _T("");
 	} else {
-		snprintf(s_Buffer,
-		         127,
-		         _T("%s %s %g"),
-		         pFuncData->Name,
-		         GetESMInfoCompareOp(pFuncData->CompareOp),
-		          FuncValue);
+		std::snprintf(s_Buffer,
+		              127,
+		              _T("%s %s %g"),
+		              pFuncData->Name,
+		              GetESMInfoCompareOp(pFuncData->CompareOp),
+		              FuncValue);
 	}
 
 	return s_Buffer;
@@ -770,8 +784,8 @@ bool CEsmInfo::IsUsed(const TCHAR *pID) {
 	pParse = stristr(pResult, pID);
 
 	while (pParse != NULL) {
-		if (iswctype(pParse[-1], _PUNCT | _SPACE)
-		    && (iswctype(pParse[IDLength], _PUNCT | _SPACE)
+		if (std::iswctype(pParse[-1], _PUNCT | _SPACE)  // TODO: Wide-character functions mixed with regular character functions
+		    && (std::iswctype(pParse[IDLength], _PUNCT | _SPACE)
 		    || pParse[IDLength] == NULL_CHAR)) {
 			return true;
 		}

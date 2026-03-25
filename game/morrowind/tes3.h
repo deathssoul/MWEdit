@@ -9,11 +9,12 @@
 #ifndef __ESMTES3_H
 #define __ESMTES3_H
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/record.h"
 #include "game/morrowind/sub_hedr.h"
-#include "game/morrowind/sub_long_64.h"
-#include "game/morrowind/sub_name.h"
-
 /*===========================================================================
  *
  * Begin Class CEsmTES3 Definition

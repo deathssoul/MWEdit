@@ -9,8 +9,23 @@
  *=========================================================================*/
 #include "game/morrowind/game_setting.h"
 
-DEFINE_FILE("EsmGameSetting.cpp");
+#include <cstddef>
+#include <cstdio>
+#include <cstdlib>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_float.h"
+#include "game/morrowind/sub_long.h"
+#include "game/morrowind/sub_name.h"
+#include "game/morrowind/sub_name_fix.h"
+
+DEFINE_FILE("EsmGameSetting.cpp");
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -123,6 +138,7 @@ CEsmRecord *CEsmGameSetting::Create() {
 void CEsmGameSetting::CreateNew(CEsmFile *pFile) {
 	/* Call the base class record first */
 	CEsmRecord::CreateNew(pFile);
+
 	/* Create the item sub-records */
 	AllocateSubRecord(MWESM_SUBREC_FNAM);
 	AllocateSubRecord(MWESM_SUBREC_STRV);
@@ -173,15 +189,15 @@ const TCHAR *CEsmGameSetting::GetTypeString() {
 }
 
 int CEsmGameSetting::GetType(const TCHAR *pString) {
-	if (stricmp(pString, _T("Integer")) == 0) {
+	if (_stricmp(pString, _T("Integer")) == 0) {
 		return MWESM_SETTING_INTEGER;
 	}
 
-	if (stricmp(pString, _T("Float")) == 0) {
+	if (_stricmp(pString, _T("Float")) == 0) {
 		return MWESM_SETTING_FLOAT;
 	}
 
-	if (stricmp(pString, _T("String")) == 0) {
+	if (_stricmp(pString, _T("String")) == 0) {
 		return MWESM_SETTING_STRING;
 	}
 
@@ -217,12 +233,12 @@ const TCHAR *CEsmGameSetting::GetValue() {
 	}
 
 	if (m_pLongData != NULL) {
-		snprintf(s_Buffer, 31, _T("%ld"), m_pLongData->GetValue());
+		std::snprintf(s_Buffer, 31, _T("%ld"), m_pLongData->GetValue());
 		return s_Buffer;
 	}
 
 	if (m_pFloatData != NULL) {
-		snprintf(s_Buffer, 31, _T("%g"), m_pFloatData->GetValue());
+		std::snprintf(s_Buffer, 31, _T("%g"), m_pFloatData->GetValue());
 		return s_Buffer;
 	}
 
@@ -332,9 +348,9 @@ void CEsmGameSetting::SetValue(const TCHAR *pString) {
 
 	/* Set according to the current setting value */
 	if (m_pLongData != NULL) {
-		m_pLongData->SetValue(atoi(pString));
+		m_pLongData->SetValue(std::atoi(pString));
 	} else if (m_pFloatData != NULL) {
-		m_pFloatData->SetValue((float)atof(pString));
+		m_pFloatData->SetValue((float)std::atof(pString));
 	} else if (m_pStringData != NULL) {
 		m_pStringData->SetName(pString);
 	} else { /* Create the string by default */

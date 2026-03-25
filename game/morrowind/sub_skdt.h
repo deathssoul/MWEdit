@@ -10,8 +10,11 @@
 #ifndef __ESMSUBSKDT_H
 #define __ESMSUBSKDT_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/sub_base.h"
 
 #pragma pack(push, 1)
 
@@ -25,8 +28,6 @@ typedef struct {
 } skilldata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubSKDT Definition
@@ -53,7 +54,7 @@ class CEsmSubSKDT : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(skilldata_t));
 		m_RecordSize = sizeof(skilldata_t);
-		memset(m_pData, 0, sizeof(skilldata_t));
+		std::memset(m_pData, 0, sizeof(skilldata_t));
 
 		GetSkillData()->UseValue1 = 1.0f;
 		GetSkillData()->UseValue2 = 1.0f;

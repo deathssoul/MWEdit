@@ -9,8 +9,15 @@
  *=========================================================================*/
 #include "file/bmp_file.h"
 
-DEFINE_FILE("bmpfile.cpp");
+#include <climits>
+#include <cstddef>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/file/gen_file.h"
+#include "common/file/images/rgb_pal.h"
+
+DEFINE_FILE("bmpfile.cpp");
 /*===========================================================================
  *
  * Class CBmpFile Constructor
@@ -125,7 +132,7 @@ bool CBmpFile::Save(const char *pFilename) {
 	}
 
 	if (Result) {
-		Result = Write((char *)m_pData, (size_t)m_ImageSize);
+		Result = Write((char *)m_pData, (std::size_t)m_ImageSize);
 	}
 
 	Close();

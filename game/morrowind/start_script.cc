@@ -9,8 +9,18 @@
  *=========================================================================*/
 #include "game/morrowind/start_script.h"
 
-DEFINE_FILE("EsmStartScript.cpp");
+#include <cstddef>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_name_fix.h"
+
+DEFINE_FILE("EsmStartScript.cpp");
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -108,6 +118,7 @@ CEsmRecord *CEsmStartScript::Create() {
 void CEsmStartScript::CreateNew(CEsmFile *pFile) {
 	/* Call the base class record first */
 	CEsmRecord::CreateNew(pFile);
+
 	/* Create the item sub-records */
 	AllocateSubRecord(MWESM_SUBREC_DATA);
 	AllocateSubRecord(MWESM_SUBREC_NAME);

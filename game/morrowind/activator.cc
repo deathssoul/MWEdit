@@ -9,10 +9,17 @@
  *=========================================================================*/
 #include "game/morrowind/activator.h"
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/item_1.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_name_fix.h"
 
 DEFINE_FILE("EsmActivator.cpp");
-
-
 /*===========================================================================
  *
  * Begin Sub-Record Create Array

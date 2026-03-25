@@ -10,8 +10,12 @@
 #ifndef __ESMSUBSCVR_H
 #define __ESMSUBSCVR_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/file/gen_file.h"
+#include "game/morrowind/sub_base.h"
 
 /* Base size without the optional string */
 #define MWESM_SCVR_BASESIZE           5
@@ -71,8 +75,6 @@ typedef struct {
 } infofuncdata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubSCVR Definition
@@ -115,7 +117,7 @@ class CEsmSubSCVR : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(infofuncdata_t));
 		m_RecordSize = sizeof(infofuncdata_t);
-		memset(m_pData, 0, sizeof(infofuncdata_t));
+		std::memset(m_pData, 0, sizeof(infofuncdata_t));
 		m_StringLength = 0;
 	}
 

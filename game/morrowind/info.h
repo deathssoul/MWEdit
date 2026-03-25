@@ -10,14 +10,17 @@
 #ifndef __ESMINFO_H
 #define __ESMINFO_H
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morrowind/dialogue.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/record.h"
-#include "game/morrowind/sub_byte.h"
+#include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_info_data.h"
-#include "game/morrowind/sub_long.h"
 #include "game/morrowind/sub_name.h"
 #include "game/morrowind/sub_name_512.h"
 #include "game/morrowind/sub_name_fix.h"
-#include "game/morrowind/sub_scvr.h"
 
 /* Number of function/variables per info */
 #define MWESM_INFO_MAXFUNCS 6
@@ -32,9 +35,6 @@ typedef struct {
 	short Type;
 	const TCHAR *pName;
 } esmfuncinfo_t;
-
-class CEsmDialogue;
-
 /*===========================================================================
  *
  * Begin Class CEsmInfo Definition

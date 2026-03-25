@@ -10,8 +10,11 @@
 #ifndef __ESMSUBPBDT_H
 #define __ESMSUBPBDT_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/sub_base.h"
 
 #pragma pack(push, 1)
 
@@ -23,8 +26,6 @@ typedef struct {
 } probedata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubPBDT Definition
@@ -51,7 +52,7 @@ class CEsmSubPBDT : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(probedata_t));
 		m_RecordSize = sizeof(probedata_t);
-		memset(m_pData, 0, sizeof(probedata_t));
+		std::memset(m_pData, 0, sizeof(probedata_t));
 	}
 
 	/* Get class methods */

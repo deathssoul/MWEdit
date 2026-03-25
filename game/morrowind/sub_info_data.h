@@ -10,8 +10,11 @@
 #ifndef __ESMSUBINFODATA_H
 #define __ESMSUBINFODATA_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/sub_base.h"
 
 /* Gender types */
 #define MWESM_INFOGENDER_NONE     -1
@@ -31,8 +34,6 @@ typedef struct {
 } infodata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubInfoDATA Definition
@@ -59,7 +60,7 @@ class CEsmSubInfoDATA : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(infodata_t));
 		m_RecordSize = sizeof(infodata_t);
-		memset(m_pData, 0, sizeof(infodata_t));
+		std::memset(m_pData, 0, sizeof(infodata_t));
 
 		GetInfoData()->Rank = -1;
 		GetInfoData()->PCRank = -1;

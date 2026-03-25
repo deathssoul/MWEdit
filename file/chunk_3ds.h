@@ -11,9 +11,19 @@
 #ifndef __CHUNK3DS_H
 #define __CHUNK3DS_H
 
-/* Ensure only included once */
-#pragma once
-
+#include "file/3ds_file.h"
+/*===========================================================================
+ *
+ * Begin Chunk ID Structure
+ *
+ * Contains information for each of the known 3DS chunk IDs.  Use the
+ * static C3dsFile methods
+ *  chunk3ds_t*  FindChunk(ID);
+ *  char*        GetChunkName(ID);
+ *  int      GetChunkFlag(ID);
+ * to access the array elements.
+ *
+ *=========================================================================*/
 chunk3ds_t ChunkInfo[] = {
 	{
 		0x0000,

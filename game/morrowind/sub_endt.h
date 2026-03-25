@@ -10,8 +10,11 @@
 #ifndef __ESMSUBENDT_H
 #define __ESMSUBENDT_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/sub_base.h"
 
 /* Enchant types */
 #define MWESM_ENCHTYPE_MIN            0
@@ -32,8 +35,6 @@ typedef struct {
 } enchantdata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubENDT Definition
@@ -60,7 +61,7 @@ class CEsmSubENDT : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(enchantdata_t));
 		m_RecordSize = sizeof(enchantdata_t);
-		memset(m_pData, 0, sizeof(enchantdata_t));
+		std::memset(m_pData, 0, sizeof(enchantdata_t));
 		GetEnchantData()->AutoCalc = 1;
 	}
 

@@ -10,13 +10,15 @@
 #ifndef __ESMREGION_H
 #define __ESMREGION_H
 
-#include "game/morrowind/record.h"
-#include "game/morrowind/sub_long.h"
-#include "game/morrowind/sub_name.h"
-#include "game/morrowind/sub_name_fix.h"
-#include "game/morrowind/sub_snam.h"
-#include "game/morrowind/sub_weat.h"
+#include <cstddef>
 
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_long.h"
+#include "game/morrowind/sub_name_fix.h"
+#include "game/morrowind/sub_weat.h"
 /*===========================================================================
  *
  * Begin Class CEsmRegion Definition

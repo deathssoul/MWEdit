@@ -11,13 +11,13 @@
 #ifndef __DL_TIME_H
 #define __DL_TIME_H
 
-#include <time.h>
+#include <ctime>
 
-#include "common/dl_err.h"
+#include "common/dl_base.h"
 
 #if _WIN32
-	#include "windows.h"
-#endif
+#include <winnt.h>
+#endif  // WIN32
 
 /* Types of counters used */
 #define HICLOCK_PERFORMANCE 1
@@ -27,7 +27,7 @@
 /* Type for recording high-resolution counters */
 typedef struct hiclock_t {
 	union {
-		clock_t ClockCount;       /* For the standard clock() counter */
+		std::clock_t ClockCount;       /* For the standard clock() counter */
 
 #if _WIN32
 		LARGE_INTEGER TimerCount; /* Windows performance counter */
@@ -77,7 +77,7 @@ inline hiclock_t &hiclock_t::operator =(const ulong &lValue) {
 #if _WIN32
 	TimerCount.QuadPart = (LONGLONG)lValue;
 #else
-	ClockCount = (clock_t)lValue;
+	ClockCount = (std::clock_t)lValue;
 #endif
 	return *this;
 }

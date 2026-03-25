@@ -10,9 +10,12 @@
 #ifndef __ESMDOOR_H
 #define __ESMDOOR_H
 
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/item_1.h"
-#include "game/morrowind/sub_name.h"
-
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_name_fix.h"
 /*===========================================================================
  *
  * Begin Class CEsmDoor Definition

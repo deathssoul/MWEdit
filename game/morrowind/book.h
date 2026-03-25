@@ -10,9 +10,15 @@
 #ifndef __ESMBOOK_H
 #define __ESMBOOK_H
 
-#include "game/morrowind/item_3.h"
-#include "game/morrowind/sub_bkdt.h"
+#include <cstddef>
 
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/item_3.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_bkdt.h"
+#include "game/morrowind/sub_name.h"
 /*===========================================================================
  *
  * Begin Class CEsmBook Definition
@@ -126,7 +132,7 @@ class CEsmBook : public CEsmItem3 {
 
 
 /* Convert an armor type to a string */
-const TCHAR *GetESMArmorType(const int ArmorType);
+const TCHAR *GetESMArmorType(const int ArmorType);  // TODO: Why is this in the CEsmBook class? Possibly remove.
 
 
 #endif

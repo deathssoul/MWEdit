@@ -10,11 +10,17 @@
 #ifndef __ESMLIGHT_H
 #define __ESMLIGHT_H
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/item_2.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_lhdt.h"
+#include "game/morrowind/sub_name_fix.h"
 
 const TCHAR *GetESMLightFlicker(const int Flags);
-
 /*===========================================================================
  *
  * Begin Class CEsmLight Definition
@@ -34,101 +40,101 @@ class CEsmLight : public CEsmItem2 {
 	/* Class Constructors/Destructors */
 	CEsmLight();
 	//virtual ~CEsmLight() { Destroy(); }
-	virtual void Destroy(void);
+	virtual void Destroy();
 
 	/* Compare two fields of the record */
 	virtual int CompareFields(const int FieldID, CEsmRecord *pRecord);
 
 	/* Return a new record object */
-	static CEsmRecord *Create(void);
+	static CEsmRecord *Create();
 
 	/* Create a new, empty, record */
 	virtual void CreateNew(CEsmFile *pFile);
 
 	/* Return a text representation of the item type */
-	virtual const TCHAR *GetItemType(void) {
+	virtual const TCHAR *GetItemType() {
 		return _T("Light");
 	}
 
 	/* Get class members */
-	lightdata_t *GetLightData(void) {
-		return (m_pLightData == NULL ? NULL : m_pLightData->GetLightData());
+	lightdata_t *GetLightData() {
+		return m_pLightData == NULL ? NULL : m_pLightData->GetLightData();
 	}
 
-	const TCHAR *GetSound(void) {
-		return (m_pSound ? m_pSound->GetName() : _T(""));
+	const TCHAR *GetSound() {
+		return m_pSound ? m_pSound->GetName() : _T("");
 	}
 
-	virtual float GetWeight(void) {
-		return (m_pLightData ? m_pLightData->GetWeight() : 0);
+	virtual float GetWeight() {
+		return m_pLightData ? m_pLightData->GetWeight() : 0;
 	}
 
-	virtual long GetValue(void) {
-		return (m_pLightData ? m_pLightData->GetValue() : 0);
+	virtual long GetValue() {
+		return m_pLightData ? m_pLightData->GetValue() : 0;
 	}
 
-	long GetTime(void) {
-		return (m_pLightData ? m_pLightData->GetTime() : 0);
+	long GetTime() {
+		return m_pLightData ? m_pLightData->GetTime() : 0;
 	}
 
-	long GetRadius(void) {
-		return (m_pLightData ? m_pLightData->GetRadius() : 0);
+	long GetRadius() {
+		return m_pLightData ? m_pLightData->GetRadius() : 0;
 	}
 
-	long GetColor(void) {
-		return (m_pLightData ? m_pLightData->GetColorRef() : 0);
+	long GetColor() {
+		return m_pLightData ? m_pLightData->GetColorRef() : 0;
 	}
 
-	long GetFlags(void) {
-		return (m_pLightData ? m_pLightData->GetFlags() : 0);
+	long GetFlags() {
+		return m_pLightData ? m_pLightData->GetFlags() : 0;
 	}
 
-	byte GetRed(void) {
-		return (m_pLightData ? m_pLightData->GetColorRed() : 0);
+	byte GetRed() {
+		return m_pLightData ? m_pLightData->GetColorRed() : 0;
 	}
 
-	byte GetGreen(void) {
-		return (m_pLightData ? m_pLightData->GetColorGreen() : 0);
+	byte GetGreen() {
+		return m_pLightData ? m_pLightData->GetColorGreen() : 0;
 	}
 
-	byte GetBlue(void) {
-		return (m_pLightData ? m_pLightData->GetColorBlue() : 0);
+	byte GetBlue() {
+		return m_pLightData ? m_pLightData->GetColorBlue() : 0;
 	}
 
-	bool IsDynamic(void) {
-		return (m_pLightData ? m_pLightData->IsDynamic() : false);
+	bool IsDynamic() {
+		return m_pLightData ? m_pLightData->IsDynamic() : false;
 	}
 
-	bool IsCanCarry(void) {
-		return (m_pLightData ? m_pLightData->IsCanCarry() : false);
+	bool IsCanCarry() {
+		return m_pLightData ? m_pLightData->IsCanCarry() : false;
 	}
 
-	bool IsNegative(void) {
-		return (m_pLightData ? m_pLightData->IsNegative() : false);
+	bool IsNegative() {
+		return m_pLightData ? m_pLightData->IsNegative() : false;
 	}
 
-	bool IsFlicker(void) {
-		return (m_pLightData ? m_pLightData->IsFlicker() : false);
+	bool IsFlicker() {
+		return m_pLightData ? m_pLightData->IsFlicker() : false;
 	}
 
-	bool IsFire(void) {
-		return (m_pLightData ? m_pLightData->IsFire() : false);
+	bool IsFire() {
+		return m_pLightData ? m_pLightData->IsFire() : false;
 	}
 
-	bool IsDefaultOff(void) {
-		return (m_pLightData ? m_pLightData->IsDefaultOff() : false);
+	bool IsDefaultOff() {
+		return m_pLightData ? m_pLightData->IsDefaultOff() : false;
 	}
 
-	bool IsFlickerSlow(void) {
-		return (m_pLightData ? m_pLightData->IsFlickerSlow() : false);
+	bool IsFlickerSlow() {
+		return m_pLightData ? m_pLightData->IsFlickerSlow() : false;
 	}
 
-	bool IsPulse(void) {
-		return (m_pLightData ? m_pLightData->IsPulse() : false);
+	bool IsPulse() {
+		return m_pLightData ? m_pLightData->IsPulse() : false;
 	}
 
-	bool IsPulseSlow(void) {
-		return (m_pLightData ? m_pLightData->IsPulseSlow() : false);
+	bool IsPulseSlow() {
+		return m_pLightData ? m_pLightData->IsPulseSlow() : false;
 	}
 
 	/* Get a string representation of a particular field */

@@ -30,10 +30,22 @@
 	#pragma warning(disable : 4512)
 #endif
 
+#include <cstddef>
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <limits.h>
+#include "common/dl_str.h"
+#include "common/dl_log.h"
+
+#if _UNICODE
+#include <cwctype>
+#else
+#include <string.h>  // TODO: Required for non-standard extension stricmp() and strnicmp()
+
+#include <cctype>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+#endif  // _UNICODE
 
 /*===========================================================================
  *
@@ -44,7 +56,7 @@
  *=========================================================================*/
 #if _DEBUG && _WIN32
 	//#define _CRTDBG_MAP_ALLOC
-	#include "crtdbg.h"
+	#include <crtdbg.h>
 #endif
 
 /*===========================================================================
@@ -207,42 +219,42 @@ typedef unsigned long dword;
 		#define TISXDIGIT(char1) _istxdigit(char1)
 		#define TSTRTOL(string, ptr, base) _tcstol(string, ptr, base)
 		#define TSTRTOD(string, ptr) _tcstod(string, ptr)
-		#define TTOUPPER(char1) towupper(char1)
-		#define TTOLOWER(char1) towlower(char1)
+		#define TTOUPPER(char1) std::towupper(char1)
+		#define TTOLOWER(char1) std::towlower(char1)
 	#endif
 #else
-	#define TSTRCPY(string1, string2) strcpy(string1, string2)
-	#define TSTRCAT(string1, string2) strcat(string1, string2)
-	#define TSTRCMP(string1, string2) strcmp(string1, string2)
+	#define TSTRCPY(string1, string2) std::strcpy(string1, string2)
+	#define TSTRCAT(string1, string2) std::strcat(string1, string2)
+	#define TSTRCMP(string1, string2) std::strcmp(string1, string2)
 	#define  _stricmp(string1, string2) stricmp(string1, string2)
-	#define TSTRLEN(string) strlen(string)
-	#define TSTRCHR(string, char1) strchr(string, char1)
-	#define TSTRRCHR(string, char1) strrchr(string, char1)
-	#define TSTRTOK(string1, string2) strtok(string1, string2)
-	#define TSTRNCMP(string1, string2, length) strncmp(string1, string2, length)
+	#define TSTRLEN(string) std::strlen(string)
+	#define TSTRCHR(string, char1) std::strchr(string, char1)
+	#define TSTRRCHR(string, char1) std::strrchr(string, char1)
+	#define TSTRTOK(string1, string2) std::strtok(string1, string2)
+	#define TSTRNCMP(string1, string2, length) std::strncmp(string1, string2, length)
 	#define TSTRNICMP(string1, string2, length) strnicmp(string1, string2, length)
 	#define TSTRNCPY(string1, string2, length) strnncpy(string1, string2, length)
-	#define TSTRSTR(string1, string2) strstr(string1, string2)
-	#define TFPRINTF fprintf
-	#define TSTRNCAT(string1, string2, length) strncat(string1, string2, length)
-	#define TFOPEN(Filename, mode) fopen(Filename, mode)
-	#define TSTRFTIME(string1, length1, string2, time1) strftime(string1, length1, string2, time1)
-	#define TFPUTC(Char, Handle) fputc(Char, Handle)
-	#define TPRINTF printf
-	#define TVPRINTF vprintf
-	#define TVFPRINTF vfprintf
-	#define TISSPACE(char1) isspace(char1)
-	#define TISDIGIT(char1) isdigit(char1)
-	#define TISALPHA(char1) isalpha(char1)
-	#define TISLOWER(char1) islower(char1)
-	#define TISUPPER(char1) isupper(char1)
-	#define TISPRINT(char1) isprint(char1)
-	#define TISSPACE(char1) isspace(char1)
-	#define TISXDIGIT(char1) isxdigit(char1)
-	#define TSTRTOL(string, ptr, base) strtol(string, ptr, base)
-	#define TSTRTOD(string, ptr) strtod(string, ptr)
-	#define TTOUPPER(char1) toupper(char1)
-	#define TTOLOWER(char1) tolower(char1)
+	#define TSTRSTR(string1, string2) std::strstr(string1, string2)
+	#define TFPRINTF std::fprintf
+	#define TSTRNCAT(string1, string2, length) std::strncat(string1, string2, length)
+	#define TFOPEN(Filename, mode) std::fopen(Filename, mode)
+	#define TSTRFTIME(string1, length1, string2, time1) std::strftime(string1, length1, string2, time1)
+	#define TFPUTC(Char, Handle) std::fputc(Char, Handle)
+	#define TPRINTF std::printf
+	#define TVPRINTF std::vprintf
+	#define TVFPRINTF std::vfprintf
+	#define TISSPACE(char1) std::isspace(char1)
+	#define TISDIGIT(char1) std::isdigit(char1)
+	#define TISALPHA(char1) std::isalpha(char1)
+	#define TISLOWER(char1) std::islower(char1)
+	#define TISUPPER(char1) std::isupper(char1)
+	#define TISPRINT(char1) std::isprint(char1)
+	#define TISSPACE(char1) std::isspace(char1)
+	#define TISXDIGIT(char1) std::isxdigit(char1)
+	#define TSTRTOL(string, ptr, base) std::strtol(string, ptr, base)
+	#define TSTRTOD(string, ptr) std::strtod(string, ptr)
+	#define TTOUPPER(char1) std::toupper(char1)
+	#define TTOLOWER(char1) std::tolower(char1)
 #endif
 
 /* The type for the new qsort() user compare function */
@@ -398,8 +410,8 @@ void CustomAssert(const TCHAR *pString,
 
 /* Standard qsort() replacement */
 void qsort(void *pBase,
-           size_t NumElements,
-           size_t ElementWidth,
+           std::size_t NumElements,
+           std::size_t ElementWidth,
            PQSORT_CMPFUNC pCmpFunc,
            long lUserData);
 

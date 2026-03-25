@@ -9,8 +9,22 @@
  *=========================================================================*/
 #include "game/morrowind/apparatus.h"
 
-DEFINE_FILE("EsmApparatus.cpp");
+#include <cstddef>
+#include <cstdio>
+#include <cstdlib>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/item_2.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_aadt.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_name_fix.h"
+
+DEFINE_FILE("EsmApparatus.cpp");
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -165,7 +179,7 @@ const TCHAR *CEsmApparatus::GetFieldString(const int FieldID) {
 	switch (FieldID) {
 		case ESM_FIELD_QUALITY:
 			ASSERT(GetAppaData() != NULL);
-			snprintf(s_Buffer, 31, _T("%.2f"), GetAppaData()->Quality);
+			std::snprintf(s_Buffer, 31, _T("%.2f"), GetAppaData()->Quality);
 			return s_Buffer;
 
 		case ESM_FIELD_TYPE:
@@ -203,7 +217,7 @@ void CEsmApparatus::OnAddSubRecord(CEsmSubRecord *pSubRecord) {
 bool CEsmApparatus::SetFieldValue(const int FieldID, const TCHAR *pString) {
 	switch (FieldID) {
 		case ESM_FIELD_QUALITY:
-			SetQuality((float)atof(pString));
+			SetQuality((float)std::atof(pString));
 			return true;
 
 		case ESM_FIELD_TYPE:
@@ -240,7 +254,7 @@ int GetESMAppaType(const TCHAR *pString) {
 	int Index;
 
 	for (Index = MWESM_APPATYPE_MIN; Index <= MWESM_APPATYPE_MAX; Index++) {
-		if (stricmp(l_ApparatusTypes[Index], pString) == 0) {
+		if (_stricmp(l_ApparatusTypes[Index], pString) == 0) {
 			return Index;
 		}
 	}

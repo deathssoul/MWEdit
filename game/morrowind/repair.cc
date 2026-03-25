@@ -9,8 +9,20 @@
  *=========================================================================*/
 #include "game/morrowind/repair.h"
 
-DEFINE_FILE("EsmRepair.cpp");
+#include <cstddef>
+#include <cstdio>
+#include <cstdlib>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/item_2.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_name_fix.h"
+#include "game/morrowind/ridt.h"
+
+DEFINE_FILE("EsmRepair.cpp");
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -130,6 +142,7 @@ CEsmRecord *CEsmRepair::Create() {
 void CEsmRepair::CreateNew(CEsmFile *pFile) {
 	/* Call the base class record first */
 	CEsmItem2::CreateNew(pFile);
+
 	/* Create the item sub-records */
 	AllocateSubRecord(MWESM_SUBREC_RIDT);
 	m_pRepairData->CreateNew();
@@ -149,11 +162,11 @@ const TCHAR *CEsmRepair::GetFieldString(const int FieldID) {
 
 	switch (FieldID) {
 		case ESM_FIELD_USES:
-			snprintf(s_Buffer, 31, _T("%ld"), GetUses());
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetUses());
 			return s_Buffer;
 
 		case ESM_FIELD_QUALITY:
-			snprintf(s_Buffer, 31, _T("%.2f"), GetQuality());
+			std::snprintf(s_Buffer, 31, _T("%.2f"), GetQuality());
 			return s_Buffer;
 
 		default:
@@ -187,11 +200,11 @@ void CEsmRepair::OnAddSubRecord(CEsmSubRecord *pSubRecord) {
 bool CEsmRepair::SetFieldValue(const int FieldID, const TCHAR *pString) {
 	switch (FieldID) {
 		case ESM_FIELD_USES:
-			SetUses(atoi(pString));
+			SetUses(std::atoi(pString));
 			return true;
 
 		case ESM_FIELD_QUALITY:
-			SetQuality((float)atof(pString));
+			SetQuality((float)std::atof(pString));
 			return true;
 	}
 

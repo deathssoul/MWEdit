@@ -14,7 +14,10 @@ set(common_src "common/container/dl_map.cc"
                "common/container/ptr_array.cc"
                "common/container/tem_array.cc"
 
+               "common/file/config_entry.cc"
                "common/file/config_file.cc"
+               "common/file/config_group.cc"
+               "common/file/file_block.cc"
                "common/file/file_buffer.cc"
                "common/file/gen_file.cc"
                "common/file/gen_find.cc"
@@ -24,10 +27,10 @@ set(common_src "common/container/dl_map.cc"
                "common/string/sstring.cc"
                "common/string/sstring_array.cc"
 
-#              "common/time/task_time.cc"
+#               "common/time/task_time.cc"
 
                "common/utility/name_list.cc"
-               "common/utility/profile.cc"
+#               "common/utility/profile.cc"
 
                "common/dl_base.cc"
                "common/dl_block.cc"
@@ -40,15 +43,15 @@ set(common_src "common/container/dl_map.cc"
                "common/dl_str.cc"
                "common/dl_time.cc")
 
-set(file_src "file/xml/xml_attribute.cc"
-             "file/xml/xml_element.cc"
-             "file/xml/xml_file.cc"
+set(file_src #"file/xml/xml_attribute.cc"
+#             "file/xml/xml_element.cc"
+#             "file/xml/xml_file.cc"
 
-             "file/3ds_file.cc"
-             "file/bmp_file.cc"
+#             "file/3ds_file.cc"
+#             "file/bmp_file.cc"
              "file/csv_file.cc"
-             "file/dxf_file.cc"
-             "file/pcx_file.cc")
+#             "file/dxf_file.cc"
+#             "file/pcx_file.cc")
 
 set(game_morrowind_src "game/morrowind/activator.cc"
                        "game/morrowind/alchemy.cc"

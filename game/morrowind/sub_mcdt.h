@@ -10,8 +10,11 @@
 #ifndef __ESMSUBMCDT_H
 #define __ESMSUBMCDT_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/sub_base.h"
 
 #pragma pack(push, 1)
 
@@ -22,8 +25,6 @@ typedef struct {
 } miscdata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubMCDT Definition
@@ -50,7 +51,7 @@ class CEsmSubMCDT : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(miscdata_t));
 		m_RecordSize = sizeof(miscdata_t);
-		memset(m_pData, 0, sizeof(miscdata_t));
+		std::memset(m_pData, 0, sizeof(miscdata_t));
 	}
 
 	/* Get class members */

@@ -10,18 +10,19 @@
 #ifndef __ESMCELL_H
 #define __ESMCELL_H
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/file/gen_file.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/record.h"
 #include "game/morrowind/sub_ambi.h"
-#include "game/morrowind/sub_byte.h"
+#include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_cell_data.h"
 #include "game/morrowind/sub_cell_ref.h"
 #include "game/morrowind/sub_float.h"
-#include "game/morrowind/sub_frmr.h"
 #include "game/morrowind/sub_long.h"
-#include "game/morrowind/sub_name.h"
 #include "game/morrowind/sub_name_fix.h"
-#include "game/morrowind/sub_pos_6.h"
-
 /*===========================================================================
  *
  * Begin Class CEsmCell Definition

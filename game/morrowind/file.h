@@ -10,48 +10,10 @@
 #ifndef __ESMFILE_H
 #define __ESMFILE_H
 
-#include "game/morrowind/activator.h"
-#include "game/morrowind/alchemy.h"
-#include "game/morrowind/apparatus.h"
-#include "game/morrowind/armor.h"
-#include "game/morrowind/birth_sign.h"
-#include "game/morrowind/body_part.h"
-#include "game/morrowind/book.h"
-#include "game/morrowind/cell.h"
-#include "game/morrowind/class.h"
-#include "game/morrowind/clothing.h"
-#include "game/morrowind/container.h"
-#include "game/morrowind/creature.h"
-#include "game/morrowind/dialogue.h"
-#include "game/morrowind/door.h"
-#include "game/morrowind/enchant.h"
-#include "game/morrowind/faction.h"
-#include "game/morrowind/game_setting.h"
-#include "game/morrowind/global.h"
-#include "game/morrowind/info.h"
-#include "game/morrowind/ingredient.h"
-#include "game/morrowind/land.h"
-#include "game/morrowind/level_crea.h"
-#include "game/morrowind/level_item.h"
-#include "game/morrowind/light.h"
-#include "game/morrowind/lock_pick.h"
-#include "game/morrowind/magic_effect.h"
-#include "game/morrowind/misc.h"
-#include "game/morrowind/npc.h"
-#include "game/morrowind/probe.h"
-#include "game/morrowind/race.h"
+#include "common/dl_base.h"
+#include "common/container/ptr_array.h"
+#include "common/string/sstring.h"
 #include "game/morrowind/record.h"
-#include "game/morrowind/region.h"
-#include "game/morrowind/repair.h"
-#include "game/morrowind/script.h"
-#include "game/morrowind/skill.h"
-#include "game/morrowind/sound.h"
-#include "game/morrowind/sound_gen.h"
-#include "game/morrowind/spell.h"
-#include "game/morrowind/start_script.h"
-#include "game/morrowind/static.h"
-#include "game/morrowind/tes3.h"
-#include "game/morrowind/weapon.h"
 
 /* Callback event codes */
 #define ESM_CALLBACK_RECORD 1
@@ -68,7 +30,6 @@ typedef int (*ESMFILE_CALLBACK) (const int Event,
                                  const TCHAR *pMessage,
                                  const float Percent,
                                  long UserData);
-
 /*===========================================================================
  *
  * Begin Class CEsmFile Definition
@@ -129,7 +90,7 @@ class CEsmFile {
 	}
 
 	int FindRecord(CEsmRecord *pRecord) {
-		return (m_Records.FindElement(pRecord));
+		return m_Records.FindElement(pRecord);
 	}
 
 	/* Get class members */

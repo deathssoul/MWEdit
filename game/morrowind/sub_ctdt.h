@@ -10,8 +10,11 @@
 #ifndef __ESMSUBCTDT_H
 #define __ESMSUBCTDT_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/sub_base.h"
 
 /* Armor types */
 #define MWESM_CLOTHTYPE_MIN   0
@@ -29,8 +32,6 @@ typedef struct {
 } clothdata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubCTDT Definition
@@ -57,7 +58,7 @@ class CEsmSubCTDT : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(clothdata_t));
 		m_RecordSize = sizeof(clothdata_t);
-		memset(m_pData, 0, sizeof(clothdata_t));
+		std::memset(m_pData, 0, sizeof(clothdata_t));
 	}
 
 	/* Get class members */

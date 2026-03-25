@@ -9,16 +9,21 @@
  *=========================================================================*/
 #include "common/time/task_time.h"
 
-#if _WIN32
-	#include <windows.h>
-	#include "mmsystem.h"
-#endif
+#include <cstddef>
 
+#include <mmsystem.h>
+
+#include "common/dl_base.h"
+#include "common/dl_err.h"
+
+#if _WIN32
+#include <timeapi.h>
+#include <windef.h>
+#include <winnt.h>
+#endif
 
 /* The one and only task timer */
 CTaskTimer TaskTimer;
-
-
 /*===========================================================================
  *
  * Begin Local System-Specific Timer Functions

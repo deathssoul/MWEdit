@@ -9,11 +9,14 @@
  *=========================================================================*/
 #include "file/xml/xml_file.h"
 
-#include <windows.h>
+#include <cstddef>
+#include <cstring>
+
+#include "common/dl_base.h"
+#include "common/dl_file.h"
+#include "common/dl_mem.h"
 
 DEFINE_FILE("XmlFile.cpp");
-
-
 /*===========================================================================
  *
  * Function - int l_ReadCallBack (FileSize, BytesRead, pUserData);
@@ -34,7 +37,7 @@ CXmlFile::CXmlFile() {
 	m_RootElement.SetIsRoot(true);
 	m_LineCount = 0;
 	m_CallBackFunc = NULL;
-	memset(&m_CallBackInfo, 0, sizeof(m_CallBackInfo));
+	std::memset(&m_CallBackInfo, 0, sizeof(m_CallBackInfo));
 }
 
 
@@ -84,7 +87,7 @@ int CXmlFile::OnReadCallback(const long FileSize, const long BytesRead) {
  *=========================================================================*/
 bool CXmlFile::Read(const TCHAR *pFilename) {
 	TCHAR *pFileBuffer;
-	size_t BytesRead;
+	std::size_t BytesRead;
 	int FilePos;
 	int CBResult;
 	bool Result;

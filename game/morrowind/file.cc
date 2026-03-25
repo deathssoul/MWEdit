@@ -9,8 +9,57 @@
  *=========================================================================*/
 #include "game/morrowind/file.h"
 
-DEFINE_FILE("EsmFile.cpp");
+#include <cstddef>
+#include <cstdio>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/file/gen_file.h"
+#include "game/morroiwnd/activator.h"
+#include "game/morrowind/alchemy.h"
+#include "game/morrowind/apparatus.h"
+#include "game/morrowind/armor.h"
+#include "game/morrowind/body_part.h"
+#include "game/morrowind/book.h"
+#include "game/morrowind/birth_sign.h"
+#include "game/morrowind/cell.h"
+#include "game/morrowind/class.h"
+#include "game/morrowind/clothing.h"
+#include "game/morrowind/creature.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/dialogue.h"
+#include "game/morrowind/door.h"
+#include "game/morrowind/enchant.h"
+#include "game/morrowind/faction.h"
+#include "game/morrowind/game_setting.h"
+#include "game/morrowind/global.h"
+#include "game/morrowind/info.h"
+#include "game/morrowind/ingredient.h"
+#include "game/morrowind/land.h"
+#include "game/morrowind/level_crea.h"
+#include "game/morrowind/level_item.h"
+#include "game/morrowind/light.h"
+#include "game/morrowind/lock_pick.h"
+#include "game/morrowind/magic_effect.h"
+#include "game/morrowind/misc.h"
+#include "game/morrowind/npc.h"
+#include "game/morrowind/probe.h"
+#include "game/morrowind/race.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/region.h"
+#include "game/morrowind/repair.h"
+#include "game/morrowind/script.h"
+#include "game/morrowind/skill.h"
+#include "game/morrowind/sound.h"
+#include "game/morrowind/sound_gen.h"
+#include "game/morrowind/spell.h"
+#include "game/morrowind/start_script.h"
+#include "game/morrowind/static.h"
+#include "game/morrowind/sub_hedr.h"
+#include "game/morrowind/weapon.h"
+#include "game/morrowind/tes_3.h"
+
+DEFINE_FILE("EsmFile.cpp");
 /*===========================================================================
  *
  * Begin Record Create Array
@@ -454,7 +503,7 @@ bool CEsmFile::Read(const TCHAR *pFilename) {
 		/* Call the callback function if set */
 		if (m_CallBack != NULL && (m_Records.GetSize() % ESM_CALLBACK_RATE) == 0) {
 			Percent = File.Tell() * 100.0f / m_FileSize;
-			snprintf(Buffer, 255, _T("%4.4s (%ld)"), Type, m_Records.GetSize());
+			std::snprintf(Buffer, 255, _T("%4.4s (%ld)"), Type, m_Records.GetSize());
 			m_CallBack(ESM_CALLBACK_RECORD, Buffer, Percent, m_CallBackData);
 		}
 
@@ -509,12 +558,12 @@ bool CEsmFile::Write(const TCHAR *pFilename) {
 		/* Call the callback function if set */
 		if (m_CallBack != NULL) {
 			Percent = Index * 100.0f / m_Records.GetSize();
-			snprintf(Buffer,
-			         255,
-			         _T("%4.4s (%ld of %ld)"),
-			         m_Records.GetAt(Index)->GetType(),
-			         Index,
-			         m_Records.GetSize());
+			std::snprintf(Buffer,
+			              255,
+			              _T("%4.4s (%ld of %ld)"),
+			              m_Records.GetAt(Index)->GetType(),
+			              Index,
+			              m_Records.GetSize());
 			m_CallBack(ESM_CALLBACK_RECORD, Buffer, Percent, m_CallBackData);
 		}
 

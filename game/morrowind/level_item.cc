@@ -9,8 +9,23 @@
  *=========================================================================*/
 #include "game/morrowind/level_item.h"
 
-DEFINE_FILE("EsmLevelItem.cpp");
+#include <cstddef>
+#include <cstdio>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_byte.h"
+#include "game/morrowind/sub_long.h"
+#include "game/morrowind/sub_name.h"
+#include "game/morrowind/sub_name_fix.h"
+#include "game/morrowind/sub_short.h"
+
+DEFINE_FILE("EsmLevelItem.cpp");
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -214,10 +229,10 @@ const TCHAR *CEsmLevelItem::GetItemListString() {
 
 			TSTRCPY(s_Buffer + BufferLength, pNameSubRec->GetName());
 			BufferLength += StringLength;
-			snprintf(TempBuffer,
-			         31,
-			         _T(" (%d),   "),
-			         (int)((CEsmSubShort *)pLevelSubRec)->GetValue());
+			std::snprintf(TempBuffer,
+			              31,
+			              _T(" (%d),   "),
+			              (int)((CEsmSubShort *)pLevelSubRec)->GetValue());
 			StringLength = TSTRLEN(TempBuffer);
 
 			if (StringLength + BufferLength > 255) {
@@ -257,7 +272,7 @@ const TCHAR *CEsmLevelItem::GetFieldString(const int FieldID) {
 			return GetItemListString();
 
 		case ESM_FIELD_CHANCENONE:
-			snprintf(s_Buffer, 31, _T("%d"), GetChanceNone());
+			std::snprintf(s_Buffer, 31, _T("%d"), GetChanceNone());
 			return s_Buffer;
 
 		case ESM_FIELD_CALCEACH:

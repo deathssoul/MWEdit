@@ -19,13 +19,14 @@
  *
  *=========================================================================*/
 #if _DEBUG
-
 #include "common/dl_block.h"
 
-#include <string.h>
+#include <climits>
+#include <cstddef>
+#include <cstring>
 
+#include "common/dl_base.h"
 #include "common/dl_log.h"
-
 
 DEFINE_FILE("DL_Block.cpp");
 
@@ -33,8 +34,6 @@ DEFINE_FILE("DL_Block.cpp");
 static blockinfo_t **l_ppBlocks = NULL;
 static int l_NumBlocks = 0;
 static int l_AllocatedBlocks = 0;
-
-
 /*===========================================================================
  *
  * Begin Pointer Comparison Macros
@@ -84,7 +83,7 @@ void ResizeBlockArray() {
 
 	/* Copy existing blocks if required */
 	if (l_ppBlocks != NULL) {
-		memcpy(ppNewArray, l_ppBlocks, sizeof(blockinfo_t *) * l_NumBlocks);
+		std::memcpy(ppNewArray, l_ppBlocks, sizeof(blockinfo_t *) * l_NumBlocks);
 		delete[] l_ppBlocks;
 	}
 
@@ -182,7 +181,7 @@ void ClearMemoryRefs() {
  * created.  On failure the newly allocated block should be freed.
  *
  *=========================================================================*/
-boolean CreateBlockInfo(void *pNewBlock, const size_t NewSize) {
+boolean CreateBlockInfo(void *pNewBlock, const std::size_t NewSize) {
 	DEFINE_FUNCTION("CreateBlockInfo(void*, size_t)");
 	blockinfo_t *pBlockInfo;
 	/* Ensure valid input */
@@ -224,7 +223,7 @@ boolean CreateBlockInfo(void *pNewBlock, const size_t NewSize) {
  *
  *=========================================================================*/
 boolean CreateBlockInfo(void *pNewBlock,
-                        const size_t NewSize,
+                        const std::size_t NewSize,
                         const TCHAR *pName,
                         const TCHAR *pFunc) {
 	DEFINE_FUNCTION("CreateBlockInfo(void*, size_t, char*)");
@@ -246,7 +245,7 @@ boolean CreateBlockInfo(void *pNewBlock,
 	pBlockInfo->pName = new TCHAR[TSTRLEN(pName) +1];
 
 	if (pBlockInfo->pName == NULL) {
-		memset (pBlockInfo, (int)GARBAGE_CHAR, sizeof(blockinfo_t));
+		std::memset(pBlockInfo, (int)GARBAGE_CHAR, sizeof(blockinfo_t));
 		delete pBlockInfo;
 		return FALSE;
 	}
@@ -260,7 +259,7 @@ boolean CreateBlockInfo(void *pNewBlock,
 		pBlockInfo->pFunc = new TCHAR[TSTRLEN(pFunc) +1];
 
 		if (pBlockInfo->pFunc == NULL) {
-			memset (pBlockInfo, (int)GARBAGE_CHAR, sizeof(blockinfo_t));
+			std::memset(pBlockInfo, (int)GARBAGE_CHAR, sizeof(blockinfo_t));
 			delete pBlockInfo;
 			return FALSE;
 		}
@@ -302,9 +301,9 @@ void FreeBlockInfo(void *pBlock) {
 
 		/* Check for a block match */
 		if (IsPtrEqual(pBlockInfo->pPointer, pByteBlock)) {
-			memmove(l_ppBlocks + BlockIndex,
-			        l_ppBlocks + BlockIndex + 1,
-			        sizeof(blockinfo_t *) * (l_NumBlocks - BlockIndex));
+			std::memmove(l_ppBlocks + BlockIndex,
+			             l_ppBlocks + BlockIndex + 1,
+			             sizeof(blockinfo_t *) * (l_NumBlocks - BlockIndex));
 			l_NumBlocks--;
 			break;
 		}
@@ -316,22 +315,22 @@ void FreeBlockInfo(void *pBlock) {
 
 	/* Delete the pointer name, if any */
 	if (pBlockInfo->pName != NULL) {
-		memset(pBlockInfo->pName,
-		       (int)GARBAGE_CHAR,
-		       (TSTRLEN(pBlockInfo->pName) + 1) * sizeof(TCHAR));
+		std::memset(pBlockInfo->pName,
+		            (int)GARBAGE_CHAR,
+		            (TSTRLEN(pBlockInfo->pName) + 1) * sizeof(TCHAR));
 		delete[] pBlockInfo->pName;
 	}
 
 	/* Delete the function name, if any */
 	if (pBlockInfo->pFunc != NULL) {
-		memset(pBlockInfo->pFunc,
-		       (int)GARBAGE_CHAR,
-		       (TSTRLEN(pBlockInfo->pFunc) + 1) * sizeof(TCHAR));
+		std::memset(pBlockInfo->pFunc,
+		            (int)GARBAGE_CHAR,
+		            (TSTRLEN(pBlockInfo->pFunc) + 1) * sizeof(TCHAR));
 		delete[] pBlockInfo->pFunc;
 	}
 
 	/* Clear the blockinfo structure and delete */
-	memset(pBlockInfo, (int)GARBAGE_CHAR, sizeof(blockinfo_t));
+	std::memset(pBlockInfo, (int)GARBAGE_CHAR, sizeof(blockinfo_t));
 	delete pBlockInfo;
 }
 
@@ -343,7 +342,7 @@ void FreeBlockInfo(void *pBlock) {
  * Returns the total number of allocated blocks.
  *
  *=========================================================================*/
-size_t GetNumBlocks() {
+std::size_t GetNumBlocks() {
 	//DEFINE_FUNCTION("GetNumBlocks()");
 	return l_NumBlocks;
 }
@@ -364,7 +363,7 @@ size_t GetNumBlocks() {
  *      ASSERT(IsValidPointer(pSomeObject, size));
   *
  *=========================================================================*/
-boolean IsValidPointer(void *pBlock, const size_t MinSize) {
+boolean IsValidPointer(void *pBlock, const std::size_t MinSize) {
 	DEFINE_FUNCTION("IsValidPointer(void*, size_t)");
 	blockinfo_t *pBlockInfo;
 	byte *pByteBlock = (byte *)pBlock;
@@ -463,7 +462,7 @@ void OutputBlockInfo() {
  * will ASSERT if the passed pointer is invalid.
  *
  *=========================================================================*/
-size_t SizeOfBlock(void *pBlock) {
+std::size_t SizeOfBlock(void *pBlock) {
 	DEFINE_FUNCTION("SizeOfBlock()");
 	blockinfo_t *pBlockInfo;
 	pBlockInfo = GetBlockInfo(pBlock);
@@ -480,7 +479,7 @@ size_t SizeOfBlock(void *pBlock) {
  * input parameters are invalid, the function will ASSERT.
  *
  *=========================================================================*/
-void UpdateBlockInfo(void *pOldBlock, void *pNewBlock, const size_t NewSize) {
+void UpdateBlockInfo(void *pOldBlock, void *pNewBlock, const std::size_t NewSize) {
 	DEFINE_FUNCTION("UpdateBlockInfo()");
 	blockinfo_t *pBlockInfo;
 	/* Ensure valid input */

@@ -13,18 +13,21 @@
 #ifndef __DL_MATH_H
 #define __DL_MATH_H
 
-#include <ctype.h>
-#include "math.h"
+#include <cctype>
+#include <cmath>
 
 #include "common/dl_base.h"
-#include "common/dl_err.h"
+
+#if _DEBUG
+#include <cstddef>
+#endif  // _DEBUG
 
 /* Exponential of power of 10s macro */
-#define exp10(Value) (exp(Value * M_LN10))
-#define exp2(Value)  (exp(Value * M_LN2))
-#define pow10(Value) (pow(10, (Value)))
+#define exp10(Value) (std::exp(Value * M_LN10))
+#define exp2(Value)  (std::exp(Value * M_LN2))
+#define pow10(Value) (std::pow(10, (Value)))
 #define pow2l(Value) ((long)(1l << (Value)))
-#define log2(Value)  (log(Value) / M_LN2)
+#define log2(Value)  (std::log(Value) / M_LN2)
 
 
 /* Fixes the given value to >= Min and <= Max */
@@ -37,8 +40,6 @@ typedef struct {
 	byte PrefixChar;
 	TCHAR Prefix[8];
 } unit_prefix_t;
-
-
 /*===========================================================================
  *
  * Begin Inline Sign Functions
@@ -134,10 +135,10 @@ void SeedRandom(const ulong NewSeed = 1);
 
 
 #if _DEBUG
-	void Test_Random(const size_t NumTests = 1000);
-	void Test_Random1(const size_t NumTests = 1000);
-	void Test_Random2(const size_t NumTests = 1000);
-	void Test_RandomRate(const size_t NumTests = 100);
+	void Test_Random(const std::size_t NumTests = 1000);
+	void Test_Random1(const std::size_t NumTests = 1000);
+	void Test_Random2(const std::size_t NumTests = 1000);
+	void Test_RandomRate(const std::size_t NumTests = 100);
 	void Test_sign();
 	void Test_HexCharToInt();
 	void Test_Metricize();
@@ -150,7 +151,7 @@ extern char HexCharValues[];
 
 /* Convert an ASCII character to hexadecimal value (0-15) */
 inline int HexCharToInt(const TCHAR Character) {
-	IASSERT(isxdigit(Character));
+	IASSERT(std::isxdigit(Character));
 	return (int)HexCharValues[Character & 0x7F];
 }
 

@@ -12,10 +12,10 @@
 /* Include Files */
 #include "common/container/ptr_array.h"
 
-#include <cstddef>
-#include <cstdlib>
 #include <climits>
 #include <cmath>
+#include <cstddef>
+#include <cstdlib>
 #include <cstring>
 
 #include "common/dl_base.h"
@@ -28,12 +28,10 @@
 
 #include "common/dl_block.h"
 #include "common/dl_log.h"
-#endif  //_DEBUG
+#endif  // _DEBUG
 
 
 DEFINE_FILE("PrtArray.cpp");
-
-
 /*===========================================================================
  *
  * Begin Module Test Routines
@@ -956,6 +954,4 @@ void Test_PtrArray() {
 	StringArray2.AssertValid();
 	StringArray2.Destroy();
 }
-
-
-#endif  //_DEBUG
+#endif  // _DEBUG

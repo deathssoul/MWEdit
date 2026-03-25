@@ -9,8 +9,17 @@
  *=========================================================================*/
 #include "game/morrowind/item_1.h"
 
-DEFINE_FILE("EsmItem1.cpp");
+#include <cstddef>
 
+#include "common/dl_base.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_name_fix.h"
+
+DEFINE_FILE("EsmItem1.cpp");
 /*===========================================================================
  *
  * Class CEsmItem1 Constructor
@@ -87,6 +96,7 @@ int CEsmItem1::CompareFields(const int FieldID, CEsmRecord *pRecord) {
 void CEsmItem1::CreateNew(CEsmFile *pFile) {
 	/* Call the base class record first */
 	CEsmRecord::CreateNew(pFile);
+
 	/* Create the item sub-records */
 	AllocateSubRecord(MWESM_SUBREC_FNAM);
 	AllocateSubRecord(MWESM_SUBREC_MODL);
@@ -164,9 +174,7 @@ void CEsmItem1::SetScript(const TCHAR *pScript) {
 		}
 
 		m_pScript = NULL;
-	}
-	/* Create a new enchant sub-record */
-	else if (m_pScript == NULL) {
+	} else if (m_pScript == NULL) { /* Create a new enchant sub-record */
 		AllocateSubRecord(MWESM_SUBREC_SCRI);
 		ASSERT(m_pScript != NULL);
 		m_pScript->SetName(pScript);

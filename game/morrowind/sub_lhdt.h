@@ -10,8 +10,11 @@
 #ifndef __ESMSUBLHDT_H
 #define __ESMSUBLHDT_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/sub_base.h"
 
 /* Light flags */
 #define MWESM_LIGHTFLAG_DYNAMIC       0x0001
@@ -48,8 +51,6 @@ typedef struct {
 } lightdata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubLHDT Definition
@@ -76,7 +77,7 @@ class CEsmSubLHDT : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(lightdata_t));
 		m_RecordSize = sizeof(lightdata_t);
-		memset(m_pData, 0, sizeof(lightdata_t));
+		std::memset(m_pData, 0, sizeof(lightdata_t));
 
 		GetLightData()->Red = 192;
 		GetLightData()->Green = 128;

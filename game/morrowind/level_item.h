@@ -10,15 +10,15 @@
 #ifndef __ESMLEVELITEM_H
 #define __ESMLEVELITEM_H
 
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_byte.h"
 #include "game/morrowind/sub_long.h"
-#include "game/morrowind/sub_name.h"
-#include "game/morrowind/sub_short.h"
 
 #define MWESM_LEVITEMFLAG_ALLPC    1
 #define MWESM_LEVITEMFLAG_CALCEACH 2
-
 /*===========================================================================
  *
  * Begin Class CEsmLevelItem Definition

@@ -27,7 +27,7 @@
 //#include <stdafx.h>
 #include "mwedit/script_compile.h"
 
-#include <string.h>  // TODO: Required for non-standard extension _stricmp()
+//#include <string.h>  // TODO: Required for non-standard extension _stricmp()
 
 #include <winnt.h>
 
@@ -35,6 +35,7 @@
 #include <cstdarg>
 #include <cstddef>
 #include <cstdint>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 
@@ -2299,16 +2300,16 @@ void CEsmScriptCompile::AddError(const TCHAR *pString, ...) {
 
 	/* Create the input message */
 	std::va_start(Args, pString);
-	vsnprintf(UserMsg, 255, pString, Args);
+	std::vsnprintf(UserMsg, 255, pString, Args);
 	std::va_end(Args);
 
 	/* Create the expanded error message */
-	snprintf(ErrorString,
-	         511,
-	         _T("Error: Line %d (%d): %s"),
-	         m_CurrentLine + 1,
-	         m_CurrentCharPos + 1,
-	         UserMsg);
+	std::snprintf(ErrorString,
+	              511,
+	              _T("Error: Line %d (%d): %s"),
+	              m_CurrentLine + 1,
+	              m_CurrentCharPos + 1,
+	              UserMsg);
 
 	/* Save the message */
 	ErrorHandler.AddError(ERR_BADINPUT, ErrorString);
@@ -2357,16 +2358,16 @@ void CEsmScriptCompile::AddWarning(const TCHAR *pString, ...) {
 
 	/* Create the input message */
 	std::va_start(Args, pString);
-	vsnprintf(UserMsg, 255, pString, Args);
+	std::vsnprintf(UserMsg, 255, pString, Args);
 	std::va_end(Args);
 
 	/* Create the expanded error message */
-	snprintf(ErrorString,
-	         511,
-	         _T("Warning: Line %d (%d): %s"),
-	         m_CurrentLine + 1,
-	         m_CurrentCharPos + 1,
-	         UserMsg);
+	std::snprintf(ErrorString,
+	              511,
+	              _T("Warning: Line %d (%d): %s"),
+	              m_CurrentLine + 1,
+	              m_CurrentCharPos + 1,
+	              UserMsg);
 
 	/* Save the message */
 	ErrorHandler.AddError(ERR_BADINPUT, ErrorString);
@@ -2396,7 +2397,7 @@ bool CEsmScriptCompile::AddMessage(const int MessageID, const TCHAR *pString, ..
 
 	/* Create the user message */
 	std::va_start(Args, pString);
-	vsnprintf(UserMsg, 255, pString, Args);
+	std::vsnprintf(UserMsg, 255, pString, Args);
 	std::va_end(Args);
 
 	/* Find the current message level for the message */
@@ -2640,7 +2641,7 @@ CEsmRecord *CEsmScriptCompile::FindRecord(const char *pID) {
  *=========================================================================*/
 CEsmRecord *CEsmScriptCompile::FindRecord(const char *pID, const char *pType) {
 	esmrecinfo_t *pRecInfo;
-	CEsmRecord* pRecord;
+	CEsmRecord *pRecord;
 	bool Result;
 	/* Try a fast lookup first */
 	pRecInfo = m_pDocument->FindRecord(pID);
@@ -3631,7 +3632,7 @@ int CEsmScriptCompile::GetStringToken() {
  *=========================================================================*/
 int CEsmScriptCompile::GetSymbolToken() {
 	TCHAR *pStart = m_pParse;
-	CEsmGlobal* pGlobal;
+	CEsmGlobal *pGlobal;
 	esmscrfuncinfo_t *pFunc;
 	int Result;
 	bool fResult;
@@ -4034,10 +4035,8 @@ int CEsmScriptCompile::CheckFuncArg() {
 				if (!Result) {
 					return ESMSC_FUNCARG_ERROR;
 				}
-			}
-			/* Special case for messagebox function */
-			else if (m_pCurrentFunc->OpCode == ESMSCR_FUNCOPCODE_MESSAGEBOX
-			         && m_ManyArgPos == 0) {
+			} else if (m_pCurrentFunc->OpCode == ESMSCR_FUNCOPCODE_MESSAGEBOX /* Special case for messagebox function */
+			           && m_ManyArgPos == 0) {
 				Result = AddMessage(ESMSCR_ERROR_BADFUNCARG,
 				                    _T("MessageBox function does not accept a number variable!"));
 
@@ -6193,7 +6192,7 @@ int CEsmScriptCompile::OutputIfRelOp() {
 	int Length;
 	bool Result;
 	//Length = snprintf (Buffer, 15, _T(" %s "), m_Token);
-	Length = snprintf(Buffer, 15, _T(" %s"), static_cast<const char *>(m_Token));
+	Length = std::snprintf(Buffer, 15, _T(" %s"), static_cast<const char *>(m_Token));
 
 	if (Length > 0) {
 		Result = AddScriptData(Buffer, Length);

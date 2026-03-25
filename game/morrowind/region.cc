@@ -9,8 +9,21 @@
  *=========================================================================*/
 #include "game/morrowind/region.h"
 
-DEFINE_FILE("EsmRegion.cpp");
+#include <cstddef>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_long.h"
+#include "game/morrowind/sub_name_fix.h"
+#include "game/morrowind/sub_snam.h"
+#include "game/morrowind/sub_weat.h"
+
+DEFINE_FILE("EsmRegion.cpp");
 /*===========================================================================
  *
  * Begin Sub-Record Create Array

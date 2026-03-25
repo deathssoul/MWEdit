@@ -9,8 +9,21 @@
  *=========================================================================*/
 #include "game/morrowind/race.h"
 
-DEFINE_FILE("EsmRace.cpp");
+#include <cstddef>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_name.h"
+#include "game/morrowind/sub_name_32.h"
+#include "game/morrowind/sub_name_fix.h"
+#include "game/morrowind/sub_radt.h"
+
+DEFINE_FILE("EsmRace.cpp");
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -127,6 +140,7 @@ CEsmRecord *CEsmRace::Create() {
 void CEsmRace::CreateNew(CEsmFile *pFile) {
 	/* Call the base class record first */
 	CEsmRecord::CreateNew(pFile);
+
 	/* Create the item sub-records */
 	AllocateSubRecord(MWESM_SUBREC_FNAM);
 	AllocateSubRecord(MWESM_SUBREC_RADT);

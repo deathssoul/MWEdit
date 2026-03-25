@@ -10,14 +10,18 @@
 #ifndef __ESMSPELL_H
 #define __ESMSPELL_H
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_enam.h"
-#include "game/morrowind/sub_name.h"
+#include "game/morrowind/sub_name_fix.h"
 #include "game/morrowind/sub_spdt.h"
 
 const TCHAR *GetESMSpellType(const int Type);
 int GetESMSpellType(const TCHAR *pString);
-
 /*===========================================================================
  *
  * Begin Class CEsmSpell Definition

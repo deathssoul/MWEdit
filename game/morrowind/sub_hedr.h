@@ -10,8 +10,12 @@
 #ifndef __ESMSUBHEDR_H
 #define __ESMSUBHEDR_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/file/gen_file.h"
+#include "game/morrowind/sub_base.h"
 
 /* Header string sizes */
 #define MWESM_HEDR_AUTHORSIZE 32
@@ -29,8 +33,6 @@ typedef struct {
 } headerdata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubHEDR Definition
@@ -77,7 +79,7 @@ class CEsmSubHEDR : public CEsmSubRecord {
 	virtual void CreateNew() {
 		CEsmSubRecord::CreateNew();
 		m_RecordSize = sizeof(headerdata_t);
-		memset(&m_Data, 0, sizeof(headerdata_t));
+		std::memset(&m_Data, 0, sizeof(headerdata_t));
 		m_Data.Version = 1.0;
 		m_Data.NumRecords = 1;
 	}

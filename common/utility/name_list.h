@@ -10,15 +10,12 @@
 #ifndef __NAMELIST_H
 #define __NAMELIST_H
 
-#include "common/dl_err.h"
-
-
+#include "common/dl_base.h"
 /* Associate a short string with a long integer value */
 typedef struct {
 	long lValue;
 	const TCHAR *pName;
 } valuenames_t;
-
 
 /* Find a value associated with a name */
 bool FindNameValue(long &lValue, const valuenames_t *pValueArray, const TCHAR *pName);

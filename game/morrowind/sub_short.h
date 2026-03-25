@@ -10,14 +10,13 @@
 #ifndef __ESMSUBSHORT_H
 #define __ESMSUBSHORT_H
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/file/gen_file.h"
 #include "game/morrowind/sub_base.h"
 
-
 #pragma pack(push, 1)
-
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubShort Definition
@@ -91,11 +90,11 @@ class CEsmSubShort : public CEsmSubRecord {
 	}
 
 	void SetFlag(const short Flag) {
-		m_Short = m_Short | Flag;
+		m_Short |= Flag;
 	}
 
 	void ClearFlag(const short Flag) {
-		m_Short = (m_Short & (~Flag));
+		m_Short &= ~Flag;
 	}
 };
 

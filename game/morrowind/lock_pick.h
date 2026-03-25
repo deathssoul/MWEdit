@@ -10,9 +10,14 @@
 #ifndef __ESMLOCKPICK_H
 #define __ESMLOCKPICK_H
 
-#include "game/morrowind/item_2.h"
-#include "game/morrowind/sub_lkdt.h"
+#include <cstddef>
 
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/item_2.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_lkdt.h"
 /*===========================================================================
  *
  * Begin Class CEsmLockPick Definition

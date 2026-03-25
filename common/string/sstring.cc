@@ -9,8 +9,16 @@
  *=========================================================================*/
 #include "common/string/sstring.h"
 
-#include <ctype.h>
-#include <limits.h>
+#include <string.h>  // TODO: Required for non-standard extension _strlwr()
+
+#include <climits>
+#include <cstddef>
+#include <cstring>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "common/string/sstring_data.h"
 
 DEFINE_FILE("SString.cpp");
 
@@ -20,10 +28,9 @@ static int s_SSData[] = {
 	0,
 	0
 };
+
 static CSStringData *s_pSDataNull = (CSStringData *)&s_SSData;
 static const TCHAR *s_pSStringNull = (const TCHAR *)(((byte *)s_pSDataNull) + sizeof(CSStringData));
-
-
 /*===========================================================================
  *
  * Class CSString Constructor - CSString ();
@@ -50,7 +57,7 @@ CSString::CSString(const TCHAR *pSrcString) {
 	if (pSrcString != NULL) {
 		int Length = TSTRLEN(pSrcString);
 		AllocString(Length);
-		memcpy(m_pString, pSrcString, sizeof(TCHAR) * (Length + 1));
+		std::memcpy(m_pString, pSrcString, sizeof(TCHAR) * (Length + 1));
 	}
 }
 
@@ -80,7 +87,7 @@ CSString::CSString(const TCHAR *pSrcString, const int SrcLength) {
 			GetData()->Length = InputLength;
 		}
 
-		memcpy(m_pString, pSrcString, GetLength() * sizeof(TCHAR));
+		std::memcpy(m_pString, pSrcString, GetLength() * sizeof(TCHAR));
 	}
 }
 
@@ -97,7 +104,7 @@ CSString::CSString(const CSString &SrcString) {
 	Init();
 	/* Copy the source string */
 	AllocString(SrcString.GetLength());
-	memcpy(m_pString, (const TCHAR *)SrcString, (SrcString.GetLength() + 1) * sizeof(TCHAR));
+	std::memcpy(m_pString, (const TCHAR *)SrcString, (SrcString.GetLength() + 1) * sizeof(TCHAR));
 }
 
 
@@ -116,7 +123,7 @@ CSString::CSString(const int StringSize) {
 	/* Copy the source string */
 	if (StringSize > 0) {
 		AllocString(StringSize);
-		memset(m_pString, (TCHAR)' ', StringSize * sizeof(TCHAR));
+		std::memset(m_pString, (TCHAR)' ', StringSize * sizeof(TCHAR));
 	}
 }
 
@@ -135,7 +142,7 @@ CSString::CSString(const TCHAR Char, const int Count) {
 	/* Allocate and create the string */
 	if (Count > 0) {
 		AllocString((int)Count);
-		memset(m_pString, (int)Char, Count * sizeof(TCHAR));
+		std::memset(m_pString, (int)Char, Count * sizeof(TCHAR));
 	}
 }
 
@@ -220,7 +227,7 @@ void CSString::AllocCopy(const int StringSize) {
 		pData->Length = StringSize;
 		pData->AllocLength = nAllocLength;
 		/* Copy the old buffer to the new then destroy the old */
-		memcpy(pData->GetData(), m_pString, (GetData()->Length + 1) * sizeof(TCHAR));
+		std::memcpy(pData->GetData(), m_pString, (GetData()->Length + 1) * sizeof(TCHAR));
 		pData->GetData()[nAllocLength] = '\0';
 		FreeData();
 		m_pString = pData->GetData();
@@ -258,11 +265,11 @@ void CSString::ConcatStrings(const int String1Size,
 
 	/* Create the new string */
 	if (pString1 != NULL && String1Size != 0) {
-		memmove(m_pString, pString1, String1Size * sizeof(TCHAR));
+		std::memmove(m_pString, pString1, String1Size * sizeof(TCHAR));
 	}
 
 	if (pString2 != NULL && String2Size != 0) {
-		memmove(m_pString + String1Size, pString2, String2Size * sizeof(TCHAR));
+		std::memmove(m_pString + String1Size, pString2, String2Size * sizeof(TCHAR));
 	}
 
 	m_pString[NewSize] = NULL_CHAR;
@@ -320,7 +327,7 @@ void CSString::FreeExtra() {
 		pData->Length = GetLength();
 		pData->AllocLength = nAllocLength;
 		/* Copy the old buffer to the new then destroy the old */
-		memcpy(pData->GetData(), m_pString, (GetData()->Length + 1) * sizeof(TCHAR));
+		std::memcpy(pData->GetData(), m_pString, (GetData()->Length + 1) * sizeof(TCHAR));
 		pData->GetData()[nAllocLength] = '\0';
 		FreeData();
 		m_pString = pData->GetData();
@@ -364,9 +371,9 @@ CSString &CSString::TrimLeft() {
 
 	/* Shift the string, if required, to remove whitespace */
 	if (StringIndex != 0) {
-		memmove(m_pString,
-		        m_pString + StringIndex,
-		        (GetLength() - StringIndex + 1) * sizeof(TCHAR));
+		std::memmove(m_pString,
+		             m_pString + StringIndex,
+		             (GetLength() - StringIndex + 1) * sizeof(TCHAR));
 		GetData()->Length -= StringIndex;
 		ASSERT(GetLength() >= 0);
 		m_pString[GetLength()] = NULL_CHAR;
@@ -423,7 +430,7 @@ const CSString &CSString::operator=(const CSString &SrcString) {
 		AllocString(SrcString.GetLength());
 	}
 
-	memcpy(m_pString, (const TCHAR *)SrcString, (SrcString.GetLength() + 1) * sizeof(TCHAR));
+	std::memcpy(m_pString, (const TCHAR *)SrcString, (SrcString.GetLength() + 1) * sizeof(TCHAR));
 	GetData()->Length = SrcString.GetLength();
 	return *this;
 }
@@ -472,7 +479,7 @@ const CSString &CSString::operator=(const TCHAR *pSrcString) {
 			AllocString(Length);
 		}
 
-		memcpy(m_pString, pSrcString, sizeof(TCHAR) * (Length + 1));
+		std::memcpy(m_pString, pSrcString, sizeof(TCHAR) * (Length + 1));
 		GetData()->Length = Length;
 	}
 
@@ -503,7 +510,7 @@ const CSString &CSString::operator+=(const TCHAR *pString) {
 	OldLength = GetLength();
 	AllocCopy(NewLength + OldLength);
 	/* Add the source string to the end of the buffer */
-	memmove(m_pString + OldLength, pString, (NewLength + 1) * sizeof(TCHAR));
+	std::memmove(m_pString + OldLength, pString, (NewLength + 1) * sizeof(TCHAR));
 	/* Ensure valid output */
 	ASSERT(m_pString[GetLength()] == NULL_CHAR);
 	return *this;
@@ -523,10 +530,233 @@ const CSString &CSString::Append(const TCHAR *pString, const int Length) {
 	OldLength = GetLength();
 	AllocCopy(Length + OldLength);
 	/* Add the source string to the end of the buffer */
-	memmove(m_pString + OldLength, pString, (Length + 1) * sizeof(TCHAR));
+	std::memmove(m_pString + OldLength, pString, (Length + 1) * sizeof(TCHAR));
 	/* Ensure valid output */
 	ASSERT(m_pString[GetLength()] == NULL_CHAR);
 	return *this;
+}
+
+/* String comparison, case sensitive, returns as per strcmp() */
+int CSString::Compare(const TCHAR *pString) const {
+	IASSERT(pString != NULL);
+	return std::strcmp(m_pString, pString);
+}
+
+/* String comparison, case insensitive, returns as per stricmp() */
+int CSString::CompareNoCase(const TCHAR *pString) const {
+	IASSERT(pString != NULL);
+	return _stricmp(m_pString, pString);
+}
+
+/* Creates a new string at most Count bytes in size */
+void CSString::Copy(const TCHAR *pString, const int Count) {
+	//int InputSize = SafeStrLen(pString);
+
+	/* Check for special cases */
+	if (Count <= 0) {
+		Empty();
+		return;
+	}
+
+	if (GetLength() < Count) {
+		FreeData();
+		AllocString(Count);
+	}
+
+	if (pString != NULL) {
+		std::memcpy(m_pString, pString, Count * sizeof(TCHAR));
+	}
+
+	m_pString[Count] = NULL_CHAR;
+	GetData()->Length = Count;
+	//if (InputSize < Count) GetData()->Length = InputSize;
+}
+
+int CSString::Find(const TCHAR *pString) {
+	if (pString == NULL || *pString == NULL_CHAR) {
+		return -1;
+	}
+
+	TCHAR *pFind = TSTRSTR(m_pString, pString);
+
+	if (pFind == NULL) {
+		return -1;
+	}
+
+	return pFind - m_pString;
+}
+
+int CSString::FindI(const TCHAR *pString) {
+	if (pString == NULL || *pString == NULL_CHAR) {
+		return -1;
+	}
+
+	TCHAR *pFind = stristr(m_pString, pString);
+
+	if (pFind == NULL) {
+		return -1;
+	}
+
+	return pFind - m_pString;
+}
+
+/* Return the current string size */
+int CSString::GetLength() const {
+	return GetData()->Length;
+}
+
+/* Get the current allocated size of string */
+int CSString::GetAllocLength() const {
+	return GetData()->AllocLength;
+}
+
+/* Returns TRUE if the string is empty, "" */
+bool CSString::IsEmpty() {
+	return (GetLength() == 0) ? TRUE : FALSE;
+}
+
+/* Returns a string containing the first Count characters from the
+ * left of the string object */
+CSString CSString::Left(const int Count) const {
+	int NewCount = Count;
+
+	if (NewCount > GetLength()) {
+		NewCount = GetLength();
+	}
+
+	if (NewCount < 0) {
+		NewCount = 0;
+	}
+
+	CSString NewString(m_pString, NewCount);
+	return NewString;
+}
+
+/* Makes the string all lower/upper case */
+void CSString::MakeLower() {
+	_strlwr(m_pString);
+}
+
+void CSString::MakeUpper() {
+	_strupr(m_pString);
+}
+
+/* Returns a new string starting at the 0-based index of the current string */
+CSString CSString::Mid(const int Index) const {
+	int NewIndex = Index;
+
+	if (NewIndex > GetLength()) {
+		NewIndex = GetLength();
+	}
+
+	if (NewIndex < 0) {
+		NewIndex = 0;
+	}
+
+	CSString NewString(m_pString + NewIndex);
+	return NewString;
+}
+
+/* Returns a new string starting at the 0-based index of the current string
+ * with the given length. */
+CSString CSString::Mid(const int Index, const int Length) const {
+	int NewIndex = Index;
+	int NewLength;
+
+	if (NewIndex > GetLength()) {
+		NewIndex = GetLength();
+	}
+
+	if (NewIndex < 0) {
+		NewIndex = 0;
+	}
+
+	if (NewLength < 0) {
+		NewLength = 0;
+	}
+
+	if (NewLength + NewIndex > GetLength()) {
+		NewLength = GetLength() - NewIndex;
+	}
+
+	CSString NewString(m_pString + NewIndex, NewLength);
+	return NewString;
+}
+
+/* Returns a string containing the first Count characters from the
+ * right side of the string object */
+CSString CSString::Right(const int Count) const {
+	int NewCount = Count;
+
+	if (NewCount > GetLength()) {
+		NewCount = GetLength();
+	}
+
+	if (NewCount < 0) {
+		NewCount = 0;
+	}
+
+	CSString NewString(m_pString + GetLength() - NewCount, NewCount);
+	return NewString;
+}
+
+void CSString::SetSize(const int Size) {
+	AllocCopy(Size);
+}
+
+/* Trim whitespace from right and left sides of string */
+CSString &CSString::Trim() {
+	TrimLeft();
+	TrimRight();
+	return *this;
+}
+
+/* Access the (const TCHAR*) string */
+CSString::operator const TCHAR*() const {
+	return m_pString;
+}
+
+/* Get the specified character from the string.  ASSERTs if given an
+   invalid index (0 returns the first character in string). */
+TCHAR CSString::operator[](const int Index) const {
+	return GetAt(Index);
+}
+
+/* Same as operator[], return a specific character in string */
+TCHAR CSString::GetAt(const int Index) const {
+	IASSERT(Index < GetLength() && Index >= 0);
+	return m_pString[Index];
+}
+
+/* Sets a specific character in the string.  ASSERTs if an invalid
+ * index is given.  0 is the first character in string. */
+void CSString::SetAt(const int Index, const TCHAR Char) {
+	IASSERT(Index < GetLength() && Index >= 0);
+	m_pString[Index] = Char;
+}
+
+/* Truncate the string at the given index */
+void CSString::Truncate(const int Index) {
+	if (Index < 0 || Index >= GetLength()) {
+		return;
+	}
+
+	m_pString[Index] = NULL_CHAR;
+	GetData()->Length = Index;
+}
+
+void CSString::UpdateLength() {
+	int Index = GetLength() - 1;
+
+	while (Index > 0) {
+		if (m_pString[Index] != NULL_CHAR) {
+			GetData()->GetData()[Index + 1] = NULL_CHAR;
+			GetData()->Length = Index + 1;
+			return;
+		}
+
+		Index--;
+	}
 }
 
 
@@ -545,9 +775,9 @@ const CSString &CSString::operator+=(const CSString &SourceString) {
 	OldLength = GetLength();
 	AllocCopy(SourceString.GetLength() + OldLength);
 	/* Add the source string to the end of the buffer */
-	memmove(m_pString + OldLength,
-	        (const TCHAR *)SourceString,
-	        sizeof(TCHAR) * (SourceString.GetLength() + 1));
+	std::memmove(m_pString + OldLength,
+	             (const TCHAR *)SourceString,
+	             sizeof(TCHAR) * (SourceString.GetLength() + 1));
 	/* Ensure valid output */
 	ASSERT(m_pString[GetLength()] == NULL_CHAR);
 	return *this;

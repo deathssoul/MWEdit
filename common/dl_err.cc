@@ -37,28 +37,33 @@
  *=========================================================================*/
 #include "common/dl_err.h"
 
-#include <errno.h>
+#include <cerrno>
+#include <cstdarg>
+#include <cstddef>
+#include <cstdio>
+#include <cstdlib>
 
-#include "common/dl_str.h"
-
-/* Include TC graphic error messages */
-#if _TCGRAPHERRORS
-	#include <graphics.h>
-#endif
+#include "common/dl_base.h"
+#include "common/dl_log.h"
+#include "common/dl_mem.h"
 
 /* Include Windows error messages/functions */
 #if _WIN32
-	#include "windows.h"
-#endif
+#include <errhandlingapi.h>
+#include <winbase.h>
+#include <windef.h>
+#include <winnt.h>
+#include <winuser.h>
+#endif  // _WIN32
 
+#if _DEBUG
+#include "common/dl_block.h"
+#endif  // _DEBUG
 
 DEFINE_FILE("DL_Err.h");
 
-
 CErrorDatabase ErrorDatabase;
 CErrorHandler ErrorHandler(ErrorDatabase);
-
-
 /*===========================================================================
  *
  * Class CErrorRecord Constructor
@@ -152,15 +157,18 @@ void CErrorDatabase::Destroy() {
  *=========================================================================*/
 void CErrorDatabase::Add(const errcode_t Code, const TCHAR *pMessage, const errlevel_t Level) {
 	DEFINE_FUNCTION("CErrorDatabase::Add()");
+
 	CErrorRecord *pNewRecord;
 	/* Ensure valid input */
 	ASSERT(pMessage != NULL);
 	/* Attempt to allocate the new record */
 	CreatePointer(pNewRecord, CErrorRecord);
+
 	/* Attempt to initialize the new record */
 	pNewRecord->SetCode(Code);
 	pNewRecord->SetLevel(Level);
 	pNewRecord->SetMsg(pMessage);
+
 	/* Add the new error to the head of the linked list */
 	pNewRecord->SetNext(pHead);
 	pHead = pNewRecord;
@@ -273,10 +281,7 @@ void CErrorDatabase::InitDefaultErrors() {
 
 	/* Add the system error messages */
 	AddCustomError(ERR_SYSTEM, SystemErrorFunction);
-	/* Add the graphic error messages under DOS if required */
-#if _TCGRAPHERRORS
-	AddCustomError(ERR_TCGRAPH, TCGraphErrorFunction);
-#endif
+
 	/* Add the windows error messages under Windows if required */
 #if _WIN32
 	AddCustomError(ERR_WINDOWS, WindowsErrorFunction);
@@ -324,12 +329,12 @@ void CErrorIncident::Destroy() {
  * size of MAX_ERROR_MESSAGESIZE bytes.
  *
  *=========================================================================*/
-void CErrorIncident::SetMsg(const TCHAR *pString, va_list Args) {
+void CErrorIncident::SetMsg(const TCHAR *pString, std::va_list Args) {
 	DEFINE_FUNCTION("CErrorIncident::SetMsg(TCHAR*, va_list)");
 	TCHAR MessageBuffer[MAX_ERROR_MESSAGESIZE * 2];
 	int Result;
 	/* Attempt to create the message string */
-	Result = vsnprintf(MessageBuffer, MAX_ERROR_MESSAGESIZE, pString, Args);
+	Result = std::vsnprintf(MessageBuffer, MAX_ERROR_MESSAGESIZE, pString, Args);
 
 	/* Only set message if the message was successfully created */
 	if (Result >= 0) {
@@ -381,14 +386,14 @@ void CErrorHandler::Destroy() {
  *=========================================================================*/
 void CErrorHandler::AddError(const errcode_t Code, const TCHAR *pString, ...) {
 	//DEFINE_FUNCTION("CErrorHandler::AddError(errcode_t, TCHAR*, ...)");
-	va_list Args;
-	va_start(Args, pString);
+	std::va_list Args;
+	std::va_start(Args, pString);
 #if _WIN32
 	AddErrorV(Code, GetLastError(), pString, Args);
 #else
 	AddErrorV(Code, ERR_NONE, pString, Args);
 #endif
-	va_end(Args);
+	std::va_end(Args);
 }
 
 
@@ -408,10 +413,10 @@ void CErrorHandler::AddError(const errcode_t Code,
                              const TCHAR *pString,
                              ...) {
 	//DEFINE_FUNCTION("CErrorHandler::AddError(errcode_t, errcode_t, TCHAR*, ...)");
-	va_list Args;
-	va_start(Args, pString);
+	std::va_list Args;
+	std::va_start(Args, pString);
 	AddErrorV(Code, SubCode, pString, Args);
-	va_end(Args);
+	std::va_end(Args);
 }
 
 
@@ -429,7 +434,7 @@ void CErrorHandler::AddError(const errcode_t Code,
 void CErrorHandler::AddErrorV(const errcode_t Code,
                               const errcode_t SubCode,
                               const TCHAR *pString,
-                              va_list Args) {
+                              std::va_list Args) {
 	DEFINE_FUNCTION("CErrorHandler::AddErrorV(errcode_t, errcode_t, TCHAR*, va_list)");
 	CErrorIncident *pNewIncident;
 
@@ -501,7 +506,7 @@ void CErrorHandler::Exit(const TCHAR *pTitle) {
 	/* Display the error message to user */
 	Notify(pTitle);
 	/* End program calling cleanup code first */
-	exit(EXIT_FAILURE);
+	std::exit(EXIT_FAILURE);
 }
 
 
@@ -518,7 +523,7 @@ void CErrorHandler::_Exit(const TCHAR *pTitle) {
 	/* Display the error message to user */
 	Notify(pTitle);
 	/* End program immediately without calling any cleanup code */
-	_exit(EXIT_FAILURE);
+	std::_Exit(EXIT_FAILURE);
 }
 
 
@@ -707,7 +712,7 @@ void CErrorHandler::NotifyList(const TCHAR *pMsg, const TCHAR *pTitle) {
 	}
 
 	/* Print the error message description */
-	Length = snprintf(ErrorBuffer, MAX_ERROR_MESSAGESIZE, _T("%s\n\r\n\r"), pMsg);
+	Length = std::snprintf(ErrorBuffer, MAX_ERROR_MESSAGESIZE, _T("%s\n\r\n\r"), pMsg);
 	OutputErrors = 0;
 	pError = pIncidentHead;
 
@@ -718,18 +723,18 @@ void CErrorHandler::NotifyList(const TCHAR *pMsg, const TCHAR *pTitle) {
 		pErrorRecord = refErrorDatabase.Find(pError->GetCode());
 
 		if (pErrorRecord == NULL) {
-			Length += snprintf(ErrorBuffer + Length,
-			                   MAX_ERROR_MESSAGESIZE - Length,
-			                   _T("      %d) %s\n\r"),
-			                   OutputErrors + 1,
-			                   pError->GetMsg());
+			Length += std::snprintf(ErrorBuffer + Length,
+			                        MAX_ERROR_MESSAGESIZE - Length,
+			                        _T("      %d) %s\n\r"),
+			                        OutputErrors + 1,
+			                        pError->GetMsg());
 		} else {
-			Length += snprintf(ErrorBuffer + Length,
-			                   MAX_ERROR_MESSAGESIZE - Length,
-			                   _T("      %d) %s\n\r\t%s\n\r"),
-			                   OutputErrors + 1,
-			                   pError->GetMsg(),
-			                   pErrorRecord->GetMsg(pError->GetSubCode()));
+			Length += std::snprintf(ErrorBuffer + Length,
+			                        MAX_ERROR_MESSAGESIZE - Length,
+			                        _T("      %d) %s\n\r\t%s\n\r"),
+			                        OutputErrors + 1,
+			                        pError->GetMsg(),
+			                        pErrorRecord->GetMsg(pError->GetSubCode()));
 		}
 
 		pError = pError->GetNext();
@@ -764,7 +769,7 @@ void CErrorHandler::NotifyListCode(const int ErrCode, const TCHAR *pMsg, const T
 	}
 
 	/* Print the error message description */
-	Length = snprintf(ErrorBuffer, MAX_ERROR_MESSAGESIZE, _T("%s\n\r"), pMsg);
+	Length = std::snprintf(ErrorBuffer, MAX_ERROR_MESSAGESIZE, _T("%s\n\r"), pMsg);
 	OutputErrors = 0;
 	pError = pIncidentHead;
 
@@ -780,11 +785,11 @@ void CErrorHandler::NotifyListCode(const int ErrCode, const TCHAR *pMsg, const T
 			continue;
 		}
 
-		Length += snprintf(ErrorBuffer + Length,
-		                   MAX_ERROR_MESSAGESIZE - Length,
-		                   _T("      %d) %s\n\r"),
-		                   OutputErrors + 1,
-		                   pError->GetMsg());
+		Length += std::snprintf(ErrorBuffer + Length,
+		                        MAX_ERROR_MESSAGESIZE - Length,
+		                        _T("      %d) %s\n\r"),
+		                        OutputErrors + 1,
+		                        pError->GetMsg());
 		pError = pError->GetNext();
 		OutputErrors++;
 	}
@@ -819,7 +824,7 @@ void CErrorHandler::NotifyListType(const int ErrType, const TCHAR *pMsg, const T
 	}
 
 	/* Print the error message description */
-	Length = snprintf(ErrorBuffer, MAX_ERROR_MESSAGESIZE, _T("%s\n\r"), pMsg);
+	Length = std::snprintf(ErrorBuffer, MAX_ERROR_MESSAGESIZE, _T("%s\n\r"), pMsg);
 	OutputErrors = 0;
 	pError = pIncidentHead;
 
@@ -835,11 +840,11 @@ void CErrorHandler::NotifyListType(const int ErrType, const TCHAR *pMsg, const T
 			continue;
 		}
 
-		Length += snprintf(ErrorBuffer + Length,
-		                   MAX_ERROR_MESSAGESIZE - Length,
-		                   _T("      %d) %s\n\r"),
-		                   OutputErrors + 1,
-		                   pError->GetMsg());
+		Length += std::snprintf(ErrorBuffer + Length,
+		                        MAX_ERROR_MESSAGESIZE - Length,
+		                        _T("      %d) %s\n\r"),
+		                        OutputErrors + 1,
+		                        pError->GetMsg());
 		pError = pError->GetNext();
 		OutputErrors++;
 	}
@@ -940,13 +945,13 @@ CErrorIncident *CErrorHandler::PeekError() {
  *=========================================================================*/
 void CErrorHandler::Printf(const TCHAR *pTitle, const TCHAR *pString, ...) {
 	DEFINE_FUNCTION("CErrorHandler::Printf(TCHAR*, TCHAR*, ...)");
-	va_list Args;
+	std::va_list Args;
 	/* Ensure valid input */
 	ASSERT(pString != NULL);
 	/* Use the variable argument version of Printf() */
-	va_start(Args, pString);
+	std::va_start(Args, pString);
 	Printf(pTitle, pString, Args);
-	va_end(Args);
+	std::va_end(Args);
 }
 
 
@@ -966,7 +971,7 @@ void CErrorHandler::Printf(const TCHAR *pTitle, const TCHAR *pString, ...) {
  * See Also:  Printf (TCHAR*, TCHAR*, ...);
  *
  *=========================================================================*/
-void CErrorHandler::Printf(const TCHAR *pTitle, const TCHAR *pString, va_list Args) {
+void CErrorHandler::Printf(const TCHAR *pTitle, const TCHAR *pString, std::va_list Args) {
 	DEFINE_FUNCTION("CErrorHandler::Printf(TCHAR*, TCHAR*, va_list)");
 	TCHAR MsgBuffer[MAX_ERROR_MESSAGESIZE + 1];
 	/* Ensure valid input */
@@ -974,7 +979,7 @@ void CErrorHandler::Printf(const TCHAR *pTitle, const TCHAR *pString, va_list Ar
 
 	/* Use the custom notify function if supplied with one */
 	if (pNotifyFunc != NULL) {
-		vsnprintf(MsgBuffer, MAX_ERROR_MESSAGESIZE, pString, Args);
+		std::vsnprintf(MsgBuffer, MAX_ERROR_MESSAGESIZE, pString, Args);
 		pNotifyFunc(pTitle, MsgBuffer);
 		return;
 	}
@@ -982,17 +987,17 @@ void CErrorHandler::Printf(const TCHAR *pTitle, const TCHAR *pString, va_list Ar
 	/*---------- Begin Win32 Specific Code ----------------------------*/
 #if _WIN32 && !_CONSOLE
 	/* Output the variable argument list to the temporary string */
-	vsnprintf(MsgBuffer, MAX_ERROR_MESSAGESIZE, pString, Args);
+	std::vsnprintf(MsgBuffer, MAX_ERROR_MESSAGESIZE, pString, Args);
 	/* Display a standard error message box */
 	MessageBox(NULL, MsgBuffer, pTitle, MB_OK | MB_ICONHAND | MB_TASKMODAL);
 	/*---------- Begin Default Code (Output to stderr) ----------------*/
 #else
 	/* Output the variable argument list to the stderr stream */
-	fprintf(stderr, _T("%s\n"), pTitle);
-	fprintf(stderr, _T("\t"));
-	vfprintf(stderr, pString, Args);
-	fprintf(stderr, _T("\n"));
-	fflush(stderr);
+	std::fprintf(stderr, _T("%s\n"), pTitle);
+	std::fprintf(stderr, _T("\t"));
+	std::vfprintf(stderr, pString, Args);
+	std::fprintf(stderr, _T("\n"));
+	std::fflush(stderr);
 #endif
 }
 
@@ -1018,40 +1023,15 @@ const TCHAR *SystemErrorFunction(const errcode_t Code) {
 #if _UNICODE
 	static TCHAR l_BufferMsg[256];
 	/* Convert ASCII message to unicode */
-	mbstowcs(l_BufferMsg, sys_errlist[(int)Code], 255);
+	std::mbstowcs(l_BufferMsg, sys_errlist[(int)Code], 255);
 	pErrMessage = l_BufferMsg;
 #else
-	pErrMessage = sys_errlist[(int)Code];
+	pErrMessage = sys_errlist[(int)Code];  // TODO: Relace sys-errlist with something portable
 #endif
 	ASSERT(pErrMessage != NULL);
 	//SystemLog.Printf ("SystemErrorFunction(%s)", pErrMessage);
 	return pErrMessage;
 }
-
-
-#if _TCGRAPHERRORS
-/*===========================================================================
- *
- * Function - TCHAR* TCGraphErrorFunction (Code);
- *
- * Returns the error message associated with the given graphics error code
- * under TurboC for DOS. Always returns a valid string.
- *
- *=========================================================================*/
-const TCHAR *TCGraphErrorFunction(const errcode_t Code) {
-	//DEFINE_FUNCTION("TCGraphErrorFunction()");
-	TCHAR *pErrMessage;
-	/* Retrieve the error message from the library */
-	pErrMessage = grapherrormsg((int)Code);
-
-	/* Ensure the message is valid */
-	if (pErrMessage == NULL) {
-		return _T("Invalid graphics error code!");
-	}
-
-	return pErrMessage;
-}
-#endif
 
 
 #if _WIN32
@@ -1289,9 +1269,9 @@ void Test_GetLastErrorMsg() {
 	/* Test with invalid error incidents */
 	ErrorHandler.ClearErrors();
 	SystemLog.Printf(_T("\t***No Errors = %s"), ErrorHandler.GetLastErrorMsg());
-	ErrorHandler.AddError(ERR_MEM, (TCHAR*)NULL);
+	ErrorHandler.AddError(ERR_MEM, (TCHAR *)NULL);
 	SystemLog.Printf(_T("\t***Good Code, No Msg = %s"), ErrorHandler.GetLastErrorMsg());
-	ErrorHandler.AddError(123, (TCHAR*)NULL);
+	ErrorHandler.AddError(123, (TCHAR *)NULL);
 	SystemLog.Printf(_T("\t***Bad Code, No Msg = %s"), ErrorHandler.GetLastErrorMsg());
 }
 
@@ -1429,7 +1409,7 @@ void Test_Allocation() {
 
 	/* Number of test loops */
 	for (LoopCounter = 0; LoopCounter < 1000; LoopCounter++) {
-		NumAllocations = (int)((float)rand() * 10000 / RAND_MAX);
+		NumAllocations = (int)((float)std::rand() * 10000 / RAND_MAX);
 		SystemLog.Printf(stdout,
 		                 _T("================ Starting Test %d With %d Allocations ============"),
 		                 LoopCounter,
@@ -1437,7 +1417,11 @@ void Test_Allocation() {
 		TFPRINTF(stderr, _T("Test %d (%d)..."), LoopCounter, NumAllocations);
 
 		for (ErrorCounter = 0; ErrorCounter < NumAllocations; ErrorCounter++) {
-			snprintf(MsgBuffer, 101, _T("Error message %d of %d "), ErrorCounter, NumAllocations);
+			std::snprintf(MsgBuffer,
+			              101,
+			              _T("Error message %d of %d "),
+			              ErrorCounter,
+			              NumAllocations);
 			ErrorDatabase.Add(ErrorCounter, MsgBuffer);
 			ErrorHandler.AddError(ErrorCounter,
 			                      _T("Testing error code %d of %d"),
@@ -1483,6 +1467,7 @@ void Test_DLErr() {
 	DEFINE_FUNCTION("Test_DLErr()");
 	ASSERT(DebugHeapCheckMemory());
 	SystemLog.Printf(stdout, _T("================ Test_DLErr() ==================="));
+
 	Test_DefaultErrors();
 	Test_SystemErrors();
 	Test_AddError();
@@ -1491,6 +1476,7 @@ void Test_DLErr() {
 	Test_GetLastErrorMsg();
 	//Test_HandlerNotify();
 	//ErrorHandler.Exit("Exiting Application");
+
 	ASSERT(DebugHeapCheckMemory());
 	SystemLog.Printf(stdout, _T("========== Output Current Allocated Blocks =========="));
 	OutputBlockInfo();
@@ -1502,4 +1488,4 @@ void Test_DLErr() {
 	SystemLog.Printf (stdout, _T("================ End of Test_DLErr() ==================="));
 	//Test_Allocation();
 }
-#endif
+#endif  // _DEBUG

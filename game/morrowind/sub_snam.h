@@ -10,8 +10,13 @@
 #ifndef __ESMSUBSNAM_H
 #define __ESMSUBSNAM_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/sub_base.h"
 
 #pragma pack(push, 1)
 
@@ -21,8 +26,6 @@ typedef struct {
 } snamdata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubSNAM Definition
@@ -49,7 +52,7 @@ class CEsmSubSNAM : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(snamdata_t));
 		m_RecordSize = sizeof(snamdata_t);
-		memset(m_pData, 0, sizeof(snamdata_t));
+		std::memset(m_pData, 0, sizeof(snamdata_t));
 	}
 
 	/* Get class methods */

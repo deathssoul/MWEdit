@@ -15,11 +15,20 @@
  *
  *=========================================================================*/
 #include "common/dl_chr.h"
-#include <ctype.h>
+
+#include <cctype>
+#include <cstddef>
+#include <cstring>
+
+#include "common/dl_base.h"
+
+#if _DEBUG
+#include <cstdio>
+
+#include "common/dl_log.h"
+#endif  // _DEBUG
 
 DEFINE_FILE("DL_Chr.h");
-
-
 /*===========================================================================
  *
  * Function - void chradd (pString, CharIndex, NewChar);
@@ -30,10 +39,10 @@ DEFINE_FILE("DL_Chr.h");
  * if any invalid input is received.
  *
  *=========================================================================*/
-void chradd(TCHAR *pString, const size_t CharIndex, const TCHAR NewChar) {
+void chradd(TCHAR *pString, const std::size_t CharIndex, const TCHAR NewChar) {
 	DEFINE_FUNCTION("chradd()");
 	TCHAR *pInsertPosition;
-	size_t StringLength;
+	std::size_t StringLength;
 
 	/* Ensure valid input */
 	ASSERT(pString != NULL);
@@ -42,7 +51,9 @@ void chradd(TCHAR *pString, const size_t CharIndex, const TCHAR NewChar) {
 
 	/* Shift the characters after insert position right by one */
 	pInsertPosition = pString + CharIndex;
-	memmove (pInsertPosition + 1, pInsertPosition, (StringLength - CharIndex + 1) * sizeof(TCHAR));
+	std::memmove(pInsertPosition + 1,
+	             pInsertPosition,
+	             (StringLength - CharIndex + 1) * sizeof(TCHAR));
 
 	/* Add the new character to the string */
 	*pInsertPosition = NewChar;
@@ -106,10 +117,10 @@ int chrcount(const TCHAR *pString, const TCHAR Char) {
  * input.
  *
  *=========================================================================*/
-void chrdel(TCHAR *pString, const size_t CharIndex) {
+void chrdel(TCHAR *pString, const std::size_t CharIndex) {
 	DEFINE_FUNCTION("chrdel()");
 	TCHAR *pDeletePosition;
-	size_t StringLength;
+	std::size_t StringLength;
 
 	/* Ensure valid input */
 	ASSERT(pString != NULL);
@@ -118,7 +129,9 @@ void chrdel(TCHAR *pString, const size_t CharIndex) {
 
 	/* Shift the characters left of the deletion position by one */
 	pDeletePosition = pString + CharIndex;
-	memmove (pDeletePosition, pDeletePosition + 1, (StringLength - CharIndex) * sizeof(TCHAR));
+	std::memmove(pDeletePosition,
+	             pDeletePosition + 1,
+	             (StringLength - CharIndex) * sizeof(TCHAR));
 }
 
 
@@ -131,7 +144,7 @@ void chrdel(TCHAR *pString, const size_t CharIndex) {
  *=========================================================================*/
 void chrdellast(TCHAR *pString) {
 	DEFINE_FUNCTION("chrdellast()");
-	size_t StringLength;
+	std::size_t StringLength;
 	/* Ensure valid input */
 	ASSERT(pString != NULL);
 	/* Find last character in string, and ensure at least one exists */
@@ -154,9 +167,9 @@ void chrdellast(TCHAR *pString) {
  * was found.  ASSERTs on bad input.
  *
  *=========================================================================*/
-boolean chrrpunc(size_t &CharIndex, const TCHAR *pString) {
+boolean chrrpunc(std::size_t &CharIndex, const TCHAR *pString) {
 	DEFINE_FUNCTION("chrrpunc()");
-	size_t StringPosition;
+	std::size_t StringPosition;
 	/* Ensure valid input */
 	ASSERT(pString != NULL);
 	/* Start at the end of the string */
@@ -166,7 +179,7 @@ boolean chrrpunc(size_t &CharIndex, const TCHAR *pString) {
 	while (StringPosition != 0) {
 		StringPosition--;
 
-		if (ispunct(pString[StringPosition])) {
+		if (std::ispunct(pString[StringPosition])) {
 			CharIndex = StringPosition;
 			return TRUE;
 		}
@@ -287,8 +300,6 @@ TCHAR *chrrtrunc(TCHAR *pString, const TCHAR TruncateChar) {
  *
  *=========================================================================*/
 #if _DEBUG
-
-
 /*===========================================================================
  *
  * Function - void Test_chradd (void);
@@ -424,7 +435,7 @@ void Test_chrtok() {
 	pStrPtr = TSTRTOK(TestString2, _T("x"));
 
 	while (pChrPtr != NULL && pStrPtr != NULL) {
-		SystemLog.Printf (_T("\t chrtok() / strtok() = %s / %s"), pChrPtr, pStrPtr);
+		SystemLog.Printf(_T("\t chrtok() / strtok() = %s / %s"), pChrPtr, pStrPtr);
 		ASSERT(TSTRCMP(pChrPtr, pStrPtr) == 0);
 		pChrPtr = chrtok(NULL, 'x');
 		pStrPtr = TSTRTOK(NULL, _T("x"));
@@ -433,7 +444,7 @@ void Test_chrtok() {
 	ASSERT(pChrPtr == NULL && pStrPtr == NULL);
 
 	/* Test the enhanced feature of chrtok() */
-	TSTRCPY (TestString1, _T("111x222xx333xx"));
+	TSTRCPY(TestString1, _T("111x222xx333xx"));
 	pChrPtr = chrtok(TestString1, 'x');
 	ASSERT(TSTRCMP(pChrPtr, _T("111")) == 0);
 	pChrPtr = chrtok(NULL, 'x');
@@ -466,7 +477,7 @@ void Test_chrrpunc() {
 	DEFINE_FUNCTION("Test_chrrpunc()");
 	TCHAR TestString[101] = _T("0123=5678");
 	boolean Result;
-	size_t TCHARIndex;
+	std::size_t TCHARIndex;
 	SystemLog.Printf(stdout, _T("============= Testing chrrpunc() ===================="));
 
 	/* Test for punctuation in middle of string */
@@ -475,19 +486,19 @@ void Test_chrrpunc() {
 	ASSERT(TCHARIndex == 4);
 
 	/* Test for punctuation at end of string */
-	TSTRCPY (TestString, _T("012345678."));
+	TSTRCPY(TestString, _T("012345678."));
 	Result = chrrpunc(TCHARIndex, TestString);
 	ASSERT(Result);
 	ASSERT(TCHARIndex == 9);
 
 	/* Test for punctuation at start of string */
-	TSTRCPY (TestString, _T(".123456789"));
+	TSTRCPY(TestString, _T(".123456789"));
 	Result = chrrpunc(TCHARIndex, TestString);
 	ASSERT(Result);
 	ASSERT(TCHARIndex == 0);
 
 	/* Test for multiple punctuations in of string */
-	TSTRCPY (TestString, _T("01234.67.0"));
+	TSTRCPY(TestString, _T("01234.67.0"));
 	Result = chrrpunc(TCHARIndex, TestString);
 	ASSERT(Result);
 	ASSERT(TCHARIndex == 8);
@@ -498,7 +509,7 @@ void Test_chrrpunc() {
 	ASSERT(Result == FALSE);
 
 	/* Test empty string case */
-	TSTRCPY (TestString, _T(""));
+	TSTRCPY(TestString, _T(""));
 	Result = chrrpunc(TCHARIndex, TestString);
 	ASSERT(Result == FALSE);
 }

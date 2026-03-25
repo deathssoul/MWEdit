@@ -10,15 +10,19 @@
 #ifndef __ESMWEAPON_H
 #define __ESMWEAPON_H
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/item_3.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_wpdt.h"
 
 
 const TCHAR *GetESMWeaponType(const int Type);
 int GetESMWeaponType(const TCHAR *pString);
 bool IsESMWeaponRange(const int Type);
-
-
 /*===========================================================================
  *
  * Begin Class CEsmWeapon Definition

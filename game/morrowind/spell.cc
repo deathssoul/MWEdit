@@ -9,8 +9,22 @@
  *=========================================================================*/
 #include "game/morrowind/spell.h"
 
-DEFINE_FILE("EsmSpell.cpp");
+#include <cstddef>
+#include <cstdio>
+#include <cstdlib>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_enam.h"
+#include "game/morrowind/sub_name_fix.h"
+#include "game/morrowind/sub_spdt.h"
+
+DEFINE_FILE("EsmSpell.cpp");
 /*===========================================================================
  *
  * Begin Local Spell Type Array
@@ -148,9 +162,11 @@ CEsmRecord *CEsmSpell::Create() {
 void CEsmSpell::CreateNew(CEsmFile *pFile) {
 	/* Call the base class record first */
 	CEsmRecord::CreateNew(pFile);
+
 	/* Create the item sub-records */
 	AllocateSubRecord(MWESM_SUBREC_FNAM);
 	AllocateSubRecord(MWESM_SUBREC_SPDT);
+
 	m_pSpellData->CreateNew();
 }
 
@@ -177,7 +193,7 @@ const TCHAR *CEsmSpell::GetFieldString(const int FieldID) {
 			return BOOLTOYESNO(IsPCStart());
 
 		case ESM_FIELD_COST:
-			snprintf(s_Buffer, 31, _T("%ld"), GetSpellCost());
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetSpellCost());
 			return s_Buffer;
 
 		case ESM_FIELD_TYPE:
@@ -228,7 +244,7 @@ bool CEsmSpell::SetFieldValue(const int FieldID, const TCHAR *pString) {
 			return true;
 
 		case ESM_FIELD_COST:
-			SetSpellCost(atoi(pString));
+			SetSpellCost(std::atoi(pString));
 			return true;
 
 		case ESM_FIELD_TYPE: {
@@ -266,7 +282,7 @@ int GetESMSpellType(const TCHAR *pString) {
 	int Index;
 
 	for (Index = MWESM_SPELLTYPE_MIN; Index <= MWESM_SPELLTYPE_MAX; Index++) {
-		if (stricmp(pString, l_SpellTypes[Index]) == 0) {
+		if (_stricmp(pString, l_SpellTypes[Index]) == 0) {
 			return Index;
 		}
 	}

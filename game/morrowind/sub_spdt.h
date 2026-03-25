@@ -10,8 +10,11 @@
 #ifndef __ESMSUBSPDT_H
 #define __ESMSUBSPDT_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/sub_base.h"
 
 /* Spell types */
 #define MWESM_SPELLTYPE_MIN       0
@@ -38,8 +41,6 @@ typedef struct {
 } spelldata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubSPDT Definition
@@ -66,7 +67,7 @@ class CEsmSubSPDT : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(spelldata_t));
 		m_RecordSize = sizeof(spelldata_t);
-		memset(m_pData, 0, sizeof(spelldata_t));
+		std::memset(m_pData, 0, sizeof(spelldata_t));
 	}
 
 	/* Get class members */

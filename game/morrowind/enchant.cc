@@ -9,8 +9,22 @@
  *=========================================================================*/
 #include "game/morrowind/enchant.h"
 
-DEFINE_FILE("EsmEnchant.cpp");
+#include <cstddef>
+#include <cstdio>
+#include <cstdlib>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_endt.h"
+#include "game/morrowind/sub_enam.h"
+#include "game/morrowind/sub_name_fix.h"
+
+DEFINE_FILE("EsmEnchant.cpp");
 /*===========================================================================
  *
  * Begin Local Type String Arrays
@@ -142,6 +156,7 @@ CEsmRecord *CEsmEnchant::Create() {
 void CEsmEnchant::CreateNew(CEsmFile *pFile) {
 	/* Call the base class record first */
 	CEsmRecord::CreateNew(pFile);
+
 	/* Create the item sub-records */
 	AllocateSubRecord(MWESM_SUBREC_ENDT);
 	m_pEnchantData->CreateNew();
@@ -161,11 +176,11 @@ const TCHAR *CEsmEnchant::GetFieldString(const int FieldID) {
 
 	switch (FieldID) {
 		case ESM_FIELD_CHARGE:
-			snprintf(s_Buffer, 31, _T("%ld"), GetCharge());
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetCharge());
 			return s_Buffer;
 
 		case ESM_FIELD_COST:
-			snprintf(s_Buffer, 31, _T("%ld"), GetEnchantCost());
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetEnchantCost());
 			return s_Buffer;
 
 		case ESM_FIELD_TYPE:
@@ -205,11 +220,11 @@ void CEsmEnchant::OnAddSubRecord(CEsmSubRecord *pSubRecord) {
 bool CEsmEnchant::SetFieldValue(const int FieldID, const TCHAR *pString) {
 	switch (FieldID) {
 		case ESM_FIELD_CHARGE:
-			SetCharge(atoi(pString));
+			SetCharge(std::atoi(pString));
 			return true;
 
 		case ESM_FIELD_COST:
-			SetEnchantCost(atoi(pString));
+			SetEnchantCost(std::atoi(pString));
 			return true;
 
 		case ESM_FIELD_TYPE: {

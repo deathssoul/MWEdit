@@ -10,6 +10,10 @@
 #ifndef __ESMSUBAADT_H
 #define __ESMSUBAADT_H
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
 #include "game/morrowind/sub_base.h"
 
 #define MWESM_APPATYPE_MIN        0
@@ -30,7 +34,6 @@ typedef struct {
 } appadata_t;
 
 #pragma pack(pop)
-
 /*===========================================================================
  *
  * Begin Class CEsmSubAADT Definition
@@ -57,7 +60,7 @@ class CEsmSubAADT : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(appadata_t));
 		m_RecordSize = sizeof(appadata_t);
-		memset(m_pData, 0, sizeof(appadata_t));
+		std::memset(m_pData, 0, sizeof(appadata_t));
 	}
 
 	/* Get class methods */

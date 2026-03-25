@@ -10,6 +10,10 @@
 #ifndef __ESMSUBAIDT_H
 #define __ESMSUBAIDT_H
 
+#include <cstring>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
 #include "game/morrowind/sub_base.h"
 
 /* AI data flag values */
@@ -47,7 +51,6 @@ typedef struct {
 } aidata_t;
 
 #pragma pack(pop)
-
 /*===========================================================================
  *
  * Begin Class CEsmSubAIDT Definition
@@ -74,7 +77,7 @@ class CEsmSubAIDT : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(aidata_t));
 		m_RecordSize = sizeof(aidata_t);
-		memset(m_pData, 0, sizeof(aidata_t));
+		std::memset(m_pData, 0, sizeof(aidata_t));
 	}
 
 	/* Get class members */

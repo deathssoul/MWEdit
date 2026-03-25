@@ -9,20 +9,29 @@
  *=========================================================================*/
 #include "common/dl_file.h"
 
-#if !UNDER_CE
-	#include <direct.h>
-	#include <sys/stat.h>
-	#include <io.h>
-	#include <dos.h>
-#endif
+#include "common/dl_base.h"
 
-#include <limits.h>
-#include <ctype.h>
+//#if !UNDER_CE
+	//#include <direct.h>
+	//#include <sys/stat.h>
 
+	//#include <dos.h>
+//#endif
+
+#if _DEBUG
+#include <io.h>  // TODO: Required for non-standard extension _chmod()
+
+#include <climits>
+#include <cstddef>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+
+#include "common/dl_log.h"
+#include "common/dl_mem.h"
+#endif  // _DEBUG
 
 DEFINE_FILE("tstfile.cpp");
-
-
 /*===========================================================================
  *
  * Begin Module Test Routines
@@ -31,8 +40,6 @@ DEFINE_FILE("tstfile.cpp");
  *
  *=========================================================================*/
 #if _DEBUG
-
-
 /*===========================================================================
  *
  * Function - void Test_ChangeDirectory (void);
@@ -247,8 +254,8 @@ void Test_CopyFile() {
  *=========================================================================*/
 bool Test_CompareFiles(const TCHAR *pFilename1, const TCHAR *pFilename2) {
 	DEFINE_FUNCTION("Test_CompareFiles()");
-	FILE *pFileHandle1;
-	FILE *pFileHandle2;
+	std::FILE *pFileHandle1;
+	std::FILE *pFileHandle2;
 	bool ReturnValue = TRUE;
 	ASSERT(pFilename1 != NULL && pFilename2 != NULL);
 	/* Attempt to open both files for input */
@@ -257,23 +264,23 @@ bool Test_CompareFiles(const TCHAR *pFilename1, const TCHAR *pFilename2) {
 	ASSERT(pFileHandle1 != NULL && pFileHandle2 != NULL);
 
 	/* Compare each file, byte by byte */
-	while (!feof(pFileHandle1) && !feof(pFileHandle2)) {
-		if (fgetc(pFileHandle1) != fgetc(pFileHandle2)) {
+	while (!std::feof(pFileHandle1) && !std::feof(pFileHandle2)) {
+		if (std::fgetc(pFileHandle1) != std::fgetc(pFileHandle2)) {
 			ReturnValue = FALSE;
 			break;
 		}
 
-		ASSERT(ferror(pFileHandle1) == 0);
-		ASSERT(ferror(pFileHandle2) == 0);
+		ASSERT(std::ferror(pFileHandle1) == 0);
+		ASSERT(std::ferror(pFileHandle2) == 0);
 	}
 
 	/* Ensure both files are the samesize */
-	if (feof(pFileHandle1) != feof(pFileHandle2)) {
+	if (std::feof(pFileHandle1) != std::feof(pFileHandle2)) {
 		ReturnValue = FALSE;
 	}
 
-	fclose(pFileHandle1);
-	fclose(pFileHandle2);
+	std::fclose(pFileHandle1);
+	std::fclose(pFileHandle2);
 	return ReturnValue;
 }
 
@@ -328,10 +335,10 @@ void Test_CreatePath() {
  * a text or binary file depending on the value of the TextMode flag.
  *
  *=========================================================================*/
-void Test_CreateRandomFile(const TCHAR *pFilename, const size_t FileSize, const bool TextMode) {
+void Test_CreateRandomFile(const TCHAR *pFilename, const std::size_t FileSize, const bool TextMode) {
 	DEFINE_FUNCTION("Test_CreateRandomFile()");
-	FILE *pFileHandle;
-	size_t LoopCounter;
+	std::FILE *pFileHandle;
+	std::size_t LoopCounter;
 	byte Char;
 	int Result;
 	ASSERT(pFilename != NULL);
@@ -345,22 +352,20 @@ void Test_CreateRandomFile(const TCHAR *pFilename, const size_t FileSize, const 
 		    "\t `01234567890-=\\~!@#$%^&*()_+|qwertyuiop[]asdfghjkl;'zxcvbnm,./QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>?aa";
 
 		for (LoopCounter = 0; LoopCounter < FileSize; LoopCounter++) {
-			Char = RandChars[(byte)((float)rand() * 98 / RAND_MAX)];
-			Result = fputc(Char, pFileHandle);
+			Char = RandChars[(byte)((float)std::rand() * 98 / RAND_MAX)];
+			Result = std::fputc(Char, pFileHandle);
 			ASSERT(Result != EOF);
 		}
-	}
-	/* Create random binary bytes to fill file */
-	else {
+	} else { /* Create random binary bytes to fill file */
 		for (LoopCounter = 0; LoopCounter < FileSize; LoopCounter++) {
-			Char = (byte)((float)rand() * 256 / RAND_MAX);
-			Result = fputc(Char, pFileHandle);
+			Char = (byte)((float)std::rand() * 256 / RAND_MAX);
+			Result = std::fputc(Char, pFileHandle);
 			ASSERT(Result != EOF);
 		}
 	}
 
-	ASSERT(ferror(pFileHandle) == 0);
-	fclose(pFileHandle);
+	ASSERT(std::ferror(pFileHandle) == 0);
+	std::fclose(pFileHandle);
 }
 
 
@@ -643,9 +648,9 @@ void Test_IsFileWriteable() {
 	ASSERT(IsFileWriteable(_T("c:\\temp")) == FALSE);
 	ASSERT(IsFileWriteable(_T("t1.2. \\34.txt")) == FALSE);
 	Test_CreateRandomFile(_T("c:\\temp\\test1.dat"), 10);
-	chmod(("c:\\temp\\test1.dat"), S_IREAD);
+	_chmod(("c:\\temp\\test1.dat"), S_IREAD);
 	ASSERT(IsFileWriteable(_T("c:\\temp\\test1.dat")) == FALSE);
-	chmod(("c:\\temp\\test1.dat"), S_IWRITE | S_IREAD);
+	_chmod(("c:\\temp\\test1.dat"), S_IWRITE | S_IREAD);
 
 	/* Test empty string */
 	ASSERT(IsFileWriteable(_T("")) == FALSE);
@@ -696,13 +701,13 @@ void Test_IsWildCard() {
  *=========================================================================*/
 void Test_OpenFile(void) {
 	DEFINE_FUNCTION("Test_OpenFile()");
-	FILE *pFileHandle;
+	std::FILE *pFileHandle;
 	SystemLog.Printf(stdout, _T("=============== Testing OpenFile() ==================="));
 
 	/* Check opening valid files for output */
 	ASSERT(OpenFile(&pFileHandle, _T("c:\\temp\\test1.dat"), _T("wt")) == TRUE);
 	ASSERT(pFileHandle != NULL);
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 
 	/* Check opening invalid files for output */
 	ASSERT(OpenFile(&pFileHandle, _T("c:\\temp\\te:-/st1.dat"), _T("wt")) == FALSE);
@@ -712,7 +717,7 @@ void Test_OpenFile(void) {
 	Test_CreateRandomFile(_T("c:\\temp\\temp1.dat"), 101);
 	ASSERT(OpenFile(&pFileHandle, _T("c:\\temp\\test1.dat"), _T("rb")) == TRUE);
 	ASSERT(pFileHandle != NULL);
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 
 	/* Check opening invalid files for input */
 	ASSERT(OpenFile(&pFileHandle, _T("c:\\temp\\test123.dat"), _T("rb")) == FALSE);
@@ -742,9 +747,9 @@ void Test_OpenFile(void) {
  *=========================================================================*/
 void Test_ReadFile() {
 	DEFINE_FUNCTION("Test_ReadFile()");
-	FILE *pFileHandle;
+	std::FILE *pFileHandle;
 	byte *pTestPtr;
-	size_t FileSize;
+	std::size_t FileSize;
 	SystemLog.Printf(stdout, _T("=============== Testing ReadFile() ==================="));
 
 	/* Test reading a sample file */
@@ -754,8 +759,8 @@ void Test_ReadFile() {
 	ASSERT(FileSize == 101);
 	pFileHandle = TFOPEN(_T("c:\\temp\\test2.dat"), _T("wb"));
 	ASSERT(pFileHandle != NULL);
-	ASSERT(fwrite(pTestPtr, 1, 101, pFileHandle) == 101);
-	fclose(pFileHandle);
+	ASSERT(std::fwrite(pTestPtr, 1, 101, pFileHandle) == 101);
+	std::fclose(pFileHandle);
 	ASSERT(Test_CompareFiles(_T("c:\\temp\\test1.dat"), _T("c:\\temp\\test2.dat")) == TRUE);
 	DestroyPointer(pTestPtr);
 
@@ -786,9 +791,9 @@ void Test_ReadFile() {
  *=========================================================================*/
 void Test_ReadFileBuffer() {
 	DEFINE_FUNCTION("Test_ReadFileBuffer()");
-	FILE *pFileHandle;
+	std::FILE *pFileHandle;
 	byte *pTestPtr;
-	size_t FileSize;
+	std::size_t FileSize;
 	SystemLog.Printf(stdout, _T("=============== Testing ReadFileBuffer() ==================="));
 
 	/* Test reading a sample file */
@@ -800,8 +805,8 @@ void Test_ReadFileBuffer() {
 	ASSERT(FileSize == 101);
 	pFileHandle = TFOPEN(_T("c:\\temp\\test2.dat"), _T("wb"));
 	ASSERT(pFileHandle != NULL);
-	ASSERT(fwrite(pTestPtr, 1, 101, pFileHandle) == 101);
-	fclose(pFileHandle);
+	ASSERT(std::fwrite(pTestPtr, 1, 101, pFileHandle) == 101);
+	std::fclose(pFileHandle);
 	ASSERT(Test_CompareFiles(_T("c:\\temp\\test1.dat"), _T("c:\\temp\\test2.dat")) == TRUE);
 
 	/* Test reading an invalid file */
@@ -841,18 +846,18 @@ void Test_ReadFileBuffer() {
 void Test_ReadLine() {
 	DEFINE_FUNCTION("Test_ReadLine()");
 	TCHAR TestString[101];
-	FILE *pFileHandle;
+	std::FILE *pFileHandle;
 	SystemLog.Printf(stdout, _T("=============== Testing ReadLine() ==================="));
 
 	/* Create a sample test file */
 	pFileHandle = TFOPEN(_T("c:\\temp\\test1.txt"), _T("wb"));
 	ASSERT(pFileHandle != NULL);
-	fprintf(pFileHandle, ("This is line 1\n"));
-	fprintf(pFileHandle, ("This is line 2\n"));
-	fprintf(pFileHandle, ("This is line 3333333333333333333333\n"));
-	fprintf(pFileHandle, ("This is line 4\n"));
-	fprintf(pFileHandle, ("\n"));
-	fclose(pFileHandle);
+	std::fprintf(pFileHandle, ("This is line 1\n"));
+	std::fprintf(pFileHandle, ("This is line 2\n"));
+	std::fprintf(pFileHandle, ("This is line 3333333333333333333333\n"));
+	std::fprintf(pFileHandle, ("This is line 4\n"));
+	std::fprintf(pFileHandle, ("\n"));
+	std::fclose(pFileHandle);
 
 	/* Open the sample test file */
 	pFileHandle = TFOPEN(_T("c:\\temp\\test1.txt"), _T("rb"));
@@ -879,12 +884,12 @@ void Test_ReadLine() {
 	ASSERT(TSTRCMP(TestString, _T("")) == 0);
 	ASSERT(ReadLine(pFileHandle, TestString, 100) == READLINE_EOF);
 	ASSERT(TSTRCMP(TestString, _T("")) == 0);
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 
 	/* Test the error condition */
 	pFileHandle = TFOPEN(_T("c:\\temp\\test1.txt"), _T("wb"));
 	ASSERT(ReadLine(pFileHandle, TestString, 100) == READLINE_ERROR);
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 }
 
 
@@ -899,7 +904,7 @@ void Test_ReadLine() {
  *=========================================================================*/
 void Test_read_int() {
 	DEFINE_FUNCTION("Test_read_int()");
-	FILE *pFileHandle;
+	std::FILE *pFileHandle;
 	int TestValue;
 	SystemLog.Printf(stdout,
 	                 _T("=============== Testing read_int() / write_int() ==================="));
@@ -913,7 +918,7 @@ void Test_read_int() {
 	ASSERT(write_int(pFileHandle, -1) == TRUE);
 	ASSERT(write_int(pFileHandle, INT_MAX) == TRUE);
 	ASSERT(write_int(pFileHandle, INT_MIN) == TRUE);
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 
 	/* Input the sample integers */
 	pFileHandle = TFOPEN(_T("c:\\temp\\test1.dat"), _T("rb"));
@@ -934,7 +939,7 @@ void Test_read_int() {
 	/* Test error condition */
 	ASSERT(read_int(pFileHandle, TestValue) == FALSE);
 	ASSERT(write_int(pFileHandle, 0) == FALSE);
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 }
 
 
@@ -949,7 +954,7 @@ void Test_read_int() {
  *=========================================================================*/
 void Test_read_long() {
 	DEFINE_FUNCTION("Test_read_long()");
-	FILE *pFileHandle;
+	std::FILE *pFileHandle;
 	long TestValue;
 	SystemLog.Printf(stdout,
 	                 _T("=============== Testing read_long() / write_long() ==================="));
@@ -963,7 +968,7 @@ void Test_read_long() {
 	ASSERT(write_long(pFileHandle, -1) == TRUE);
 	ASSERT(write_long(pFileHandle, LONG_MAX) == TRUE);
 	ASSERT(write_long(pFileHandle, LONG_MIN) == TRUE);
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 
 	/* Input the sample integers */
 	pFileHandle = TFOPEN(_T("c:\\temp\\test1.dat"), _T("rb"));
@@ -984,7 +989,7 @@ void Test_read_long() {
 	/* Test error condition */
 	ASSERT(read_long(pFileHandle, TestValue) == FALSE);
 	ASSERT(write_long(pFileHandle, 0) == FALSE);
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 }
 
 
@@ -999,7 +1004,7 @@ void Test_read_long() {
  *=========================================================================*/
 void Test_read_short() {
 	DEFINE_FUNCTION("Test_read_short()");
-	FILE *pFileHandle;
+	std::FILE *pFileHandle;
 	short TestValue;
 	SystemLog.Printf(stdout,
 	                 _T("=============== Testing read_short() / write_short() ==================="));
@@ -1013,7 +1018,7 @@ void Test_read_short() {
 	ASSERT(write_short(pFileHandle, -1) == TRUE);
 	ASSERT(write_short(pFileHandle, SHRT_MAX) == TRUE);
 	ASSERT(write_short(pFileHandle, SHRT_MIN) == TRUE);
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 
 	/* Input the sample integers */
 	pFileHandle = TFOPEN(_T("c:\\temp\\test1.dat"), _T("rb"));
@@ -1034,7 +1039,7 @@ void Test_read_short() {
 	/* Test error condition */
 	ASSERT(read_short(pFileHandle, TestValue) == FALSE);
 	ASSERT(write_short(pFileHandle, 0) == FALSE);
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 }
 
 
@@ -1049,7 +1054,7 @@ void Test_read_short() {
  *=========================================================================*/
 void Test_read_motlong() {
 	DEFINE_FUNCTION("Test_read_motlong()");
-	FILE *pFileHandle;
+	std::FILE *pFileHandle;
 	long TestValue;
 	SystemLog.Printf(stdout,
 	                 _T("=============== Testing read_motlong() / write_motlong() ==================="));
@@ -1063,7 +1068,7 @@ void Test_read_motlong() {
 	ASSERT(write_motlong(pFileHandle, -1) == TRUE);
 	ASSERT(write_motlong(pFileHandle, LONG_MAX) == TRUE);
 	ASSERT(write_motlong(pFileHandle, LONG_MIN) == TRUE);
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 
 	/* Input the sample integers */
 	pFileHandle = TFOPEN(_T("c:\\temp\\test1.dat"), _T("rb"));
@@ -1084,7 +1089,7 @@ void Test_read_motlong() {
 	/* Test error condition */
 	ASSERT(read_long(pFileHandle, TestValue) == FALSE);
 	ASSERT(write_motlong(pFileHandle, 0) == FALSE);
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 }
 
 
@@ -1144,21 +1149,21 @@ void Test_RemoveExtension() {
  *  - Similarly tests with a randomly sized text file
  *
  *=========================================================================*/
-void Test_RWFile(const size_t NumTests) {
+void Test_RWFile(const std::size_t NumTests) {
 	DEFINE_FUNCTION("Test_RWFile()");
-	size_t LoopCounter;
-	size_t FileSize;
-	size_t BytesRead;
+	std::size_t LoopCounter;
+	std::size_t FileSize;
+	std::size_t BytesRead;
 	byte *pInputBuffer;
 	byte *pBuffer;
-	size_t BufferSize = TEST_RWFILE_MAXFILESIZE / 2;
+	std::size_t BufferSize = TEST_RWFILE_MAXFILESIZE / 2;
 	SystemLog.Printf(stdout,
 	                 _T("=============== Repeated Testing of ReadFile() / WriteFile() ==================="));
 	CreateArrayPointer(pBuffer, byte, BufferSize);
 
 	for (LoopCounter = 0; LoopCounter < NumTests; LoopCounter++) {
 		/* Text randomly sized binary file */
-		FileSize = (size_t)((float)rand() * TEST_RWFILE_MAXFILESIZE / RAND_MAX);
+		FileSize = (std::size_t)((float)std::rand() * TEST_RWFILE_MAXFILESIZE / RAND_MAX);
 		Test_CreateRandomFile(_T("c:\\temp\\test1.dat"), FileSize, FILE_BINARY);
 		SystemLog.Printf(stdout, _T("\t%d) Testing %u byte file..."), LoopCounter, FileSize);
 		ASSERT(ReadFile(&pInputBuffer, BytesRead, _T("c:\\temp\\test1.dat"), FILE_BINARY) == TRUE);
@@ -1206,10 +1211,10 @@ void Test_RWFile(const size_t NumTests) {
  * Repeatedly tests the read/write int/short/long/motlong type functions.
  *
  *=========================================================================*/
-void Test_RWNumbers(const size_t NumTests) {
+void Test_RWNumbers(const std::size_t NumTests) {
 	DEFINE_FUNCTION("Test_RWNumbers()");
-	size_t LoopCounter;
-	FILE *pFileHandle;
+	std::size_t LoopCounter;
+	std::FILE *pFileHandle;
 	long *pLongArray;
 	long InputLong;
 	short *pShortArray;
@@ -1242,7 +1247,7 @@ void Test_RWNumbers(const size_t NumTests) {
 		ASSERT(write_short(pFileHandle, pShortArray[LoopCounter]) == TRUE);
 	}
 
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 	/* Input the random numbers, ensure success */
 	pFileHandle = TFOPEN(_T("c:\\temp\\test1.dat"), _T("rb"));
 	ASSERT(pFileHandle != NULL);
@@ -1262,7 +1267,7 @@ void Test_RWNumbers(const size_t NumTests) {
 		ASSERT(pShortArray[LoopCounter] == InputShort);
 	}
 
-	fclose(pFileHandle);
+	std::fclose(pFileHandle);
 	/* Delete allocated arrays */
 	DestroyArrayPointer(pLongArray);
 	DestroyArrayPointer(pIntArray);
@@ -1313,17 +1318,17 @@ void Test_WriteFile() {
 	DEFINE_FUNCTION("Test_WriteFile()");
 	byte TestString[101];
 	byte InputString[101];
-	FILE *pFileHandle;
+	std::FILE *pFileHandle;
 	SystemLog.Printf(stdout, _T("=============== Testing WriteFile() ==================="));
 
 	/* Output a test file */
-	memcpy(TestString, "0123456789", 11);
+	std::memcpy(TestString, "0123456789", 11);
 	ASSERT(WriteFile((byte *)TestString, 11, _T("c:\\temp\\test1.dat")) == TRUE);
 	pFileHandle = TFOPEN(_T("c:\\temp\\test1.dat"), _T("rb"));
 	ASSERT(pFileHandle != NULL);
-	ASSERT(fread((byte *)InputString, 1, 11, pFileHandle) == 11);
-	fclose(pFileHandle);
-	ASSERT(memcmp(TestString, InputString, 11) == 0);
+	ASSERT(std::fread((byte *)InputString, 1, 11, pFileHandle) == 11);
+	std::fclose(pFileHandle);
+	ASSERT(std::memcmp(TestString, InputString, 11) == 0);
 
 	/* Output a zero-sized file */
 	ASSERT(WriteFile(TestString, 0, _T("c:\\temp\\test1.dat")) == TRUE);
@@ -1513,4 +1518,4 @@ void Test_DL_File() {
 }
 
 
-#endif
+#endif  // _DEBUG

@@ -10,11 +10,15 @@
 #ifndef __ESMSKILL_H
 #define __ESMSKILL_H
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/record.h"
 #include "game/morrowind/sub_long.h"
 #include "game/morrowind/sub_name.h"
 #include "game/morrowind/sub_skdt.h"
-
 /*===========================================================================
  *
  * Begin Class CEsmSkill Definition

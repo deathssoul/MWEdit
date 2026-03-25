@@ -9,7 +9,7 @@
  *=========================================================================*/
 #include "mwedit/scr_func_array.h"
 
-#include <string.h>  // TODO: Required for non-standard extension _stricmp()
+//#include <string.h>  // TODO: Required for non-standard extension _stricmp()
 
 #include <winnt.h>
 

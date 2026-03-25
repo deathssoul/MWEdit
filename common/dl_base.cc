@@ -8,7 +8,17 @@
  *
  *=========================================================================*/
 #include "common/dl_base.h"
+
+#include <cstddef>
+#include <cstdlib>
+
+#include "common/dl_log.h"
+
+#if _WIN32
 #include "common/dl_err.h"
+#else
+#include <cstdio>
+#endif  // _WIN32
 
 DEFINE_FILE("DL_Base.cpp");
 
@@ -24,8 +34,6 @@ PQSORT_CMPFUNC l_QSortCmpFunc = NULL;
 #if _DEBUG
 	TCHAR ThisFunction[] = _T("?");
 #endif
-
-
 /*===========================================================================
  *
  * Function - void CustomAssert (pString, pFile, pFunction, Line);
@@ -58,14 +66,14 @@ void CustomAssert(const TCHAR *pString,
 	                    pFunction,
 	                    Line);
 #else
-	fprintf(stderr, _T("ASSERTION FAILED: '%s'\r\n"), pString);
-	fprintf(stderr, _T("\tFile: '%s'\r\n"), pFile);
-	fprintf(stderr, _T("\tFunc: '%s'\r\n"), pFunction);
-	fprintf(stderr, _T("\tLine: %ld\r\n"), Line);
-	fflush(stderr);
+	std::fprintf(stderr, _T("ASSERTION FAILED: '%s'\r\n"), pString);
+	std::fprintf(stderr, _T("\tFile: '%s'\r\n"), pFile);
+	std::fprintf(stderr, _T("\tFunc: '%s'\r\n"), pFunction);
+	std::fprintf(stderr, _T("\tLine: %ld\r\n"), Line);
+	std::fflush(stderr);
 #endif
 	/* Abort program */
-	abort();
+	std::abort();
 }
 
 
@@ -81,8 +89,8 @@ void CustomAssert(const TCHAR *pString,
  *
  *=========================================================================*/
 void qsort(void *pBase,
-           size_t NumElements,
-           size_t ElementWidth,
+           std::size_t NumElements,
+           std::size_t ElementWidth,
            PQSORT_CMPFUNC pCmpFunc,
            long lUserData) {
 	DEFINE_FUNCTION("qsort()");
@@ -92,5 +100,5 @@ void qsort(void *pBase,
 	l_QSortCmpFunc = pCmpFunc;
 	l_QSortUserData = lUserData;
 	/* Call the standard qsort() algorithm with our inline compare function */
-	qsort(pBase, NumElements, ElementWidth, l_QSortCompare);
+	std::qsort(pBase, NumElements, ElementWidth, l_QSortCompare);
 }

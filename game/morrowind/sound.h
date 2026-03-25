@@ -10,11 +10,14 @@
 #ifndef __ESMSOUND_H
 #define __ESMSOUND_H
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morroiwnd/file.h"
 #include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_data.h"
 #include "game/morrowind/sub_name.h"
-#include "game/morrowind/sub_name_fix.h"
-
 /*===========================================================================
  *
  * Begin Class CEsmSound Definition

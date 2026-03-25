@@ -9,11 +9,12 @@
  *=========================================================================*/
 #include "common/images/rgb_pal.h"
 
-#include <memory.h>
+#include <cstddef>
+#include <cstring>
+
+#include "common/dl_base.h"
 
 DEFINE_FILE("RgbPal.cpp");
-
-
 /*===========================================================================
  *
  * Function - void ConvertFromRawRGBPal (pPalette, PaletteSize);
@@ -75,7 +76,7 @@ void CopyRGBPalette(rgbpal_t *pDestPal,
 	/* Ensure valid input */
 	ASSERT(pDestPal != NULL && pSourcePal != NULL && PaletteSize > 0);
 	/* Copy the palettes */
-	memcpy(pDestPal, pSourcePal, PaletteSize * sizeof(rgbpal_t));
+	std::memcpy(pDestPal, pSourcePal, PaletteSize * sizeof(rgbpal_t));
 
 	/* Perform any desired operations */
 	if (Flags & COPYRGBPAL_CONVERTFROMRAW) {

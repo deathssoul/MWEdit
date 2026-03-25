@@ -10,6 +10,8 @@
 #ifndef __PCX_H
 #define __PCX_H
 
+#include "common/dl_base.h"
+
 #include "common/file/gen_file.h"
 #include "common/images/rgb_pal.h"
 
@@ -48,8 +50,6 @@ typedef struct {
 } pcxheader_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CPcxFile Definition

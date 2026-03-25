@@ -10,6 +10,9 @@
 #ifndef __XMLELEM_H
 #define __XMLELEM_H
 
+#include "common/dl_base.h"
+#include "common/file/gen_file.h"
+#include "common/string/sstring.h"
 #include "common/container/ptr_array.h"
 #include "file/xml/xml_attribute.h"
 
@@ -42,8 +45,6 @@ typedef struct {
 
 /* Load/write callback function */
 typedef int (*XMLFILE_CALLBACK) (xmlcallbackinfo_t *pCallbackInfo);
-
-
 /*===========================================================================
  *
  * Begin Class CXmlElement Definition
@@ -215,7 +216,7 @@ class CXmlElement {
 	}
 
 	/* Output element to the file */
-	bool Write (CGenFile &File);
+	bool Write(CGenFile &File);
 };
 
 

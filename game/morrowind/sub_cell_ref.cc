@@ -14,14 +14,23 @@
  *=========================================================================*/
 #include "game/morrowind/sub_cell_ref.h"
 
-#include "game/morrowind/cell.h"
-#include "game/morrowind/sub_long.h"
-#include "game/morrowind/sub_name_fix.h"
+#include <cstddef>
+#include <cstdio>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "common/file/gen_file.h"
+#include "game/morrowind/cell.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_frmr.h"
+#include "game/morrowind/sub_long.h"
+#include "game/morrowind/sub_name.h"
+#include "game/morrowind/sub_name_fix.h"
+#include "game/morrowind/sub_pos_6.h"
 
 DEFINE_FILE("EsmSubCellRef.cpp");
-
-
 /*===========================================================================
  *
  * Class CEsmSubCellRef Constructor
@@ -129,13 +138,16 @@ void CEsmSubCellRef::CreateNew(CEsmCell *pCell) {
 	m_pCell = pCell;
 
 	if (m_pCell != NULL) {
-		CEsmSubRecord* pSubRecord;
+		CEsmSubRecord *pSubRecord;
+
 		pSubRecord = m_pCell->AllocNewSubRecord(MWESM_SUBREC_FRMR);
 		pSubRecord->CreateNew();
 		AddSubRec(pSubRecord);
+
 		pSubRecord = m_pCell->AllocNewSubRecord(MWESM_SUBREC_NAME);
 		pSubRecord->CreateNew();
 		AddSubRec(pSubRecord);
+
 		pSubRecord = m_pCell->AllocNewSubRecord(MWESM_SUBREC_DATA, sizeof(pos6data_t));
 		pSubRecord->CreateNew();
 		AddSubRec(pSubRecord);
@@ -209,7 +221,7 @@ const TCHAR *CEsmSubCellRef::GetFieldString(const int FieldID) {
 
 	switch (FieldID) {
 		case ESMSUBLIST_FIELD_MOD:
-			snprintf(s_Buffer, 31, _T("%s%s"), IsActive() ? "*" : "", IsDeleted() ? "D" : "");
+			std::snprintf(s_Buffer, 31, _T("%s%s"), IsActive() ? "*" : "", IsDeleted() ? "D" : "");
 			return s_Buffer;
 
 		case ESMSUBLIST_FIELD_INDEX: {
@@ -218,7 +230,11 @@ const TCHAR *CEsmSubCellRef::GetFieldString(const int FieldID) {
 			if (pIndex == NULL) {
 				strnncpy(s_Buffer, _T("?"), 32);
 			} else {
-				snprintf(s_Buffer, 32, _T("0x%06lX-%02X"), pIndex->GetIndex(), pIndex->GetFlag());
+				std::snprintf(s_Buffer,
+				              32,
+				              _T("0x%06lX-%02X"),
+				              pIndex->GetIndex(),
+				              pIndex->GetFlag());
 			}
 
 			return s_Buffer;

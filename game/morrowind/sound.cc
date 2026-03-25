@@ -9,8 +9,22 @@
  *=========================================================================*/
 #include "game/morrowind/sound.h"
 
-DEFINE_FILE("EsmSound.cpp");
+#include <cstddef>
+#include <cstdio>
+#include <cstdlib>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_data.h"
+#include "game/morrowind/sub_name.h"
+#include "game/morrowind/sub_name_fix.h"
+
+DEFINE_FILE("EsmSound.cpp");
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -125,9 +139,11 @@ CEsmRecord *CEsmSound::Create() {
 void CEsmSound::CreateNew(CEsmFile *pFile) {
 	/* Call the base class record first */
 	CEsmRecord::CreateNew(pFile);
+
 	/* Create the item sub-records */
 	AllocateSubRecord(MWESM_SUBREC_NAME);
 	AllocateSubRecord(MWESM_SUBREC_DATA);
+
 	m_pData->CreateNew();
 }
 
@@ -145,15 +161,15 @@ const TCHAR *CEsmSound::GetFieldString(const int FieldID) {
 
 	switch (FieldID) {
 		case ESM_FIELD_VOLUME:
-			snprintf(s_Buffer, 31, _T("%.2f"), GetVolume());
+			std::snprintf(s_Buffer, 31, _T("%.2f"), GetVolume());
 			return s_Buffer;
 
 		case ESM_FIELD_MINRANGE:
-			snprintf(s_Buffer, 31, _T("%d"), (int)GetMinRange());
+			std::snprintf(s_Buffer, 31, _T("%d"), (int)GetMinRange());
 			return s_Buffer;
 
 		case ESM_FIELD_MAXRANGE:
-			snprintf(s_Buffer, 31, _T("%d"), (int)GetMaxRange());
+			std::snprintf(s_Buffer, 31, _T("%d"), (int)GetMaxRange());
 			return s_Buffer;
 
 		case ESM_FIELD_NAME:
@@ -192,15 +208,15 @@ void CEsmSound::OnAddSubRecord(CEsmSubRecord *pSubRecord) {
 bool CEsmSound::SetFieldValue(const int FieldID, const TCHAR *pString) {
 	switch (FieldID) {
 		case ESM_FIELD_VOLUME:
-			SetVolume((float)atof(pString));
+			SetVolume((float)std::atof(pString));
 			return true;
 
 		case ESM_FIELD_MINRANGE:
-			SetMinRange(atoi(pString));
+			SetMinRange(std::atoi(pString));
 			return true;
 
 		case ESM_FIELD_MAXRANGE:
-			SetMaxRange(atoi(pString));
+			SetMaxRange(std::atoi(pString));
 			return true;
 
 		case ESM_FIELD_NAME:

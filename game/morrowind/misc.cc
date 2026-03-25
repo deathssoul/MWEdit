@@ -9,8 +9,21 @@
  *=========================================================================*/
 #include "game/morrowind/misc.h"
 
-DEFINE_FILE("EsmMisc.cpp");
+#include <cstddef>
+#include <cstdio>
+#include <cstdlib>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/item_2.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_mcdt.h"
+#include "game/morrowind/sub_name_fix.h"
+
+DEFINE_FILE("EsmMisc.cpp");
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -127,6 +140,7 @@ CEsmRecord *CEsmMisc::Create() {
 void CEsmMisc::CreateNew(CEsmFile *pFile) {
 	/* Call the base class record first */
 	CEsmItem2::CreateNew(pFile);
+
 	/* Create the item sub-records */
 	AllocateSubRecord(MWESM_SUBREC_MCDT);
 	m_pMiscData->CreateNew();
@@ -146,7 +160,7 @@ const TCHAR *CEsmMisc::GetFieldString(const int FieldID) {
 
 	switch (FieldID) {
 		case ESM_FIELD_UNKNOWN:
-			snprintf(s_Buffer, 31, _T("%ld"), GetUnknown());
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetUnknown());
 			return s_Buffer;
 
 		default:
@@ -180,7 +194,7 @@ void CEsmMisc::OnAddSubRecord(CEsmSubRecord *pSubRecord) {
 bool CEsmMisc::SetFieldValue(const int FieldID, const TCHAR *pString) {
 	switch (FieldID) {
 		case ESM_FIELD_UNKNOWN:
-			GetMiscData()->Unknown = atol(pString);
+			GetMiscData()->Unknown = std::atol(pString);
 			return true;
 	};
 

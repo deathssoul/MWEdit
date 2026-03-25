@@ -10,12 +10,9 @@
 #ifndef __DL_STR_H
 #define __DL_STR_H
 
-#include <string.h>
+#include <cstddef>
 
 #include "common/dl_base.h"
-#include "common/dl_err.h"
-#include "common/dl_log.h"
-#include "common/dl_mem.h"
 
 /* Convert a bool value to a string */
 #define BooleanToString(Flag) ((Flag) ? _T("True") : _T("False"))
@@ -26,7 +23,7 @@
 
 
 /* Returns the number of substrings in the given string */
-size_t CountSubstrings(const TCHAR *pSourceString, const TCHAR *pSearchString);
+std::size_t CountSubstrings(const TCHAR *pSourceString, const TCHAR *pSearchString);
 
 /* Is... type functions for strings */
 bool IsStringNumber(const TCHAR *pString);
@@ -39,7 +36,7 @@ TCHAR *ltrim(TCHAR *pString);
 TCHAR *rtrim(TCHAR *pString);
 
 /* A strlen() function which can handle NULL strings */
-size_t SafeStrLen(const TCHAR *pString);
+std::size_t SafeStrLen(const TCHAR *pString);
 
 /* Seperate a string in a variable/value pair */
 bool SeperateVarValue(TCHAR **ppVariable,
@@ -62,7 +59,7 @@ bool StringToBoolean(bool &Flag, const TCHAR *pString);
 bool StringToBoolean(const TCHAR *pString);
 
 /* Counts the number of lines in string, seperated by a CR */
-size_t strhgt(const TCHAR *pString);
+std::size_t strhgt(const TCHAR *pString);
 
 /* Find a substring in a string with case insensitivity */
 TCHAR *stristr(const TCHAR *pString, const TCHAR *pSubString);
@@ -71,26 +68,26 @@ TCHAR *stristr(const TCHAR *pString, const TCHAR *pSubString);
 int strlicmp(const TCHAR *pString1, const TCHAR *pString2);
 
 /* Return number of TCHARacters to first CR or end of string */
-size_t strlinelen(const TCHAR *pString);
+std::size_t strlinelen(const TCHAR *pString);
 
 /* Returns the maximum line length of lines seperated by CR */
-size_t strmaxlinelen(const TCHAR *pString);
+std::size_t strmaxlinelen(const TCHAR *pString);
 
 /* Copies a maximum number of TCHARacter ensuring string is NULL terminated */
-TCHAR *strnncpy(TCHAR *pDestString, const TCHAR *pSourceString, const size_t MaxStringLength);
+TCHAR *strnncpy(TCHAR *pDestString, const TCHAR *pSourceString, const std::size_t MaxStringLength);
 
 /* Output printf() formatted message to a string buffer */
-int snprintf(TCHAR *pBuffer, const size_t MaxLength, const TCHAR *pFormat, ...);
+//int snprintf(TCHAR *pBuffer, const std::size_t MaxLength, const TCHAR *pFormat, ...);
 
 /* Removes quotes from the string */
 TCHAR *UnquoteString(TCHAR *pString);
 
 /* String argument formatter with length checking */
-int vsnprintf(TCHAR *pBuffer, const size_t MaxLength, const TCHAR *pFormat, va_list Args);
+//int vsnprintf(TCHAR *pBuffer, const std::size_t MaxLength, const TCHAR *pFormat, std::va_list Args);
 
 
 /* A strlen() function which can handle NULL strings */
-inline size_t SafeStrLen(const TCHAR *pString) {
+inline std::size_t SafeStrLen(const TCHAR *pString) {
 	return (pString == NULL) ? 0 : TSTRLEN(pString);
 }
 
@@ -109,8 +106,8 @@ inline size_t SafeStrLen(const TCHAR *pString) {
 	TCHAR *strupr(TCHAR *pString);
 
 	/* Compare a portion of a string with case insensitivity */
-	int strnicmp(const TCHAR *pString1, const TCHAR *pString2, const size_t MaxStringLength);
-#endif
+	int strnicmp(const TCHAR *pString1, const TCHAR *pString2, const std::size_t MaxStringLength);
+#endif  // _DEBUG
 
 
 /*===========================================================================
@@ -139,7 +136,7 @@ inline size_t SafeStrLen(const TCHAR *pString) {
 	void Test_strupr();
 	void Test_strnicmp();
 	void Test_DLStr();
-#endif
+#endif  // _DEBUG
 
 
 #endif

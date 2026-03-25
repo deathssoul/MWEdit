@@ -10,11 +10,17 @@
 #ifndef __ESMCREATURE_H
 #define __ESMCREATURE_H
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/item_1.h"
+#include "game/morrowind/record.h"
 #include "game/morrowind/sub_aidt.h"
+#include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_crdt.h"
 #include "game/morrowind/sub_long.h"
-#include "game/morrowind/sub_npco.h"
+#include "game/morrowind/sub_name_fix.h"
 
 /* Creature flags */
 #define MWESM_CREAFLAG_BIPED      0x0001
@@ -32,7 +38,6 @@
 
 const TCHAR *GetESMCreatureType(const int CreaType);
 int GetESMCreatureType(const TCHAR *pString);
-
 /*===========================================================================
  *
  * Begin Class CEsmCreature Definition

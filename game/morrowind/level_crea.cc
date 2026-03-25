@@ -9,8 +9,22 @@
  *=========================================================================*/
 #include "game/morrowind/level_crea.h"
 
-DEFINE_FILE("EsmLevelCrea.cpp");
+#include <cstddef>
+#include <cstdio>
 
+#include "common/dl_base.h"
+#include "common/dl__mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_byte.h"
+#include "game/morrowind/sub_long.h"
+#include "game/morrowind/sub_name_fix.h"
+#include "game/mororwind/sub_short.h"
+
+DEFINE_FILE("EsmLevelCrea.cpp");
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -136,10 +150,12 @@ CEsmRecord *CEsmLevelCrea::Create() {
 void CEsmLevelCrea::CreateNew(CEsmFile *pFile) {
 	/* Call the base class record first */
 	CEsmRecord::CreateNew(pFile);
+
 	/* Create the item sub-records */
 	AllocateSubRecord(MWESM_SUBREC_DATA);
 	AllocateSubRecord(MWESM_SUBREC_NNAM);
 	AllocateSubRecord(MWESM_SUBREC_INDX);
+
 	m_pIndex->CreateNew();
 	m_pData->CreateNew();
 	m_pNNam->CreateNew();
@@ -178,10 +194,10 @@ const TCHAR *CEsmLevelCrea::GetCreaListString() {
 
 			TSTRCPY(s_Buffer + BufferLength, pNameSubRec->GetName());
 			BufferLength += StringLength;
-			snprintf(TempBuffer,
-			         31,
-			         _T(" (%d), "),
-			         (int)((CEsmSubShort *)pLevelSubRec)->GetValue());
+			std::snprintf(TempBuffer,
+			              31,
+			              _T(" (%d), "),
+			              (int)((CEsmSubShort *)pLevelSubRec)->GetValue());
 			StringLength = TSTRLEN(TempBuffer);
 
 			if (StringLength + BufferLength > 255) {
@@ -218,7 +234,7 @@ const TCHAR *CEsmLevelCrea::GetFieldString(const int FieldID) {
 			return GetCreaListString();
 
 		case ESM_FIELD_CHANCENONE:
-			snprintf(s_Buffer, 31, _T("%d"), GetChanceNone());
+			std::snprintf(s_Buffer, 31, _T("%d"), GetChanceNone());
 			return s_Buffer;
 
 		default:

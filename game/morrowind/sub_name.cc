@@ -9,9 +9,12 @@
  *=========================================================================*/
 #include "game/morrowind/sub_name.h"
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/file/gen_file.h"
+#include "game/morrowind/sub_base.h"
+
 DEFINE_FILE("EsmSubName.cpp");
-
-
 /*===========================================================================
  *
  * Class CEsmSubName Method - void Copy (pSubRecord);
@@ -56,7 +59,7 @@ bool CEsmSubName::ReadData(CGenFile &File) {
 	//DEFINE_FUNCTION("CEsmSubName::ReadData()");
 	bool Result;
 	m_Name.SetSize(m_RecordSize);
-	Result = File.Read((TCHAR *)(const TCHAR*)m_Name, m_RecordSize);
+	Result = File.Read((TCHAR *)(const TCHAR *)m_Name, m_RecordSize);
 
 	if (Result) {
 		m_Name.UpdateLength();

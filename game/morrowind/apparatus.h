@@ -10,13 +10,18 @@
 #ifndef __ESMAPPARATUS_H
 #define __ESMAPPARATUS_H
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/item_2.h"
+#include "game/morrowind/record.h"
 #include "game/morrowind/sub_aadt.h"
+#include "game/morrowind/sub_base.h"
 
 /* Convert an apparatus type to a string */
 const TCHAR *GetESMAppaType(const int AppaType);
 int GetESMAppaType(const TCHAR *pString);
-
 /*===========================================================================
  *
  * Begin Class CEsmApparatus Definition

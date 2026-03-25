@@ -12,10 +12,11 @@
 #ifndef __PTRARRAY_H
 #define __PTRARRAY_H
 
-#include <cstddef>
-
 #include "common/dl_base.h"
 
+#ifdef _DEBUG
+#include <cstddef>
+#endif
 
 /* Macro for iterating through an array */
 #if !ITERATE_ARRAY

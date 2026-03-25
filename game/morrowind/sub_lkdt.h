@@ -10,8 +10,11 @@
 #ifndef __ESMSUBLKDT_H
 #define __ESMSUBLKDT_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/sub_base.h"
 
 #pragma pack(push, 1)
 
@@ -23,8 +26,6 @@ typedef struct {
 } lockdata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubLKDT Definition
@@ -51,7 +52,7 @@ class CEsmSubLKDT : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(lockdata_t));
 		m_RecordSize = sizeof(lockdata_t);
-		memset(m_pData, 0, sizeof(lockdata_t));
+		std::memset(m_pData, 0, sizeof(lockdata_t));
 	}
 
 	/* Get class members */

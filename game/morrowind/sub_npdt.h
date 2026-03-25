@@ -10,8 +10,12 @@
 #ifndef __ESMSUBNPDT_H
 #define __ESMSUBNPDT_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/sub_base.h"
 
 /* NPC flags */
 #define MWESM_NPCFLAG_FEMALE      0x0001
@@ -64,8 +68,6 @@ typedef struct {
 } npcshortdata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubNPDTS Definition
@@ -92,7 +94,7 @@ class CEsmSubNPDTS : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(npcshortdata_t));
 		m_RecordSize = sizeof(npcshortdata_t);
-		memset(m_pData, 0, sizeof(npcshortdata_t));
+		std::memset(m_pData, 0, sizeof(npcshortdata_t));
 	}
 
 	/* Get class members */
@@ -193,7 +195,7 @@ class CEsmSubNPDTL : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(npclongdata_t));
 		m_RecordSize = sizeof(npclongdata_t);
-		memset(m_pData, 0, sizeof(npclongdata_t));
+		std::memset(m_pData, 0, sizeof(npclongdata_t));
 	}
 
 	/* Get class members */

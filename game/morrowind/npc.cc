@@ -9,12 +9,38 @@
  *=========================================================================*/
 #include "game/morrowind/npc.h"
 
+#include <cstddef>
+#include <cstdio>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "common/string/sstring.h"
 #include "common/utility/name_list.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/info.h"
+#include "game/morrowind/item_1.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_ai_a.h"
+#include "game/morrowind/sub_ai_e.h"
+#include "game/morrowind/sub_ai_f.h"
+#include "game/morrowind/sub_ai_t.h"
+#include "game/morrowind/sub_ai_w.h"
+#include "game/morrowind/sub_aidt.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_float.h"
+#include "game/morrowind/sub_info_data.h"
+#include "game/morrowind/sub_long.h"
+#include "game/morrowind/sub_name.h"
+#include "game/morrowind/sub_name_fix.h"
+#include "game/morrowind/sub_npco.h"
+#include "game/morrowind/sub_npcs.h"
+#include "game/morrowind/sub_npdt.h"
 #include "game/morrowind/sub_pos_6.h"
 
 DEFINE_FILE("EsmNpc.cpp");
-
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -288,7 +314,7 @@ bool CEsmNpc::AddItemEx(const TCHAR *pString) {
 	if (pParse != NULL) {
 		IDBuffer.Copy(pString, pParse - pString);
 		IDBuffer.Trim();
-		ItemCount = atoi(pParse + 1);
+		ItemCount = std::atoi(pParse + 1);
 
 		if (ItemCount <= 0) {
 			ItemCount = 1;
@@ -803,7 +829,7 @@ const TCHAR *CEsmNpc::GetFieldString(const int FieldID) {
 			return BOOLTOYESNO(IsRespawn());
 
 		case ESM_FIELD_LEVEL:
-			snprintf(s_Buffer, 31, _T("%ld"), GetLevel());
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetLevel());
 			return s_Buffer;
 
 		case ESM_FIELD_CLASS:
@@ -819,14 +845,14 @@ const TCHAR *CEsmNpc::GetFieldString(const int FieldID) {
 			return GetFaction();
 
 		case ESM_FIELD_RANK:
-			snprintf(s_Buffer, 31, _T("%ld"), GetRank());
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetRank());
 			return s_Buffer;
 
 		case ESM_FIELD_BLOOD:
 			return GetEsmNpcBloodType(GetFlag() & MWESM_NPCFLAG_BLOODMASK);
 
 		case ESM_FIELD_DISPOSITION:
-			snprintf(s_Buffer, 31, _T("%ld"), GetDisposition());
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetDisposition());
 			return s_Buffer;
 
 		case ESM_FIELD_HAIR:
@@ -836,59 +862,59 @@ const TCHAR *CEsmNpc::GetFieldString(const int FieldID) {
 			return GetHeadModel();
 
 		case ESM_FIELD_STRENGTH:
-			snprintf(s_Buffer, 31, _T("%ld"), GetAttribute(MWESM_ATTRIBUTE_STR));
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetAttribute(MWESM_ATTRIBUTE_STR));
 			return s_Buffer;
 
 		case ESM_FIELD_AGILITY:
-			snprintf(s_Buffer, 31, _T("%ld"), GetAttribute(MWESM_ATTRIBUTE_AGI));
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetAttribute(MWESM_ATTRIBUTE_AGI));
 			return s_Buffer;
 
 		case ESM_FIELD_SPEED:
-			snprintf(s_Buffer, 31, _T("%ld"), GetAttribute(MWESM_ATTRIBUTE_SPD));
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetAttribute(MWESM_ATTRIBUTE_SPD));
 			return s_Buffer;
 
 		case ESM_FIELD_ENDURANCE:
-			snprintf(s_Buffer, 31, _T("%ld"), GetAttribute(MWESM_ATTRIBUTE_END));
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetAttribute(MWESM_ATTRIBUTE_END));
 			return s_Buffer;
 
 		case ESM_FIELD_WILLPOWER:
-			snprintf(s_Buffer, 31, _T("%ld"), GetAttribute(MWESM_ATTRIBUTE_WIL));
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetAttribute(MWESM_ATTRIBUTE_WIL));
 			return s_Buffer;
 
 		case ESM_FIELD_INTELLIGENCE:
-			snprintf(s_Buffer, 31, _T("%ld"), GetAttribute(MWESM_ATTRIBUTE_INT));
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetAttribute(MWESM_ATTRIBUTE_INT));
 			return s_Buffer;
 
 		case ESM_FIELD_PERSONALITY:
-			snprintf(s_Buffer, 31, _T("%ld"), GetAttribute(MWESM_ATTRIBUTE_PER));
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetAttribute(MWESM_ATTRIBUTE_PER));
 			return s_Buffer;
 
 		case ESM_FIELD_LUCK:
-			snprintf(s_Buffer, 31, _T("%ld"), GetAttribute(MWESM_ATTRIBUTE_LUC));
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetAttribute(MWESM_ATTRIBUTE_LUC));
 			return s_Buffer;
 
 		case ESM_FIELD_GOLD:
 		case ESM_FIELD_TRADEGOLD:
-			snprintf(s_Buffer, 31, _T("%ld"), GetGold());
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetGold());
 			return s_Buffer;
 
 		case ESM_FIELD_HEALTH:
-			snprintf(s_Buffer, 31, _T("%ld"), GetHealth());
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetHealth());
 			return s_Buffer;
 
 		case ESM_FIELD_SPELLPTS:
-			snprintf(s_Buffer, 31, _T("%ld"), GetMagic());
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetMagic());
 			return s_Buffer;
 
 		case ESM_FIELD_FATIGUE:
-			snprintf(s_Buffer, 31, _T("%ld"), GetFatigue());
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetFatigue());
 			return s_Buffer;
 
 		case ESM_FIELD_FIGHT:
 			pAiData = GetAIData();
 
 			if (pAiData) {
-				snprintf(s_Buffer, 31, _T("%lu"), (unsigned int)pAiData->Fight);
+				std::snprintf(s_Buffer, 31, _T("%lu"), (unsigned int)pAiData->Fight);
 			} else {
 				s_Buffer[0] = NULL_CHAR;
 			}
@@ -899,7 +925,7 @@ const TCHAR *CEsmNpc::GetFieldString(const int FieldID) {
 			pAiData = GetAIData();
 
 			if (pAiData) {
-				snprintf(s_Buffer, 31, _T("%lu"), (unsigned int)pAiData->Alarm);
+				std::snprintf(s_Buffer, 31, _T("%lu"), (unsigned int)pAiData->Alarm);
 			} else {
 				s_Buffer[0] = NULL_CHAR;
 			}
@@ -910,7 +936,7 @@ const TCHAR *CEsmNpc::GetFieldString(const int FieldID) {
 			pAiData = GetAIData();
 
 			if (pAiData) {
-				snprintf(s_Buffer, 31, _T("%lu"), (unsigned int)pAiData->Flee);
+				std::snprintf(s_Buffer, 31, _T("%lu"), (unsigned int)pAiData->Flee);
 			} else {
 				s_Buffer[0] = NULL_CHAR;
 			}
@@ -921,7 +947,7 @@ const TCHAR *CEsmNpc::GetFieldString(const int FieldID) {
 			pAiData = GetAIData();
 
 			if (pAiData) {
-				snprintf(s_Buffer, 31, _T("%lu"), (unsigned int)pAiData->Hello);
+				std::snprintf(s_Buffer, 31, _T("%lu"), (unsigned int)pAiData->Hello);
 			} else {
 				s_Buffer[0] = NULL_CHAR;
 			}
@@ -1316,7 +1342,7 @@ bool CEsmNpc::SetFieldValue(const int FieldID, const TCHAR *pString) {
 			return true;
 
 		case ESM_FIELD_LEVEL:
-			SetLevel(atoi(pString));
+			SetLevel(std::atoi(pString));
 			return true;
 
 		case ESM_FIELD_CLASS:
@@ -1336,11 +1362,11 @@ bool CEsmNpc::SetFieldValue(const int FieldID, const TCHAR *pString) {
 			return true;
 
 		case ESM_FIELD_RANK:
-			SetRank(atoi(pString));
+			SetRank(std::atoi(pString));
 			return true;
 
 		case ESM_FIELD_DISPOSITION:
-			SetDisposition(atoi(pString));
+			SetDisposition(std::atoi(pString));
 			return true;
 
 		case ESM_FIELD_ATTRIBUTE:
@@ -1388,15 +1414,15 @@ bool CEsmNpc::SetFieldValue(const int FieldID, const TCHAR *pString) {
 			return true;
 
 		case ESM_FIELD_HEALTH:
-			SetHealth(atol(pString));
+			SetHealth(std::atol(pString));
 			return true;
 
 		case ESM_FIELD_SPELLPTS:
-			SetSpellPts(atol(pString));
+			SetSpellPts(std::atol(pString));
 			return true;
 
 		case ESM_FIELD_FATIGUE:
-			SetFatigue(atol(pString));
+			SetFatigue(std::atol(pString));
 			return true;
 	}
 
@@ -1492,7 +1518,7 @@ void CEsmNpc::SetSkill(const TCHAR *pString) {
 	}
 
 	/* Set the skill if it is valid */
-	Result = GetESMSkill (SkillIndex, SkillBuffer);
+	Result = GetESMSkill(SkillIndex, SkillBuffer);
 
 	if (Result) {
 		SetSkill(pSkillPtr, SkillIndex);
@@ -1509,7 +1535,7 @@ void CEsmNpc::SetSkill(const TCHAR *pString, const int SkillIndex) {
 
 	/* Convert the string value if valid */
 	if (pString != NULL) {
-		SkillValue = atoi(pString);
+		SkillValue = std::atoi(pString);
 
 		if (SkillValue < 0) {
 			SkillValue = 0;
@@ -1569,7 +1595,7 @@ void CEsmNpc::SetAttribute(const TCHAR *pString, const int AttrIndex) {
 
 	/* Convert the string value if valid */
 	if (pString != NULL) {
-		AttrValue = atoi(pString);
+		AttrValue = std::atoi(pString);
 
 		if (AttrValue < 0) {
 			AttrValue = 0;

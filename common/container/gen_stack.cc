@@ -16,9 +16,7 @@
 #include "common/dl_err.h"
 #include "common/dl_mem.h"
 
-
 DEFINE_FILE("GenStack.cpp");
-
 /*===========================================================================
  *
  * Class CGenStack Constructor

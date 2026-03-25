@@ -10,6 +10,10 @@
 #ifndef __ESMSUBAI_W_H
 #define __ESMSUBAI_W_H
 
+#include <cstring>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
 #include "game/morrowind/sub_base.h"
 
 #define MWESM_AIW_NUMIDLES 8
@@ -52,7 +56,7 @@ class CEsmSubAI_W : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(ai_wdata_t));
 		m_RecordSize = sizeof(ai_wdata_t);
-		memset(m_pData, 0, sizeof(ai_wdata_t));
+		std::memset(m_pData, 0, sizeof(ai_wdata_t));
 		GetAIData()->Unknown = 1;
 	}
 

@@ -10,13 +10,13 @@
 #ifndef __ESMSUBBYTE_H
 #define __ESMSUBBYTE_H
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/file/gen_file.h"
 #include "game/morrowind/sub_base.h"
-
 
 #pragma pack(push, 1)
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubByte Definition
@@ -89,11 +89,11 @@ class CEsmSubByte : public CEsmSubRecord {
 	}
 
 	void SetFlag(const byte Flag) {
-		m_Byte = (m_Byte | Flag);
+		m_Byte |= Flag;
 	}
 
 	void ClearFlag(const byte Flag) {
-		m_Byte = (m_Byte & (~Flag));
+		m_Byte &= ~Flag;
 	}
 };
 

@@ -10,6 +10,8 @@
 #ifndef __OPENPLUGINDLG_H
 #define __OPENPLUGINDLG_H
 
+#include <stdlib.h>  // TODO: Required for non-standard extension _MAX_PATH
+
 #include <afx.h>
 #include <afxcmn.h>
 #include <afxcoll.h>

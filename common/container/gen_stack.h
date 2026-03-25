@@ -10,11 +10,8 @@
 #ifndef __GENSTACK_H
 #define __GENSTACK_H
 
-
 /* Default stack size */
 #define GENSTACK_DEFAULT_SIZE 32
-
-
 /*===========================================================================
  *
  * Begin Class CGenStack Definition

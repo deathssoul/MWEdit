@@ -9,7 +9,7 @@
  *=========================================================================*/
 #include "ui/icon_frame.h"
 
-#include <stdlib.h>  // Required for non-portable Windows extension _makepath()
+#include <stdlib.h>  // TODO: Required for non-portable Windows extension _makepath()
 
 #include <afxwin.h>
 #include <atlstr.h>

@@ -11,7 +11,9 @@
 #ifndef __DL_LOG_H
 #define __DL_LOG_H
 
-#include <stdarg.h>
+#include <cstdarg>
+#include <cstddef>
+#include <cstdio>
 
 #include "common/dl_base.h"
 
@@ -20,22 +22,18 @@
 #define DL_LOG_AUTHOR  _T("Dave Humphrey (uesp@m0use.net)")
 #define DL_LOG_DATE    _T("2 April 2001")
 
-
 /* Number of tab levels allowed in a log file */
 #define LOGFILE_MAX_TABS 20
 
-
 /* Logfile hook callback function type */
-typedef void (*PLOGFILE_HOOKPROC) (const TCHAR *pString, va_list Args);
-typedef void (LOGFILE_HOOKPROC) (const TCHAR *pString, va_list Args);
+typedef void (*PLOGFILE_HOOKPROC) (const TCHAR *pString, std::va_list Args);
+typedef void (LOGFILE_HOOKPROC) (const TCHAR *pString, std::va_list Args);
 
 /* Parameters for the log file Open() method */
 typedef enum {
 	LOG_OPEN = 0,
 	LOG_APPEND = 1
 } logmode_t;
-
-
 /*===========================================================================
  *
  * Class CLogFile Definition
@@ -46,9 +44,9 @@ typedef enum {
  *=========================================================================*/
 class CLogFile {
   private:
-	FILE *pLogFileHandle;        /* The pointer to the log file steam */
-	int TabLevel;                /* Number of tabs to pad output with */
-	PLOGFILE_HOOKPROC pHookProc; /* The optional hook function */
+	std::FILE *pLogFileHandle;        /* The pointer to the log file steam */
+	int TabLevel;                     /* Number of tabs to pad output with */
+	PLOGFILE_HOOKPROC pHookProc;      /* The optional hook function */
 
 
   protected:
@@ -71,7 +69,7 @@ class CLogFile {
 	bool Close();
 
 	/* Access the file handle */
-	FILE *GetFileHandle() {
+	std::FILE *GetFileHandle() {
 		return pLogFileHandle;
 	}
 
@@ -89,7 +87,7 @@ class CLogFile {
 
 	/* Returns the open status of the log file */
 	bool IsOpen() {
-		return (bool)((pLogFileHandle == NULL) ? FALSE : TRUE);
+		return (bool)((pLogFileHandle == NULL) ? FALSE : TRUE);  // TODO: Can't the casting be removed?
 	}
 
 	/* Attempt to open a log file for output */
@@ -105,10 +103,10 @@ class CLogFile {
 	bool Printf(const TCHAR *pString, ...);
 
 	/* Output a log entry to logfile and another stream */
-	bool Printf(FILE *pFileHandle, const TCHAR *pString, ...);
+	bool Printf(std::FILE *pFileHandle, const TCHAR *pString, ...);
 
 	/* Output a line to the log file */
-	bool PrintLine(const TCHAR *pString, va_list Args);
+	bool PrintLine(const TCHAR *pString, std::va_list Args);
 
 	/* Change the hook procedure */
 	void SetHookProc(PLOGFILE_HOOKPROC pProc = NULL) {

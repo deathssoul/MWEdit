@@ -9,8 +9,20 @@
  *=========================================================================*/
 #include "game/morrowind/ingredient.h"
 
-DEFINE_FILE("EsmIngrediant.cpp");
+#include <cstddef>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/item_2.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_irdt.h"
+#include "game/morrowind/sub_name_fix.h"
+
+DEFINE_FILE("EsmIngrediant.cpp");
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -136,6 +148,7 @@ CEsmRecord *CEsmIngrediant::Create() {
 void CEsmIngrediant::CreateNew(CEsmFile *pFile) {
 	/* Call the base class record first */
 	CEsmItem2::CreateNew(pFile);
+
 	/* Create the item sub-records */
 	AllocateSubRecord(MWESM_SUBREC_IRDT);
 	m_pIngreData->CreateNew();

@@ -13,7 +13,7 @@
  *=========================================================================*/
 #include "ui/utils.h"
 
-#include <stdlib.h>
+#include <stdlib.h>  // TODO: Required for non-standard extension _MAX_PATH
 
 #include <afx.h>
 #include <afxdlgs.h>

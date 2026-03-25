@@ -11,20 +11,12 @@
 #ifndef __DL_CHR_H
 #define __DL_CHR_H
 
-#include <string.h>
+#include <cstddef>
 
 #include "common/dl_base.h"
-#include "common/dl_err.h"
-#include "common/dl_log.h"
-#include "common/dl_mem.h"
-
-#if _WIN32
-	#include "tchar.h"
-#endif
-
 
 /* Insert a TCHARacter somewhere in a string */
-void chradd(TCHAR *pString, const size_t TCHARIndex, const TCHAR NewTCHAR);
+void chradd(TCHAR *pString, const std::size_t TCHARIndex, const TCHAR NewTCHAR);
 
 /* Add a TCHARacter to the end of a string */
 void chrcat(TCHAR *pString, const TCHAR NewTCHAR);
@@ -33,13 +25,13 @@ void chrcat(TCHAR *pString, const TCHAR NewTCHAR);
 int chrcount(const TCHAR *pString, const TCHAR TCHAR);
 
 /* Delete a TCHARacter from a string */
-void chrdel(TCHAR *pString, const size_t TCHARIndex);
+void chrdel(TCHAR *pString, const std::size_t TCHARIndex);
 
 /* Delete the last TCHARacter from the string */
 void chrdellast(TCHAR *pString);
 
 /* Reverse search for last punctuation TCHARacter in string */
-boolean chrrpunc(size_t &TCHARIndex, const TCHAR *pString);
+boolean chrrpunc(std::size_t &TCHARIndex, const TCHAR *pString);
 
 /* Divide string into substrings seperated by token TCHARacter */
 TCHAR *chrtok(TCHAR *pString, const TCHAR TokenTCHAR);

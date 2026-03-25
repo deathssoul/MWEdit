@@ -10,8 +10,11 @@
 #ifndef __ESMSUBWEAT_H
 #define __ESMSUBWEAT_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/sub_base.h"
 
 #pragma pack(push, 1)
 
@@ -27,8 +30,6 @@ typedef struct {
 } weatherdata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubWEAT Definition
@@ -55,7 +56,7 @@ class CEsmSubWEAT : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(weatherdata_t));
 		m_RecordSize = sizeof(weatherdata_t);
-		memset(m_pData, 0, sizeof(weatherdata_t));
+		std::memset(m_pData, 0, sizeof(weatherdata_t));
 	}
 
 	/* Get class members */

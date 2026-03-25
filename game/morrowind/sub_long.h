@@ -10,12 +10,12 @@
 #ifndef __ESMSUBLONG_H
 #define __ESMSUBLONG_H
 
+#include "common/dl_mem.h"
+#include "common/file/gen_file.h"
 #include "game/morrowind/sub_base.h"
 
 #pragma pack(push, 1)
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubLong Definition
@@ -89,11 +89,11 @@ class CEsmSubLong : public CEsmSubRecord {
 	}
 
 	void SetFlag(const long Flag) {
-		m_Long = (m_Long | Flag);
+		m_Long |= Flag;
 	}
 
 	void ClearFlag(const long Flag) {
-		m_Long = (m_Long & (~Flag));
+		m_Long &= ~Flag;
 	}
 };
 

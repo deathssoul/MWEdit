@@ -10,12 +10,16 @@
 #ifndef __ESMFACTION_H
 #define __ESMFACTION_H
 
-#include "game/morrowind/record.h"
-#include "game/morrowind/sub_fadt.h"
-#include "game/morrowind/sub_long.h"
-#include "game/morrowind/sub_name.h"
-#include "game/morrowind/sub_name_32.h"
+#include <cstddef>
 
+#include "common/dl_base.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_fadt.h"
+#include "game/morrowind/sub_name_32.h"
+#include "game/morrowind/sub_name_fix.h"
 /*===========================================================================
  *
  * Begin Class CEsmFaction Definition

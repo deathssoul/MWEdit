@@ -10,10 +10,15 @@
 #ifndef __ESMCLASS_H
 #define __ESMCLASS_H
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_cldt.h"
 #include "game/morrowind/sub_name.h"
-
+#include "game/morrowind/sub_name_fix.h"
 /*===========================================================================
  *
  * Begin Class CEsmClass Definition

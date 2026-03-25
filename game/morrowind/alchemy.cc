@@ -9,10 +9,22 @@
  *=========================================================================*/
 #include "game/morrowind/alchemy.h"
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/item_1.h"
+#include "game/morrowind/item_2.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_aldt.h"
+#include "game/morrowind/sub_enam.h"
+#include "game/morrowind/sub_name_fix.h"
 
 DEFINE_FILE("EsmAlchemy.cpp");
-
-
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -192,7 +204,7 @@ bool CEsmAlchemy::SetFieldValue(const int FieldID, const TCHAR *pString) {
 		case ESM_FIELD_AUTOCALC:
 			SetAutoCalc(StringToBoolean(pString));
 			return true;
-	};
+	}
 
 	/* No matching field found */
 	return CEsmItem2::SetFieldValue(FieldID, pString);
@@ -214,9 +226,7 @@ void CEsmAlchemy::SetIcon(const TCHAR *pIcon) {
 		}
 
 		m_pIcon = NULL;
-	}
-	/* Create a new enchant sub-record */
-	else if (m_pIcon == NULL) {
+	} else if (m_pIcon == NULL) { /* Create a new enchant sub-record */
 		AllocateSubRecord(MWESM_SUBREC_TEXT);
 		ASSERT(m_pIcon != NULL);
 		m_pIcon->SetName(pIcon);

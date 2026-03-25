@@ -10,7 +10,7 @@
 #ifndef __PROFILE_H
 #define __PROFILE_H
 
-#include "common/dl_err.h"
+#include "common/dl_base.h"
 #include "common/dl_time.h"
 
 /* Macros for inserting profiles, only valid in debug builds */

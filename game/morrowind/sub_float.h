@@ -10,14 +10,13 @@
 #ifndef __ESMSUBFLOAT_H
 #define __ESMSUBFLOAT_H
 
+#include "common/dl_mem.h"
+#include "common/file/gen_file.h"
 #include "game/morrowind/sub_base.h"
-
 
 #pragma pack(push, 1)
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubFloat Definition

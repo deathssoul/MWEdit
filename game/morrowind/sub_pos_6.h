@@ -10,8 +10,11 @@
 #ifndef __ESMSUBPOS6_H
 #define __ESMSUBPOS6_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/sub_base.h"
 
 #pragma pack(push, 1)
 
@@ -25,8 +28,6 @@ typedef struct {
 } pos6data_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubPos6 Definition
@@ -53,7 +54,7 @@ class CEsmSubPos6 : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(pos6data_t));
 		m_RecordSize = sizeof(pos6data_t);
-		memset(m_pData, 0, sizeof(pos6data_t));
+		std::memset(m_pData, 0, sizeof(pos6data_t));
 	}
 
 	/* Finds text in the sub-record */
@@ -62,7 +63,7 @@ class CEsmSubPos6 : public CEsmSubRecord {
 	}
 
 	/* Get class members */
-	pos6data_t *GetPosData(void) {
+	pos6data_t *GetPosData() {
 		return (pos6data_t *)m_pData;
 	}
 

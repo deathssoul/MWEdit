@@ -9,8 +9,17 @@
  *=========================================================================*/
 #include "common/dl_time.h"
 
-DEFINE_FILE("dl_time.h");
+#include <winnt.h>
 
+#include <ctime>
+
+#include "common/dl_base.h"
+
+#if _WIN32
+#include <profileapi.h>
+#endif  // _WIN32
+
+DEFINE_FILE("dl_time.h");
 /*===========================================================================
  *
  * Function - void GetHiClock (Counter);
@@ -32,10 +41,9 @@ void GetHiClock(hiclock_t &Counter) {
 		Counter.CountType = HICLOCK_PERFORMANCE;
 		return;
 	}
-
-#endif
+#endif  // _WIN32
 	/* Use the clock() count by default */
-	Counter.ClockCount = clock();
+	Counter.ClockCount = std::clock();
 	Counter.CountType = HICLOCK_CLOCK;
 }
 

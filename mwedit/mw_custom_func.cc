@@ -9,7 +9,7 @@
  *=========================================================================*/
 #include "mwedit/mw_custom_func.h"
 
-#include <string.h>  // Required for non-standard Windows extension _stricmp()
+//#include <string.h>  // Required for non-standard Windows extension _stricmp()
 
 #include <winnt.h>
 

@@ -24,8 +24,6 @@
 
 #include "common/dl_log.h"
 #endif  // _DEBUG
-
-
 /*===========================================================================
  *
  * Class CListFile Constructor
@@ -42,7 +40,7 @@ CListFile::CListFile(const std::size_t LineLength) {
 	pCurrentLine = NULL;
 	pFileHandle = NULL;
 	BufferValid = FALSE;
-	IgnoreBlankLines = FALSE;
+	IgnoreBlankLines = FALSE;  // TODO: Update this to use bool instead
 
 	/* Ensure a valid line length */
 	if (MaxLineLength <= 1) {
@@ -192,7 +190,6 @@ boolean CListFile::ReadNextLine() {
 
 
 #if _DEBUG
-
 /*===========================================================================
  *
  * Function - void Test_ListFile (void);
@@ -260,5 +257,4 @@ void Test_ListFile() {
 	ASSERT(TestFile1.IsOpen() == FALSE);
 	ASSERT(TestFile1.IsValidLine() == FALSE);
 }
-
 #endif  // _DEBUG

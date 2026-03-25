@@ -10,13 +10,17 @@
 #ifndef __ESMCLOTHING_H
 #define __ESMCLOTHING_H
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/item_3.h"
-#include "game/morrowind/sub_byte.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_ctdt.h"
 
 /* Number of body part definitions allowed in a clothing record */
 #define MWESM_CLOTH_MAXBODYPARTS 7
-
 /*===========================================================================
  *
  * Begin Class CEsmClothing Definition

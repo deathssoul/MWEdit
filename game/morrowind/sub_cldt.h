@@ -10,8 +10,11 @@
 #ifndef __ESMSUBCLDT_H
 #define __ESMSUBCLDT_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/sub_base.h"
 
 /* Class data flags */
 #define MWESM_CLASSFLAG_PLAYABLE      1
@@ -58,8 +61,6 @@ typedef struct {
 } classdata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubCLDT Definition
@@ -86,7 +87,7 @@ class CEsmSubCLDT : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(classdata_t));
 		m_RecordSize = sizeof(classdata_t);
-		memset(m_pData, 0, sizeof(classdata_t));
+		std::memset(m_pData, 0, sizeof(classdata_t));
 
 		GetClassData()->MinorID1 = 0;
 		GetClassData()->MinorID2 = 1;

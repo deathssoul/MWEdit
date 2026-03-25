@@ -12,10 +12,16 @@
  *=========================================================================*/
 #include "game/morrowind/sub_scvr.h"
 
+#include <cstddef>
+#include <cstring>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "common/file/gen_file.h"
+#include "game/morrowind/sub_base.h"
 
 DEFINE_FILE("EsmSubSCVR.cpp");
-
-
 /*===========================================================================
  *
  * Class CEsmSubSCVR Method - void Copy (pSubRecord);
@@ -25,8 +31,8 @@ void CEsmSubSCVR::Copy(CEsmSubRecord *pSubRecord) {
 	Destroy();
 	m_Type.SetType(pSubRecord->GetType());
 	m_RecordSize = pSubRecord->GetRecordSize();
-	memcpy(&m_FuncData, ((CEsmSubSCVR *)pSubRecord)->GetInfoFuncData(), sizeof(infofuncdata_t));
-	m_StringLength = strlen(m_FuncData.Name);
+	std::memcpy(&m_FuncData, ((CEsmSubSCVR *)pSubRecord)->GetInfoFuncData(), sizeof(infofuncdata_t));
+	m_StringLength = std::strlen(m_FuncData.Name);
 }
 
 
@@ -94,13 +100,13 @@ void CEsmSubSCVR::SetName(const TCHAR *pString) {
 		m_StringLength = 0;
 		m_FuncData.Name[0] = NULL_CHAR;
 	} else {
-		m_StringLength = strlen(pString);
+		m_StringLength = std::strlen(pString);
 
 		if (m_StringLength > MWESM_SCVR_IDSIZE) {
 			m_StringLength = MWESM_SCVR_IDSIZE;
 		}
 
-		strncpy(m_FuncData.Name, pString, MWESM_SCVR_IDSIZE);
+		std::strncpy(m_FuncData.Name, pString, MWESM_SCVR_IDSIZE);
 	}
 }
 

@@ -19,15 +19,24 @@
  *=========================================================================*/
 #include "common/dl_log.h"
 
-#include <time.h>
+#include <cstdarg>
+#include <cstddef>
+#include <cstdio>
+#include <ctime>
 
+#include "common/dl_base.h"
 #include "common/dl_mem.h"
+
+#if _DEBUG
+#include <cstdlib>
+
+#include "common/dl_block.h"
+#endif  // _DEBUG
 
 /* The main log file for debugging output */
 CLogFile SystemLog;
 
 DEFINE_FILE("DL_log.cpp");
-
 /*===========================================================================
  *
  * Class CLogFile Constructor (Default)
@@ -79,7 +88,7 @@ bool CLogFile::Close() {
 	Printf(_T("Closing Log File..."));
 	OutputMemoryStatus();
 	/* Close log file and reset parameters */
-	Result = fclose(pLogFileHandle);
+	Result = std::fclose(pLogFileHandle);
 	pLogFileHandle = NULL;
 	TabLevel = 0;
 
@@ -103,7 +112,7 @@ bool CLogFile::Close() {
  *=========================================================================*/
 void CLogFile::DebugPrintf(const TCHAR *pString, ...) {
 	DEFINE_FUNCTION("CLogFile::DebugPrintf()");
-	va_list Args;
+	std::va_list Args;
 	/* Ensure valid input */
 	ASSERT(pString != NULL);
 
@@ -113,11 +122,11 @@ void CLogFile::DebugPrintf(const TCHAR *pString, ...) {
 	}
 
 	/* Print the line to the file */
-	va_start(Args, pString);
-	(pString, Args);
-	va_end(Args);
+	std::va_start(Args, pString);
+	PrintLine(pString, Args);
+	std::va_end(Args);
 }
-#endif
+#endif  // _DEBUG
 
 
 /*===========================================================================
@@ -215,8 +224,8 @@ bool CLogFile::Open(const TCHAR *pFilename, const logmode_t AppendFile) {
 bool CLogFile::OutputDate() {
 	//DEFINE_FUNCTION("CLogFile::OutputDate()");
 	TCHAR DateString[33] = _T("");
-	struct tm *pCurrentTime;
-	time_t Today;
+	struct std::tm *pCurrentTime;
+	std::time_t Today;
 
 	/* Ensure the log file is currently open */
 	if (!IsOpen()) {
@@ -224,8 +233,8 @@ bool CLogFile::OutputDate() {
 	}
 
 	/* Get the current Date and convert it to local time */
-	time(&Today);
-	pCurrentTime = localtime(&Today);
+	std::time(&Today);
+	pCurrentTime = std::localtime(&Today);
 
 	if (pCurrentTime == NULL) {
 		return FALSE;
@@ -250,13 +259,13 @@ bool CLogFile::OutputCurrentTime() {
 	DEFINE_FUNCTION("CLogFile::OutputCurrentTime()()");
 	TCHAR TimeString[17] = _T("");
 	int Result;
-	time_t CurrentTime;
-	struct tm *pToday;
+	std::time_t CurrentTime;
+	struct std::tm *pToday;
 	/* Ensure a valid log file handle */
 	ASSERT(pLogFileHandle != NULL);
 	/* Get the current local time and ensure its valid */
-	time(&CurrentTime);
-	pToday = localtime(&CurrentTime);
+	std::time(&CurrentTime);
+	pToday = std::localtime(&CurrentTime);
 
 	if (pToday == NULL) {
 		return FALSE;
@@ -299,7 +308,10 @@ void CLogFile::OutputMemoryStatus() {
 	}
 
 	if (MemResult) {
-		Printf(_T("Used/Free/Total Memory: %lu/%lu/%lu bytes"), UsedMemory, FreeMemory, TotalMemory);
+		Printf(_T("Used/Free/Total Memory: %lu/%lu/%lu bytes"),
+		       UsedMemory,
+		       FreeMemory,
+		       TotalMemory);
 	} else {
 		Printf(_T("Error attempting to retrieve memory usage!"));
 	}
@@ -356,7 +368,7 @@ bool CLogFile::OutputTabs() {
  *=========================================================================*/
 bool CLogFile::Printf(const TCHAR *pString, ...) {
 	DEFINE_FUNCTION("CLogFile::Printf(TCHAR*)");
-	va_list Args;
+	std::va_list Args;
 	bool Result;
 	/* Ensure valid input */
 	ASSERT(pString != NULL);
@@ -367,9 +379,9 @@ bool CLogFile::Printf(const TCHAR *pString, ...) {
 	}
 
 	/* Print the line to the file */
-	va_start(Args, pString);
+	std::va_start(Args, pString);
 	Result = PrintLine(pString, Args);
-	va_end(Args);
+	std::va_end(Args);
 	return Result;
 }
 
@@ -384,21 +396,21 @@ bool CLogFile::Printf(const TCHAR *pString, ...) {
  * even if the log file is closed.
  *
  *=========================================================================*/
-bool CLogFile::Printf(FILE *pFileHandle, const TCHAR *pString, ...) {
+bool CLogFile::Printf(std::FILE *pFileHandle, const TCHAR *pString, ...) {
 	DEFINE_FUNCTION("CLogFile::Printf(FILE*, TCHAR*)");
 	int Result;
 	int LoopCounter;
-	va_list Args;
+	std::va_list Args;
 	/* Ensure valid input */
 	ASSERT(pString != NULL);
-	va_start(Args, pString);
+	std::va_start(Args, pString);
 
 	/* Output line header to log file if open */
 	if (IsOpen()) {
 		Result = PrintLine(pString, Args);
 
 		if (!Result) {
-			va_end (Args);
+			std::va_end(Args);
 			return FALSE;
 		}
 	}
@@ -415,7 +427,7 @@ bool CLogFile::Printf(FILE *pFileHandle, const TCHAR *pString, ...) {
 		}
 
 		Result = TVFPRINTF(pFileHandle, pString, Args);
-		va_end(Args);
+		std::va_end(Args);
 
 		if (Result < 0) {
 			return FALSE;
@@ -429,7 +441,7 @@ bool CLogFile::Printf(FILE *pFileHandle, const TCHAR *pString, ...) {
 		}
 
 		/* Flush output stream */
-		Result = fflush (pFileHandle);
+		Result = std::fflush(pFileHandle);
 
 		if (Result == EOF) {
 			return FALSE;
@@ -449,7 +461,7 @@ bool CLogFile::Printf(FILE *pFileHandle, const TCHAR *pString, ...) {
  * is currently open.  Protected class method.
  *
  *=========================================================================*/
-bool CLogFile::PrintLine(const TCHAR *pString, va_list Args) {
+bool CLogFile::PrintLine(const TCHAR *pString, std::va_list Args) {
 	DEFINE_FUNCTION("CLogFile::PrintLine()");
 	int Result;
 	ASSERT(pString != NULL);
@@ -491,7 +503,7 @@ bool CLogFile::PrintLine(const TCHAR *pString, va_list Args) {
 	 * to the file. This is in case the program crashes and isn't closed. If
 	 * this did happen without the following line, any buffered log file
 	 * data might not be output. */
-	Result = fflush(pLogFileHandle);
+	Result = std::fflush(pLogFileHandle);
 
 	if (Result == EOF) {
 		return FALSE;
@@ -529,9 +541,7 @@ void CLogFile::SetTabLevel(const int NewTabLevel) {
  * Begin Module Test Routines
  *
  *=========================================================================*/
-#if defined(_DEBUG)
-
-
+#if _DEBUG
 /*===========================================================================
  *
  * Function - void Test_LogHook (pString, Args);
@@ -539,7 +549,7 @@ void CLogFile::SetTabLevel(const int NewTabLevel) {
  * Tests the callback functionality of the CLogFile class.
  *
  *=========================================================================*/
-void Test_LogHook(const TCHAR *pString, va_list Args) {
+void Test_LogHook(const TCHAR *pString, std::va_list Args) {
 	//DEFINE_FUNCTION("Test_LogHook()");
 	TPRINTF(_T("Test_LogHook called...\n"));
 	TVPRINTF(pString, Args);
@@ -602,7 +612,7 @@ void Test_LogFile() {
 
 	/* Check random tab levels with SetTabLevel() method */
 	for (LoopCounter = 0; LoopCounter < 100; LoopCounter++) {
-		TabLevel = (int)((float)rand() * 201 / RAND_MAX) - 100;
+		TabLevel = (int)((float)std::rand() * 201 / RAND_MAX) - 100;
 		TestLog1.SetTabLevel(TabLevel);
 		TestLog1.Printf(_T("SetTabLevel = %d"), TabLevel);
 	}
@@ -626,4 +636,4 @@ void Test_LogFile() {
 }
 
 
-#endif
+#endif  // _DEBUG

@@ -10,7 +10,10 @@
 #ifndef __ESMGAMESETTING_H
 #define __ESMGAMESETTING_H
 
+#include "common/dl_base.h"
+#include "game/morrowind/file.h"
 #include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_float.h"
 #include "game/morrowind/sub_long.h"
 #include "game/morrowind/sub_name.h"
@@ -19,7 +22,6 @@
 #define MWESM_SETTING_INTEGER 1
 #define MWESM_SETTING_FLOAT   2
 #define MWESM_SETTING_STRING  3
-
 /*===========================================================================
  *
  * Begin Class CEsmGameSetting Definition

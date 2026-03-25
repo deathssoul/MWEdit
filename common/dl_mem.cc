@@ -14,20 +14,34 @@
  *=========================================================================*/
 #include "common/dl_mem.h"
 
-#include <ctype.h>
-#include <string.h>
-#include <time.h>
+#include <cctype>
+#include <cstddef>
+
+#include "common/dl_base.h"
 
 #if defined(_MSC_VER)
-	//#include <alloc.h>
+//#include <alloc.h>
 #endif
 
 #if _WIN32
-	#include <windows.h>
+#include <sysinfoapi.h>
 #endif
 
-DEFINE_FILE("DL_Mem.h");
+#if _DEBUG
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
 
+#include "common/dl_block.h"
+#include "common/dl_log.h"
+
+#if _WIN32
+#include <crtdbg.h>
+#endif  // _WIN32
+#endif  // _DEBUG
+
+DEFINE_FILE("DL_Mem.h");
 /*===========================================================================
  *
  * Function - void* AllocateMemory (const size_t Size);
@@ -38,7 +52,7 @@ DEFINE_FILE("DL_Mem.h");
  * error the function throws an exception.
  *
  *=========================================================================*/
-void *AllocateMemory(const size_t Size) {
+void *AllocateMemory(const std::size_t Size) {
 	DEFINE_FUNCTION("AllocateMemory(size_t)");
 	void *pNewObject;
 	/* Ensure valid input */
@@ -47,7 +61,7 @@ void *AllocateMemory(const size_t Size) {
 	CreateArrayPointer(pNewObject, TCHAR, Size);
 	/* Initialize memory in debug mode */
 #if _DEBUG
-	memset(pNewObject, GARBAGE_CHAR, Size * sizeof(TCHAR));
+	std::memset(pNewObject, GARBAGE_CHAR, Size * sizeof(TCHAR));
 #endif
 	return pNewObject;
 }
@@ -66,7 +80,7 @@ void *AllocateMemory(const size_t Size) {
 TCHAR *CreateString(const TCHAR *pString) {
 	DEFINE_FUNCTION("CreateString(TCHAR*)");
 	TCHAR *pNewString;
-	size_t NewSize;
+	std::size_t NewSize;
 
 	/* Ensure valid input */
 	if (pString == NULL) {
@@ -92,7 +106,7 @@ TCHAR *CreateString(const TCHAR *pString) {
  * initially set to the empty string.
  *
  *=======================================================================*/
-TCHAR *CreateString(const size_t StringSize) {
+TCHAR *CreateString(const std::size_t StringSize) {
 	DEFINE_FUNCTION("CreateString(size_t)");
 	TCHAR *pNewString;
 	/* Allocate the new string pointer */
@@ -140,7 +154,7 @@ bool CreateString(TCHAR **ppNewString, const TCHAR *pSourceString) {
  * string could not be allocated.
  *
  *=========================================================================*/
-bool CreateString(TCHAR **ppNewString, const size_t StringSize) {
+bool CreateString(TCHAR **ppNewString, const std::size_t StringSize) {
 	DEFINE_FUNCTION("CreateString(TCHAR**, size_t)");
 	/* Ensure valid input */
 	ASSERT(ppNewString != NULL);
@@ -163,8 +177,8 @@ bool GetFreeMemory(long &Memory) {
 	DEFINE_FUNCTION("GetFreeMemory()");
 	/*---------- Windows implementation -------------------------------------*/
 #if _WIN32
-	MEMORYSTATUS Status;
-	GlobalMemoryStatus(&Status);
+	MEMORYSTATUSEX Status;
+	GlobalMemoryStatusEx(&Status);  // TODO: Check these to make sure correct. Updated from non-Ex ones for 64-bit compatibility
 	Memory = (long)Status.dwAvailVirtual;
 	return TRUE;
 	/*---------- Any unknown system implementation --------------------------*/
@@ -187,8 +201,8 @@ bool GetTotalMemory(long &Memory) {
 	DEFINE_FUNCTION("GetTotalMemory()");
 	/*---------- Windows implementation -------------------------------------*/
 #if _WIN32
-	MEMORYSTATUS Status;
-	GlobalMemoryStatus(&Status);
+	MEMORYSTATUSEX Status;
+	GlobalMemoryStatusEx(&Status);
 	Memory = (long)Status.dwAvailVirtual;
 	return TRUE;
 	/*---------- Any unknown system implementation --------------------------*/
@@ -255,12 +269,12 @@ int GetHeapStatus() {
 	return HEAP_CORRUPT;
 #else
 	return HEAP_NOTDEFINED;
-#endif
+#endif  // _DEBUG
 	/*---------- Any unknown system implementation --------------------------*/
 #else
 	ASSERT(FALSE);
 	return HEAP_NOTDEFINED;
-#endif
+#endif  // _WIN32
 }
 
 
@@ -305,12 +319,12 @@ const TCHAR *GetHeapStatusString() {
  *=======================================================================*/
 TCHAR *memsearch(const TCHAR *pBuffer,
                  const TCHAR *pSearchBuffer,
-                 const size_t BufferLength,
-                 const size_t SearchLength,
-                 const size_t StartIndex) {
+                 const std::size_t BufferLength,
+                 const std::size_t SearchLength,
+                 const std::size_t StartIndex) {
 	DEFINE_FUNCTION("memsearch()");
-	size_t BufferIndex; /* Loop counters */
-	size_t SearchIndex;
+	std::size_t BufferIndex; /* Loop counters */
+	std::size_t SearchIndex;
 	/* Ensure valid input */
 	ASSERT(pBuffer != NULL && pSearchBuffer != NULL);
 
@@ -358,12 +372,12 @@ TCHAR *memsearch(const TCHAR *pBuffer,
  *=======================================================================*/
 int memisearch(const TCHAR *pBuffer,
                const TCHAR *pSearchBuffer,
-               const size_t BufferLength,
-               const size_t SearchLength,
-               const size_t StartIndex) {
+               const std::size_t BufferLength,
+               const std::size_t SearchLength,
+               const std::size_t StartIndex) {
 	DEFINE_FUNCTION("memisearch()");
-	size_t BufferIndex; /* Loop counters */
-	size_t SearchIndex;
+	std::size_t BufferIndex; /* Loop counters */
+	std::size_t SearchIndex;
 	/* Ensure valid input */
 	ASSERT(pBuffer != NULL && pSearchBuffer != NULL);
 
@@ -379,7 +393,7 @@ int memisearch(const TCHAR *pBuffer,
 
 	/* The main search loop */
 	while (BufferIndex < BufferLength) {
-		if (tolower(pBuffer[BufferIndex]) == tolower(pSearchBuffer[SearchIndex])) {
+		if (std::tolower(pBuffer[BufferIndex]) == std::tolower(pSearchBuffer[SearchIndex])) {
 			SearchIndex++;
 
 			if (SearchIndex >= SearchLength) {
@@ -441,7 +455,7 @@ bool ReplaceString(TCHAR **ppNewString, const TCHAR *pSourceString) {
  * string could not be allocated.
  *
  *=========================================================================*/
-bool ReplaceString(TCHAR **ppNewString, const size_t Length) {
+bool ReplaceString(TCHAR **ppNewString, const std::size_t Length) {
 	DEFINE_FUNCTION("ReplaceString(TCHAR**, size_t)");
 	/* Ensure valid input */
 	ASSERT(ppNewString != NULL);
@@ -480,7 +494,7 @@ void Test_CreateString1() {
 	};
 	TCHAR *pTestPtr;
 	int LoopCounter;
-	size_t RandomSize;
+	std::size_t RandomSize;
 
 	/* Test the set string allocation */
 	SystemLog.Printf(stderr,
@@ -506,11 +520,11 @@ void Test_CreateString1() {
 	/* Test the random string allocation */
 	SystemLog.Printf(stderr,
 	                 _T("========== Testing CreateString(TCHAR*) with random length strings =========="));
-	srand((unsigned)time(NULL));
-	memset(Buffer, (TCHAR)'a', CREATESTRING1_BUFFERSIZE * sizeof(TCHAR));
+	std::srand((unsigned)std::time(NULL));
+	std::memset(Buffer, (TCHAR)'a', CREATESTRING1_BUFFERSIZE * sizeof(TCHAR));
 
 	for (LoopCounter = 0; LoopCounter < 1000; LoopCounter++) {
-		RandomSize = (size_t)((float)rand() * 10000 / RAND_MAX);
+		RandomSize = (std::size_t)((float)std::rand() * 10000 / RAND_MAX);
 		Buffer[RandomSize] = NULL_CHAR;
 		pTestPtr = CreateString(Buffer);
 
@@ -544,13 +558,13 @@ void Test_CreateString1() {
  *=========================================================================*/
 void Test_CreateString2() {
 	DEFINE_FUNCTION("Test_CreateString2()");
-	size_t TestSizes[4] = {
+	std::size_t TestSizes[4] = {
 		10,
 		1,
 		2,
 		200
 	};
-	size_t RandomSize;
+	std::size_t RandomSize;
 	int LoopCounter;
 	TCHAR *pTestPtr;
 
@@ -572,10 +586,10 @@ void Test_CreateString2() {
 	/* Test the allocation of randomly sized strings */
 	SystemLog.Printf(stderr,
 	                 _T("========== Testing CreateString(size_t) with randomly sized strings =========="));
-	srand((unsigned)time(NULL));
+	std::srand((unsigned)std::time(NULL));
 
 	for (LoopCounter = 0; LoopCounter < 1000; LoopCounter++) {
-		RandomSize = (size_t)((float)((size_t)rand()) * TEST_MAXSTRING_SIZE / RAND_MAX);
+		RandomSize = (std::size_t)((float)((std::size_t)std::rand()) * TEST_MAXSTRING_SIZE / RAND_MAX);
 		pTestPtr = CreateString(RandomSize);
 		/* Ensure the string was properly allocated */
 		ASSERT(pTestPtr != NULL);
@@ -769,4 +783,4 @@ void Test_DL_Mem() {
 	SystemLog.Printf(_T("\tGetHeapStatusString() returned '%s'"), GetHeapStatusString());
 }
 
-#endif
+#endif  // _DEBUG

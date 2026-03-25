@@ -9,7 +9,15 @@
  *=========================================================================*/
 #include "file/xml/xml_element.h"
 
-#include <ctype.h>
+#include <cstddef>
+#include <cstdio>
+
+#include "common/dl_base.h"
+#include "common/dl_err.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "common/file/gen_file.h"
+#include "file/xml/xml_attribute.h"
 
 DEFINE_FILE("XmlElem.cpp");
 
@@ -26,15 +34,13 @@ xmlcallbackinfo_t CXmlElement::m_CallBackInfo = {
 	NULL
 };
 bool CXmlElement::m_OutputCR = true;
-
-
 /*===========================================================================
  *
  * Class CXmlElement Constructor
  *
  *=========================================================================*/
 CXmlElement::CXmlElement() : m_Elements(XMLFILE_DEFAULT_ELEMENTS),
-	m_Attributes(XMLFILE_DEFAULT_ATTRIBUTES) {
+                             m_Attributes(XMLFILE_DEFAULT_ATTRIBUTES) {
 	//DEFINE_FUNCTION("CXmlElement::CXmlElement()");
 	m_pParent = NULL;
 	m_IsEmpty = false;
@@ -98,19 +104,19 @@ CXmlAttribute *CXmlElement::AddAttribute(const TCHAR *pName, const TCHAR *pValue
 
 CXmlAttribute *CXmlElement::AddAttribute(const TCHAR *pName, const long lValue) {
 	TCHAR Buffer[32];
-	snprintf(Buffer, 31, _T("%ld"), lValue);
+	std::snprintf(Buffer, 31, _T("%ld"), lValue);
 	return AddAttribute(pName, Buffer);
 }
 
 CXmlAttribute *CXmlElement::AddAttribute(const TCHAR *pName, const int lValue) {
 	TCHAR Buffer[32];
-	snprintf(Buffer, 31, _T("%d"), lValue);
+	std::snprintf(Buffer, 31, _T("%d"), lValue);
 	return AddAttribute(pName, Buffer);
 }
 
 CXmlAttribute *CXmlElement::AddAttribute(const TCHAR *pName, const float fValue) {
 	TCHAR Buffer[64];
-	snprintf(Buffer, 63, _T("%f"), fValue);
+	std::snprintf(Buffer, 63, _T("%f"), fValue);
 	return AddAttribute(pName, Buffer);
 }
 
@@ -337,7 +343,7 @@ bool CXmlElement::Read(TCHAR *pBuffer, int &BufferPos, const int FileSize, long 
 
 					BufferPos++;
 					Result = ReadEnd(pBuffer, BufferPos, FileSize, LineCount);
-					return (Result);
+					return Result;
 				} else {
 					Result = ReadChild(pBuffer, BufferPos, FileSize, LineCount);
 

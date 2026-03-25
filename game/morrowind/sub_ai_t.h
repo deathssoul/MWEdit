@@ -10,6 +10,10 @@
 #ifndef __ESMSUBAI_T_H
 #define __ESMSUBAI_T_H
 
+#include <cstring>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
 #include "game/morrowind/sub_base.h"
 
 #pragma pack(push, 1)
@@ -22,7 +26,6 @@ typedef struct {
 } ai_tdata_t;
 
 #pragma pack(pop)
-
 /*===========================================================================
  *
  * Begin Class CEsmSubAI_T Definition
@@ -49,7 +52,7 @@ class CEsmSubAI_T : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(ai_tdata_t));
 		m_RecordSize = sizeof(ai_tdata_t);
-		memset(m_pData, 0, sizeof(ai_tdata_t));
+		std::memset(m_pData, 0, sizeof(ai_tdata_t));
 		GetAIData()->Unknown = 1;
 	}
 

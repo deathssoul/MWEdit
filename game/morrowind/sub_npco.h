@@ -10,8 +10,13 @@
 #ifndef __ESMSUBNPCO_H
 #define __ESMSUBNPCO_H
 
-#include "game/morrowind/sub_base.h"
+#include <cstring>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/sub_base.h"
 
 #pragma pack(push, 1)
 
@@ -21,8 +26,6 @@ typedef struct {
 } npcodata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubNPCO Definition
@@ -49,7 +52,7 @@ class CEsmSubNPCO : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(npcodata_t));
 		m_RecordSize = sizeof(npcodata_t);
-		memset(m_pData, 0, sizeof(npcodata_t));
+		std::memset(m_pData, 0, sizeof(npcodata_t));
 	}
 
 	/* Get class methods */

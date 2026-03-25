@@ -9,8 +9,23 @@
  *=========================================================================*/
 #include "game/morrowind/magic_effect.h"
 
-DEFINE_FILE("EsmMagicEffect.cpp");
+#include <cstddef>
+#include <cstdio>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_enam.h"
+#include "game/morrowind/sub_long.h"
+#include "game/morrowind/sub_medt.h"
+#include "game/morrowind/sub_name.h"
+#include "game/morrowind/sub_name_fix.h"
+
+DEFINE_FILE("EsmMagicEffect.cpp");
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -303,7 +318,7 @@ const TCHAR *CEsmMagicEffect::GetFieldString(const int FieldID) {
 			return GetEffect();
 
 		case ESM_FIELD_COST:
-			snprintf(s_Buffer, 31, _T("%.2f"), GetBaseCost());
+			std::snprintf(s_Buffer, 31, _T("%.2f"), GetBaseCost());
 			return s_Buffer;
 
 		default:

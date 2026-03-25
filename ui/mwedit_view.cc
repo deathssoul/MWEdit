@@ -9,6 +9,8 @@
  *=========================================================================*/
 #include "ui/mwedit_view.h"
 
+#include <stdlib.h>  // TODO: Required for non-standard extension _MAX_PATH
+
 #include <afx.h>
 #include <afxdd_.h>
 #include <afxdlgs.h>

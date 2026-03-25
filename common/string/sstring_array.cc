@@ -9,9 +9,13 @@
  *=========================================================================*/
 #include "common/string/sstring_array.h"
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/string/sstring.h"
+
 DEFINE_FILE("SSArray.cpp");
-
-
 /*===========================================================================
  *
  * Class CSStringArray Constructor

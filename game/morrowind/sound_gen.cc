@@ -9,8 +9,19 @@
  *=========================================================================*/
 #include "game/morrowind/sound_gen.h"
 
-DEFINE_FILE("EsmSoundGen.cpp");
+#include <cstddef>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_long.h"
+#include "game/morrowind/sub_name_fix.h"
+
+DEFINE_FILE("EsmSoundGen.cpp");
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -143,9 +154,11 @@ CEsmRecord *CEsmSoundGen::Create() {
 void CEsmSoundGen::CreateNew(CEsmFile *pFile) {
 	/* Call the base class record first */
 	CEsmRecord::CreateNew(pFile);
+
 	/* Create the item sub-records */
 	AllocateSubRecord(MWESM_SUBREC_SNAM);
 	AllocateSubRecord(MWESM_SUBREC_DATA);
+
 	m_pTypeData->CreateNew();
 }
 
@@ -266,7 +279,7 @@ int GetESMSoundGenType(const TCHAR *pString) {
 	int Index;
 
 	for (Index = MWESM_SNDGEN_MIN; Index <= MWESM_SNDGEN_MAX; Index++) {
-		if (stricmp(pString, l_SoundGenTypes[Index]) == 0) {
+		if (_stricmp(pString, l_SoundGenTypes[Index]) == 0) {
 			return Index;
 		}
 	}

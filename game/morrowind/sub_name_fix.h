@@ -10,15 +10,20 @@
 #ifndef __ESMSUBNAMEFIX_H
 #define __ESMSUBNAMEFIX_H
 
-#include "common/string/sstring.h"
-#include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_name.h"
 
+#if FALSE
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/file/gen_file.h"
+#include "common/string/sstring.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/sub_base.h"
+#endif  // FALSE
 
 typedef CEsmSubName CEsmSubNameFix;
 
 #if FALSE
-
 /*===========================================================================
  *
  * Begin Class CEsmSubNameFix Definition
@@ -98,6 +103,6 @@ class CEsmSubNameFix : public CEsmSubRecord {
 };
 
 
-#endif
+#endif  // FALSE
 
 #endif

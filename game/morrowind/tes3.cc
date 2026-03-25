@@ -9,10 +9,19 @@
  *=========================================================================*/
 #include "game/morrowind/tes3.h"
 
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_hedr.h"
+#include "game/morrowind/sub_long_64.h"
+#include "game/morrowind/sub_name.h"
 
 DEFINE_FILE("EsmTES3.cpp");
-
-
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -107,6 +116,7 @@ CEsmRecord *CEsmTES3::Create() {
 void CEsmTES3::CreateNew(CEsmFile *pFile) {
 	/* Call the base class record first */
 	CEsmRecord::CreateNew(pFile);
+
 	/* Create the item sub-records */
 	AllocateSubRecord(MWESM_SUBREC_HEDR);
 	m_pHeader->CreateNew();

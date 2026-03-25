@@ -10,6 +10,10 @@
 #ifndef __ESMSUBALDT_H
 #define __ESMSUBALDT_H
 
+#include <cstring>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
 #include "game/morrowind/sub_base.h"
 
 #pragma pack(push, 1)
@@ -21,7 +25,6 @@ typedef struct {
 } alchemydata_t;
 
 #pragma pack(pop)
-
 /*===========================================================================
  *
  * Begin Class CEsmSubALDT Definition
@@ -48,7 +51,7 @@ class CEsmSubALDT : public CEsmSubRecord {
 		CEsmSubRecord::CreateNew();
 		CreateArrayPointerL(m_pData, byte, sizeof(alchemydata_t));
 		m_RecordSize = sizeof(alchemydata_t);
-		memset(m_pData, 0, sizeof(alchemydata_t));
+		std::memset(m_pData, 0, sizeof(alchemydata_t));
 	}
 
 	/* Get class members */

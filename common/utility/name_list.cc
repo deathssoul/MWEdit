@@ -9,11 +9,13 @@
  *
  *=========================================================================*/
 #include "common/utility/name_list.h"
-#include <string.h>
+
+#include <cstddef>
+
+#include "common/dl_base.h"
+#include "common/dl_err.h"
 
 DEFINE_FILE("NameList.cpp");
-
-
 /*===========================================================================
  *
  * Function - bool FindNameValue (lValue, pValueArray, , pName);

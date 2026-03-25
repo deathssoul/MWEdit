@@ -9,12 +9,21 @@
  *=========================================================================*/
 #include "game/morrowind/record.h"
 
+#include <cstddef>
+#include <cstdio>
+
+#include "common/dl_base.h"
+#include "common/dl_err.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "common/file/gen_file.h"
+#include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_long.h"
 #include "game/morrowind/sub_name.h"
-#include "game/morrowind/sub_name_fix.h"
 
 DEFINE_FILE("EsmRecord.cpp");
-
 /*===========================================================================
  *
  * Begin Sub-Record Create Array
@@ -395,11 +404,11 @@ const TCHAR *CEsmRecord::GetFieldString(const int FieldID) {
 			return GetItemType();
 
 		case ESM_FIELD_COUNT:
-			snprintf(s_Buffer, 31, _T("%ld"), m_RefCount);
+			std::snprintf(s_Buffer, 31, _T("%ld"), m_RefCount);
 			return s_Buffer;
 
 		case ESM_FIELD_USERDATA:
-			snprintf(s_Buffer, 31, _T("%ld"), m_UserData);
+			std::snprintf(s_Buffer, 31, _T("%ld"), m_UserData);
 			return s_Buffer;
 
 		case ESM_FIELD_PERSIST:
@@ -410,13 +419,13 @@ const TCHAR *CEsmRecord::GetFieldString(const int FieldID) {
 
 		case ESM_FIELD_CHANGED:
 			if (m_pFile == NULL) {
-				snprintf(s_Buffer, 31, _T("%s"), IsDeleted() ? "D" : "");
+				std::snprintf(s_Buffer, 31, _T("%s"), IsDeleted() ? "D" : "");
 			} else {
-				snprintf(s_Buffer,
-				         31,
-				         _T("%s%s"),
-				         m_pFile->IsActive() ? "*" : "",
-				         IsDeleted() ? "D" : "");
+				std::snprintf(s_Buffer,
+				              31,
+				              _T("%s%s"),
+				              m_pFile->IsActive() ? "*" : "",
+				              IsDeleted() ? "D" : "");
 			}
 
 			return s_Buffer;

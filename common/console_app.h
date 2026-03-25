@@ -11,10 +11,9 @@
 #ifndef __CONAPP_H
 #define __CONAPP_H
 
-#include "common/dl_base.h"
-#include "common/dl_err.h"
-#include "common/dl_file.h"
-#include "common/dl_str.h"
+#include <cstdio>
+
+#include "common/dl_mem.h"
 
 /* Defines a standard main routine */
 #define STANDARD_CONSOLEAPP_MAIN(AppName) int main(int ArgCount, char *pArgs[]) { \
@@ -23,7 +22,6 @@
 /* Custom class errors */
 #define ERRCONAPP_NOHELP          2001
 #define ERRCONAPP_BADLINESPERPAGE 2002
-
 
 /* Used to determine the type of release */
 typedef enum {
@@ -40,8 +38,6 @@ typedef enum {
 	CMDPARSE_NOTPARSED = 0,
 	CMDPARSE_SUCCESS = 1
 } cmdparse_t;
-
-
 /*===========================================================================
  *
  * Begin Class CConsoleApp Definition
@@ -52,33 +48,33 @@ typedef enum {
  *=========================================================================*/
 class CConsoleApp {
   private:
-	FILE *pOutputStream;  /* Destination of output */
-	int NumArguments;     /* The program arguments data */
-	char **pArguments;    /* Pointer to array of arguments */
-	char *pProgramName;   /* Program name as given by argv[0] */
+	std::FILE *pOutputStream;  /* Destination of output */
+	int NumArguments;          /* The program arguments data */
+	char **pArguments;         /* Pointer to array of arguments */
+	char *pProgramName;        /* Program name as given by argv[0] */
 
-	char *pAppName;       /* Program information */
+	char *pAppName;            /* Program information */
 	char *pAppDate;
 	char *pAppAuthor;
 	char *pCompiledDate;
 
-	int MajorVersion;     /* Versioning information */
+	int MajorVersion;          /* Versioning information */
 	int MinorVersion;
 	release_t ReleaseType;
 	int BuildNumber;
 
-	bool DoParseCommands; /* Command line argument options */
+	bool DoParseCommands;      /* Command line argument options */
 	bool DoParseParameters;
 	bool DoFlagParsing;
 
-	bool DisplayTitle;    /* Display optioms */
+	bool DisplayTitle;         /* Display optioms */
 	bool DoOpenLog;
 
-	bool DoPaging;        /* Paging options */
+	bool DoPaging;             /* Paging options */
 	int LinesPerPage;
 	int OutputLineCount;
 
-	char **ppHelpText;    /* Help text for the application */
+	char **ppHelpText;         /* Help text for the application */
 
 
   protected:

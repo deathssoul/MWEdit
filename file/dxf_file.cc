@@ -9,5 +9,6 @@
  *=========================================================================*/
 #include "file/dxf_file.h"
 
+#include "common/dl_base.h"
 
 DEFINE_FILE("dxffile.cpp");

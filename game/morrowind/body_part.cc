@@ -9,8 +9,19 @@
  *=========================================================================*/
 #include "game/morrowind/body_part.h"
 
-DEFINE_FILE("EsmBodyPart.cpp");
+#include <cstddef>
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morrowind/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_bydt.h"
+#include "game/morrowind/sub_name_fix.h"
+
+DEFINE_FILE("EsmBodyPart.cpp");
 /*===========================================================================
  *
  * Begin Local Type String Arrays
@@ -168,6 +179,7 @@ CEsmRecord *CEsmBodyPart::Create() {
 void CEsmBodyPart::CreateNew(CEsmFile *pFile) {
 	/* Call the base class record first */
 	CEsmRecord::CreateNew(pFile);
+
 	/* Create the item sub-records */
 	AllocateSubRecord(MWESM_SUBREC_FNAM);
 	AllocateSubRecord(MWESM_SUBREC_MODL);
@@ -301,7 +313,7 @@ int GetESMBodyPart(const TCHAR *pString) {
 	int Index;
 
 	for (Index = MWESM_PART_MIN; Index <= MWESM_PART_MAX; Index++) {
-		if (stricmp(l_BodyParts[Index], pString) == 0) {
+		if (_stricmp(l_BodyParts[Index], pString) == 0) {
 			return Index;
 		}
 	}
@@ -329,7 +341,7 @@ int GetESMBodyPartType(const TCHAR *pString) {
 	int Index;
 
 	for (Index = MWESM_PARTTYPE_MIN; Index <= MWESM_PARTTYPE_MAX; Index++) {
-		if (stricmp(l_BodyPartTypes[Index], pString) == 0) {
+		if (_stricmp(l_BodyPartTypes[Index], pString) == 0) {
 			return Index;
 		}
 	}

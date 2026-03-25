@@ -10,8 +10,10 @@
 #ifndef __ESMSUBFRMR_H
 #define __ESMSUBFRMR_H
 
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/file/gen_file.h"
 #include "game/morrowind/sub_base.h"
-
 
 #pragma pack(push, 1)
 
@@ -21,8 +23,6 @@ typedef struct {
 } frmrdata_t;
 
 #pragma pack(pop)
-
-
 /*===========================================================================
  *
  * Begin Class CEsmSubFRMR Definition

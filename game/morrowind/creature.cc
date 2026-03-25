@@ -9,10 +9,26 @@
  *=========================================================================*/
 #include "game/morrowind/creature.h"
 
+#include <cstddef>
+#include <cstdio>
+#include <cstdlib>
+
+#include "common/dl_base.h"
+#include "common/dl_mem.h"
+#include "common/dl_str.h"
+#include "game/morroiwnd/defs.h"
+#include "game/morrowind/file.h"
+#include "game/morrowind/item_1.h"
+#include "game/morrowind/record.h"
+#include "game/morrowind/sub_aidt.h"
+#include "game/morrowind/sub_base.h"
+#include "game/morrowind/sub_crdt.h"
+#include "game/morrowind/sub_long.h"
+#include "game/morrowind/sub_name_fix.h"
+#include "game/morrowind/sub_npco.h"
 #include "game/morrowind/sub_npcs.h"
 
 DEFINE_FILE("EsmCreature.cpp");
-
 /*===========================================================================
  *
  * Begin Creature Type String Arra
@@ -217,7 +233,7 @@ const TCHAR *CEsmCreature::GetFieldString(const int FieldID) {
 			return GetCreaType();
 
 		case ESM_FIELD_LEVEL:
-			snprintf(s_Buffer, 31, _T("%ld"), GetLevel());
+			std::snprintf(s_Buffer, 31, _T("%ld"), GetLevel());
 			return s_Buffer;
 
 		case ESM_FIELD_ESSENTIAL:
@@ -311,7 +327,7 @@ bool CEsmCreature::SetFieldValue(const int FieldID, const TCHAR *pString) {
 		}
 
 		case ESM_FIELD_LEVEL:
-			SetLevel(atoi(pString));
+			SetLevel(std::atoi(pString));
 			return true;
 
 		case ESM_FIELD_ESSENTIAL:
@@ -350,23 +366,23 @@ bool CEsmCreature::SetFieldValue(const int FieldID, const TCHAR *pString) {
  *
  *=========================================================================*/
 void CEsmCreature::SetMoveType(const TCHAR *pString) {
-	if (stricmp(pString, _T("Walks")) == 0) {
+	if (_stricmp(pString, _T("Walks")) == 0) {
 		SetWalks(true);
 	}
 
-	if (stricmp(pString, _T("Swims")) == 0) {
+	if (_stricmp(pString, _T("Swims")) == 0) {
 		SetSwims(true);
 	}
 
-	if (stricmp(pString, _T("Flies")) == 0) {
+	if (_stricmp(pString, _T("Flies")) == 0) {
 		SetFlies(true);
 	}
 
-	if (stricmp(pString, _T("Biped")) == 0) {
+	if (_stricmp(pString, _T("Biped")) == 0) {
 		SetBipedal(true);
 	}
 
-	if (stricmp(pString, _T("None")) == 0) {
+	if (_stricmp(pString, _T("None")) == 0) {
 		SetNone(true);
 	}
 }
@@ -412,7 +428,7 @@ int GetESMCreatureType(const TCHAR *pString) {
 	int Index;
 
 	for (Index = MWESM_CREATYPE_MIN; Index <= MWESM_CREATYPE_MAX; Index++) {
-		if (stricmp(pString, l_CreatureTypes[Index]) == 0) {
+		if (_stricmp(pString, l_CreatureTypes[Index]) == 0) {
 			return Index;
 		}
 	}
