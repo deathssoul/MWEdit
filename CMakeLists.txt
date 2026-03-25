@@ -43,13 +43,13 @@ set(common_src "common/container/dl_map.cc"
                "common/dl_str.cc"
                "common/dl_time.cc")
 
-set(file_src #"file/xml/xml_attribute.cc"
+#set(file_src "file/xml/xml_attribute.cc"
 #             "file/xml/xml_element.cc"
 #             "file/xml/xml_file.cc"
 
 #             "file/3ds_file.cc"
 #             "file/bmp_file.cc"
-             "file/csv_file.cc"
+set(file_src  "file/csv_file.cc")
 #             "file/dxf_file.cc"
 #             "file/pcx_file.cc")
 
