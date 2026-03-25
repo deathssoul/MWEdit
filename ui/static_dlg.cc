@@ -19,7 +19,7 @@
 
 #include "common/dl_base.h"
 #include "game/morrowind/file.h"
-#include "game/morrorwind/static.h"
+#include "game/morrowind/static.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
 #include "windows/win_util.h"
