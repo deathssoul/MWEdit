@@ -23,7 +23,7 @@
 #include "common/dl_base.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/global.h"
-#include "ui/rec_dalog.h"
+#include "ui/rec_dialog.h"
 #include "ui/Resource.h"
 #include "ui/utils.h"
 #include "windows/win_util.h"
