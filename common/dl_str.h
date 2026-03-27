@@ -10,7 +10,7 @@
 #ifndef __DL_STR_H
 #define __DL_STR_H
 
-#include <winnt.h>
+#include <tchar.h>
 
 #include <cstddef>
 
