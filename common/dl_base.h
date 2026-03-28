@@ -192,7 +192,7 @@ typedef unsigned long dword;
 	#if _WIN32
 		#define TSTRLEN(string) _tcslen(string)
 		#define TSTRCMP(string1, string2) _tcscmp(string1, string2)
-		#define  _stricmp(string1, string2) _tcsicmp(string1, string2)
+		#define _stricmp(string1, string2) _tcsicmp(string1, string2)
 		#define TSTRCPY(string1, string2) _tcscpy(string1, string2)
 		#define TSTRCAT(string1, string2) _tcscat(string1, string2)
 		#define TSTRCHR(string, char1) _tcschr(string, (TCHAR)char1)
@@ -227,7 +227,7 @@ typedef unsigned long dword;
 	#define TSTRCPY(string1, string2) std::strcpy(string1, string2)
 	#define TSTRCAT(string1, string2) std::strcat(string1, string2)
 	#define TSTRCMP(string1, string2) std::strcmp(string1, string2)
-	#define  _stricmp(string1, string2) stricmp(string1, string2)
+	#define _stricmp(string1, string2) stricmp(string1, string2)
 	#define TSTRLEN(string) std::strlen(string)
 	#define TSTRCHR(string, char1) std::strchr(string, char1)
 	#define TSTRRCHR(string, char1) std::strrchr(string, char1)
