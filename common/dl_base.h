@@ -32,8 +32,8 @@
 
 #include <cstddef>
 
-#include "common/dl_str.h"
 #include "common/dl_log.h"
+#include "common/dl_str.h"
 
 #if _UNICODE
 #include <cwctype>
@@ -126,10 +126,10 @@
 	#define __BOOLEAN_DEF
 	typedef unsigned char boolean;
 
-	#ifndef TRUE
+//	#ifndef TRUE
 		#define TRUE  1
 		#define FALSE 0
-	#endif
+//	#endif
 
 #else
 	#define __BOOLEAN_DEF
@@ -188,42 +188,42 @@ typedef unsigned long dword;
 #endif
 
 /* Basic string-tchar definitions as required */
-#if _UNICODE
+//#if _UNICODE
 	#if _WIN32
-		#define TSTRLEN(string) _tcslen(string)
-		#define TSTRCMP(string1, string2) _tcscmp(string1, string2)
-		#define _stricmp(string1, string2) _tcsicmp(string1, string2)
-		#define TSTRCPY(string1, string2) _tcscpy(string1, string2)
-		#define TSTRCAT(string1, string2) _tcscat(string1, string2)
-		#define TSTRCHR(string, char1) _tcschr(string, (TCHAR)char1)
-		#define TSTRRCHR(string, char1) _tcsrchr(string, (TCHAR)char1)
-		#define TSTRTOK(string1, string2) _tcstok(string1, string2)
-		#define TSTRNCMP(string1, string2, length) _tcsncmp(string1, string2, length)
-		#define TSTRNICMP(string1, string2, length) _tcsnicmp(string1, string2, length)
-		#define TSTRSTR(string1, string2) _tcsstr(string1, string2)
-		#define TFPRINTF _ftprintf
-		#define TSTRNCAT(string1, string2, length) _tcsncat(string1, string2, length)
-		#define TSTRNCPY(string1, string2, length) strnncpy(string1, string2, length)
-		#define TFOPEN(Filename, mode) _tfopen(Filename, mode)
-		#define TSTRFTIME(string1, length1, string2, time1) _tcsftime(string1, length1, string2, time1)
-		#define TFPUTC(Char, Handle) _fputtc(Char, Handle)
-		#define TPRINTF _tprintf
-		#define TVPRINTF _vtprintf
-		#define TVFPRINTF _vftprintf
-		#define TISSPACE(char1) _istspace(char1)
-		#define TISDIGIT(char1) _istdigit(char1)
-		#define TISALPHA(char1) _istalpha(char1)
-		#define TISLOWER(char1) _istlower(char1)
-		#define TISUPPER(char1) _istupper(char1)
-		#define TISPRINT(char1) _istprint(char1)
-		#define TISSPACE(char1) _istspace(char1)
-		#define TISXDIGIT(char1) _istxdigit(char1)
-		#define TSTRTOL(string, ptr, base) _tcstol(string, ptr, base)
-		#define TSTRTOD(string, ptr) _tcstod(string, ptr)
-		#define TTOUPPER(char1) std::towupper(char1)
-		#define TTOLOWER(char1) std::towlower(char1)
-	#endif
-#else
+//		#define TSTRLEN(string) _tcslen(string)
+//		#define TSTRCMP(string1, string2) _tcscmp(string1, string2)
+//		#define _stricmp(string1, string2) _tcsicmp(string1, string2)
+//		#define TSTRCPY(string1, string2) _tcscpy(string1, string2)
+//		#define TSTRCAT(string1, string2) _tcscat(string1, string2)
+//		#define TSTRCHR(string, char1) _tcschr(string, (TCHAR)char1)
+//		#define TSTRRCHR(string, char1) _tcsrchr(string, (TCHAR)char1)
+//		#define TSTRTOK(string1, string2) _tcstok(string1, string2)
+//		#define TSTRNCMP(string1, string2, length) _tcsncmp(string1, string2, length)
+//		#define TSTRNICMP(string1, string2, length) _tcsnicmp(string1, string2, length)
+//		#define TSTRSTR(string1, string2) _tcsstr(string1, string2)
+//		#define TFPRINTF _ftprintf
+//		#define TSTRNCAT(string1, string2, length) _tcsncat(string1, string2, length)
+//		#define TSTRNCPY(string1, string2, length) strnncpy(string1, string2, length)
+//		#define TFOPEN(Filename, mode) _tfopen(Filename, mode)
+//		#define TSTRFTIME(string1, length1, string2, time1) _tcsftime(string1, length1, string2, time1)
+//		#define TFPUTC(Char, Handle) _fputtc(Char, Handle)
+//		#define TPRINTF _tprintf
+//		#define TVPRINTF _vtprintf
+//		#define TVFPRINTF _vftprintf
+//		#define TISSPACE(char1) _istspace(char1)
+//		#define TISDIGIT(char1) _istdigit(char1)
+//		#define TISALPHA(char1) _istalpha(char1)
+//		#define TISLOWER(char1) _istlower(char1)
+//		#define TISUPPER(char1) _istupper(char1)
+//		#define TISPRINT(char1) _istprint(char1)
+//		#define TISSPACE(char1) _istspace(char1)
+//		#define TISXDIGIT(char1) _istxdigit(char1)
+//		#define TSTRTOL(string, ptr, base) _tcstol(string, ptr, base)
+//		#define TSTRTOD(string, ptr) _tcstod(string, ptr)
+//		#define TTOUPPER(char1) std::towupper(char1)
+//		#define TTOLOWER(char1) std::towlower(char1)
+//	#endif
+//#else
 	#define TSTRCPY(string1, string2) std::strcpy(string1, string2)
 	#define TSTRCAT(string1, string2) std::strcat(string1, string2)
 	#define TSTRCMP(string1, string2) std::strcmp(string1, string2)
