@@ -53,8 +53,8 @@ bool SeperateVarValueQ(TCHAR **ppVariable,
                        const TCHAR CommentTCHAR = _T('#'));
 
 /* A smart string compare function which supports NULL cases and case sensitivity */
-bool StringChanged(const TCHAR *pString1, const TCHAR *pString2, const bool CaseSensitive = FALSE);
-int StringCompare(const TCHAR *pString1, const TCHAR *pString2, const bool CaseSensitive = FALSE);
+bool StringChanged(const TCHAR *pString1, const TCHAR *pString2, const bool CaseSensitive = false);
+int StringCompare(const TCHAR *pString1, const TCHAR *pString2, const bool CaseSensitive = false);
 
 /* Convert a string to a bool value */
 bool StringToBoolean(bool &Flag, const TCHAR *pString);
