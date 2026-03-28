@@ -246,6 +246,8 @@ if (WIN32)
 	                                         WIN32_LEAN_AND_MEAN)
 	# Add the Windows resource file
 	target_sources(MWEdit PUBLIC "${CMAKE_SOURCE_DIR}/build/windows/mwedit.rc")
+	# Enable conforming preprocessor
+	target_compile_options(MWEdit PRIVATE /Zc:preprocessor)
 else ()
 	add_executable(MWEdit ${common_src}
 	                      ${file_src}
