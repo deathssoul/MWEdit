@@ -242,7 +242,7 @@ if (WIN32)
 	# Add required MFC macros
 	target_compile_definitions(MWEdit PUBLIC _AFXDLL
 	                                         _AMD64_  # Required for winnt.h
-#	                                         _WIN32
+	                                         _WIN32
 	                                         WIN32_LEAN_AND_MEAN)
 	# Add the Windows resource file
 	target_sources(MWEdit PUBLIC "${CMAKE_SOURCE_DIR}/build/windows/mwedit.rc")
