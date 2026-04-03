@@ -20,4 +20,4 @@ Currently, MWEdit only supports building with Visual Studio and requires at leas
   ```
 - The MWEdit application requires [DevIL 1.8.0](http://openil.sourceforge.net/). The development files are expected to be in the `IL/` directory on setups that don't support CMake's [FindDevIL module](https://cmake.org/cmake/help/latest/module/FindDevIL.html). For distribution, the three DLLs supplied in the download are required. The Unicode version and [ResIL](https://sourceforge.net/projects/resil/) may work but are untested.
 
-Bugs and suggestions are welcome at either the [OpenMW Forums](https://forum.openmw.org/viewtopic.php?t=8280), [Stearn Vault](https://stearnvault.com/forums/topic/mwedit/), on [GitHub](https://github.com/Walrus-Tech/MWEdit), or on [Discord](https://discord.gg/AAAnesEgJe)
+Bugs and suggestions are welcome at the [OpenMW Forums](https://forum.openmw.org/viewtopic.php?t=8280), [Stearn Vault](https://stearnvault.com/forums/topic/mwedit/), [Nexus Mods](https://forums.nexusmods.com/topic/13518884-mwedit/), [GitHub](https://github.com/Walrus-Tech/MWEdit), or on [Discord](https://discord.gg/AAAnesEgJe)
