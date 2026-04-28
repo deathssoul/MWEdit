@@ -1,6 +1,8 @@
 #include "common/file/file_block.h"
 
 #if __WIN32
+#include <io.h>  // TODO: Required for _A_NORMAL, circular dependency. Will need to fix.
+
 #include "common/dl_base.h"
 #include "common/file/gen_find.h"
 #endif
