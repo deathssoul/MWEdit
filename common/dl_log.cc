@@ -169,9 +169,9 @@ void CLogFile::DebugPrintf(const TCHAR *pString, ...) {
 	}
 
 	/* Print the line to the file */
-	std::va_start(Args, pString);
+	va_start(Args, pString);
 	PrintLine(pString, Args);
-	std::va_end(Args);
+	va_end(Args);
 }
 #endif  // _DEBUG
 
@@ -426,9 +426,9 @@ bool CLogFile::Printf(const TCHAR *pString, ...) {
 	}
 
 	/* Print the line to the file */
-	std::va_start(Args, pString);
+	va_start(Args, pString);
 	Result = PrintLine(pString, Args);
-	std::va_end(Args);
+	va_end(Args);
 	return Result;
 }
 
@@ -450,14 +450,14 @@ bool CLogFile::Printf(std::FILE *pFileHandle, const TCHAR *pString, ...) {
 	std::va_list Args;
 	/* Ensure valid input */
 	ASSERT(pString != NULL);
-	std::va_start(Args, pString);
+	va_start(Args, pString);
 
 	/* Output line header to log file if open */
 	if (IsOpen()) {
 		Result = PrintLine(pString, Args);
 
 		if (!Result) {
-			std::va_end(Args);
+			va_end(Args);
 			return false;
 		}
 	}
@@ -474,7 +474,7 @@ bool CLogFile::Printf(std::FILE *pFileHandle, const TCHAR *pString, ...) {
 		}
 
 		Result = TVFPRINTF(pFileHandle, pString, Args);
-		std::va_end(Args);
+		va_end(Args);
 
 		if (Result < 0) {
 			return false;

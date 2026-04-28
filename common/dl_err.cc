@@ -388,13 +388,13 @@ void CErrorHandler::Destroy() {
 void CErrorHandler::AddError(const errcode_t Code, const TCHAR *pString, ...) {
 	//DEFINE_FUNCTION("CErrorHandler::AddError(errcode_t, TCHAR*, ...)");
 	std::va_list Args;
-	std::va_start(Args, pString);
+	va_start(Args, pString);
 #if _WIN32
 	AddErrorV(Code, GetLastError(), pString, Args);
 #else
 	AddErrorV(Code, ERR_NONE, pString, Args);
 #endif
-	std::va_end(Args);
+	va_end(Args);
 }
 
 
@@ -415,9 +415,9 @@ void CErrorHandler::AddError(const errcode_t Code,
                              ...) {
 	//DEFINE_FUNCTION("CErrorHandler::AddError(errcode_t, errcode_t, TCHAR*, ...)");
 	std::va_list Args;
-	std::va_start(Args, pString);
+	va_start(Args, pString);
 	AddErrorV(Code, SubCode, pString, Args);
-	std::va_end(Args);
+	va_end(Args);
 }
 
 
@@ -950,9 +950,9 @@ void CErrorHandler::Printf(const TCHAR *pTitle, const TCHAR *pString, ...) {
 	/* Ensure valid input */
 	ASSERT(pString != NULL);
 	/* Use the variable argument version of Printf() */
-	std::va_start(Args, pString);
+	va_start(Args, pString);
 	Printf(pTitle, pString, Args);
-	std::va_end(Args);
+	va_end(Args);
 }
 
 

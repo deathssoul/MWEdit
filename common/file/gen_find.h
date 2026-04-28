@@ -11,6 +11,8 @@
 #ifndef __GENFIND_H
 #define __GENFIND_H
 
+#include <io.h>  // TODO: Required for _A_NORMAL
+
 #include <ctime>
 
 #include "common/dl_base.h"

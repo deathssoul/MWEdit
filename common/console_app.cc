@@ -487,9 +487,9 @@ bool CConsoleApp::PrintLine(const char *pString, ...) {
 
 	/* Output the variable list of arguments */
 	if (pString != NULL) {
-		std::va_start(Args, pString);
+		va_start(Args, pString);
 		Result = std::vfprintf(pOutputStream, pString, Args);
-		std::va_end(Args);
+		va_end(Args);
 	}
 
 	/* Output the line feed character */

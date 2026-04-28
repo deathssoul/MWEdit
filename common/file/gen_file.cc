@@ -167,9 +167,9 @@ bool CGenFile::Printf(const char *pString, ...) {
 	std::va_list Args;
 	bool Result;
 	IASSERT(pString != NULL);
-	std::va_start(Args, pString);
+	va_start(Args, pString);
 	Result = VPrintf(pString, Args);
-	std::va_end(Args);
+	va_end(Args);
 	return Result;
 }
 

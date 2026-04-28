@@ -2300,9 +2300,9 @@ void CEsmScriptCompile::AddError(const TCHAR *pString, ...) {
 	std::va_list Args;
 
 	/* Create the input message */
-	std::va_start(Args, pString);
+	va_start(Args, pString);
 	std::vsnprintf(UserMsg, 255, pString, Args);
-	std::va_end(Args);
+	va_end(Args);
 
 	/* Create the expanded error message */
 	std::snprintf(ErrorString,
@@ -2358,9 +2358,9 @@ void CEsmScriptCompile::AddWarning(const TCHAR *pString, ...) {
 	std::va_list Args;
 
 	/* Create the input message */
-	std::va_start(Args, pString);
+	va_start(Args, pString);
 	std::vsnprintf(UserMsg, 255, pString, Args);
-	std::va_end(Args);
+	va_end(Args);
 
 	/* Create the expanded error message */
 	std::snprintf(ErrorString,
@@ -2397,9 +2397,9 @@ bool CEsmScriptCompile::AddMessage(const int MessageID, const TCHAR *pString, ..
 	int MsgType;
 
 	/* Create the user message */
-	std::va_start(Args, pString);
+	va_start(Args, pString);
 	std::vsnprintf(UserMsg, 255, pString, Args);
-	std::va_end(Args);
+	va_end(Args);
 
 	/* Find the current message level for the message */
 	MsgLevel = FindMsgLevel(MessageID);
