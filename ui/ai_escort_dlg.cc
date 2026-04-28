@@ -13,8 +13,6 @@
 #include <afxdd_.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
-#include <winnt.h>
 
 #include <cfloat>
 #include <cstddef>
@@ -28,9 +26,9 @@
 #include "ui/utils.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
 #endif
 
 DEFINE_FILE("EsmAiEscortDlg.cpp");
@@ -117,7 +115,7 @@ bool CEsmAiEscortDlg::DoModal(CEsmSubAI_E *pSubRecord,
  * Class CEsmAiEscortDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CEsmAiEscortDlg::OnInitDialog() {
+bool CEsmAiEscortDlg::OnInitDialog() {
 	ai_edata_t *pAiData;
 	CString Buffer;
 	CDialog::OnInitDialog();
@@ -146,7 +144,7 @@ BOOL CEsmAiEscortDlg::OnInitDialog() {
 		m_CellList.SetWindowText(m_CellName);
 
 		if (pAiData->X != FLT_MAX) {
-			m_PointCheck.SetCheck(TRUE);
+			m_PointCheck.SetCheck(true);
 			Buffer.Format(_T("%g"), pAiData->X);
 			m_XText.SetWindowText(Buffer);
 			Buffer.Format(_T("%g"), pAiData->Y);
@@ -154,13 +152,13 @@ BOOL CEsmAiEscortDlg::OnInitDialog() {
 			Buffer.Format(_T("%g"), pAiData->Z);
 			m_ZText.SetWindowText(Buffer);
 		} else {
-			m_PointCheck.SetCheck(FALSE);
+			m_PointCheck.SetCheck(false);
 		}
 	}
 
 	/* Enable/disable controls as required */
 	OnEscortcheck();
-	return TRUE;
+	return true;
 }
 
 

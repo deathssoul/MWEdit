@@ -12,7 +12,6 @@
 
 #include <afx.h>
 #include <afxwin.h>
-#include <windef.h>
 
 #include <cstddef>
 
@@ -86,7 +85,7 @@ class CScriptErrorDlg : public CDialog {
 
 	//{{AFX_MSG(CScriptErrorDlg)
 	afx_msg void OnFuncButton();
-	virtual BOOL OnInitDialog();
+	virtual bool OnInitDialog();
 	afx_msg void OnFuncGoto();
 	//}}AFX_MSG
 

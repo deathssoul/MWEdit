@@ -13,6 +13,7 @@
 #include <cstddef>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "common/dl_mem.h"
 #include "common/file/gen_file.h"
 #include "common/file/images/rgb_pal.h"
@@ -169,11 +170,11 @@ bool CBmpFile::WriteQuadPalette() {
 		pPal++;
 
 		if (!Result) {
-			return FALSE;
+			return false;
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 

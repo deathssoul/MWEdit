@@ -57,7 +57,7 @@ class CEsmCreaturePage1 : public CPropertyPage {
 	void SetControlData();
 
 	/* Used for the skill list sorting */
-	int SortCallback(LPARAM lParam1, LPARAM lParam2);
+	int SortCallback(LPARAM lParam1, LPARAM lParam2);  // TODO: Not in the source file. Remove?
 
 	/* Update record data */
 	int OnUpdateItem(esmrecinfo_t *pRecInfo);
@@ -130,7 +130,7 @@ class CEsmCreaturePage1 : public CPropertyPage {
 	/* Generated message map functions */
 
 	//{{AFX_MSG(CEsmCreaturePage1)
-	virtual BOOL OnInitDialog();
+	virtual bool OnInitDialog();
 	afx_msg void OnAnimationbutton();
 	afx_msg void OnScriptEdit();
 	//}}AFX_MSG

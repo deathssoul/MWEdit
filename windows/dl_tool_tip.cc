@@ -14,18 +14,18 @@
 #include <atltypes.h>
 #include <basetsd.h>
 #include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
 #include <cstddef>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 
 #ifdef _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("dl_ToolTip.cpp");
 /*===========================================================================
@@ -74,8 +74,8 @@ CDlToolTip::~CDlToolTip() {
  * Class CDlToolTip Method - BOOL Create (pParentWnd);
  *
  *=========================================================================*/
-BOOL CDlToolTip::Create(CWnd *pParentWnd) {
-	BOOL bSuccess;
+bool CDlToolTip::Create(CWnd *pParentWnd) {
+	bool bSuccess;
 	/* Must have a parent */
 	ASSERT(pParentWnd != NULL);
 	/* Attempt to create the custom window */
@@ -103,7 +103,7 @@ BOOL CDlToolTip::Create(CWnd *pParentWnd) {
  * Computes the tooltip window region.
  *
  *=========================================================================*/
-BOOL CDlToolTip::GetWindowRegion(CDC *pDC, HRGN *phRegion, CSize *pSize) {
+bool CDlToolTip::GetWindowRegion(CDC *pDC, HRGN *phRegion, CSize *pSize) {
 	CRect rcWnd;
 	CFont *pSysFont;
 
@@ -127,7 +127,7 @@ BOOL CDlToolTip::GetWindowRegion(CDC *pDC, HRGN *phRegion, CSize *pSize) {
 		pSize->cy = rcWnd.Height() + DLTOOLTIP_CY_LEADER;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -223,7 +223,7 @@ void CDlToolTip::OnTimer(UINT_PTR nIDEvent) {
 			pDC = GetDC();
 			GetWindowRegion(pDC, &hRegion, &WindowSize);
 			ReleaseDC(pDC);
-			::SetWindowRgn(m_hWnd, hRegion, TRUE);
+			::SetWindowRgn(m_hWnd, hRegion, true);
 			SetWindowPos(&wndTop,
 			             m_ptOrigin.x + DLTOOLTIP_CX_ROUNDED,
 			             m_ptOrigin.y + DLTOOLTIP_CY_ROUNDED,

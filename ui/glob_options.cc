@@ -11,7 +11,6 @@
 #include "ui/glob_options.h"
 
 #include <afxwin.h>
-#include <winnt.h>
 
 #include "common/dl_base.h"
 #include "mwedit/script_options.h"

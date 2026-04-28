@@ -142,7 +142,7 @@ class CEsmSubBYDT : public CEsmSubRecord {
 	}
 
 	void SetVampire(const bool Flag) {
-		GetBodyData()->Vampire = Flag ? 1 : 0;
+		GetBodyData()->Vampire = Flag ? 1 : 0;  // TODO: Should probably just be GetBodyData()->Vampire = Flag
 	}
 
 	void SetFemale(const bool Flag) {

@@ -85,7 +85,7 @@ class CConsoleApp {
 	virtual bool ParseAllParameters();
 
 	/* Parse the given command string */
-	virtual cmdparse_t ParseCommand(char *pCommand, const bool Flag = TRUE);
+	virtual cmdparse_t ParseCommand(char *pCommand, const bool Flag = true);
 	virtual cmdparse_t ParsePagingCommand(char *pString, const bool Flag);
 
 	/* Parse the given parameter string */

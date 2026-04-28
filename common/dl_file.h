@@ -15,19 +15,38 @@
 
 #include "common/dl_base.h"
 
+#if _UNICODE
+#if _WIN32
+#define TFOPEN(Filename, mode) _tfopen(Filename, mode)
+#define TFPRINTF _ftprintf
+#define TFPUTC(Char, Handle) _fputtc(Char, Handle)
+#define TPRINTF _tprintf
+#define TVFPRINTF _vftprintf
+#define TVPRINTF _vtprintf
+#endif  // _WIN32
+
+#else
+#define TFOPEN(Filename, mode) std::fopen(Filename, mode)
+#define TFPRINTF std::fprintf
+#define TFPUTC(Char, Handle) std::fputc(Char, Handle)
+#define TPRINTF std::printf
+#define TVFPRINTF std::vfprintf
+#define TVPRINTF std::vprintf
+#endif  // _UNICODE
+
 /* Size of input/output buffer for the CopyFile() function */
 #define COPYFILE_BUFFERSIZE 60000u
 
 /* Number of bytes read at a time for the ReadFileCB() function */
-#define READFILECB_NUMBYTES     32000
+#define READFILECB_NUMBYTES 32000
 
 /*===========================================================================
  *
  * Begin ReadFile()/WriteFile() Mode Definitions
  *
  *=========================================================================*/
-#define FILE_BINARY FALSE
-#define FILE_TEXT   TRUE
+#define FILE_BINARY false
+#define FILE_TEXT   true
 
 /*===========================================================================
  *
@@ -170,45 +189,45 @@ bool WildcardCompare(const TCHAR *pFilename, const TCHAR *pFilter);
  *
  *=========================================================================*/
 #if _DEBUG  // TODO: Under common/test_file.cc
-	/* Maximum file size to use for Test_RWFile() */
-	#define TEST_RWFILE_MAXFILESIZE 100000
+/* Maximum file size to use for Test_RWFile() */
+#define TEST_RWFILE_MAXFILESIZE 100000
 
-	/* Helper function to create a random file of a given size */
-	void Test_CreateRandomFile(const TCHAR *pFilename,
-	                           const std::size_t Size,
-	                           const bool TextMode = FILE_BINARY);
+/* Helper function to create a random file of a given size */
+void Test_CreateRandomFile(const TCHAR *pFilename,
+                           const std::size_t Size,
+                           const bool TextMode = FILE_BINARY);
 
-	/* Helper function to compare two files */
-	bool Test_CompareFiles(const TCHAR *pFilename1, const TCHAR *pFilename2);
+/* Helper function to compare two files */
+bool Test_CompareFiles(const TCHAR *pFilename1, const TCHAR *pFilename2);
 
-	/* Test routines */
-	void Test_ChangeExtension();
-	void Test_ChangeDirectory();
-	void Test_CompareExtension();
-	void Test_CopyFile();
-	void Test_CreatePath();
-	void Test_ExtractFilename();
-	void Test_ExtractPath();
-	void Test_FileExists();
-	void Test_GetFileSize();
-	void Test_HasExtension();
-	void Test_HasPath();
-	void Test_IsDirectory();
-	void Test_IsFileWriteable();
-	void Test_IsWildCard();
-	void Test_ReadFile();
-	void Test_ReadFileBuffer();
-	void Test_read_int();
-	void Test_read_long();
-	void Test_read_motlong();
-	void Test_read_short();
-	void Test_ReadLine();
-	void Text_RemoveExtension();
-	void Test_RWFile(const std::size_t NumTests = 100);
-	void Test_RWNumbers(const std::size_t NumTests = 1000);
-	void Test_TerminatePath();
-	void Test_WriteFile();
-	void Test_DL_File();
+/* Test routines */
+void Test_ChangeExtension();
+void Test_ChangeDirectory();
+void Test_CompareExtension();
+void Test_CopyFile();
+void Test_CreatePath();
+void Test_ExtractFilename();
+void Test_ExtractPath();
+void Test_FileExists();
+void Test_GetFileSize();
+void Test_HasExtension();
+void Test_HasPath();
+void Test_IsDirectory();
+void Test_IsFileWriteable();
+void Test_IsWildCard();
+void Test_ReadFile();
+void Test_ReadFileBuffer();
+void Test_read_int();
+void Test_read_long();
+void Test_read_motlong();
+void Test_read_short();
+void Test_ReadLine();
+void Text_RemoveExtension();
+void Test_RWFile(const std::size_t NumTests = 100);
+void Test_RWNumbers(const std::size_t NumTests = 1000);
+void Test_TerminatePath();
+void Test_WriteFile();
+void Test_DL_File();
 #endif  // _DEBUG
 
 

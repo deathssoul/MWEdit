@@ -11,7 +11,6 @@
 #define __EDITUNDO_H
 
 #include <afxcmn.h>
-#include <winnt.h>
 
 #include "common/dl_base.h"
 #include "common/container/tem_array.h"

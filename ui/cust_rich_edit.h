@@ -16,8 +16,9 @@
 #include <atlstr.h>
 #include <atltypes.h>
 #include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
+
+#include "common/dl_base.h"
 
 /* Custom events */
 #define CRE_UPDATEPOS       0x8001
@@ -40,7 +41,7 @@ class CCustRichEdit : public CRichEditCtrl {
 	/* ClassWizard generated virtual function overrides */
 	//{{AFX_VIRTUAL(CCustRichEdit)
   public:
-	virtual BOOL Create(DWORD dwStyle, const RECT &rect, CWnd *pParentWnd, UINT nID);
+	virtual bool Create(DWORD dwStyle, const RECT &rect, CWnd *pParentWnd, UINT nID);
 	//}}AFX_VIRTUAL
 
 	/* Generated message map functions */
@@ -52,7 +53,7 @@ class CCustRichEdit : public CRichEditCtrl {
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
+	afx_msg bool OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
 	afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar *pScrollBar);
 	//}}AFX_MSG
 

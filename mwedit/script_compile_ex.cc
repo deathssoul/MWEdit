@@ -8,14 +8,12 @@
  * non-standard script extenions.
  *
  *=========================================================================*/
-#include <tchar.h>
-#include <winnt.h>
-
 #include <cstddef>
 #include <cstdlib>
 #include <cstring>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "common/dl_mem.h"
 #include "common/dl_str.h"
 #include "mwedit/script_compile.h"

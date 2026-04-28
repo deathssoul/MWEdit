@@ -20,6 +20,7 @@
 #include <cstddef>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
 #include "game/morrowind/npc.h"
@@ -28,15 +29,13 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("EsmNpcDlg.cpp");
 IMPLEMENT_DYNCREATE(CEsmNpcDlg, CEsmRecDialog);
-
-
 /*===========================================================================
  *
  * Begin CEsmNpcDlg Message Map

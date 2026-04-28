@@ -29,6 +29,7 @@
 #include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/container.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
@@ -41,10 +42,10 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("EsmContainDlg.cpp");
 IMPLEMENT_DYNCREATE(CEsmContainDlg, CEsmRecDialog);
@@ -261,7 +262,7 @@ void CEsmContainDlg::OnEndlabeleditItemlist(NMHDR *pNMHDR, LRESULT *pResult) {
 	int Count;
 
 	if (pDispInfo->item.pszText != NULL) {
-		Count = atoi(pDispInfo->item.pszText);
+		Count = std::atoi(pDispInfo->item.pszText);
 
 		if (Count < SHRT_MIN) {
 			Count = SHRT_MIN;
@@ -507,9 +508,9 @@ void CEsmContainDlg::SetControlData() {
 
 	/* Item strings and values */
 	m_NameText.SetWindowText(m_pContainer->GetName());
-	m_NameText.SetModify(FALSE);
+	m_NameText.SetModify(false);
 	m_WeightText.SetWindowText(m_pContainer->GetFieldString(ESM_FIELD_WEIGHT));
-	m_WeightText.SetModify(FALSE);
+	m_WeightText.SetModify(false);
 
 	/* Model/icon buttons */
 	m_ModelButton.SetWindowText(m_pContainer->GetModel());

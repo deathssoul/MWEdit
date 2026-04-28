@@ -21,7 +21,6 @@
 #include <atlstr.h>
 #include <windef.h>
 #include <winerror.h>
-#include <winnt.h>
 #include <winreg.h>
 
 #include <cstddef>
@@ -33,6 +32,7 @@
 #include "common/dl_err.h"
 #include "common/dl_file.h"
 #include "common/dl_log.h"
+#include "common/dl_str.h"
 #include "common/string/sstring.h"
 #include "game/morrowind/apparatus.h"
 #include "game/morrowind/armor.h"
@@ -1465,7 +1465,7 @@ bool SelectEsmIcon(CString &IconString, const TCHAR *pTitle, CWnd *pParent) {
 	}
 
 	/* Initialize the file dialog */
-	CFileDialog OpenDlg(TRUE,
+	CFileDialog OpenDlg(true,
 	                    MWESM_ICON_EXT,
 	                    FindFilename(IconString),
 	                    OFN_HIDEREADONLY | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR,
@@ -1521,7 +1521,7 @@ bool SelectEsmModel(CString &ModelString, const TCHAR *pTitle, CWnd *pParent) {
 	}
 
 	/* Initialize the file dialog */
-	CFileDialog OpenDlg(TRUE,
+	CFileDialog OpenDlg(true,
 	                    MWESM_MODEL_EXT,
 	                    FindFilename(ModelString),
 	                    OFN_HIDEREADONLY | OFN_PATHMUSTEXIST,
@@ -1582,7 +1582,7 @@ bool SelectEsmSound(CString &SoundString, const TCHAR *pTitle, CWnd *pParent) {
 	}
 
 	/* Initialize the file dialog */
-	CFileDialog OpenDlg(TRUE,
+	CFileDialog OpenDlg(true,
 	                    MWESM_SOUND_EXT,
 	                    FindFilename(SoundString),
 	                    OFN_HIDEREADONLY | OFN_PATHMUSTEXIST,
@@ -1641,7 +1641,7 @@ bool SelectEsmTexture(CString &TextureString, const TCHAR *pTitle, CWnd *pParent
 	}
 
 	/* Initialize the file dialog */
-	CFileDialog OpenDlg(TRUE,
+	CFileDialog OpenDlg(true,
 	                    MWESM_TEXTURE_EXT,
 	                    FindFilename(TextureString),
 	                    OFN_HIDEREADONLY | OFN_PATHMUSTEXIST,

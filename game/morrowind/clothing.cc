@@ -142,7 +142,7 @@ int CEsmClothing::CompareFields(const int FieldID, CEsmRecord *pRecord) {
 
 	switch (FieldID) {
 		case ESM_FIELD_TYPE:
-			return StringCompare(GetClothType(), pCloth->GetClothType(), FALSE);
+			return StringCompare(GetClothType(), pCloth->GetClothType(), false);
 
 		default:
 			return CEsmItem3::CompareFields(FieldID, pRecord);

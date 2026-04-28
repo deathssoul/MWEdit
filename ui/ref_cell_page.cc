@@ -28,6 +28,7 @@
 #include <cstddef>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "common/dl_mem.h"
 #include "game/morrowind/cell.h"
 #include "game/morrowind/defs.h"
@@ -39,10 +40,10 @@
 #include "ui/Resource.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmRefCellPage, CPropertyPage);
 DEFINE_FILE("EsmRefCellPage.cpp");
@@ -715,7 +716,7 @@ void CEsmRefCellPage::OnCellrefUndelete() {
 void CEsmRefCellPage::OnContextMenu(CWnd *pWnd, CPoint Point) {
 	CMenu Menu;
 	CMenu *pPopup;
-	BOOL Result;
+	bool Result;
 	CCmdUI MenuState;
 	int Index;
 	/* Get the popup menu to display */
@@ -803,7 +804,7 @@ void CEsmRefCellPage::OnEditClean() {
  * Class CEsmRefCellPage Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CEsmRefCellPage::OnInitDialog() {
+bool CEsmRefCellPage::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
 
 	/* Intialize the list */
@@ -814,7 +815,7 @@ BOOL CEsmRefCellPage::OnInitDialog() {
 	m_CellRefList.SetEnableDrag(true);
 	m_CellRefList.SetWantEditMsg(true);
 
-	return TRUE;
+	return true;
 }
 
 

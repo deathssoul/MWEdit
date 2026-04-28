@@ -161,7 +161,7 @@ bool CEsmScriptOptions::ReadRegCharFormat() {
 	CHARFORMAT2 CharFormat;
 	BYTE *pData = (BYTE *)&CharFormat;
 	UINT Size;
-	BOOL Result;
+	bool Result;
 	int Index;
 
 	/* Input all the script formats */
@@ -193,7 +193,7 @@ bool CEsmScriptOptions::ReadRegFont() {
 
 	int FontSize = 8;
 	int FontBold = FW_NORMAL;
-	int FontItalic = FALSE;
+	int FontItalic = false;  // TODO: Should this be a bool type?
 
 	/* Read the font options from the registry */
 	FontSize = pApp->GetProfileInt(ESMSCR_REGSEC_SCRIPT, ESMSCR_REGENTRY_FONTSIZE, FontSize);
@@ -244,7 +244,7 @@ bool CEsmScriptOptions::WriteToRegistry() {
 bool CEsmScriptOptions::WriteRegCharFormat() {
 	CWinApp *pApp = AfxGetApp();
 	CString RegName;
-	BOOL Result = TRUE;
+	bool Result = true;
 	int Index;
 
 	/* Output all the script formats */
@@ -256,7 +256,7 @@ bool CEsmScriptOptions::WriteRegCharFormat() {
 		                                   sizeof(m_Formats[Index]));
 	}
 
-	return Result != 0;
+	return Result != 0;  // TODO: Replace with true or false
 }
 
 

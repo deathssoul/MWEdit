@@ -14,12 +14,12 @@
 #include <afxext.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
 
 #include <cstddef>
 #include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/enchant.h"
 #include "game/morrowind/file.h"
@@ -32,10 +32,10 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmSpellDlg, CEsmRecDialog);
 DEFINE_FILE("EsmSpellDlg.cpp");
@@ -473,13 +473,13 @@ void CEsmSpellDlg::OnSelChangeEffectList(const int ListIndex) {
 		m_pEffectInfo[ListIndex] = NULL;
 		m_SkillList[ListIndex].ResetContent();
 		m_RangeList[ListIndex].ResetContent();
-		m_SkillList[ListIndex].EnableWindow(FALSE);
+		m_SkillList[ListIndex].EnableWindow(false);
 
-		m_DurationText[ListIndex].EnableWindow(FALSE);
-		m_Magnitude1Text[ListIndex].EnableWindow(FALSE);
-		m_Magnitude2Text[ListIndex].EnableWindow(FALSE);
-		m_AreaText[ListIndex].EnableWindow(FALSE);
-		m_RangeList[ListIndex].EnableWindow(FALSE);
+		m_DurationText[ListIndex].EnableWindow(false);
+		m_Magnitude1Text[ListIndex].EnableWindow(false);
+		m_Magnitude2Text[ListIndex].EnableWindow(false);
+		m_AreaText[ListIndex].EnableWindow(false);
+		m_RangeList[ListIndex].EnableWindow(false);
 		m_DurationText[ListIndex].SetWindowText(_T(""));
 		m_Magnitude1Text[ListIndex].SetWindowText(_T(""));
 		m_Magnitude2Text[ListIndex].SetWindowText(_T(""));
@@ -497,17 +497,17 @@ void CEsmSpellDlg::OnSelChangeEffectList(const int ListIndex) {
 	if (pEffectData->HasDuration()) {
 		m_DurationText[ListIndex].EnableWindow(!m_DisableCost);
 	} else {
-		m_DurationText[ListIndex].EnableWindow(FALSE);
+		m_DurationText[ListIndex].EnableWindow(false);
 		m_DurationText[ListIndex].SetWindowText(_T(""));
 	}
 
 	if (pEffectData->HasMagnitude()) {
-		m_Magnitude1Text[ListIndex].EnableWindow(TRUE);
-		m_Magnitude2Text[ListIndex].EnableWindow(TRUE);
+		m_Magnitude1Text[ListIndex].EnableWindow(true);
+		m_Magnitude2Text[ListIndex].EnableWindow(true);
 	} else {
-		m_Magnitude1Text[ListIndex].EnableWindow(FALSE);
+		m_Magnitude1Text[ListIndex].EnableWindow(false);
 		m_Magnitude1Text[ListIndex].SetWindowText(_T(""));
-		m_Magnitude2Text[ListIndex].EnableWindow(FALSE);
+		m_Magnitude2Text[ListIndex].EnableWindow(false);
 		m_Magnitude2Text[ListIndex].SetWindowText(_T(""));
 	}
 
@@ -515,9 +515,9 @@ void CEsmSpellDlg::OnSelChangeEffectList(const int ListIndex) {
 
 	if (pEffectData->IsSelfOnly() || m_DisableCost) {
 		FillEsmEnchantRangeCombo(m_RangeList[ListIndex]);
-		m_RangeList[ListIndex].EnableWindow(FALSE);
+		m_RangeList[ListIndex].EnableWindow(false);
 		m_RangeList[ListIndex].SetCurSel(0);
-		m_AreaText[ListIndex].EnableWindow(FALSE);
+		m_AreaText[ListIndex].EnableWindow(false);
 		m_AreaText[ListIndex].SetWindowText(_T("0"));
 	} else {
 		PrevSel = m_RangeList[ListIndex].GetCurSel();
@@ -527,29 +527,29 @@ void CEsmSpellDlg::OnSelChangeEffectList(const int ListIndex) {
 		}
 
 		FillEsmEnchantRangeCombo(m_RangeList[ListIndex], pEffectData->IsNotSelf());
-		m_RangeList[ListIndex].EnableWindow(TRUE);
+		m_RangeList[ListIndex].EnableWindow(true);
 		FindComboListItem(m_RangeList[ListIndex], PrevSel, true);
 
 		if (m_RangeList[ListIndex].GetCurSel() < 0) {
 			m_RangeList[ListIndex].SetCurSel(0);
 		}
 
-		m_AreaText[ListIndex].EnableWindow(TRUE);
+		m_AreaText[ListIndex].EnableWindow(true);
 	}
 
 	/* Enable or disable the skill list */
 
 	if (IsESMSkillEffect(EffectID)) {
-		m_SkillList[ListIndex].EnableWindow(TRUE);
+		m_SkillList[ListIndex].EnableWindow(true);
 		FillEsmSkillsCombo(m_SkillList[ListIndex]);
 		m_SkillList[ListIndex].SetCurSel(0);
 	} else if (IsESMAttributeEffect(EffectID)) {
-		m_SkillList[ListIndex].EnableWindow(TRUE);
+		m_SkillList[ListIndex].EnableWindow(true);
 		FillEsmAttributesCombo(m_SkillList[ListIndex]);
 		m_SkillList[ListIndex].SetCurSel(0);
 	} else {
 		m_SkillList[ListIndex].ResetContent();
-		m_SkillList[ListIndex].EnableWindow(FALSE);
+		m_SkillList[ListIndex].EnableWindow(false);
 	}
 
 	UpdateSpellCost(ListIndex);
@@ -595,14 +595,14 @@ void CEsmSpellDlg::SetControlData() {
 
 	/* Spell type */
 	FindComboListItem(m_TypeList, m_pSpell->GetSpellTypeID(), true);
-	m_DisableCost = !(( m_pSpell->GetSpellTypeID() == MWESM_SPELLTYPE_SPELL)
-	                  || ( m_pSpell->GetSpellTypeID() == MWESM_SPELLTYPE_POWER));
+	m_DisableCost = !((m_pSpell->GetSpellTypeID() == MWESM_SPELLTYPE_SPELL)
+	                  || (m_pSpell->GetSpellTypeID() == MWESM_SPELLTYPE_POWER));
 	/* Item strings and values */
 	m_NameText.SetWindowText(m_pSpell->GetName());
 	m_CostText.SetWindowText(m_pSpell->GetFieldString(ESM_FIELD_COST));
 	m_CostText.EnableWindow(!m_pSpell->IsAutoCalc() && !m_DisableCost);
-	m_CostText.SetModify(FALSE);
-	m_NameText.SetModify(FALSE);
+	m_CostText.SetModify(false);
+	m_NameText.SetModify(false);
 
 	/* Record flags */
 	m_AutoCalcCheck.SetCheck(m_pSpell->IsAutoCalc());
@@ -644,16 +644,16 @@ void CEsmSpellDlg::SetEffectData(const int EffectIndex, CEsmSubENAM *pEffectReco
 
 		m_EffectList[EffectIndex].SelectString(-1, _T(""));
 		m_RangeList[EffectIndex].SelectString(-1, _T(""));
-		m_SkillList[EffectIndex].EnableWindow(FALSE);
+		m_SkillList[EffectIndex].EnableWindow(false);
 
-		m_DurationText[EffectIndex].EnableWindow(FALSE);
-		m_Magnitude1Text[EffectIndex].EnableWindow(FALSE);
-		m_Magnitude2Text[EffectIndex].EnableWindow(FALSE);
-		m_AreaText[EffectIndex].EnableWindow(FALSE);
-		m_DurationText[EffectIndex].SetModify(FALSE);
-		m_Magnitude1Text[EffectIndex].SetModify(FALSE);
-		m_Magnitude2Text[EffectIndex].SetModify(FALSE);
-		m_AreaText[EffectIndex].SetModify(FALSE);
+		m_DurationText[EffectIndex].EnableWindow(false);
+		m_Magnitude1Text[EffectIndex].EnableWindow(false);
+		m_Magnitude2Text[EffectIndex].EnableWindow(false);
+		m_AreaText[EffectIndex].EnableWindow(false);
+		m_DurationText[EffectIndex].SetModify(false);
+		m_Magnitude1Text[EffectIndex].SetModify(false);
+		m_Magnitude2Text[EffectIndex].SetModify(false);
+		m_AreaText[EffectIndex].SetModify(false);
 		return;
 	}
 
@@ -664,21 +664,21 @@ void CEsmSpellDlg::SetEffectData(const int EffectIndex, CEsmSubENAM *pEffectReco
 
 	if (pEffectData->HasMagnitude()) {
 		Buffer.Format(_T("%d"), (int)pSpellData->MagMin);
-		m_Magnitude1Text[EffectIndex].EnableWindow(TRUE);
+		m_Magnitude1Text[EffectIndex].EnableWindow(true);
 		m_Magnitude1Text[EffectIndex].SetWindowText(Buffer);
-		m_Magnitude1Text[EffectIndex].SetModify(FALSE);
+		m_Magnitude1Text[EffectIndex].SetModify(false);
 
 		Buffer.Format(_T("%d"), (int)pSpellData->MagMax);
-		m_Magnitude2Text[EffectIndex].EnableWindow(TRUE);
+		m_Magnitude2Text[EffectIndex].EnableWindow(true);
 		m_Magnitude2Text[EffectIndex].SetWindowText(Buffer);
-		m_Magnitude2Text[EffectIndex].SetModify(FALSE);
+		m_Magnitude2Text[EffectIndex].SetModify(false);
 	} else {
-		m_Magnitude1Text[EffectIndex].EnableWindow(FALSE);
+		m_Magnitude1Text[EffectIndex].EnableWindow(false);
 		m_Magnitude1Text[EffectIndex].SetWindowText(_T(""));
-		m_Magnitude1Text[EffectIndex].SetModify(FALSE);
-		m_Magnitude2Text[EffectIndex].EnableWindow(FALSE);
+		m_Magnitude1Text[EffectIndex].SetModify(false);
+		m_Magnitude2Text[EffectIndex].EnableWindow(false);
 		m_Magnitude2Text[EffectIndex].SetWindowText(_T(""));
-		m_Magnitude2Text[EffectIndex].SetModify(FALSE);
+		m_Magnitude2Text[EffectIndex].SetModify(false);
 	}
 
 	/* Set the effect duration */
@@ -687,44 +687,44 @@ void CEsmSpellDlg::SetEffectData(const int EffectIndex, CEsmSubENAM *pEffectReco
 		Buffer.Format(_T("%d"), (int)pSpellData->Duration);
 		m_DurationText[EffectIndex].EnableWindow(!m_DisableCost);
 		m_DurationText[EffectIndex].SetWindowText(Buffer);
-		m_DurationText[EffectIndex].SetModify(FALSE);
+		m_DurationText[EffectIndex].SetModify(false);
 	} else {
-		m_DurationText[EffectIndex].EnableWindow(FALSE);
+		m_DurationText[EffectIndex].EnableWindow(false);
 		m_DurationText[EffectIndex].SetWindowText(_T(""));
-		m_DurationText[EffectIndex].SetModify(FALSE);
+		m_DurationText[EffectIndex].SetModify(false);
 	}
 
 	/* Set the effect range */
 
 	if (pEffectData->IsSelfOnly()) {
 		FillEsmEnchantRangeCombo(m_RangeList[EffectIndex]);
-		m_RangeList[EffectIndex].EnableWindow(TRUE);
+		m_RangeList[EffectIndex].EnableWindow(true);
 		m_RangeList[EffectIndex].SetCurSel(0);
-		m_AreaText[EffectIndex].EnableWindow(TRUE);
+		m_AreaText[EffectIndex].EnableWindow(true);
 		m_AreaText[EffectIndex].SetWindowText(_T(""));
 	} else if (pEffectData->IsNotSelf()) {
 		FillEsmEnchantRangeCombo(m_RangeList[EffectIndex], true);
 		m_RangeList[EffectIndex].EnableWindow(!m_DisableCost);
 		FindComboListItem(m_RangeList[EffectIndex], pSpellData->RangeType, true);
-		m_AreaText[EffectIndex].EnableWindow(TRUE);
+		m_AreaText[EffectIndex].EnableWindow(true);
 	} else {
 		FillEsmEnchantRangeCombo(m_RangeList[EffectIndex]);
-		m_RangeList[EffectIndex].EnableWindow(TRUE);
+		m_RangeList[EffectIndex].EnableWindow(true);
 		FindComboListItem(m_RangeList[EffectIndex], pSpellData->RangeType, true);
-		m_AreaText[EffectIndex].EnableWindow(TRUE);
+		m_AreaText[EffectIndex].EnableWindow(true);
 	}
 
 	/* Set the effect area */
 	Buffer.Format(_T("%d"), (int)pSpellData->Area);
 	m_AreaText[EffectIndex].SetWindowText(Buffer);
-	m_AreaText[EffectIndex].SetModify(FALSE);
+	m_AreaText[EffectIndex].SetModify(false);
 
 	/* Disable the area/range controls if required */
 
 	if (m_DisableCost) {
-		m_RangeList[EffectIndex].EnableWindow(FALSE);
+		m_RangeList[EffectIndex].EnableWindow(false);
 		m_RangeList[EffectIndex].SelectString(-1, _T("Self"));
-		m_AreaText[EffectIndex].EnableWindow(FALSE);
+		m_AreaText[EffectIndex].EnableWindow(false);
 	}
 
 	/* Set the initial effect cost and total cost labels */
@@ -736,15 +736,15 @@ void CEsmSpellDlg::SetEffectData(const int EffectIndex, CEsmSubENAM *pEffectReco
 	/* Fill in the skill/attribute list as required */
 
 	if (IsESMSkillEffect(pSpellData->EffectID)) {
-		m_SkillList[EffectIndex].EnableWindow(TRUE);
+		m_SkillList[EffectIndex].EnableWindow(true);
 		FillEsmSkillsCombo(m_SkillList[EffectIndex]);
 		FindComboListItem(m_SkillList[EffectIndex], pSpellData->SkillID, true);
 	} else if (IsESMAttributeEffect(pSpellData->EffectID)) {
-		m_SkillList[EffectIndex].EnableWindow(TRUE);
+		m_SkillList[EffectIndex].EnableWindow(true);
 		FillEsmAttributesCombo(m_SkillList[EffectIndex]);
 		FindComboListItem(m_SkillList[EffectIndex], pSpellData->AttributeID, true);
 	} else {
-		m_SkillList[EffectIndex].EnableWindow(FALSE);
+		m_SkillList[EffectIndex].EnableWindow(false);
 	}
 
 	UpdateSpellCost(EffectIndex);

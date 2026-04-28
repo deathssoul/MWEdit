@@ -14,20 +14,20 @@
 #include <afxext.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
 
 #include <cstddef>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/game_setting.h"
 #include "ui/rec_dialog.h"
 #include "ui/Resource.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmSettingDlg, CEsmRecDialog);
 DEFINE_FILE("EsmSettingDlg.cpp");
@@ -150,6 +150,6 @@ void CEsmSettingDlg::SetControlData() {
 	/* Item strings and values */
 	m_ValueText.SetWindowText(m_pSetting->GetValue());
 	m_TypeLabel.SetWindowText(m_pSetting->GetTypeString());
-	m_IDText.SetModify(FALSE);
-	m_ValueText.SetModify(FALSE);
+	m_IDText.SetModify(false);
+	m_ValueText.SetModify(false);
 }

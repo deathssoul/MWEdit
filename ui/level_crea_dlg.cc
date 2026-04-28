@@ -36,10 +36,10 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("EsmLevelCreaDlg.cpp");
 IMPLEMENT_DYNCREATE(CEsmLevelCreaDlg, CEsmRecDialog);
@@ -506,7 +506,7 @@ void CEsmLevelCreaDlg::SetControlData() {
 
 	/* Item strings and values */
 	m_ChanceNoneText.SetWindowText(m_pLevelCrea->GetFieldString(ESM_FIELD_CHANCENONE));
-	m_ChanceNoneText.SetModify(FALSE);
+	m_ChanceNoneText.SetModify(false);
 
 	/* Record flags */
 	m_BlockedCheck.SetCheck(m_pLevelCrea->IsBlocked());

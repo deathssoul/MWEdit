@@ -32,7 +32,7 @@ DEFINE_FILE("dl_time.h");
 void GetHiClock(hiclock_t &Counter) {
 	/* Attempt to use the performance counter */
 #if _WIN32
-	boolean Result;
+	bool Result;
 	/* Attempt to get the performance timer count */
 	Result = QueryPerformanceCounter(&Counter.TimerCount);
 
@@ -77,7 +77,7 @@ double GetHiClockFreq() {
 	Result = QueryPerformanceFrequency(&Freq);
 
 	if (!Result || Freq.QuadPart == 0) {
-		return (double)1.0;
+		return (double)1.0;  // TODO: Cast isn't needed: decimal literals are double by default. See: https://en.cppreference.com/cpp/language/floating_literal
 	}
 
 	return (double)Freq.QuadPart;

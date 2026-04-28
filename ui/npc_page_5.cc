@@ -14,12 +14,12 @@
 #include <afxdlgs.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
 
 #include <cstddef>
 #include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/file.h"
 #include "game/morrowind/npc.h"
 #include "game/morrowind/sub_aidt.h"
@@ -31,10 +31,10 @@
 
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmNpcPage5, CPropertyPage);
 DEFINE_FILE("EsmNpcPage5.cpp");
@@ -226,10 +226,10 @@ CMWEditDoc *CEsmNpcPage5::GetDocument() {
  * Class CEsmNpcPage5 Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CEsmNpcPage5::OnInitDialog() {
+bool CEsmNpcPage5::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
 	m_GoldText.SetLimitText(16);
-	return TRUE;
+	return true;
 }
 
 

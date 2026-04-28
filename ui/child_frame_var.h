@@ -50,7 +50,7 @@ class CChildFrameVar : public CMDIChildWnd {
 	/* ClassWizard generated virtual function overrides */
 
 	//{{AFX_VIRTUAL(CChildFrameVar)
-	virtual BOOL PreCreateWindow(CREATESTRUCT &cs);
+	virtual bool PreCreateWindow(CREATESTRUCT &cs);
 	//}}AFX_VIRTUAL
 
 

@@ -1,8 +1,7 @@
 #ifndef COMMON_FILE_CONFIG_ENTRY
 #define COMMON_FILE_CONFIG_ENTRY
 
-#include <winnt.h>
-
+#include "common/dl_base.h"
 #include "common/container/ptr_array.h"
 #include "common/file/gen_file.h"
 #include "common/string/sstring.h"

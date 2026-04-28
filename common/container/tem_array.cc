@@ -17,14 +17,13 @@
 #include "common/dl_base.h"
 #include "common/dl_block.h"
 #include "common/dl_err.h"
+#include "common/dl_log.h"
 #include "common/dl_mem.h"
 
 #if _DEBUG
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
-
-#include "common/dl_log.h"
 #endif  // _DEBUG
 
 DEFINE_FILE("TemArray.cpp");
@@ -345,7 +344,7 @@ void TTemplateArray<TArrayPtr>::ResizeArray(const bool GrowArray) {
 		/* Attempt to allocate space for the new array */
 		CreateArrayPointer(ppNewArray, TArrayPtr *, NewSize);
 		/* Copy pointers into new array */
-		std::memcpy(ppNewArray, m_ppArray, sizeof(TArrayPtr *)*m_NumElements);
+		std::memcpy(ppNewArray, m_ppArray, sizeof(TArrayPtr *) * m_NumElements);
 	}
 
 	/* Set the resized array */
@@ -530,24 +529,24 @@ void Test_TemplateArray() {
 	ASSERT(TestDataArray.GetNumElements() == 1);
 
 	/* Test the IsValidIndex() method */
-	ASSERT(IntArray.IsValidIndex(0) == TRUE);
-	ASSERT(IntArray.IsValidIndex(1) == TRUE);
-	ASSERT(IntArray.IsValidIndex(2) == TRUE);
-	ASSERT(IntArray.IsValidIndex(3) == FALSE);
-	ASSERT(IntArray.IsValidIndex(-1) == FALSE);
+	ASSERT(IntArray.IsValidIndex(0) == true);
+	ASSERT(IntArray.IsValidIndex(1) == true);
+	ASSERT(IntArray.IsValidIndex(2) == true);
+	ASSERT(IntArray.IsValidIndex(3) == false);
+	ASSERT(IntArray.IsValidIndex(-1) == false);
 
 	/* Test the GetElement() method */
-	ASSERT(IntArray.GetElement(&pTestInt, 0) == TRUE);
+	ASSERT(IntArray.GetElement(&pTestInt, 0) == true);
 	ASSERT(*pTestInt == 12345678l);
-	ASSERT(IntArray.GetElement(&pTestInt, 1) == TRUE);
+	ASSERT(IntArray.GetElement(&pTestInt, 1) == true);
 	ASSERT(*pTestInt == 22345678l);
-	ASSERT(IntArray.GetElement(&pTestInt, 2) == TRUE);
+	ASSERT(IntArray.GetElement(&pTestInt, 2) == true);
 	ASSERT(*pTestInt == 32345678l);
-	ASSERT(StringArray.GetElement(&pTestPtr, 0) == TRUE);
+	ASSERT(StringArray.GetElement(&pTestPtr, 0) == true);
 	ASSERT(std::strcmp(pTestPtr, "Test String #1") == 0);
-	ASSERT(StringArray.GetElement(&pTestPtr, 1) == TRUE);
+	ASSERT(StringArray.GetElement(&pTestPtr, 1) == true);
 	ASSERT(std::strcmp(pTestPtr, "Test String #2") == 0);
-	ASSERT(TestDataArray.GetElement(&pTestData, 0) == TRUE);
+	ASSERT(TestDataArray.GetElement(&pTestData, 0) == true);
 	ASSERT(pTestData->Number == 123);
 	ASSERT(pTestData->lNumber == 222222l);
 	ASSERT(std::strcmp(pTestData->Message, "Test Message") == 0);
@@ -579,21 +578,21 @@ void Test_TemplateArray() {
 	ASSERT(StringArray.GetNumElements() == 0);
 
 	/* Test the IsValidIndex() method again */
-	ASSERT(IntArray.IsValidIndex(0) == FALSE);
-	ASSERT(StringArray.IsValidIndex(0) == FALSE);
+	ASSERT(IntArray.IsValidIndex(0) == false);
+	ASSERT(StringArray.IsValidIndex(0) == false);
 
 	/* Test the SetGrowSize() method */
-	ASSERT(StringArray2.AddElement(CreateString("Test String #1")) == TRUE);
-	ASSERT(StringArray2.AddElement(CreateString("Test String #2")) == TRUE);
+	ASSERT(StringArray2.AddElement(CreateString("Test String #1")) == true);
+	ASSERT(StringArray2.AddElement(CreateString("Test String #2")) == true);
 	pTestPtr = CreateString("Invalid element String");
-	ASSERT(StringArray2.AddElement(pTestPtr) == FALSE);
+	ASSERT(StringArray2.AddElement(pTestPtr) == false);
 	StringArray2.SetGrowSize(1);
-	ASSERT(StringArray2.AddElement(pTestPtr) == TRUE);
+	ASSERT(StringArray2.AddElement(pTestPtr) == true);
 	ASSERT(StringArray2.GetMaxElements() == 3);
 	ASSERT(StringArray2.GetNumElements() == 3);
 	StringArray2.SetGrowSize(-1);
-	ASSERT(StringArray2.AddElement(CreateString("Test String #4")) == TRUE);
-	ASSERT(StringArray2.AddElement(CreateString("Test String #5")) == TRUE);
+	ASSERT(StringArray2.AddElement(CreateString("Test String #4")) == true);
+	ASSERT(StringArray2.AddElement(CreateString("Test String #5")) == true);
 
 	/* Test the FreeExtra() method */
 	ASSERT(StringArray2.GetMaxElements() > StringArray2.GetNumElements());

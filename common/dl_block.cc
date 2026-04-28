@@ -27,6 +27,7 @@
 
 #include "common/dl_base.h"
 #include "common/dl_log.h"
+#include "common/dl_str.h"
 
 DEFINE_FILE("DL_Block.cpp");
 
@@ -55,8 +56,6 @@ static int l_AllocatedBlocks = 0;
 /* Points to the start of a singly linked list of memory block
  * information structures */
 //static blockinfo_t* pBIHead = NULL;
-
-
 /*===========================================================================
  *
  * Function - void ResizeBlockArray (void);
@@ -167,7 +166,7 @@ void ClearMemoryRefs() {
 	int BlockIndex;
 
 	for (BlockIndex = 0; BlockIndex < l_NumBlocks; BlockIndex++) {
-		l_ppBlocks[BlockIndex]->Referenced = FALSE;
+		l_ppBlocks[BlockIndex]->Referenced = false;
 	}
 }
 
@@ -181,7 +180,7 @@ void ClearMemoryRefs() {
  * created.  On failure the newly allocated block should be freed.
  *
  *=========================================================================*/
-boolean CreateBlockInfo(void *pNewBlock, const std::size_t NewSize) {
+bool CreateBlockInfo(void *pNewBlock, const std::size_t NewSize) {
 	DEFINE_FUNCTION("CreateBlockInfo(void*, size_t)");
 	blockinfo_t *pBlockInfo;
 	/* Ensure valid input */
@@ -190,13 +189,13 @@ boolean CreateBlockInfo(void *pNewBlock, const std::size_t NewSize) {
 	pBlockInfo = new blockinfo_t;
 
 	if (pBlockInfo == NULL) {
-		return FALSE;
+		return false;
 	}
 
 	/* Initialize the new memory block */
 	pBlockInfo->pPointer = (byte *)pNewBlock;
 	pBlockInfo->Size = NewSize;
-	pBlockInfo->Referenced = TRUE;
+	pBlockInfo->Referenced = true;
 	pBlockInfo->pName = NULL;
 
 	/* Resize blocks array if required */
@@ -207,7 +206,7 @@ boolean CreateBlockInfo(void *pNewBlock, const std::size_t NewSize) {
 	/* Add the block info to the array */
 	l_ppBlocks[l_NumBlocks] = pBlockInfo;
 	l_NumBlocks++;
-	return TRUE;
+	return true;
 }
 
 
@@ -222,10 +221,10 @@ boolean CreateBlockInfo(void *pNewBlock, const std::size_t NewSize) {
  * the input pNname pointer is not valid.
  *
  *=========================================================================*/
-boolean CreateBlockInfo(void *pNewBlock,
-                        const std::size_t NewSize,
-                        const TCHAR *pName,
-                        const TCHAR *pFunc) {
+bool CreateBlockInfo(void *pNewBlock,
+                     const std::size_t NewSize,
+                     const TCHAR *pName,
+                     const TCHAR *pFunc) {
 	DEFINE_FUNCTION("CreateBlockInfo(void*, size_t, char*)");
 	blockinfo_t *pBlockInfo;
 	/* Ensure valid input */
@@ -234,20 +233,20 @@ boolean CreateBlockInfo(void *pNewBlock,
 	pBlockInfo = new blockinfo_t;
 
 	if (pBlockInfo == NULL) {
-		return FALSE;
+		return false;
 	}
 
 	/* Initialize the new memory block */
 	pBlockInfo->pPointer = (byte *)pNewBlock;
 	pBlockInfo->Size = NewSize;
-	pBlockInfo->Referenced = TRUE;
+	pBlockInfo->Referenced = true;
 	/* Attempt to create the name string */
 	pBlockInfo->pName = new TCHAR[TSTRLEN(pName) +1];
 
 	if (pBlockInfo->pName == NULL) {
 		std::memset(pBlockInfo, (int)GARBAGE_CHAR, sizeof(blockinfo_t));
 		delete pBlockInfo;
-		return FALSE;
+		return false;
 	}
 
 	TSTRCPY(pBlockInfo->pName, pName);
@@ -261,7 +260,7 @@ boolean CreateBlockInfo(void *pNewBlock,
 		if (pBlockInfo->pFunc == NULL) {
 			std::memset(pBlockInfo, (int)GARBAGE_CHAR, sizeof(blockinfo_t));
 			delete pBlockInfo;
-			return FALSE;
+			return false;
 		}
 
 		TSTRCPY(pBlockInfo->pFunc, pFunc);
@@ -275,7 +274,7 @@ boolean CreateBlockInfo(void *pNewBlock,
 	/* Add the block info to the array */
 	l_ppBlocks[l_NumBlocks] = pBlockInfo;
 	l_NumBlocks++;
-	return TRUE;
+	return true;
 }
 
 
@@ -363,7 +362,7 @@ std::size_t GetNumBlocks() {
  *      ASSERT(IsValidPointer(pSomeObject, size));
   *
  *=========================================================================*/
-boolean IsValidPointer(void *pBlock, const std::size_t MinSize) {
+bool IsValidPointer(void *pBlock, const std::size_t MinSize) {
 	DEFINE_FUNCTION("IsValidPointer(void*, size_t)");
 	blockinfo_t *pBlockInfo;
 	byte *pByteBlock = (byte *)pBlock;
@@ -372,7 +371,7 @@ boolean IsValidPointer(void *pBlock, const std::size_t MinSize) {
 	pBlockInfo = GetBlockInfo(pBlock);
 	/* Ensure that the block size is valid */
 	ASSERT(IsPtrLessEq(pByteBlock + MinSize, pBlockInfo->pPointer + pBlockInfo->Size));
-	return TRUE;
+	return true;
 }
 
 
@@ -389,7 +388,7 @@ boolean IsValidPointer(void *pBlock, const std::size_t MinSize) {
  *      ASSERT(IsValidPointer(pSomeObject));
   *
  *=========================================================================*/
-boolean IsValidPointer(void *pBlock) {
+bool IsValidPointer(void *pBlock) {
 	DEFINE_FUNCTION("IsValidPointer(void*)");
 	blockinfo_t *pBlockInfo;
 	/* Ensure valid input */
@@ -398,10 +397,10 @@ boolean IsValidPointer(void *pBlock) {
 	pBlockInfo = GetBlockInfo(pBlock);
 
 	if (pBlockInfo == NULL) {
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -419,7 +418,7 @@ void NoteMemoryRef(void *pBlock) {
 	//DEFINE_FUNCTION("NoteMemoryRef()");
 	blockinfo_t *pBlockInfo;
 	pBlockInfo = GetBlockInfo(pBlock);
-	pBlockInfo->Referenced = TRUE;
+	pBlockInfo->Referenced = true;
 }
 
 
@@ -493,4 +492,4 @@ void UpdateBlockInfo(void *pOldBlock, void *pNewBlock, const std::size_t NewSize
 }
 
 
-#endif /* End of if defined(_DEBUG) */
+#endif  // _DEBUG

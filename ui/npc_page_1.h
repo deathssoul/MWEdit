@@ -132,7 +132,7 @@ class CEsmNpcPage1 : public CPropertyPage {
 	//{{AFX_MSG(CEsmNpcPage1)
 	afx_msg LRESULT OnRecordKey(LPARAM lParam, LPARAM wParam);
 	afx_msg LRESULT OnRecordSort(LPARAM lParam, LPARAM wParam);
-	virtual BOOL OnInitDialog();
+	virtual bool OnInitDialog();
 	afx_msg void OnEndlabeleditItemlist(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnAnimationbutton();
 	afx_msg void OnAutocalccheck();

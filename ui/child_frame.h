@@ -44,7 +44,7 @@ class CChildFrame : public CMDIChildWnd {
 	/* ClassWizard generated virtual function overrides */
 
 	//{{AFX_VIRTUAL(CChildFrame)
-	virtual BOOL PreCreateWindow(CREATESTRUCT &cs);
+	virtual bool PreCreateWindow(CREATESTRUCT &cs);
 	//}}AFX_VIRTUAL
 
 
@@ -52,7 +52,7 @@ class CChildFrame : public CMDIChildWnd {
   protected:
 	//{{AFX_MSG(CChildFrame)
 	afx_msg void OnSize(UINT nType, int cx, int cy);
-	afx_msg void OnMDIActivate(BOOL bActivate, CWnd *pActivateWnd, CWnd *pDeactivateWnd);
+	afx_msg void OnMDIActivate(bool bActivate, CWnd *pActivateWnd, CWnd *pDeactivateWnd);
 	afx_msg void OnSysCommand(UINT nID, LPARAM Param);
 	//}}AFX_MSG
 

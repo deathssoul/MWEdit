@@ -48,13 +48,12 @@
 #include "common/dl_base.h"
 #include "common/dl_err.h"
 #include "common/dl_file.h"
+#include "common/dl_log.h"
 #include "common/dl_mem.h"
 #include "common/dl_str.h"
 
 #if _DEBUG
 #include <stdlib.h>  // Required for non-standard extension _MAX_FNAME: Maximum length of file name
-
-#include "common/dl_log.h"
 #endif  // _DEBUG
 
 DEFINE_FILE("ConApp.cpp");
@@ -93,17 +92,17 @@ CConsoleApp::CConsoleApp() {
 	BuildNumber = -1;
 
 	/* Set the command parsing options */
-	DoParseCommands = TRUE;
-	DoParseParameters = TRUE;
-	DoFlagParsing = TRUE;
+	DoParseCommands = true;
+	DoParseParameters = true;
+	DoFlagParsing = true;
 
 	/* Set the various display options */
-	DisplayTitle = TRUE;
-	DoOpenLog = TRUE;
+	DisplayTitle = true;
+	DoOpenLog = true;
 
 	/* Set the initial paging options */
 	OutputLineCount = 0;
-	DoPaging = TRUE;
+	DoPaging = true;
 	LinesPerPage = 23;
 }
 
@@ -125,12 +124,14 @@ void CConsoleApp::Destroy() {
 	}
 
 	DestroyArrayPointer(pArguments);
+
 	/* Delete any allocated strings */
 	DestroyArrayPointer(pProgramName);
 	DestroyArrayPointer(pAppName);
 	DestroyArrayPointer(pAppDate);
 	DestroyArrayPointer(pAppAuthor);
 	DestroyArrayPointer(pCompiledDate);
+
 	NumArguments = 0;
 	OutputLineCount = 0;
 }
@@ -147,7 +148,7 @@ bool CConsoleApp::AddClassErrors() {
 	//DEFINE_FUNCTION("CConsoleApp::AddClassErrors()");
 	ErrorDatabase.Add(ERRCONAPP_NOHELP, "No help text was defined!", ERRLEVEL_WARNING);
 	ErrorDatabase.Add(ERRCONAPP_BADLINESPERPAGE, "Bad lines per page value specified!");
-	return TRUE;
+	return true;
 }
 
 
@@ -184,7 +185,7 @@ bool CConsoleApp::OpenLog() {
 	ChangeExtension(LogFilename, pProgramName, ".log", _MAX_FNAME + 4);
 	return SystemLog.Open(LogFilename);
 #else
-	return TRUE;
+	return true;
 #endif
 }
 
@@ -198,7 +199,7 @@ bool CConsoleApp::OpenLog() {
  *=========================================================================*/
 bool CConsoleApp::OutputHelp() {
 	//DEFINE_FUNCTION( "CConsoleApp::OutputHelp()");
-	bool Result = TRUE;
+	bool Result = true;
 	int LoopCounter = 0;
 
 	/* Output title if not already output */
@@ -221,13 +222,13 @@ bool CConsoleApp::OutputHelp() {
 		Result = PrintLine(ppHelpText[LoopCounter]);
 
 		if (!Result) {
-			return FALSE;
+			return false;
 		}
 
 		LoopCounter++;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -252,7 +253,7 @@ bool CConsoleApp::OutputTitle() {
 
 	/* Output the application version */
 	if (Result >= 0) {
-		Result = (OutputVersion() == TRUE) ? 0 : - 1;
+		Result = (OutputVersion() == true) ? 0 : - 1;
 
 		if (Result >= 0) {
 			Result = std::fprintf(pOutputStream, ", ");
@@ -275,12 +276,12 @@ bool CConsoleApp::OutputTitle() {
 	/* Check for an error condition */
 	if (Result < 0 || std::ferror(pOutputStream)) {
 		ErrorHandler.AddError(ERR_SYSTEM, errno, "Error writing to the output file stream!");
-		return FALSE;
+		return false;
 	}
 
 	/* Increase the number of lines output and return success */
 	OutputLineCount++;
-	return TRUE;
+	return true;
 }
 
 
@@ -309,10 +310,10 @@ bool CConsoleApp::OutputVersion() {
 	/* Check for an error condition */
 	if (Result < 0) {
 		ErrorHandler.AddError(ERR_SYSTEM, errno, "Error writing to the output file stream!");
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -333,11 +334,11 @@ bool CConsoleApp::ParseAllParameters() {
 		Result = ParseOneParameter(pArguments[LoopCounter]);
 
 		if (Result == CMDPARSE_FAILED) {
-			return FALSE;
+			return false;
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -383,7 +384,7 @@ cmdparse_t CConsoleApp::ParseCommand(char *pCommand, const bool Flag) {
  *=========================================================================*/
 cmdparse_t CConsoleApp::ParseOneParameter(char *pString) {
 	DEFINE_FUNCTION("CConsoleApp::ParseOneParameter()");
-	bool CommandFlag = TRUE;
+	bool CommandFlag = true;
 	int StringSize;
 	/* Ensure valid input */
 	ASSERT(pString != NULL);
@@ -395,10 +396,10 @@ cmdparse_t CConsoleApp::ParseOneParameter(char *pString) {
 
 		/* Check for an initial -/+ flag */
 		if (*pString == '-') {
-			CommandFlag = FALSE;
+			CommandFlag = false;
 			pString++;
 		} else if (*pString == '+') {
-			CommandFlag = TRUE;
+			CommandFlag = true;
 			pString++;
 		}
 
@@ -406,9 +407,9 @@ cmdparse_t CConsoleApp::ParseOneParameter(char *pString) {
 
 		/* Check for a terminating -/+ flag */
 		if (pString[StringSize - 1] == '-') {
-			CommandFlag = FALSE;
+			CommandFlag = false;
 		} else if (pString[StringSize - 1] == '+') {
-			CommandFlag = TRUE;
+			CommandFlag = true;
 		}
 
 		/* Parse the command parameter */
@@ -433,7 +434,7 @@ cmdparse_t CConsoleApp::ParsePagingCommand(char *pString, const bool Flag) {
 
 	/* Do we want to turn off paging? */
 	if (!Flag) {
-		DoPaging = FALSE;
+		DoPaging = false;
 		return CMDPARSE_SUCCESS;
 	}
 
@@ -442,14 +443,14 @@ cmdparse_t CConsoleApp::ParsePagingCommand(char *pString, const bool Flag) {
 
 	/* Ensure a valid number */
 	if (LinesPerPage < 1) {
-		DoPaging = FALSE;
+		DoPaging = false;
 		ErrorHandler.AddError(ERRCONAPP_BADLINESPERPAGE,
 		                      "\tInvalid lines per page value specified (%d)!",
 		                      LinesPerPage);
 		return CMDPARSE_FAILED;
 	}
 
-	DoPaging = TRUE;
+	DoPaging = true;
 	return CMDPARSE_SUCCESS;
 }
 
@@ -463,7 +464,7 @@ cmdparse_t CConsoleApp::ParsePagingCommand(char *pString, const bool Flag) {
  * and CMDPARSE_SUCCESS on success.  Protected class method.
  *
  *=========================================================================*/
-cmdparse_t CConsoleApp::ParseParameter(char */*pString*/ ) {
+cmdparse_t CConsoleApp::ParseParameter(char */*pString*/) {
 	//DEFINE_FUNCTION("CConsoleApp::ParseParameter()");
 	/* Default to not parsing the parameter */
 	return CMDPARSE_NOTPARSED;
@@ -517,10 +518,10 @@ bool CConsoleApp::PrintLine(const char *pString, ...) {
 	/* Check for an error */
 	if (Result < 0 || std::ferror(pOutputStream)) {
 		ErrorHandler.AddError(ERR_SYSTEM, errno, "Error writing to the output file stream!");
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -534,7 +535,7 @@ bool CConsoleApp::PrintLine(const char *pString, ...) {
 int CConsoleApp::StartConsoleApp(const int ArgCount, char *pArgs[]) {
 	DEFINE_FUNCTION("CConsoleApp::StartConsoleApp()");
 	int LoopCounter;
-	bool Result = TRUE;
+	bool Result = true;
 	/* Set the global pointer to the console application */
 	pTheConsoleApp = this;
 	/* Allocate the program name */

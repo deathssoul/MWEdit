@@ -10,8 +10,6 @@
 #ifndef __ESMSCRIPTCOMPILE_H
 #define __ESMSCRIPTCOMPILE_H
 
-#include <winnt.h>
-
 //#if MWEDIT_SCRIPT_MWSE
 #include <queue>
 #include <stack>

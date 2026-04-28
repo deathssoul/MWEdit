@@ -20,6 +20,7 @@
 #include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/apparatus.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
@@ -30,9 +31,9 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
 #endif
 
 IMPLEMENT_DYNCREATE(CEsmApparatusDlg, CEsmRecDialog);
@@ -259,10 +260,10 @@ void CEsmApparatusDlg::SetControlData() {
 	m_QualityText.SetWindowText(m_pApparatus->GetFieldString(ESM_FIELD_QUALITY));
 	m_WeightText.SetWindowText(m_pApparatus->GetFieldString(ESM_FIELD_WEIGHT));
 	m_ValueText.SetWindowText(m_pApparatus->GetFieldString(ESM_FIELD_VALUE));
-	m_NameText.SetModify(FALSE);
-	m_QualityText.SetModify(FALSE);
-	m_WeightText.SetModify(FALSE);
-	m_ValueText.SetModify(FALSE);
+	m_NameText.SetModify(false);
+	m_QualityText.SetModify(false);
+	m_WeightText.SetModify(false);
+	m_ValueText.SetModify(false);
 
 	/* Model/icon buttons */
 	m_ModelButton.SetWindowText(m_pApparatus->GetModel());

@@ -64,7 +64,7 @@ class CEsmSubInfoDATA : public CEsmSubRecord {
 
 		GetInfoData()->Rank = -1;
 		GetInfoData()->PCRank = -1;
-		GetInfoData()->Gender = (char)MWESM_INFOGENDER_NONE;
+		GetInfoData()->Gender = (char)MWESM_INFOGENDER_NONE;  // TODO: Inconsistent casting
 	}
 
 	/* Get class members */

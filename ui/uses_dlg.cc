@@ -17,7 +17,6 @@
 #include <atltypes.h>
 #include <commctrl.h>
 #include <windef.h>
-#include <winnt.h>
 
 #include <cstddef>
 
@@ -32,10 +31,10 @@
 #include "ui/Resource.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("EsmUsesDlg.CPP");
 IMPLEMENT_DYNCREATE(CEsmUsesDlg, CFormView)
@@ -270,7 +269,7 @@ LRESULT CEsmUsesDlg::OnEditRecord(LPARAM lParam, LPARAM wParam) {
 				pWnd->SendMessageToDescendants(ESMDLG_MSG_ONINFOEDIT,
 				                               (LPARAM)pRecInfo,
 				                               -1,
-				                               FALSE);
+				                               false);
 			}
 		}
 	} else {
@@ -300,7 +299,7 @@ void CEsmUsesDlg::OnEditSelectrecord() {
  *=========================================================================*/
 void CEsmUsesDlg::OnInitialUpdate() {
 	CFormView::OnInitialUpdate();
-	ResizeParentToFit(FALSE);
+	ResizeParentToFit(false);
 	UpdateTitle();
 
 	/* Initialize the progress bar */

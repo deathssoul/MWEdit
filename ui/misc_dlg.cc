@@ -20,6 +20,7 @@
 #include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
 #include "game/morrowind/misc.h"
@@ -30,10 +31,10 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmMiscDlg, CEsmRecDialog);
 DEFINE_FILE("EsmMiscDlg.cpp");
@@ -241,9 +242,9 @@ void CEsmMiscDlg::SetControlData() {
 	m_WeightText.SetWindowText(m_pMisc->GetFieldString(ESM_FIELD_WEIGHT));
 	m_ValueText.SetWindowText(m_pMisc->GetFieldString(ESM_FIELD_VALUE));
 
-	m_NameText.SetModify(FALSE);
-	m_WeightText.SetModify(FALSE);
-	m_ValueText.SetModify(FALSE);
+	m_NameText.SetModify(false);
+	m_WeightText.SetModify(false);
+	m_ValueText.SetModify(false);
 
 	/* Model/icon buttons */
 	m_ModelButton.SetWindowText(m_pMisc->GetModel());

@@ -58,6 +58,7 @@
 
 #if _DEBUG
 #include "common/dl_block.h"
+#include "common/dl_file.h"
 #endif  // _DEBUG
 
 DEFINE_FILE("DL_Err.h");
@@ -111,7 +112,7 @@ const TCHAR *CErrorRecord::GetMsg(const errcode_t SubCode) const {
 
 	/* Return the current message string for a regular error */
 	if (CustomErrFunction == NULL) {
-		return (pMessage);
+		return pMessage;
 	}
 
 	/* Call the custom error function with the error's subcode */
@@ -126,7 +127,7 @@ const TCHAR *CErrorRecord::GetMsg(const errcode_t SubCode) const {
  *=========================================================================*/
 CErrorDatabase::CErrorDatabase() {
 	pHead = NULL;
-	AddedDefaultErrors = FALSE;
+	AddedDefaultErrors = false;
 	NumErrors = 0;
 	InitDefaultErrors();
 }
@@ -219,7 +220,7 @@ void CErrorDatabase::ClearErrors() {
 		pHead = pListPtr;
 	}
 
-	AddedDefaultErrors = FALSE;
+	AddedDefaultErrors = false;
 	NumErrors = 0;
 }
 
@@ -286,7 +287,7 @@ void CErrorDatabase::InitDefaultErrors() {
 #if _WIN32
 	AddCustomError(ERR_WINDOWS, WindowsErrorFunction);
 #endif
-	AddedDefaultErrors = TRUE;
+	AddedDefaultErrors = true;
 }
 
 
@@ -1063,7 +1064,7 @@ const TCHAR *WindowsErrorFunction(const errcode_t Code) {
 
 	return ErrMessage;
 }
-#endif
+#endif  // _WIN32
 
 
 /*===========================================================================

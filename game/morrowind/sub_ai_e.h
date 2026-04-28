@@ -15,6 +15,7 @@
 
 #include "common/dl_base.h"
 #include "common/dl_mem.h"
+#include "common/dl_str.h"
 #include "game/morrowind/sub_base.h"
 
 #pragma pack(push, 1)

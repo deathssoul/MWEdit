@@ -14,7 +14,6 @@
 #include <afxdlgs.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
 
 #include <cstddef>
 
@@ -24,10 +23,10 @@
 #include "ui/scr_temp_view.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmScrTempPage1, CPropertyPage)
 DEFINE_FILE("EsmScrTempPage1.cpp");
@@ -153,10 +152,10 @@ void CEsmScrTempPage1::OnAutoscriptname() {
  * Class CEsmScrTempPage1 Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CEsmScrTempPage1::OnInitDialog() {
+bool CEsmScrTempPage1::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
 	m_ScriptName.SetLimitText(ESMSCRTEMP_SCRIPTNAMESIZE);
-	return TRUE;
+	return true;
 }
 
 

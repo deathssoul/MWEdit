@@ -31,7 +31,9 @@ void CEsmSubSCVR::Copy(CEsmSubRecord *pSubRecord) {
 	Destroy();
 	m_Type.SetType(pSubRecord->GetType());
 	m_RecordSize = pSubRecord->GetRecordSize();
-	std::memcpy(&m_FuncData, ((CEsmSubSCVR *)pSubRecord)->GetInfoFuncData(), sizeof(infofuncdata_t));
+	std::memcpy(&m_FuncData,
+	            ((CEsmSubSCVR *)pSubRecord)->GetInfoFuncData(),
+	            sizeof(infofuncdata_t));
 	m_StringLength = std::strlen(m_FuncData.Name);
 }
 

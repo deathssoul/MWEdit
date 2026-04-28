@@ -14,11 +14,11 @@
 #include <afxext.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
 
 #include <cstddef>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/body_part.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/sub_bydt.h"
@@ -28,10 +28,10 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmBodyPartDlg, CEsmRecDialog);
 DEFINE_FILE("EsmBodyPartDlg.cpp");
@@ -185,7 +185,7 @@ void CEsmBodyPartDlg::OnInitialUpdate() {
 	m_IDText.SetLimitText(MWESM_ID_MAXSIZE);
 
 	/* Disable controls */
-	m_PlayableCheck.EnableWindow(FALSE);
+	m_PlayableCheck.EnableWindow(false);
 
 	/* Fill the various lists */
 	FillEsmBodyPartCombo(m_PartList);

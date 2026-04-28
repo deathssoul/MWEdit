@@ -77,7 +77,7 @@ bool ChangeDirectory(const TCHAR *pPath) {
 #if _WIN32
 	Result = _tchdir(pPath);
 #else
-	ASSERT(FALSE);
+	ASSERT(false);
 #endif
 
 	if (Result != 0) {
@@ -85,10 +85,10 @@ bool ChangeDirectory(const TCHAR *pPath) {
 		                      (errcode_t)errno,
 		                      _T("Directory '%s' is not valid!"),
 		                      pPath);
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -151,12 +151,12 @@ bool CompareExtension(const TCHAR *pFilename, const TCHAR *pExtension) {
 		Result = _stricmp(pFileExt, pExtension);
 
 		if (Result == 0) {
-			return TRUE;
+			return true;
 		}
 	}
 
 	/* No extension found */
-	return FALSE;
+	return false;
 }
 
 
@@ -235,14 +235,14 @@ bool CopyOneFile(const TCHAR *pInputFile, const TCHAR *pOutputFile) {
 	byte *Buffer;
 	std::size_t ReadSize;
 	std::size_t WriteSize;
-	bool ReturnValue = TRUE;
+	bool ReturnValue = true;
 	/* Ensure valid input */
 	ASSERT(pInputFile != NULL && pOutputFile != NULL);
 	/* Attempt to open input file */
 	pInputHandle = OpenFile(pInputFile, _T("rb"));
 
 	if (pInputHandle == NULL) {
-		return FALSE;
+		return false;
 	}
 
 	/* Attempt to open output file */
@@ -250,7 +250,7 @@ bool CopyOneFile(const TCHAR *pInputFile, const TCHAR *pOutputFile) {
 
 	if (pOutputHandle == NULL) {
 		std::fclose(pInputHandle);
-		return FALSE;
+		return false;
 	}
 
 	/* Allocate the transfer buffer */
@@ -269,7 +269,7 @@ bool CopyOneFile(const TCHAR *pInputFile, const TCHAR *pOutputFile) {
 			                      _T("Failed to copy file '%s' to '%s'!"),
 			                      pInputFile,
 			                      pOutputFile);
-			ReturnValue = FALSE;
+			ReturnValue = false;
 			break;
 		}
 	} while (ReadSize == COPYFILE_BUFFERSIZE);
@@ -318,7 +318,7 @@ TCHAR *CreatePath(TCHAR *pNewPath, const TCHAR *pString, const std::size_t MaxSt
 bool DelOneFile(const TCHAR *pFilename) {
 	DEFINE_FUNCTION("DelOneFile()");
 #if _WIN32
-	BOOL Result;
+	bool Result;
 	Result = DeleteFile(pFilename);
 
 	if (!Result) {
@@ -411,6 +411,7 @@ bool FileExists(const TCHAR *pFilename) {
 	ASSERT(pFilename != NULL);
 
 	/* Test for empty string (prevents _wfopen() from asserting in UNICODE debug builds */
+	// TODO: Why is Unicode a problem as described by comment?
 	if (pFilename[0] == NULL_CHAR) {
 		return false;
 	}
@@ -419,12 +420,12 @@ bool FileExists(const TCHAR *pFilename) {
 	pFileHandle = TFOPEN(pFilename, _T("r"));
 
 	if (pFileHandle == NULL) {
-		return FALSE;
+		return false;
 	}
 
 	/* File was opened and therefore exists, close and return success */
 	std::fclose(pFileHandle);
-	return TRUE;
+	return true;
 }
 
 
@@ -500,7 +501,7 @@ const TCHAR *FindFilename(const TCHAR *pPath) {
  *
  * Function - TCHAR* GetDirString (TCHAR* pString, const int MaxLength);
  *
- * Copies  the current directory into the given string, which is returned.
+ * Copies the current directory into the given string, which is returned.
  * Up to MaxLength characters will be copied into the string.
  *
  *=========================================================================*/
@@ -508,6 +509,7 @@ TCHAR *GetDirString(TCHAR *pString, const int MaxLength) {
 	DEFINE_FUNCTION("GetDirString()");
 	/* Ensure valid input */
 	ASSERT(pString != NULL && MaxLength > 0);
+	// TODO: Replace with std::filesystem::current_path?
 #if _WIN32
 	_tgetcwd(pString, MaxLength - 1);
 #else
@@ -592,7 +594,7 @@ bool GetFileSize(long &FileSize, const TCHAR *pFilename) {
 		                      (errcode_t)errno,
 		                      _T("Could not open the file '%s'!"),
 		                      pFilename);
-		return FALSE;
+		return false;
 	}
 
 	Result = GetFileSize(FileSize, pFileHandle);
@@ -625,7 +627,7 @@ bool GetFileSize(long &FileSize, std::FILE *pFileHandle) {
 		ErrorHandler.AddError(ERR_SYSTEM,
 		                      (errcode_t)errno,
 		                      _T("Could not retrieve current position in file!"));
-		return FALSE;
+		return false;
 	}
 
 	/* Attempt to move to the end of the file */
@@ -635,7 +637,7 @@ bool GetFileSize(long &FileSize, std::FILE *pFileHandle) {
 		ErrorHandler.AddError(ERR_SYSTEM,
 		                      (errcode_t)errno,
 		                      _T("Could not move file position to end of file!"));
-		return FALSE;
+		return false;
 	}
 
 	/* Get the size of the file in bytes */
@@ -645,7 +647,7 @@ bool GetFileSize(long &FileSize, std::FILE *pFileHandle) {
 		ErrorHandler.AddError(ERR_SYSTEM,
 		                      (errcode_t)errno,
 		                      _T("Could not retrieve current position in file!"));
-		return FALSE;
+		return false;
 	}
 
 	Result = std::fseek(pFileHandle, PrevFilePos, SEEK_SET);
@@ -654,10 +656,10 @@ bool GetFileSize(long &FileSize, std::FILE *pFileHandle) {
 		ErrorHandler.AddError(ERR_SYSTEM,
 		                      (errcode_t)errno,
 		                      _T("Could not move file position to previous location!"));
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -675,10 +677,10 @@ bool HasExtension(const TCHAR *pFilename) {
 	ASSERT(pFilename != NULL);
 
 	if (FindExtension(pFilename) == NULL) {
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -699,13 +701,13 @@ bool HasPath(const TCHAR *pFilename) {
 	/* Look for any drive/path TCHARacters in filename */
 	while (*pFilename != NULL_CHAR) {
 		if (*pFilename == LocalePathChar || *pFilename == ':') {
-			return TRUE;
+			return true;
 		}
 
 		pFilename++;
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -736,19 +738,19 @@ bool IsDirectory(const TCHAR *pPath) {
 		ErrorHandler.AddError(ERR_SYSTEM,
 		                      (errcode_t)errno,
 		                      _T("Failed to retrieve the current directory!"));
-		return FALSE;
+		return false;
 	}
 
 	/* Attempt to change directories */
 	Result = ChangeDirectory(pPath);
 
 	if (!Result) {
-		return FALSE;
+		return false;
 	}
 
 	/* Restore the initial path and return success */
 	ChangeDirectory(InitialPath);
-	return TRUE;
+	return true;
 }
 
 
@@ -768,19 +770,19 @@ bool IsFileWriteable(const TCHAR *pFilename) {
 
 	/* Test for empty string (prevents _wfopen() from asserting in UNICODE debug builds */
 	if (pFilename[0] == NULL_CHAR) {
-		return FALSE;
+		return false;
 	}
 
 	/* Attempt to open the file for appending */
 	pFileHandle = TFOPEN(pFilename, _T("ab"));
 
 	if (pFileHandle == NULL) {
-		return FALSE;
+		return false;
 	}
 
 	/* Close the now open file and return success */
 	std::fclose(pFileHandle);
-	return TRUE;
+	return true;
 }
 
 
@@ -800,14 +802,14 @@ bool IsWildCard(const TCHAR *pFilename) {
 	/* Search entire string for a wildcard TCHARacter */
 	while (*pFilename != NULL_CHAR) {
 		if (*pFilename == (TCHAR)'*' || *pFilename == (TCHAR)'?') {
-			return TRUE;
+			return true;
 		}
 
 		pFilename++;
 	}
 
 	/* No wildcard TCHARacters found */
-	return FALSE;
+	return false;
 }
 
 
@@ -925,7 +927,7 @@ const TCHAR *l_GetFileMode(const TCHAR *pMode) {
 	}
 }
 
-std::FILE *OpenFile (const TCHAR *pFilename, const TCHAR *pMode) {
+std::FILE *OpenFile(const TCHAR *pFilename, const TCHAR *pMode) {
 	DEFINE_FUNCTION("OpenFile(TCHAR*, TCHAR*)");
 	std::FILE *pFileHandle = NULL;
 	/* Ensure valid input */
@@ -967,10 +969,10 @@ bool OpenFile(std::FILE **ppFileHandle, const TCHAR *pFilename, const TCHAR *pMo
 	*ppFileHandle = OpenFile(pFilename, pMode);
 
 	if (*ppFileHandle == NULL) {
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -989,13 +991,16 @@ bool OpenFile(std::FILE **ppFileHandle, const TCHAR *pFilename, const TCHAR *pMo
  * on some systems, the two modes are identical.
  *
  *=========================================================================*/
-bool ReadFile(byte **ppBuffer, std::size_t &BytesRead, const TCHAR *pFilename, const bool TextMode) {
+bool ReadFile(byte **ppBuffer,
+              std::size_t &BytesRead,
+              const TCHAR *pFilename,
+              const bool TextMode) {
 	DEFINE_FUNCTION("ReadFile()");
 	std::FILE *pFileHandle;
 	long FileSize;
 	std::size_t BufferSize;
 	bool Result;
-	bool ReturnValue = TRUE;
+	bool ReturnValue = true;
 	/* Ensure valid input */
 	ASSERT(pFilename != NULL && ppBuffer != NULL);
 	BytesRead = 0;
@@ -1004,7 +1009,7 @@ bool ReadFile(byte **ppBuffer, std::size_t &BytesRead, const TCHAR *pFilename, c
 	pFileHandle = OpenFile(pFilename, TextMode ? _T("rt") : _T("rb"));
 
 	if (pFileHandle == NULL) {
-		return FALSE;
+		return false;
 	}
 
 	/* Attempt to get the file size in bytes */
@@ -1013,12 +1018,12 @@ bool ReadFile(byte **ppBuffer, std::size_t &BytesRead, const TCHAR *pFilename, c
 
 	/* If an error occured getting the file size, do nothing */
 	if (!Result) {
-		ReturnValue = FALSE;
+		ReturnValue = false;
 	} else if (FileSize != (long)BufferSize) { /* For systems with long/int having different bit sizes */
 		ErrorHandler.AddError(ERR_MEM,
 		                      _T("Cannot read the file '%s' as it's size exceeds the maximum allocation size!"),
 		                      pFilename);
-		ReturnValue = FALSE;
+		ReturnValue = false;
 	} else { /* Allocate input buffer and read data from file */
 		CreateArrayPointer(*ppBuffer, byte, BufferSize + 1);
 		BytesRead = std::fread(*ppBuffer, 1, BufferSize, pFileHandle);
@@ -1033,7 +1038,7 @@ bool ReadFile(byte **ppBuffer, std::size_t &BytesRead, const TCHAR *pFilename, c
 			                      BytesRead,
 			                      BufferSize);
 			DestroyPointer(*ppBuffer);
-			ReturnValue = FALSE;
+			ReturnValue = false;
 		}
 	}
 
@@ -1063,7 +1068,7 @@ bool ReadFileCB(byte **ppBuffer,
 	long TotalBytes;
 	std::size_t BufferSize;
 	bool Result;
-	bool ReturnValue = TRUE;
+	bool ReturnValue = true;
 	int CBResult;
 
 	/* Ensure valid input */
@@ -1074,7 +1079,7 @@ bool ReadFileCB(byte **ppBuffer,
 	pFileHandle = OpenFile(pFilename, _T("rb"));
 
 	if (pFileHandle == NULL) {
-		return FALSE;
+		return false;
 	}
 
 	/* Attempt to get the file size in bytes */
@@ -1120,7 +1125,7 @@ bool ReadFileCB(byte **ppBuffer,
 				ErrorHandler.AddError(ERR_SYSTEM,
 				                      (errcode_t)errno,
 				                      _T("ReadFileCB() callback function returned abort code!"));
-				ReturnValue = FALSE;
+				ReturnValue = false;
 				break;
 			}
 		}
@@ -1142,7 +1147,7 @@ bool ReadFileCB(byte **ppBuffer,
 		                      BytesRead,
 		                      BufferSize);
 		DestroyPointer(*ppBuffer);
-		ReturnValue = FALSE;
+		ReturnValue = false;
 	}
 
 	BytesRead = TotalBytes;
@@ -1176,7 +1181,7 @@ bool ReadFileBuffer(byte **ppBuffer,
 	long FileSize;
 	std::size_t BufferSize;
 	bool Result;
-	bool ReturnValue = TRUE;
+	bool ReturnValue = true;
 
 	/* Ensure valid input */
 	ASSERT(pFilename != NULL && ppBuffer != NULL && *ppBuffer != NULL);
@@ -1185,7 +1190,7 @@ bool ReadFileBuffer(byte **ppBuffer,
 	pFileHandle = OpenFile(pFilename, TextMode ? _T("rt") : _T("rb"));
 
 	if (pFileHandle == NULL) {
-		return FALSE;
+		return false;
 	}
 
 	/* Attempt to get the file size in bytes */
@@ -1194,12 +1199,12 @@ bool ReadFileBuffer(byte **ppBuffer,
 
 	/* If an error occured getting the file size, do nothing */
 	if (!Result) {
-		ReturnValue = FALSE;
+		ReturnValue = false;
 	} else if (FileSize != (long)BufferSize) { /* For systems with long/int having different bit sizes */
 		ErrorHandler.AddError(ERR_MEM,
 		                      _T("Cannot read the file '%s' as it's size exceeds the maximum allocation size!"),
 		                      pFilename);
-		ReturnValue = FALSE;
+		ReturnValue = false;
 	} else { /* Read data from file */
 		if (BufferSize > MaxInputSize) {
 			BufferSize = MaxInputSize;
@@ -1215,7 +1220,7 @@ bool ReadFileBuffer(byte **ppBuffer,
 			                      pFilename,
 			                      BytesRead,
 			                      BufferSize);
-			ReturnValue = FALSE;
+			ReturnValue = false;
 		}
 
 		/* NULL terminate if in text mode */
@@ -1289,14 +1294,14 @@ int ReadLine(std::FILE *pFileHandle, TCHAR *pString, const std::size_t MaxString
 
 			/* Ensure string buffer does not exceed its maximum length */
 			if (StringLength >= MaxStringLength) {
-				ErrorHandler.AddError (ERR_MAXINDEX,
-				                       _T("ReadLine() - Maximum string length %u reached!"),
-				                       MaxStringLength);
+				ErrorHandler.AddError(ERR_MAXINDEX,
+				                      _T("ReadLine() - Maximum string length %u reached!"),
+				                      MaxStringLength);
 				ReturnValue = READLINE_MSL;
 				break;
 			}
 		}
-	} while (TRUE); /* Loop is exited using break */
+	} while (true); /* Loop is exited using break */
 
 	/* Ensure the string is NULL terminated */
 	if (pString != NULL) {
@@ -1332,10 +1337,10 @@ bool read_int(std::FILE *pFileHandle, int &Value) {
 		                      _T("Error reading binary integer value (read only %u of %u bytes)!"),
 		                      InputSize,
 		                      sizeof(int));
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -1364,10 +1369,10 @@ bool read_long(std::FILE *pFileHandle, long &Value) {
 		                      _T("Error reading binary long integer value (read only %u of %u bytes)!"),
 		                      InputSize,
 		                      sizeof(long));
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -1396,10 +1401,10 @@ bool read_short(std::FILE *pFileHandle, short &Value) {
 		                      _T("Error reading binary short integer value (read only %u of %u bytes)!"),
 		                      InputSize,
 		                      sizeof(short));
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -1429,14 +1434,14 @@ bool read_motlong(std::FILE *pFileHandle, long &Value) {
 		                      _T("Error reading binary motorola long value (read only %u of %u bytes)!"),
 		                      InputSize,
 		                      sizeof(long));
-		return FALSE;
+		return false;
 	}
 
 	/* Compute the proper long integer value */
 	Value = (long)(((unsigned long)InputData[3]) + (((unsigned long)InputData[2]) << 8)
 	               + (((unsigned long)InputData[1]) << 16)
 	               + (((unsigned long)InputData[0]) << 24));
-	return TRUE;
+	return true;
 }
 
 
@@ -1558,14 +1563,14 @@ bool WriteFile(const byte *pBuffer,
 	DEFINE_FUNCTION("WriteFile()");
 	std::FILE *pFileHandle;
 	std::size_t OutputBytes;
-	bool ReturnValue = TRUE;
+	bool ReturnValue = true;
 	/* Ensure valid input */
 	ASSERT(pBuffer != NULL && pFilename != NULL);
 	/* Attempt to open file for output */
 	pFileHandle = OpenFile(pFilename, TextMode ? _T("wt") : _T("wb"));
 
 	if (pFileHandle == NULL) {
-		return FALSE;
+		return false;
 	}
 
 	/* Attempt to output string buffer to file */
@@ -1578,7 +1583,7 @@ bool WriteFile(const byte *pBuffer,
 		                      pFilename,
 		                      OutputBytes,
 		                      Size);
-		ReturnValue = FALSE;
+		ReturnValue = false;
 	}
 
 	std::fclose(pFileHandle);
@@ -1611,10 +1616,10 @@ bool write_short(std::FILE *pFileHandle, const short OutputValue) {
 		                      _T("Error writing binary short integer to file (%u of %u bytes output)!"),
 		                      OutputSize,
 		                      sizeof(short));
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -1643,10 +1648,10 @@ bool write_int(std::FILE *pFileHandle, const int OutputValue) {
 		                      _T("Error writing binary integer to file (%u of %u bytes output)!"),
 		                      OutputSize,
 		                      sizeof(int));
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -1675,10 +1680,10 @@ bool write_long(std::FILE *pFileHandle, const long OutputValue) {
 		                      _T("Error writing binary long integer to file (%u of %u bytes output)!"),
 		                      OutputSize,
 		                      sizeof(long));
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -1715,8 +1720,8 @@ bool write_motlong(std::FILE *pFileHandle, const long OutputValue) {
 		                      _T("Error writing binary motorola long integer to file (%u of %u bytes output)!"),
 		                      OutputSize,
 		                      sizeof(long));
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }

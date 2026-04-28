@@ -12,11 +12,10 @@
 
 #include <afx.h>
 #include <afxwin.h>
-#include <windef.h>
-#include <winnt.h>
 
 #include <cstddef>
 
+#include "common/dl_base.h"
 #include "game/morrowind/tes3.h"
 #include "ui/Resource.h"
 class CEsmHeaderDlg : public CDialog {
@@ -57,7 +56,7 @@ class CEsmHeaderDlg : public CDialog {
 
 	//{{AFX_MSG(CEsmHeaderDlg)
 	virtual void OnOK();
-	virtual BOOL OnInitDialog();
+	virtual bool OnInitDialog();
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP();

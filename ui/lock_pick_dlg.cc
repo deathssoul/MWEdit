@@ -20,6 +20,7 @@
 #include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
 #include "game/morrowind/lock_pick.h"
@@ -29,17 +30,14 @@
 #include "ui/utils.h"
 #include "windows/win_util.h"
 
-
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmLockPickDlg, CEsmRecDialog);
 DEFINE_FILE("EsmLockPickDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmLockPickDlg Message Map
@@ -271,11 +269,11 @@ void CEsmLockPickDlg::SetControlData() {
 	m_ValueText.SetWindowText(m_pLockPick->GetFieldString(ESM_FIELD_VALUE));
 	m_UsesText.SetWindowText(m_pLockPick->GetFieldString(ESM_FIELD_USES));
 
-	m_UsesText.SetModify(FALSE);
-	m_NameText.SetModify(FALSE);
-	m_QualityText.SetModify(FALSE);
-	m_WeightText.SetModify(FALSE);
-	m_ValueText.SetModify(FALSE);
+	m_UsesText.SetModify(false);
+	m_NameText.SetModify(false);
+	m_QualityText.SetModify(false);
+	m_WeightText.SetModify(false);
+	m_ValueText.SetModify(false);
 
 	/* Model/icon buttons */
 	m_ModelButton.SetWindowText(m_pLockPick->GetModel());

@@ -16,7 +16,6 @@
 #include <atlstr.h>
 #include <commctrl.h>
 #include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
 #include <climits>
@@ -24,6 +23,7 @@
 #include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
 #include "game/morrowind/level_item.h"
@@ -36,10 +36,10 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("EsmLevelItemDlg.cpp");
 IMPLEMENT_DYNCREATE(CEsmLevelItemDlg, CEsmRecDialog);
@@ -530,7 +530,7 @@ void CEsmLevelItemDlg::SetControlData() {
 
 	/* Item strings and values */
 	m_ChanceNoneText.SetWindowText(m_pLevelItem->GetFieldString(ESM_FIELD_CHANCENONE));
-	m_ChanceNoneText.SetModify(FALSE);
+	m_ChanceNoneText.SetModify(false);
 
 	/* Record flags */
 	m_BlockedCheck.SetCheck(m_pLevelItem->IsBlocked());

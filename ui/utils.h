@@ -12,8 +12,8 @@
 
 #include <afxwin.h>
 #include <atlstr.h>
-#include <winnt.h>
 
+#include "common/dl_base.h"
 #include "common/string/sstring.h"
 
 /* Type conversion functions */

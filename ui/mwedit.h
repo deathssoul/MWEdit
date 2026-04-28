@@ -14,10 +14,10 @@
 #include <afxwin.h>
 #include <atlstr.h>
 #include <windef.h>
-#include <winnt.h>
 
 #include <cstddef>
 
+#include "common/dl_base.h"
 #include "game/morrowind/file.h"
 #include "mwedit/options.h"
 #include "mwedit/scr_func_array.h"
@@ -100,7 +100,7 @@ class CMWEditApp : public CWinApp {
   public:
 	//{{AFX_VIRTUAL(CMWEditApp)
   public:
-	virtual BOOL InitInstance();
+	virtual bool InitInstance();
 	virtual CDocument *OpenDocumentFile(LPCTSTR lpszFileName);
 	//}}AFX_VIRTUAL
 

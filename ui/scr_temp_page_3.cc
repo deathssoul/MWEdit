@@ -15,7 +15,6 @@
 #include <afxwin.h>
 #include <atlstr.h>
 #include <commctrl.h>
-#include <windef.h>
 
 #include <cstddef>
 
@@ -25,10 +24,10 @@
 #include "ui/Resource.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmScrTempPage3, CPropertyPage);
 DEFINE_FILE("EsmScrTempPage2.cpp");
@@ -121,7 +120,7 @@ bool CEsmScrTempPage3::AddCsvColumns(CCsvFile *pCsvFile) {
  *=========================================================================*/
 void CEsmScrTempPage3::ClearCsvList() {
 	//DEFINE_FUNCTION("CEsmScrTempPage3::ClearCsvList()");
-	BOOL Result;
+	bool Result;
 	/* Delete rows */
 	m_CsvList.DeleteAllItems();
 
@@ -202,10 +201,10 @@ bool CEsmScrTempPage3::FillCsvList(CCsvFile *pCsvFile) {
  * Class CEsmScrTempPage3 Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CEsmScrTempPage3::OnInitDialog() {
+bool CEsmScrTempPage3::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
 	m_CsvList.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
-	return TRUE;
+	return true;
 }
 
 

@@ -17,12 +17,11 @@
 
 #include "common/dl_base.h"
 #include "common/dl_file.h"
+#include "common/dl_log.h"
 #include "common/dl_mem.h"
 
 #if _DEBUG
 #include <cstring>
-
-#include "common/dl_log.h"
 #endif  // _DEBUG
 /*===========================================================================
  *
@@ -39,8 +38,8 @@ CListFile::CListFile(const std::size_t LineLength) {
 	MaxLineLength = LineLength;
 	pCurrentLine = NULL;
 	pFileHandle = NULL;
-	BufferValid = FALSE;
-	IgnoreBlankLines = FALSE;  // TODO: Update this to use bool instead
+	BufferValid = false;
+	IgnoreBlankLines = false;
 
 	/* Ensure a valid line length */
 	if (MaxLineLength <= 1) {
@@ -78,8 +77,8 @@ void CListFile::Destroy() {
 	//DEFINE_FUNCTION("CListFile::Destroy()");
 	/* Clear the line buffer */
 	*pCurrentLine = NULL_CHAR;
-	BufferValid = FALSE;
-	IgnoreBlankLines = FALSE;
+	BufferValid = false;
+	IgnoreBlankLines = false;
 	/* Close the file if required */
 	Close();
 }
@@ -100,7 +99,7 @@ void CListFile::Close() {
 		std::fclose(pFileHandle);
 		pFileHandle = NULL;
 		*pCurrentLine = NULL_CHAR;
-		BufferValid = FALSE;
+		BufferValid = false;
 	}
 }
 
@@ -114,7 +113,7 @@ void CListFile::Close() {
  * it is closed.
  *
  *=========================================================================*/
-boolean CListFile::Open(const char *pFilename) {
+bool CListFile::Open(const char *pFilename) {
 	DEFINE_FUNCTION("CListFile::Open()");
 	/* Ensure valid input */
 	ASSERT(pFilename != NULL);
@@ -128,7 +127,7 @@ boolean CListFile::Open(const char *pFilename) {
 	pFileHandle = OpenFile(pFilename, "rb");
 
 	if (pFileHandle == NULL) {
-		return FALSE;
+		return false;
 	}
 
 	/* Attempt to read the first line from file */
@@ -145,14 +144,14 @@ boolean CListFile::Open(const char *pFilename) {
  * the extra characters on the line are ignored.
  *
  *=========================================================================*/
-boolean CListFile::ReadNextLine() {
+bool CListFile::ReadNextLine() {
 	DEFINE_FUNCTION("CListFile::ReadNextLine()");
 	int Result;
 	/* Ensure the list file is currently open */
-	BufferValid = FALSE;
+	BufferValid = false;
 
 	if (!IsOpen()) {
-		return FALSE;
+		return false;
 	}
 
 	/* Attempt to input one line from file */
@@ -165,16 +164,16 @@ boolean CListFile::ReadNextLine() {
 			break;
 
 		case READLINE_ERROR:
-			return FALSE;
+			return false;
 
 		case READLINE_EOF:
 			if (IgnoreBlankLines && *pCurrentLine == NULL_CHAR) {
-				BufferValid = FALSE;
+				BufferValid = false;
 			} else {
-				BufferValid = TRUE;
+				BufferValid = true;
 			}
 
-			return TRUE;
+			return true;
 
 		default:
 			if (IgnoreBlankLines && *pCurrentLine == NULL_CHAR) {
@@ -184,8 +183,8 @@ boolean CListFile::ReadNextLine() {
 			break;
 	}
 
-	BufferValid = TRUE;
-	return TRUE;
+	BufferValid = true;
+	return true;
 }
 
 
@@ -219,19 +218,19 @@ void Test_ListFile() {
 	ASSERT(TestFile3.GetMaxLineLength() == LISTFILE_LINE_LENGTH);
 
 	/* Test the IsValidLine() method */
-	ASSERT(TestFile1.IsValidLine() == FALSE);
-	ASSERT(TestFile2.IsValidLine() == FALSE);
-	ASSERT(TestFile3.IsValidLine() == FALSE);
+	ASSERT(TestFile1.IsValidLine() == false);
+	ASSERT(TestFile2.IsValidLine() == false);
+	ASSERT(TestFile3.IsValidLine() == false);
 
 	/* Test the Open() method */
-	ASSERT(TestFile1.Open("test1.lst") == TRUE);
-	ASSERT(TestFile2.Open("test2.lst") == TRUE);
-	ASSERT(TestFile3.Open("nofile.lst") == FALSE);
+	ASSERT(TestFile1.Open("test1.lst") == true);
+	ASSERT(TestFile2.Open("test2.lst") == true);
+	ASSERT(TestFile3.Open("nofile.lst") == false);
 
 	/* Test the IsValidLine() method again */
-	ASSERT(TestFile1.IsValidLine() == TRUE);
-	ASSERT(TestFile2.IsValidLine() == TRUE);
-	ASSERT(TestFile3.IsValidLine() == FALSE);
+	ASSERT(TestFile1.IsValidLine() == true);
+	ASSERT(TestFile2.IsValidLine() == true);
+	ASSERT(TestFile3.IsValidLine() == false);
 
 	/* Test the GetCurrentLine() method */
 	ASSERT(std::strcmp(TestFile1.GetCurrentLine(), "Test1, Line1") == 0);
@@ -240,21 +239,21 @@ void Test_ListFile() {
 
 	/* Output the rest of the TestFile1 file to the SystemLog */
 	do {
-		ASSERT(TestFile1.IsValidLine() == TRUE);
+		ASSERT(TestFile1.IsValidLine() == true);
 		SystemLog.Printf("TestFile1:%s", TestFile1.GetCurrentLine());
 	} while (TestFile1.ReadNextLine());
 
-	ASSERT(TestFile1.IsValidLine() == FALSE);
+	ASSERT(TestFile1.IsValidLine() == false);
 
 	/* Test reopening an open file */
-	ASSERT(TestFile1.Open("test1.lst") == TRUE);
-	ASSERT(TestFile1.IsValidLine() == TRUE);
+	ASSERT(TestFile1.Open("test1.lst") == true);
+	ASSERT(TestFile1.IsValidLine() == true);
 	ASSERT(std::strcmp(TestFile1.GetCurrentLine(), "Test1, Line1") == 0);
 
 	/* Test the Close() and IsOpen() methods */
-	ASSERT(TestFile1.IsOpen() == TRUE);
+	ASSERT(TestFile1.IsOpen() == true);
 	TestFile1.Close();
-	ASSERT(TestFile1.IsOpen() == FALSE);
-	ASSERT(TestFile1.IsValidLine() == FALSE);
+	ASSERT(TestFile1.IsOpen() == false);
+	ASSERT(TestFile1.IsValidLine() == false);
 }
 #endif  // _DEBUG

@@ -13,8 +13,6 @@
 
 #include <stdlib.h>  // TODO: Required for non-standard extension _MAX_PATH
 
-#include <winnt.h>
-
 #include "common/dl_base.h"
 #include "common/dl_str.h"
 #include "mwedit/options_def.h"

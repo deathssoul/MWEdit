@@ -16,6 +16,8 @@
 #include <cstring>
 
 #include "common/dl_base.h"
+#include "common/dl_chr.h"
+#include "common/dl_log.h"
 #include "common/dl_mem.h"
 #include "common/dl_str.h"
 #include "common/string/sstring_data.h"
@@ -612,7 +614,7 @@ int CSString::GetAllocLength() const {
 
 /* Returns TRUE if the string is empty, "" */
 bool CSString::IsEmpty() {
-	return (GetLength() == 0) ? TRUE : FALSE;
+	return (GetLength() == 0) ? true : false;  // TODO: Can be replaced with return GetLength() == 0
 }
 
 /* Returns a string containing the first Count characters from the

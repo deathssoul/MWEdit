@@ -23,6 +23,15 @@
 #define HICLOCK_PERFORMANCE 1
 #define HICLOCK_CLOCK       0
 
+#if _UNICODE
+#if _WIN32
+#define TSTRFTIME(string1, length1, string2, time1) _tcsftime(string1, length1, string2, time1)
+#endif  // _WIN32
+
+#else
+#define TSTRFTIME(string1, length1, string2, time1) std::strftime(string1, length1, string2, time1)
+#endif  // _UNICODE
+
 
 /* Type for recording high-resolution counters */
 typedef struct hiclock_t {

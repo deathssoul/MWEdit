@@ -14,6 +14,8 @@
 
 #include "common/dl_base.h"
 #include "common/dl_err.h"
+#include "common/dl_log.h"
+#include "common/dl_str.h"
 
 DEFINE_FILE("NameList.cpp");
 /*===========================================================================
@@ -52,7 +54,7 @@ bool FindNameValue(long &lValue, const valuenames_t *pValueArray, const TCHAR *p
 
 	/* No match found */
 	ErrorHandler.AddError(ERR_BADINPUT, "Value for the string '%s' was not found!", pName);
-	return FALSE;
+	return false;
 }
 
 

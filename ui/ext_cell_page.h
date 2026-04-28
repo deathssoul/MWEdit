@@ -14,7 +14,6 @@
 #include <afxcmn.h>
 #include <afxdlgs.h>
 #include <afxwin.h>
-#include <windef.h>
 
 #include "game/morrowind/file.h"
 #include "ui/mwedit_doc.h"
@@ -96,7 +95,7 @@ class CEsmExtCellPage : public CPropertyPage {
 	/* Generated message map functions */
 
 	//{{AFX_MSG(CEsmExtCellPage)
-	virtual BOOL OnInitDialog();
+	virtual bool OnInitDialog();
 	afx_msg void OnColorbutton();
 	afx_msg void OnChangeColor();
 	afx_msg void OnMapcheck();

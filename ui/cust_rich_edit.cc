@@ -15,7 +15,6 @@
 #include <atlstr.h>
 #include <atltypes.h>
 #include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
 #include <cstddef>
@@ -23,10 +22,10 @@
 #include "common/dl_base.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("CustRichEdit.cpp");
 /*===========================================================================
@@ -73,7 +72,7 @@ CCustRichEdit::~CCustRichEdit() {
  * Description
  *
  *=========================================================================*/
-BOOL CCustRichEdit::Create(DWORD dwStyle, const RECT &rect, CWnd *pParentWnd, UINT nID) {
+bool CCustRichEdit::Create(DWORD dwStyle, const RECT &rect, CWnd *pParentWnd, UINT nID) {
 	CWnd *l_pWnd = this ;
 	return l_pWnd->Create(_T("RichEdit"), NULL, dwStyle, rect, pParentWnd, nID);
 }
@@ -206,7 +205,7 @@ int CCustRichEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
  * Class CCustRichEdit Event - BOOL OnMouseWheel (nFlags, zDetla, pt);
  *
  *=========================================================================*/
-BOOL CCustRichEdit::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
+bool CCustRichEdit::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 	GetParent()->SendMessage(CRE_UPDATESCROLL, -1, 0);
 	return CRichEditCtrl::OnMouseWheel(nFlags, zDelta, pt);
 }

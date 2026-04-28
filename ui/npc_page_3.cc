@@ -42,10 +42,10 @@
 
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmNpcPage3, CPropertyPage);
 DEFINE_FILE("EsmNpcPage3.cpp");
@@ -258,7 +258,7 @@ void CEsmNpcPage3::OnEndlabeleditItemlist(NMHDR *pNMHDR, LRESULT *pResult) {
  * Class CEsmNpcPage3 Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CEsmNpcPage3::OnInitDialog() {
+bool CEsmNpcPage3::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
 
 	/* Spell List */
@@ -271,7 +271,7 @@ BOOL CEsmNpcPage3::OnInitDialog() {
 	m_ItemList.SetWantKeys(true);
 	m_ItemList.InitObjectList(&l_ItemColData[0]);
 
-	return TRUE;
+	return true;
 }
 
 

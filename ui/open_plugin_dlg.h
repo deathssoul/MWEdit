@@ -19,12 +19,12 @@
 #include <atlstr.h>
 #include <commctrl.h>
 #include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
 #include <cstddef>
 #include <ctime>
 
+#include "common/dl_base.h"
 #include "common/container/ptr_array.h"
 #include "ui/Resource.h"
 
@@ -124,7 +124,7 @@ class COpenPluginDlg : public CDialog {
 
 	//{{AFX_MSG(COpenPluginDlg)
 	virtual void OnOK();
-	virtual BOOL OnInitDialog();
+	virtual bool OnInitDialog();
 	afx_msg void OnSetactive();
 	afx_msg void OnDblclkFileList(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnColumnclickFileList(NMHDR *pNMHDR, LRESULT *pResult);

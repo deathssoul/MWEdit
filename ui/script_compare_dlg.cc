@@ -14,8 +14,6 @@
 #include <afxext.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
-#include <winnt.h>
 
 #include <cstdarg>
 #include <cstddef>
@@ -24,10 +22,10 @@
 #include "ui/Resource.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("EsmScriptCompareDlg.CPP");
 IMPLEMENT_DYNCREATE(CEsmScriptCompareDlg, CFormView)
@@ -140,7 +138,7 @@ void CEsmScriptCompareDlg::OnDestroy() {
  *=========================================================================*/
 void CEsmScriptCompareDlg::OnInitialUpdate() {
 	CFormView::OnInitialUpdate();
-	ResizeParentToFit(FALSE);
+	ResizeParentToFit(false);
 	UpdateTitle();
 	/* Find the uses information for the current record */
 	//ShowWindow(SW_NORMAL);

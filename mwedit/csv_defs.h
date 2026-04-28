@@ -10,8 +10,7 @@
 #ifndef __ESMCSVDEFS_H
 #define __ESMCSVDEFS_H
 
-#include <winnt.h>
-
+#include "common/dl_base.h"
 #include "file/csv_file.h"
 #include "game/morrowind/defs.h"
 

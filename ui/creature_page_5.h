@@ -13,7 +13,6 @@
 #include <afx.h>
 #include <afxdlgs.h>
 #include <afxwin.h>
-#include <windef.h>
 
 #include "game/morrowind/file.h"
 #include "ui/dlg_array.h"
@@ -101,7 +100,7 @@ class CEsmCreaturePage5 : public CPropertyPage {
 	/* Generated message map functions */
 
 	//{{AFX_MSG(CEsmCreaturePage5)
-	virtual BOOL OnInitDialog();
+	virtual bool OnInitDialog();
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP();

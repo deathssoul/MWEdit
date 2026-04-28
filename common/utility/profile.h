@@ -11,6 +11,7 @@
 #define __PROFILE_H
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "common/dl_time.h"
 
 /* Macros for inserting profiles, only valid in debug builds */

@@ -23,6 +23,7 @@
 #include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
 #include "game/morrowind/light.h"
@@ -34,10 +35,10 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmLightDlg, CEsmRecDialog);
 DEFINE_FILE("EsmLightDlg.cpp");
@@ -543,24 +544,24 @@ void CEsmLightDlg::SetControlData() {
 		Buffer.Format(_T("%d"), pLightData->Value);
 		m_ValueText.SetWindowText(Buffer);
 		m_OffCheck.SetCheck(m_pLight->IsDefaultOff());
-		m_CanCarryCheck.SetCheck(TRUE);
+		m_CanCarryCheck.SetCheck(true);
 	} else {
-		m_NameText.EnableWindow(FALSE);
-		m_WeightText.EnableWindow(FALSE);
-		m_ValueText.EnableWindow(FALSE);
+		m_NameText.EnableWindow(false);
+		m_WeightText.EnableWindow(false);
+		m_ValueText.EnableWindow(false);
 		m_TimeText.SetWindowText(_T(""));
-		m_TimeText.EnableWindow(FALSE);
+		m_TimeText.EnableWindow(false);
 		m_IconButton.SetWindowText(_T(""));
-		m_IconButton.EnableWindow(FALSE);
-		m_OffCheck.EnableWindow(FALSE);
-		m_IconPicture.EnableWindow(FALSE);
-		m_CanCarryCheck.SetCheck(FALSE);
+		m_IconButton.EnableWindow(false);
+		m_OffCheck.EnableWindow(false);
+		m_IconPicture.EnableWindow(false);
+		m_CanCarryCheck.SetCheck(false);
 	}
 
 	/* Item strings and values */
-	m_NameText.SetModify(FALSE);
-	m_WeightText.SetModify(FALSE);
-	m_ValueText.SetModify(FALSE);
+	m_NameText.SetModify(false);
+	m_WeightText.SetModify(false);
+	m_ValueText.SetModify(false);
 
 	/* Light color */
 	Buffer.Format(_T("%d"), (int)pLightData->Red);

@@ -10,8 +10,7 @@
 #ifndef __CONFIGFILE_H
 #define __CONFIGFILE_H
 
-#include <winnt.h>
-
+#include "common/dl_base.h"
 #include "common/file/config_group.h"
 #include "common/file/gen_file.h"
 

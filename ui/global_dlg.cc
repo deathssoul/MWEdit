@@ -14,13 +14,13 @@
 #include <afxext.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
 
 #include <climits>
 #include <cstddef>
 #include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/global.h"
 #include "ui/rec_dialog.h"
@@ -29,10 +29,10 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmGlobalDlg, CEsmRecDialog);
 DEFINE_FILE("EsmApparatusDlg.cpp");
@@ -207,8 +207,8 @@ void CEsmGlobalDlg::SetControlData() {
 
 	/* Item strings and values */
 	m_ValueText.SetWindowText(m_pGlobal->GetFieldString(ESM_FIELD_VALUE));
-	m_IDText.SetModify(FALSE);
-	m_ValueText.SetModify(FALSE);
+	m_IDText.SetModify(false);
+	m_ValueText.SetModify(false);
 
 	/* Item lists */
 	FindComboListItem(m_TypeList, m_pGlobal->GetType(), true);

@@ -11,21 +11,17 @@
 
 #include <afxdd_.h>
 #include <afxwin.h>
-#include <windef.h>
-#include <winnt.h>
 
 #include "common/dl_base.h"
 #include "ui/Resource.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("EsmLoadDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmLoadDlg Message Map
@@ -70,6 +66,7 @@ CEsmLoadDlg::CEsmLoadDlg(CWnd* pParent) : CDialog(CEsmLoadDlg::IDD, pParent) {
  *=========================================================================*/
 void CEsmLoadDlg::DoDataExchange(CDataExchange *pDX) {
 	CDialog::DoDataExchange(pDX);
+
 	//{{AFX_DATA_MAP(CEsmLoadDlg)
 	DDX_Control(pDX, IDC_FILELABEL2, m_SubLabel);
 	DDX_Control(pDX, IDC_FILELABEL, m_FileLabel);
@@ -83,12 +80,12 @@ void CEsmLoadDlg::DoDataExchange(CDataExchange *pDX) {
  * Class CEsmLoadDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CEsmLoadDlg::OnInitDialog() {
+bool CEsmLoadDlg::OnInitDialog() {
 	CDialog::OnInitDialog();
 
 	m_FileLabel.SetWindowText(_T(""));
 	m_ProgressCtrl.SetRange(0, 200);
 	m_ProgressCtrl.SetPos(0);
 
-	return TRUE;
+	return true;
 }

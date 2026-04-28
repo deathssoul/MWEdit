@@ -16,8 +16,6 @@
 #include <atlstr.h>
 #include <commdlg.h>
 #include <richedit.h>
-#include <tchar.h>
-#include <windef.h>
 #include <wingdi.h>
 #include <winuser.h>
 
@@ -36,10 +34,10 @@
 
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("EsmOptionsDlg.cpp");
 /*===========================================================================
@@ -440,7 +438,7 @@ void CEsmOptionsDlg::OnBgcolor() {
 void CEsmOptionsDlg::OnBrowseextrafile() {
 	CString Buffer;
 	m_ExtraFile.GetWindowText(Buffer);
-	CFileDialog BrowseDlg(TRUE,
+	CFileDialog BrowseDlg(true,
 	                      _T("esp"),
 	                      Buffer,
 	                      OFN_FILEMUSTEXIST | OFN_HIDEREADONLY,
@@ -566,7 +564,7 @@ void CEsmOptionsDlg::OnWhiteformatButton() {
  * Class CEsmOptionsDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CEsmOptionsDlg::OnInitDialog() {
+bool CEsmOptionsDlg::OnInitDialog() {
 	CDialog::OnInitDialog();
 
 	/* Fill/create the required lists */
@@ -587,7 +585,7 @@ BOOL CEsmOptionsDlg::OnInitDialog() {
 	}
 
 	SetControlData();
-	return TRUE;
+	return true;
 }
 
 
@@ -654,12 +652,12 @@ void CEsmOptionsDlg::SetControlData() {
 	m_IndentCommentsMore.SetCheck(m_pOrigOptions->GetIndentCommentsMore());
 
 	if (m_pOrigOptions->GetScriptIndentString()[0] == ' ') {
-		m_IndentSpace.SetCheck(TRUE);
+		m_IndentSpace.SetCheck(true);
 		Buffer.Format(_T("%d"), _tcslen(m_pOrigOptions->GetScriptIndentString()));
 		m_IndentSpacesText.SetWindowText(Buffer);
 	} else {
 		m_IndentSpacesText.SetWindowText("4");
-		m_IndentTab.SetCheck(TRUE);
+		m_IndentTab.SetCheck(true);
 	}
 
 	/* Display the first format information */
@@ -736,7 +734,7 @@ void CEsmOptionsDlg::SetFormatData(const int Index) {
  *=========================================================================*/
 void CEsmOptionsDlg::UpdateSampleFontText() {
 	GetFontData(&m_SampleFont);
-	m_SampleText.SetFont(&m_SampleFont, TRUE);
+	m_SampleText.SetFont(&m_SampleFont, true);
 }
 
 

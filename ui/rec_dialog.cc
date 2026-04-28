@@ -23,12 +23,12 @@
 #include <afxwin.h>
 #include <atlstr.h>
 #include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
 #include <cstddef>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "common/dl_mem.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
@@ -38,10 +38,10 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmRecDialog, CFormView);
 DEFINE_FILE("EsmRecDialog.cpp");
@@ -302,7 +302,7 @@ void CEsmRecDialog::OnIconbutton() {
  *=========================================================================*/
 void CEsmRecDialog::OnInitialUpdate() {
 	CFormView::OnInitialUpdate();
-	ResizeParentToFit(FALSE);
+	ResizeParentToFit(false);
 	m_Modified = false;
 
 	/* Load the default accelerator table */
@@ -452,7 +452,7 @@ void CEsmRecDialog::OnUpdate(CView *pSender, LPARAM lHint, CObject *pHint) {
  * Class CEsmRecDialog Method - BOOL PreTranslateMessage (pMsg);
  *
  *=========================================================================*/
-BOOL CEsmRecDialog::PreTranslateMessage(MSG *pMsg) {
+bool CEsmRecDialog::PreTranslateMessage(MSG *pMsg) {
 	int Result;
 
 	if (pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST && m_hAccelator != NULL) {

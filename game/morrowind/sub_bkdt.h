@@ -100,7 +100,7 @@ class CEsmSubBKDT : public CEsmSubRecord {
 	}
 
 	void SetScroll(const bool Flag) {
-		GetBookData()->Scroll = Flag ? 1 : 0;
+		GetBookData()->Scroll = Flag ? 1 : 0;  // TODO: The conditional looks like a bug. Should probably just be GetBookData()->Scroll = Flag
 	}
 };
 

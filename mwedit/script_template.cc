@@ -11,8 +11,6 @@
 
 //#include <string.h>  // TODO: Required for non-standard extension _stricmp()
 
-#include <winnt.h>
-
 #include <cstddef>
 #include <cstring>
 

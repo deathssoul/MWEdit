@@ -12,14 +12,11 @@
 
 #include <afxcmn.h>
 #include <afxwin.h>
-#include <windef.h>
-#include <winnt.h>
 
 #include <cstddef>
 
+#include "common/dl_base.h"
 #include "ui/Resource.h"
-
-
 /*===========================================================================
  *
  * Begin Class CEsmLoadDlg Definition
@@ -69,7 +66,7 @@ class CEsmLoadDlg : public CDialog {
 	/* Generated message map functions */
 
 	//{{AFX_MSG(CEsmLoadDlg)
-	virtual BOOL OnInitDialog();
+	virtual bool OnInitDialog();
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP();

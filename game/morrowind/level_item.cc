@@ -11,6 +11,7 @@
 
 #include <cstddef>
 #include <cstdio>
+#include <cstdlib>
 
 #include "common/dl_base.h"
 #include "common/dl_mem.h"
@@ -319,7 +320,7 @@ bool CEsmLevelItem::SetFieldValue(const int FieldID, const TCHAR *pString) {
 			return true;
 
 		case ESM_FIELD_CHANCENONE:
-			SetChanceNone(atoi(pString));
+			SetChanceNone(std::atoi(pString));
 			return true;
 
 		case ESM_FIELD_CALCEACH:

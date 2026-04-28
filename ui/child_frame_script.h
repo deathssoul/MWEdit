@@ -39,13 +39,13 @@ class CChildFrmScript : public CMDIChildWnd {
 	/* Protected constructor used by dynamic creation */
 	CChildFrmScript();
 
-	virtual BOOL PreCreateWindow(CREATESTRUCT &cs);
+	virtual bool PreCreateWindow(CREATESTRUCT &cs);
 
 
   public:
 	virtual ~CChildFrmScript();
 
-	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext *pContext);
+	virtual bool OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext *pContext);
 	void FakeMaximize();
 
 
@@ -59,7 +59,7 @@ class CChildFrmScript : public CMDIChildWnd {
 	afx_msg void OnClose();
 	afx_msg void OnMove(int cx, int cy);
 	afx_msg void OnKillFocus(CWnd *pWnd);
-	afx_msg void OnMDIActivate(BOOL bActivate, CWnd *pActivateWnd, CWnd *pDeactivateWnd);
+	afx_msg void OnMDIActivate(bool bActivate, CWnd *pActivateWnd, CWnd *pDeactivateWnd);
 	afx_msg void OnSysCommand(UINT nID, LPARAM Param);
 	//}}AFX_MSG
 

@@ -26,27 +26,13 @@
  *
  *=========================================================================*/
 #if _WIN32
-	#pragma warning(disable : 4514)
-	#pragma warning(disable : 4512)
-#endif
+#pragma warning(disable : 4514)
+#pragma warning(disable : 4512)
+#endif  // _WIN32
 
 #include <windef.h>
 
 #include <cstddef>
-
-//#include "common/dl_str.h"
-
-#if _UNICODE
-#include <cwctype>
-#else
-#include <string.h>  // TODO: Required for non-standard extension stricmp() and strnicmp()
-
-#include <cctype>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <ctime>
-#endif  // _UNICODE
 
 /*===========================================================================
  *
@@ -56,9 +42,9 @@
  *
  *=========================================================================*/
 #if _DEBUG && _WIN32
-	//#define _CRTDBG_MAP_ALLOC
-	#include <crtdbg.h>
-#endif
+//#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
+#endif  // _DEBUG && _WIN32
 
 /*===========================================================================
  *
@@ -82,16 +68,17 @@
  *
  *=========================================================================*/
 #if _WIN32
-	#define SYS_MSDOS(Cmd)
-	#define SYS_WIN32(Cmd) Cmd
-	#define SYS_UNIX(Cmd)
-	#define SYS_NONE(Cmd)
+#define SYS_MSDOS(Cmd)
+#define SYS_WIN32(Cmd) Cmd
+#define SYS_UNIX(Cmd)
+#define SYS_NONE(Cmd)
+
 #else
-	#define SYS_MSDOS(Cmd)
-	#define SYS_WIN32(Cmd)
-	#define SYS_UNIX(Cmd)
-	#define SYS_NONE(Cmd) Cmd
-#endif
+#define SYS_MSDOS(Cmd)
+#define SYS_WIN32(Cmd)
+#define SYS_UNIX(Cmd)
+#define SYS_NONE(Cmd) Cmd
+#endif  // _WIN32
 
 
 /*===========================================================================
@@ -102,47 +89,14 @@
  *
  *=========================================================================*/
 #if _WIN32
-	#define __DL_TIMESTAMP__ __TIMESTAMP__
-#endif
+#define __DL_TIMESTAMP__ __TIMESTAMP__
+#endif  // _WIN32
 
 
 #if _WIN32
-	#define ASM __asm
-	#define interrupt
-#endif
-
-
-/*===========================================================================
- *
- * Begin Boolean Type Definition
- *
- * Define the standard boolean type if not previously defined. Use
- * unsigned char to match that used in MSVC++.
- *
- *=========================================================================*/
-#if _WIN32
-	//typedef bool boolean;
-	//#define TRUE  true
-	//#define FALSE false
-	#define __BOOLEAN_DEF
-	typedef unsigned char boolean;
-
-	#ifndef TRUE
-		#define TRUE  1
-		#define FALSE 0
-	#endif
-
-#else
-	#define __BOOLEAN_DEF
-	typedef unsigned char boolean;
-
-	#ifndef TRUE
-		#define TRUE ((boolean)1)
-		#define FALSE ((boolean)0)
-	#endif
-
-#endif
-
+#define ASM __asm
+#define interrupt
+#endif  // _WIN32
 
 #define DL_RGB(r, g ,b) ((DWORD)(((BYTE)(r) | \
                                  ((WORD)(g) << 8)) | \
@@ -166,142 +120,26 @@ typedef unsigned long dword;
 
 /* Define the TCHAR type if required */
 #if _WIN32
-	#include <tchar.h>
-	//#include <winnt.h>
+#include <tchar.h>
 #else
-	#ifndef _TCHAR_DEFINED
-		#if _UNICODE
-			typedef wchar_t TCHAR;
-		#else
-			typedef char TCHAR;
-		#endif
-		#define _TCHAR_DEFINED 1
-	#endif
-
-	/* Define the custom _T() macro for wide/single byte strings */
-	#ifndef _T
-		#if _UNICODE
-			#define _T(text) L##text
-		#else
-			#define _T(text) text
-		#endif
-	#endif
-#endif
-
-/* Basic string-tchar definitions as required */
+#ifndef _TCHAR_DEFINED
 #if _UNICODE
-	#if _WIN32
-		#define TSTRLEN(string) _tcslen(string)
-		#define TSTRCMP(string1, string2) _tcscmp(string1, string2)
-		#define _stricmp(string1, string2) _tcsicmp(string1, string2)
-		#define TSTRCPY(string1, string2) _tcscpy(string1, string2)
-		#define TSTRCAT(string1, string2) _tcscat(string1, string2)
-		#define TSTRCHR(string, char1) _tcschr(string, (TCHAR)char1)
-		#define TSTRRCHR(string, char1) _tcsrchr(string, (TCHAR)char1)
-		#define TSTRTOK(string1, string2) _tcstok(string1, string2)
-		#define TSTRNCMP(string1, string2, length) _tcsncmp(string1, string2, length)
-		#define TSTRNICMP(string1, string2, length) _tcsnicmp(string1, string2, length)
-		#define TSTRSTR(string1, string2) _tcsstr(string1, string2)
-		#define TFPRINTF _ftprintf
-		#define TSTRNCAT(string1, string2, length) _tcsncat(string1, string2, length)
-		#define TSTRNCPY(string1, string2, length) strnncpy(string1, string2, length)
-		#define TFOPEN(Filename, mode) _tfopen(Filename, mode)
-		#define TSTRFTIME(string1, length1, string2, time1) _tcsftime(string1, length1, string2, time1)
-		#define TFPUTC(Char, Handle) _fputtc(Char, Handle)
-		#define TPRINTF _tprintf
-		#define TVPRINTF _vtprintf
-		#define TVFPRINTF _vftprintf
-		#define TISSPACE(char1) _istspace(char1)
-		#define TISDIGIT(char1) _istdigit(char1)
-		#define TISALPHA(char1) _istalpha(char1)
-		#define TISLOWER(char1) _istlower(char1)
-		#define TISUPPER(char1) _istupper(char1)
-		#define TISPRINT(char1) _istprint(char1)
-		#define TISSPACE(char1) _istspace(char1)
-		#define TISXDIGIT(char1) _istxdigit(char1)
-		#define TSTRTOL(string, ptr, base) _tcstol(string, ptr, base)
-		#define TSTRTOD(string, ptr) _tcstod(string, ptr)
-		#define TTOUPPER(char1) std::towupper(char1)
-		#define TTOLOWER(char1) std::towlower(char1)
-	#endif
+typedef wchar_t TCHAR;
 #else
-	#define TSTRCPY(string1, string2) std::strcpy(string1, string2)
-	#define TSTRCAT(string1, string2) std::strcat(string1, string2)
-	#define TSTRCMP(string1, string2) std::strcmp(string1, string2)
-	#define _stricmp(string1, string2) stricmp(string1, string2)
-	#define TSTRLEN(string) std::strlen(string)
-	#define TSTRCHR(string, char1) std::strchr(string, char1)
-	#define TSTRRCHR(string, char1) std::strrchr(string, char1)
-	#define TSTRTOK(string1, string2) std::strtok(string1, string2)
-	#define TSTRNCMP(string1, string2, length) std::strncmp(string1, string2, length)
-	#define TSTRNICMP(string1, string2, length) strnicmp(string1, string2, length)
-	#define TSTRNCPY(string1, string2, length) strnncpy(string1, string2, length)
-	#define TSTRSTR(string1, string2) std::strstr(string1, string2)
-	#define TFPRINTF std::fprintf
-	#define TSTRNCAT(string1, string2, length) std::strncat(string1, string2, length)
-	#define TFOPEN(Filename, mode) std::fopen(Filename, mode)
-	#define TSTRFTIME(string1, length1, string2, time1) std::strftime(string1, length1, string2, time1)
-	#define TFPUTC(Char, Handle) std::fputc(Char, Handle)
-	#define TPRINTF std::printf
-	#define TVPRINTF std::vprintf
-	#define TVFPRINTF std::vfprintf
-	#define TISSPACE(char1) std::isspace(char1)
-	#define TISDIGIT(char1) std::isdigit(char1)
-	#define TISALPHA(char1) std::isalpha(char1)
-	#define TISLOWER(char1) std::islower(char1)
-	#define TISUPPER(char1) std::isupper(char1)
-	#define TISPRINT(char1) std::isprint(char1)
-	#define TISSPACE(char1) std::isspace(char1)
-	#define TISXDIGIT(char1) std::isxdigit(char1)
-	#define TSTRTOL(string, ptr, base) std::strtol(string, ptr, base)
-	#define TSTRTOD(string, ptr) std::strtod(string, ptr)
-	#define TTOUPPER(char1) std::toupper(char1)
-	#define TTOLOWER(char1) std::tolower(char1)
-#endif
+typedef char TCHAR;
+#endif  // _UNICODE
+#define _TCHAR_DEFINED 1
+#endif  // _TCHAR_DEFINED
 
-/* The type for the new qsort() user compare function */
-typedef int (_cdecl *PQSORT_CMPFUNC)(const void *pElem1,
-                                     const void *pElem2,
-                                     const long lUserData );
-typedef int (_cdecl *PQSORT_CMPFUNC_ORIG)(const void *pElem1, const void *pElem2);
-
-
-/*===========================================================================
- *
- * Begin Function Definition Macro
- *
- * Use this macro at the beginning of a function to store the function
- * name as a static string allowing the output of the function name
- * in debugging messages.  The string only exists in debug builds and is
- * an empty string in release builds.
- *
- *=========================================================================*/
-#if _DEBUG
-	#define DEFINE_FUNCTION(FuncString) static TCHAR ThisFunction[] = _T(FuncString);
-	extern TCHAR ThisFunction[10];
+/* Define the custom _T() macro for wide/single byte strings */
+#ifndef _T
+#if _UNICODE
+#define _T(text) L##text
 #else
-	//#define DEFINE_FUNCTION(FuncString) static char ThisFunction[] = "";
-	#define DEFINE_FUNCTION(FuncString)
-	#define ThisFunction _T("")
-#endif
-
-
-/*===========================================================================
- *
- * Begin File Definition Macro
- *
- * Similar to the function macro above but for individual source files
- * instead.  Include the macro at the top of a file to create a static
- * string ThisFile for use in debug messages.  Only defined in debug builds.
- * Use the ThisFile string instead of __FILE__ to reduce the amount of
- * global strings the program allocates.
- *
- *=========================================================================*/
-#define DEFINE_FILE(string) static TCHAR ThisFile[] = _T(string);
-
-/* Eliminates errors from not using the DEFINE_FILE() macro */
-extern TCHAR ThisFile[];
-
+#define _T(text) text
+#endif  // _UNICODE
+#endif  // _T
+#endif  // _WIN32
 
 /*===========================================================================
  *
@@ -321,6 +159,48 @@ extern TCHAR ThisFile[];
 #define DEGREE_CHAR ((TCHAR)248)
 #define MU_CHAR ((TCHAR)230)
 
+/* The type for the new qsort() user compare function */
+typedef int (_cdecl *PQSORT_CMPFUNC)(const void *pElem1,
+                                     const void *pElem2,
+                                     const long lUserData );
+typedef int (_cdecl *PQSORT_CMPFUNC_ORIG)(const void *pElem1, const void *pElem2);
+
+
+/*===========================================================================
+ *
+ * Begin Function Definition Macro
+ *
+ * Use this macro at the beginning of a function to store the function
+ * name as a static string allowing the output of the function name
+ * in debugging messages.  The string only exists in debug builds and is
+ * an empty string in release builds.
+ *
+ *=========================================================================*/
+#if _DEBUG
+#define DEFINE_FUNCTION(FuncString) static TCHAR ThisFunction[] = _T(FuncString);
+extern TCHAR ThisFunction[10];
+#else
+//#define DEFINE_FUNCTION(FuncString) static char ThisFunction[] = "";
+#define DEFINE_FUNCTION(FuncString)
+#define ThisFunction _T("")
+#endif  // _DEBUG
+
+
+/*===========================================================================
+ *
+ * Begin File Definition Macro
+ *
+ * Similar to the function macro above but for individual source files
+ * instead.  Include the macro at the top of a file to create a static
+ * string ThisFile for use in debug messages.  Only defined in debug builds.
+ * Use the ThisFile string instead of __FILE__ to reduce the amount of
+ * global strings the program allocates.
+ *
+ *=========================================================================*/
+#define DEFINE_FILE(string) static TCHAR ThisFile[] = _T(string);
+
+/* Eliminates errors from not using the DEFINE_FILE() macro */
+extern TCHAR ThisFile[];
 
 /*===========================================================================
  *
@@ -329,7 +209,6 @@ extern TCHAR ThisFile[];
  * Definitions to help manipulate bit flags.
  *
  *=========================================================================*/
-
 #define CHECK_BITFLAG(Variable, Flag) ( ((Variable) & (Flag)) != 0)
 #define STORE_BITFLAG(Variable, Flag) ((Variable) |=  (Flag))
 #define CLEAR_BITFLAG(Variable, Flag) ((Variable) &= ~(Flag))
@@ -344,23 +223,23 @@ extern TCHAR ThisFile[];
  *
  *=========================================================================*/
 #ifndef M_PI
-	#define M_E         2.71828182845904523536
-	#define M_LOG2E     1.44269504088896340736
-	#define M_LOG10E    0.434294481903251827651
-	#define M_LN2       0.693147180559945309417
-	#define M_LN10      2.30258509299404568402
-	#define M_PI        3.14159265358979323846
-	#define M_PI_2      1.57079632679489661923
-	#define M_PI_4      0.785398163397448309616
-	#define M_1_PI      0.318309886183790671538
-	#define M_2_PI      0.636619772367581343076
-	#define M_1_SQRTPI  0.564189583547756286948
-	#define M_2_SQRTPI  1.12837916709551257390
-	#define M_SQRT2     1.41421356237309504880
-	#define M_SQRT_2    0.707106781186547524401
-	#define M_RAD2DEG   57.29577951
-	#define M_DEG2RAD   0.017453292
-#endif
+#define M_E         2.71828182845904523536
+#define M_LOG2E     1.44269504088896340736
+#define M_LOG10E    0.434294481903251827651
+#define M_LN2       0.693147180559945309417
+#define M_LN10      2.30258509299404568402
+#define M_PI        3.14159265358979323846
+#define M_PI_2      1.57079632679489661923
+#define M_PI_4      0.785398163397448309616
+#define M_1_PI      0.318309886183790671538
+#define M_2_PI      0.636619772367581343076
+#define M_1_SQRTPI  0.564189583547756286948
+#define M_2_SQRTPI  1.12837916709551257390
+#define M_SQRT2     1.41421356237309504880
+#define M_SQRT_2    0.707106781186547524401
+#define M_RAD2DEG   57.29577951
+#define M_DEG2RAD   0.017453292
+#endif  // M_PI
 
 
 /*===========================================================================
@@ -369,48 +248,6 @@ extern TCHAR ThisFile[];
  *
  *=========================================================================*/
 #define FIXLIMIT(Value, Min, Max) if ((Value) < (Min)) (Value) = (Min); else if ((Value) > (Max)) (Value) = (Max);
-
-
-/*===========================================================================
- *
- * Begin Assertion Definition
- *
- * Define the standard ASSERT type macros if not previously defined.
- *
- *=========================================================================*/
-#include "common/dl_log.h"
-
-#ifndef ASSERT
-	#if _DEBUG
-		#define ASSERT(exp)  { if (!(exp)) { CustomAssert(_T(#exp), ThisFile, ThisFunction, __LINE__); } }
-		#undef TRACE
-		#define TRACE(msg)   { SystemLog.Printf(_T("%s - %s"), ThisFunction, msg); }
-		#define TRACE1(msg, exp)   { SystemLog.Printf(msg, exp); }
-	#else
-		#define ASSERT(exp)  { }
-		#undef TRACE
-		#define TRACE(msg)   { }
-		#define TRACE1(msg, exp)   { }
-	#endif
-#endif
-
-#if /*DEBUG ||*/ _DEBUG
-	#define IASSERT(exp) { if (!(exp)) { CustomAssert(_T(#exp), _T(""), _T(""), __LINE__); } }
-	#define ABORT(msg)   { CustomAssert(msg, _T(""), __FILE__, __LINE__); }
-	#define IFTRACE(exp, msg) { if (exp) SystemLog.Printf(_T("%s - %s"), ThisFunction, msg); }
-#else
-	#define IASSERT(exp) { }
-	#define ABORT(exp)   { }
-	#define IFTRACE(exp, msg) { }
-#endif
-
-
-/* A custom assert procedure used by the ASSERT macro */
-void CustomAssert(const TCHAR *pString,
-                  const TCHAR *pFile,
-                  const TCHAR *pFunction,
-                  const long Line);
-
 
 /* Standard qsort() replacement */
 void qsort(void *pBase,

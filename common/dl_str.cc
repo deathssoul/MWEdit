@@ -29,11 +29,10 @@
 
 #include "common/dl_base.h"
 #include "common/dl_chr.h"
+#include "common/dl_log.h"
 
 #if _DEBUG
 #include <cstdio>
-
-#include "common/dl_log.h"
 #endif  // _DEBUG
 
 DEFINE_FILE("dl_str.cpp");
@@ -359,7 +358,7 @@ bool SeperateVarValueQ(TCHAR **ppVariable,
  *=========================================================================*/
 bool StringToBoolean(const TCHAR *pString) {
 	//DEFINE_FUNCTION("StringToBoolean(TCHAR*)");
-	bool Flag = FALSE;
+	bool Flag = false;
 	StringToBoolean(Flag, pString);
 	return Flag;
 }
@@ -390,10 +389,10 @@ bool StringToBoolean(bool &Flag, const TCHAR *pString) {
 
 	/* See if the string contains explicit TRUE/FALSE strings */
 	if (_stricmp(pString, _T("TRUE")) == 0 || _stricmp(pString, _T("YES")) == 0) {
-		Flag = TRUE;
+		Flag = true;
 		return true;
 	} else if (_stricmp(pString, _T("FALSE")) == 0 || _stricmp(pString, _T("NO")) == 0) {
-		Flag = FALSE;
+		Flag = false;
 		return true;
 	} else if (*pString == NULL_CHAR) { /* Special case for an empty string */
 		return false;
@@ -424,29 +423,29 @@ bool StringChanged(const TCHAR *pString1, const TCHAR *pString2, const bool Case
 
 	/* Check for NULL strings */
 	if (pString1 == NULL && pString2 == NULL) {
-		return FALSE;
+		return false;
 	}
 
 	if (pString1 == NULL) {
-		return TRUE;
+		return true;
 	}
 
 	if (pString2 == NULL) {
-		return TRUE;
+		return true;
 	}
 
 	/* Compare the two valid strings depending on the case option */
 	if (CaseSensitive) {
 		if (TSTRCMP(pString1, pString2) == 0) {
-			return FALSE;
+			return false;
 		}
 	} else {
 		if (_stricmp(pString1, pString2) == 0) {
-			return FALSE;
+			return false;
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -660,7 +659,7 @@ TCHAR *strlwr(TCHAR *pString) {
 	ASSERT(pString != NULL);
 
 	while (pString[Index] != NULL_CHAR) {
-		pString[Index] = TTOUPPER(pString[Index]);  // TODO: Shouldn't it be TTOLOWER? TTOUPPER calls std::toupper, which converts to upper case
+		pString[Index] = TTOLOWER(pString[Index]);
 		Index++;
 	}
 
@@ -1205,55 +1204,55 @@ void Test_StringChanged() {
 
 	/* Check double-NULL case */
 	Result = StringChanged(NULL, NULL);
-	ASSERT(Result == FALSE);
+	ASSERT(Result == false);
 
 	/* Check single-NULL case #1 */
 	Result = StringChanged(NULL, _T("asd"));
-	ASSERT(Result == TRUE);
+	ASSERT(Result == true);
 
 	/* Check single-NULL case #2 */
 	Result = StringChanged(_T("asd"), NULL);
-	ASSERT(Result == TRUE);
+	ASSERT(Result == true);
 
 	/* Check FALSE regular case with default case sensitivity */
 	Result = StringChanged(_T("asd"), _T("ASD"));
-	ASSERT(Result == FALSE);
+	ASSERT(Result == false);
 
 	/* Check TRUE regular case with default case sensitivity */
 	Result = StringChanged(_T("111"), _T("ASD"));
-	ASSERT(Result == TRUE);
+	ASSERT(Result == true);
 
 	/* Check FALSE regular case with case sensitivity */
-	Result = StringChanged(_T("asd"), _T("asd"), TRUE);
-	ASSERT(Result == FALSE);
+	Result = StringChanged(_T("asd"), _T("asd"), true);
+	ASSERT(Result == false);
 
 	/* Check TRUE regular case with case sensitivity */
-	Result = StringChanged(_T("ASD"), _T("asd"), TRUE);
-	ASSERT(Result == TRUE);
+	Result = StringChanged(_T("ASD"), _T("asd"), true);
+	ASSERT(Result == true);
 
 	/* Check TRUE regular case with case sensitivity */
-	Result = StringChanged(_T("111"), _T("ASD"), TRUE);
-	ASSERT(Result == TRUE);
+	Result = StringChanged(_T("111"), _T("ASD"), true);
+	ASSERT(Result == true);
 
 	/* Check FALSE regular case without case sensitivity */
-	Result = StringChanged(_T("asd"), _T("asd"), FALSE);
-	ASSERT(Result == FALSE);
+	Result = StringChanged(_T("asd"), _T("asd"), false);
+	ASSERT(Result == false);
 
 	/* Check FALSE regular case without case sensitivity */
-	Result = StringChanged(_T("ASD"), _T("asd"), FALSE);
-	ASSERT(Result == FALSE);
+	Result = StringChanged(_T("ASD"), _T("asd"), false);
+	ASSERT(Result == false);
 
 	/* Check TRUE regular case without case sensitivity */
-	Result = StringChanged(_T("111"), _T("ASD"), FALSE);
-	ASSERT(Result == TRUE);
+	Result = StringChanged(_T("111"), _T("ASD"), false);
+	ASSERT(Result == true);
 
 	/* Check empty string case */
 	Result = StringChanged(_T("111"), _T(""));
-	ASSERT(Result == TRUE);
+	ASSERT(Result == true);
 
 	/* Check empty string case */
 	Result = StringChanged(_T(""), _T(""));
-	ASSERT(Result == FALSE);
+	ASSERT(Result == false);
 }
 
 
@@ -1271,16 +1270,16 @@ void Test_IsStringNumber() {
 	SystemLog.Printf(stdout, _T("============= Testing IsStringNumber() ===================="));
 
 	/* Check several typical positive cases */
-	ASSERT(IsStringNumber(_T("  123  ")) == TRUE);
-	ASSERT(IsStringNumber(_T("16285")) == TRUE);
-	ASSERT(IsStringNumber(_T("\t1 2 3 4 5 6 7 8 9 0 ")) == TRUE);
+	ASSERT(IsStringNumber(_T("  123  ")) == true);
+	ASSERT(IsStringNumber(_T("16285")) == true);
+	ASSERT(IsStringNumber(_T("\t1 2 3 4 5 6 7 8 9 0 ")) == true);
 
 	/* Check several typical negative cases */
-	ASSERT(IsStringNumber(_T("123.6")) == FALSE);
-	ASSERT(IsStringNumber(_T("0xC5")) == FALSE);
+	ASSERT(IsStringNumber(_T("123.6")) == false);
+	ASSERT(IsStringNumber(_T("0xC5")) == false);
 
 	/* Check the empty string case */
-	ASSERT(IsStringNumber(_T("")) == TRUE);
+	ASSERT(IsStringNumber(_T("")) == true);
 }
 
 

@@ -14,6 +14,7 @@
 
 #include "common/dl_base.h"
 #include "common/dl_mem.h"
+#include "common/dl_str.h"
 #include "common/container/ptr_array.h"
 #include "common/file/gen_file.h"
 #include "game/morrowind/defs.h"

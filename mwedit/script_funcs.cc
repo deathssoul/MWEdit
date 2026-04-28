@@ -7,8 +7,6 @@
  * Description
  *
  *=========================================================================*/
-#include <winnt.h>
-
 #include <cstddef>
 
 #include "common/dl_base.h"

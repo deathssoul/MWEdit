@@ -12,6 +12,7 @@
 #include <cstddef>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 
 #if _WIN32
 #include <io.h>
@@ -55,7 +56,7 @@ bool CFindFile::Close() {
 
 	/* Make sure the filehandle is currently valid */
 	if (FindHandle == NULL_FIND_HANDLE) {
-		return FALSE;
+		return false;
 	}
 
 	/* For Windows, Visual C++ */
@@ -64,10 +65,10 @@ bool CFindFile::Close() {
 	/* Call the Visual C++ function */
 	Result = _findclose(FindHandle);
 	FindHandle = NULL_FIND_HANDLE;
-	return (Result != 0) ? FALSE : TRUE;
+	return (Result != 0) ? false : true;  // TODO: Can probably replace with return Result == 0
 	/* Undefined system in use */
 #else
-	return FALSE;
+	return false;
 #endif
 }
 
@@ -90,10 +91,10 @@ bool CFindFile::FindFirst(const char *pFilespec, const int Attribute) {
 #if _WIN32
 	/* Call the Visual C++ function */
 	FindHandle = _findfirst((char *)pFilespec, FileBlock.GetBlockPtr());
-	return (FindHandle == -1) ? FALSE : TRUE;
+	return (FindHandle == -1) ? false : true;  // TODO: Can likely replace with return FileHandle != -1
 	/* Undefined system in use */
 #else
-	return FALSE;
+	return false;
 #endif
 }
 
@@ -112,16 +113,16 @@ bool CFindFile::FindNext() {
 
 	/* Make sure the current find handle is valid */
 	if (FindHandle == NULL_FIND_HANDLE) {
-		return FALSE;
+		return false;
 	}
 
 	/* For Windows, Visual C++ */
 #if _WIN32
 	/* Call the Visual C++ function */
 	Result = _findnext(FindHandle, FileBlock.GetBlockPtr());
-	return (Result == -1) ? FALSE : TRUE;
+	return (Result == -1) ? false : true;
 	/* Undefined system in use */
 #else
-	return FALSE;
+	return false;
 #endif
 }

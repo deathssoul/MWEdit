@@ -17,6 +17,7 @@
 #include <cmath>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 
 #if _DEBUG
 #include <cstddef>
@@ -110,7 +111,7 @@ double GetNiceTickLengthC(const double AxisStart, const double AxisEnd, const in
 
 
 /* Get the best unit prefix for the value */
-unit_prefix_t *GetUnitPrefix(boolean &OverFlow, const double Value);
+unit_prefix_t *GetUnitPrefix(bool &OverFlow, const double Value);
 
 /* Converts a metric value a string in the best representation */
 TCHAR *Metricize(const double Value, const TCHAR *pUnits);
@@ -135,15 +136,15 @@ void SeedRandom(const ulong NewSeed = 1);
 
 
 #if _DEBUG
-	void Test_Random(const std::size_t NumTests = 1000);
-	void Test_Random1(const std::size_t NumTests = 1000);
-	void Test_Random2(const std::size_t NumTests = 1000);
-	void Test_RandomRate(const std::size_t NumTests = 100);
-	void Test_sign();
-	void Test_HexCharToInt();
-	void Test_Metricize();
-	void Test_DL_Math();
-#endif
+void Test_Random(const std::size_t NumTests = 1000);
+void Test_Random1(const std::size_t NumTests = 1000);
+void Test_Random2(const std::size_t NumTests = 1000);
+void Test_RandomRate(const std::size_t NumTests = 100);
+void Test_sign();
+void Test_HexCharToInt();
+void Test_Metricize();
+void Test_DL_Math();
+#endif  // _DEBUG
 
 
 extern char HexCharValues[];

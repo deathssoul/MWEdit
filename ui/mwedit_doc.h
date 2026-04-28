@@ -14,7 +14,6 @@
 #include <afxwin.h>
 #include <atlstr.h>
 #include <windef.h>
-#include <winnt.h>
 
 #include <cstddef>
 
@@ -310,10 +309,10 @@ class CMWEditDoc : public CDocument {
 	//{{AFX_VIRTUAL(CMWEditDoc)
 
   public:
-	virtual BOOL OnNewDocument();
+	virtual bool OnNewDocument();
 	virtual void Serialize(CArchive &ar);
-	virtual BOOL OnOpenDocument(LPCTSTR lpszPathName);
-	virtual BOOL OnSaveDocument(LPCTSTR lpszPathName);
+	virtual bool OnOpenDocument(LPCTSTR lpszPathName);
+	virtual bool OnSaveDocument(LPCTSTR lpszPathName);
 	virtual void DeleteContents();
 
 	//}}AFX_VIRTUAL

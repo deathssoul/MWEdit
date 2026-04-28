@@ -16,7 +16,6 @@
 #include <atlstr.h>
 #include <commctrl.h>
 #include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
 #include <cfloat>
@@ -24,6 +23,7 @@
 #include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "common/dl_mem.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/npc.h"
@@ -44,10 +44,10 @@
 
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmNpcPage4, CPropertyPage);
 DEFINE_FILE("EsmNpcPage4.cpp");
@@ -364,10 +364,10 @@ LRESULT CEsmNpcPage4::OnEditRecord(LPARAM lParam, WPARAM wParam) {
 
 /*===========================================================================
  *
- * Class CEsmNpcPage4 Event - BOOL OnInitDialog ();
+ * Class CEsmNpcPage4 Event - bool OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CEsmNpcPage4::OnInitDialog() {
+bool CEsmNpcPage4::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
 
 	/* Spell List */
@@ -379,7 +379,7 @@ BOOL CEsmNpcPage4::OnInitDialog() {
 	m_PackageList.SetWantEditMsg(true);
 	m_PackageList.InsertColumn(0, _T("Package"), LVCFMT_LEFT, 120, 0);
 
-	return TRUE;
+	return true;
 }
 
 

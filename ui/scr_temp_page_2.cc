@@ -21,10 +21,10 @@
 #include "ui/Resource.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmScrTempPage2, CPropertyPage);
 DEFINE_FILE("EsmScrTempPage2.cpp");
@@ -67,6 +67,7 @@ CEsmScrTempPage2::~CEsmScrTempPage2() {
  *=========================================================================*/
 void CEsmScrTempPage2::DoDataExchange(CDataExchange *pDX) {
 	CPropertyPage::DoDataExchange(pDX);
+
 	//{{AFX_DATA_MAP(CEsmScrTempPage2)
 	DDX_Control(pDX, IDC_TEMPLATE_TEXT, m_TemplateText);
 	//}}AFX_DATA_MAP

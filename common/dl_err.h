@@ -122,11 +122,11 @@ class CErrorRecord {
 	const TCHAR *GetMsg(const errcode_t SubCode = ERR_NONE) const;
 
 	/* Is this record the last in the linked list? */
-	boolean IsLast() {
+	bool IsLast() {
 		if (pNext == NULL) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -164,9 +164,9 @@ class CErrorRecord {
  *=========================================================================*/
 class CErrorDatabase {
   private:
-	CErrorRecord *pHead;        /* Start of the singly linked list */
-	boolean AddedDefaultErrors; /* Have the default custom errors been loaded? */
-	int NumErrors;              /* Number of custom errors in list */
+	CErrorRecord *pHead;      /* Start of the singly linked list */
+	bool AddedDefaultErrors;  /* Have the default custom errors been loaded? */
+	int NumErrors;            /* Number of custom errors in list */
 
 
   public:

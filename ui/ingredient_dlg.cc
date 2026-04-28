@@ -14,12 +14,12 @@
 #include <afxext.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
 
 #include <cstddef>
 #include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
 #include "game/morrowind/ingredient.h"
@@ -30,10 +30,10 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmIngrediantDlg, CEsmRecDialog);
 DEFINE_FILE("EsmIngrediantDlg.cpp");
@@ -314,23 +314,23 @@ void CEsmIngrediantDlg::OnSelChangeEffectList(const int ListIndex) {
 	if (EffectID < 0 || pEffectData == NULL) {
 		m_pEffectInfo[ListIndex] = NULL;
 		m_SkillList[ListIndex].ResetContent();
-		m_SkillList[ListIndex].EnableWindow(FALSE);
+		m_SkillList[ListIndex].EnableWindow(false);
 		return;
 	}
 
 	/* Enable or disable the skill list */
 
 	if (IsESMSkillEffect(EffectID)) {
-		m_SkillList[ListIndex].EnableWindow(TRUE);
+		m_SkillList[ListIndex].EnableWindow(true);
 		FillEsmSkillsCombo(m_SkillList[ListIndex]);
 		m_SkillList[ListIndex].SetCurSel(0);
 	} else if (IsESMAttributeEffect(EffectID)) {
-		m_SkillList[ListIndex].EnableWindow(TRUE);
+		m_SkillList[ListIndex].EnableWindow(true);
 		FillEsmAttributesCombo(m_SkillList[ListIndex]);
 		m_SkillList[ListIndex].SetCurSel(0);
 	} else {
 		m_SkillList[ListIndex].ResetContent();
-		m_SkillList[ListIndex].EnableWindow(FALSE);
+		m_SkillList[ListIndex].EnableWindow(false);
 	}
 
 	m_Modified = true;
@@ -386,9 +386,9 @@ void CEsmIngrediantDlg::SetControlData() {
 	m_NameText.SetWindowText(m_pIngrediant->GetName());
 	m_WeightText.SetWindowText(m_pIngrediant->GetFieldString(ESM_FIELD_WEIGHT));
 	m_ValueText.SetWindowText(m_pIngrediant->GetFieldString(ESM_FIELD_VALUE));
-	m_NameText.SetModify(FALSE);
-	m_WeightText.SetModify(FALSE);
-	m_ValueText.SetModify(FALSE);
+	m_NameText.SetModify(false);
+	m_WeightText.SetModify(false);
+	m_ValueText.SetModify(false);
 
 	/* Model/icon buttons */
 	m_ModelButton.SetWindowText(m_pIngrediant->GetModel());
@@ -426,7 +426,7 @@ void CEsmIngrediantDlg::SetEffectData(const int EffectIndex) {
 	if (pIngreData->EffectID[EffectIndex] == -1 || pEffectData == NULL) {
 		m_pEffectInfo[EffectIndex] = NULL;
 		m_EffectList[EffectIndex].SelectString(-1, _T(""));
-		m_SkillList[EffectIndex].EnableWindow(FALSE);
+		m_SkillList[EffectIndex].EnableWindow(false);
 		return;
 	}
 
@@ -436,15 +436,15 @@ void CEsmIngrediantDlg::SetEffectData(const int EffectIndex) {
 	/* Fill in the skill list as required */
 
 	if (IsESMSkillEffect(pIngreData->EffectID[EffectIndex])) {
-		m_SkillList[EffectIndex].EnableWindow(TRUE);
+		m_SkillList[EffectIndex].EnableWindow(true);
 		FillEsmSkillsCombo(m_SkillList[EffectIndex]);
 		FindComboListItem(m_SkillList[EffectIndex], pIngreData->SkillID[EffectIndex], true);
 	} else if (IsESMAttributeEffect(pIngreData->EffectID[EffectIndex])) {
-		m_SkillList[EffectIndex].EnableWindow(TRUE);
+		m_SkillList[EffectIndex].EnableWindow(true);
 		FillEsmAttributesCombo(m_SkillList[EffectIndex]);
 		FindComboListItem(m_SkillList[EffectIndex], pIngreData->AttributeID[EffectIndex], true);
 	} else {
-		m_SkillList[EffectIndex].EnableWindow(FALSE);
+		m_SkillList[EffectIndex].EnableWindow(false);
 	}
 }
 

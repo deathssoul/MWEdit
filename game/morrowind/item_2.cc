@@ -14,6 +14,7 @@
 #include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "common/dl_str.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
@@ -71,7 +72,7 @@ int CEsmItem2::CompareFields(const int FieldID, CEsmRecord *pRecord) {
 
 	switch (FieldID) {
 		case ESM_FIELD_ICON:
-			return StringCompare(GetIcon(), pRecord2->GetIcon(), FALSE);
+			return StringCompare(GetIcon(), pRecord2->GetIcon(), false);
 
 		case ESM_FIELD_WEIGHT:
 			return (int)(GetWeight() * 100 - pRecord2->GetWeight() * 100);

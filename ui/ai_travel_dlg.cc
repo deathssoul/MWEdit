@@ -13,7 +13,6 @@
 #include <afxdd_.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
 
 #include <cstddef>
 #include <cstdlib>
@@ -23,9 +22,9 @@
 #include "ui/Resource.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
 #endif
 
 DEFINE_FILE("EsmAiTravelDlg.cpp");
@@ -96,7 +95,7 @@ bool CEsmAiTravelDlg::DoModal(CEsmSubAI_T *pSubRecord) {
  * Class CEsmAiTravelDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CEsmAiTravelDlg::OnInitDialog() {
+bool CEsmAiTravelDlg::OnInitDialog() {
 	ai_tdata_t *pAiData;
 	CString Buffer;
 	CDialog::OnInitDialog();
@@ -117,7 +116,7 @@ BOOL CEsmAiTravelDlg::OnInitDialog() {
 		m_ZText.SetWindowText(Buffer);
 	}
 
-	return TRUE;
+	return true;
 }
 
 

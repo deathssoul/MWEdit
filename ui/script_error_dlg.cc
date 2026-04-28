@@ -13,7 +13,6 @@
 #include <afxdd_.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
 
 #include <cstddef>
 
@@ -24,10 +23,10 @@
 #include "ui/Resource.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("ScriptErrorDlg.cpp");
 /*===========================================================================
@@ -171,10 +170,10 @@ void CScriptErrorDlg::OnFuncGoto() {
  * Class CScriptErrorDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CScriptErrorDlg::OnInitDialog() {
+bool CScriptErrorDlg::OnInitDialog() {
 	CDialog::OnInitDialog();
 	SetControlData();
-	return TRUE;
+	return true;
 }
 
 

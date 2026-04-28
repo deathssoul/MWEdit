@@ -16,7 +16,6 @@
 #include <atltypes.h>
 #include <winbase.h>
 #include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
 #include <cstddef>
@@ -30,10 +29,10 @@
 #include "ui/script_error_dlg.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CScriptErrorView, CFormView);
 DEFINE_FILE("ScriptErrorView.cpp");
@@ -183,7 +182,9 @@ void CScriptErrorView::OnDblclkErrorlist() {
 
 	pError = (CEsmScriptError *)m_ErrorList.GetItemDataPtr(ListIndex);
 	/* Send a message to the parent frame */
-	GetParentFrame()->SendMessage(MSG_SCRIPTFRM_GOTOLINE, pError->GetLine(), pError->GetCharacter());
+	GetParentFrame()->SendMessage(MSG_SCRIPTFRM_GOTOLINE,
+	                              pError->GetLine(),
+	                              pError->GetCharacter());
 }
 
 
@@ -361,7 +362,7 @@ void CScriptErrorView::OnUpdateScrerrorFunchelp(CCmdUI *pCmdUI) {
 	ListIndex = m_ErrorList.GetCurSel();
 
 	if (ListIndex < 0) {
-		pCmdUI->Enable(FALSE);
+		pCmdUI->Enable(false);
 	} else {
 		CEsmScriptError *pError = (CEsmScriptError *)m_ErrorList.GetItemDataPtr(ListIndex);
 		pCmdUI->Enable(pError->GetFunction() != NULL);

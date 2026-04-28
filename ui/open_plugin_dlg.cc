@@ -20,7 +20,6 @@
 #include <atlstr.h>
 #include <commctrl.h>
 #include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
 #include <cstddef>
@@ -35,10 +34,10 @@
 #include "ui/utils.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("OpenPluginDlg.cpp");
 /*===========================================================================
@@ -272,10 +271,10 @@ void COpenPluginDlg::OnDblclkFileList(NMHDR *pNMHDR, LRESULT *pResult) {
 
 /*===========================================================================
  *
- * Class COpenPluginDlg Event - BOOL OnInitDialog ();
+ * Class COpenPluginDlg Event - bool OnInitDialog ();
  *
  *=========================================================================*/
-BOOL COpenPluginDlg::OnInitDialog() {
+bool COpenPluginDlg::OnInitDialog() {
 	CString Buffer;
 	CDialog::OnInitDialog();
 	/* Set the list extended styles */
@@ -291,7 +290,7 @@ BOOL COpenPluginDlg::OnInitDialog() {
 	m_FileList.SortItems(l_SortFiles, OPENPLUG_SUBITEM_DATE);
 	m_FileList.SortItems(l_SortFiles, OPENPLUG_SUBITEM_TYPE);
 
-	return TRUE;
+	return true;
 }
 
 

@@ -13,11 +13,9 @@
 #include <afx.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
-#include <winnt.h>
 
+#include "common/dl_base.h"
 #include "ui/Resource.h"
-
 /*===========================================================================
  *
  * Begin Class CInputDialog Definition
@@ -60,7 +58,7 @@ class CInputDialog : public CDialog {
 	/* Generated message map functions */
 
 	//{{AFX_MSG(CInputDialog)
-	virtual BOOL OnInitDialog();
+	virtual bool OnInitDialog();
 	virtual void OnOK();
 	//}}AFX_MSG
 

@@ -21,11 +21,11 @@
 #include <cstring>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
+#include "common/dl_str.h"
 
 #if _DEBUG
 #include <cstdio>
-
-#include "common/dl_log.h"
 #endif  // _DEBUG
 
 DEFINE_FILE("DL_Chr.h");
@@ -167,7 +167,7 @@ void chrdellast(TCHAR *pString) {
  * was found.  ASSERTs on bad input.
  *
  *=========================================================================*/
-boolean chrrpunc(std::size_t &CharIndex, const TCHAR *pString) {
+bool chrrpunc(std::size_t &CharIndex, const TCHAR *pString) {
 	DEFINE_FUNCTION("chrrpunc()");
 	std::size_t StringPosition;
 	/* Ensure valid input */
@@ -181,12 +181,12 @@ boolean chrrpunc(std::size_t &CharIndex, const TCHAR *pString) {
 
 		if (std::ispunct(pString[StringPosition])) {
 			CharIndex = StringPosition;
-			return TRUE;
+			return true;
 		}
 	}
 
 	/* character not found in string */
-	return FALSE;
+	return false;
 }
 
 
@@ -476,7 +476,7 @@ void Test_chrtok() {
 void Test_chrrpunc() {
 	DEFINE_FUNCTION("Test_chrrpunc()");
 	TCHAR TestString[101] = _T("0123=5678");
-	boolean Result;
+	bool Result;
 	std::size_t TCHARIndex;
 	SystemLog.Printf(stdout, _T("============= Testing chrrpunc() ===================="));
 
@@ -506,12 +506,12 @@ void Test_chrrpunc() {
 	/* Test for no punctuation in string */
 	TSTRCPY (TestString, _T("0123456789"));
 	Result = chrrpunc(TCHARIndex, TestString);
-	ASSERT(Result == FALSE);
+	ASSERT(Result == false);
 
 	/* Test empty string case */
 	TSTRCPY(TestString, _T(""));
 	Result = chrrpunc(TCHARIndex, TestString);
-	ASSERT(Result == FALSE);
+	ASSERT(Result == false);
 }
 
 

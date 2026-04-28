@@ -17,13 +17,14 @@
 #include <cstddef>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 
 /* Debug defines */
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CChildFrameFix, CMDIChildWnd);
 DEFINE_FILE("ChildFrmFix.cpp");
@@ -63,14 +64,14 @@ CChildFrameFix::~CChildFrameFix() {
  * Class CChildFrameFix Method - BOOL PreCreateWindow (cs);
  *
  *=========================================================================*/
-BOOL CChildFrameFix::PreCreateWindow(CREATESTRUCT &cs) {
+bool CChildFrameFix::PreCreateWindow(CREATESTRUCT &cs) {
 	cs.style &= ~WS_THICKFRAME;
 	cs.style &= ~WS_MAXIMIZEBOX;
 	if (!CMDIChildWnd::PreCreateWindow(cs)) {
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -115,7 +116,7 @@ void CChildFrameFix::OnSize(UINT nType, int cx, int cy) {
 }
 
 void CChildFrameFix::ActivateFrame(int nCmdShow) {
-	BOOL bVisibleThen = (GetStyle() & WS_VISIBLE) != 0;
+	bool bVisibleThen = (GetStyle() & WS_VISIBLE) != 0;
 	CMDIFrameWnd *pFrameWnd = GetMDIFrame();
 	ASSERT_VALID(pFrameWnd);
 
@@ -123,7 +124,7 @@ void CChildFrameFix::ActivateFrame(int nCmdShow) {
 
 	if (nCmdShow == -1) {
 		// get maximized state of frame window (previously active child)
-		BOOL bMaximized;
+		bool bMaximized;
 		pFrameWnd->MDIGetActive(&bMaximized);
 		// convert show command based on current style
 		DWORD dwStyle = GetStyle();
@@ -145,7 +146,7 @@ void CChildFrameFix::ActivateFrame(int nCmdShow) {
 	// Note: Update the m_bPseudoInactive flag.  This is used to handle the
 	// last MDI child getting hidden.  Windows provides no way to deactivate
 	// an MDI child window.
-	BOOL bVisibleNow = (GetStyle() & WS_VISIBLE) != 0;
+	bool bVisibleNow = (GetStyle() & WS_VISIBLE) != 0;
 
 	if (bVisibleNow == bVisibleThen) {
 		return;
@@ -176,13 +177,13 @@ void CChildFrameFix::ActivateFrame(int nCmdShow) {
 		if (hWnd == m_hWnd) {
 			// still active -- fake deactivate it
 			ASSERT(hWnd != NULL);
-			OnMDIActivate(FALSE, NULL, this);
-			m_bPseudoInactive = TRUE; // so MDIGetActive returns NULL
+			OnMDIActivate(false, NULL, this);
+			m_bPseudoInactive = true;  // so MDIGetActive returns NULL
 		}
 	} else if (m_bPseudoInactive) {
 		// if state transitioned from not visible to visible, but
 		// was pseudo deactivated -- send activate notify now
-		OnMDIActivate(TRUE, this, NULL);
-		ASSERT(!m_bPseudoInactive); // should get set in OnMDIActivate!
+		OnMDIActivate(true, this, NULL);
+		ASSERT(!m_bPseudoInactive);  // should get set in OnMDIActivate!
 	}
 }

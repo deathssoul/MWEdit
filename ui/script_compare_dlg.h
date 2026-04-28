@@ -13,10 +13,10 @@
 #include <afx.h>
 #include <afxext.h>
 #include <afxwin.h>
-#include <winnt.h>
 
 #include <cstdarg>
 
+#include "common/dl_base.h"
 #include "ui/dlg_array.h"
 #include "ui/Resource.h"
 /*===========================================================================

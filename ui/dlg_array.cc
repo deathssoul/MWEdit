@@ -12,12 +12,12 @@
 #include <afx.h>
 #include <afxext.h>
 #include <afxwin.h>
-#include <winnt.h>
 
 #include <cstddef>
 
 #include "common/dl_base.h"
 #include "common/dl_err.h"
+#include "common/dl_log.h"
 #include "common/dl_mem.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/dialogue.h"
@@ -664,7 +664,7 @@ bool CEsmDlgHandler::EditRecord(esmrecinfo_t *pRecInfo, const bool IsNew) {
 		pFrame = CreateESMDialog(pRecInfo, IsNew);
 
 		if (pFrame != NULL) {
-			pFrame->InitialUpdateFrame(NULL, TRUE);
+			pFrame->InitialUpdateFrame(NULL, true);
 			pFrame->ActivateFrame(SW_SHOWNORMAL);
 		} else {
 			ErrorHandler.AddError(ERR_BADINPUT,
@@ -898,14 +898,14 @@ void CEsmDlgHandler::OpenFindDlg() {
 	}
 
 	/* Attempt to initialize the new view */
-	pWnd = m_pFindDlg->GetDescendantWindow(AFX_IDW_PANE_FIRST, TRUE);
+	pWnd = m_pFindDlg->GetDescendantWindow(AFX_IDW_PANE_FIRST, true);
 
 	if (pWnd != NULL && pWnd->IsKindOf(RUNTIME_CLASS(CEsmFindDlg))) {
 		pFindView = (CEsmFindDlg *)pWnd;
 		pFindView->SetDlgHandler(this);
 	}
 
-	m_pFindDlg->InitialUpdateFrame(NULL, TRUE);
+	m_pFindDlg->InitialUpdateFrame(NULL, true);
 	m_pFindDlg->ActivateFrame(SW_SHOWNORMAL);
 }
 
@@ -936,7 +936,7 @@ void CEsmDlgHandler::OpenScrTempDlg() {
 	}
 
 	/* Attempt to initialize the new view */
-	pWnd = m_pScrTempDlg->GetDescendantWindow(AFX_IDW_PANE_FIRST, TRUE);
+	pWnd = m_pScrTempDlg->GetDescendantWindow(AFX_IDW_PANE_FIRST, true);
 
 	if (pWnd != NULL && pWnd->IsKindOf(RUNTIME_CLASS(CEsmScrTempView))) {
 		pScrTempView = (CEsmScrTempView *)pWnd;
@@ -944,7 +944,7 @@ void CEsmDlgHandler::OpenScrTempDlg() {
 		pScrTempView->SetDocument(GetDocument());
 	}
 
-	m_pScrTempDlg->InitialUpdateFrame(NULL, TRUE);
+	m_pScrTempDlg->InitialUpdateFrame(NULL, true);
 	m_pScrTempDlg->ActivateFrame(SW_SHOWNORMAL);
 }
 
@@ -965,7 +965,7 @@ void CEsmDlgHandler::OpenUsesDlg(esmrecinfo_t *pRecInfo) {
 	if (m_pUsesDlg != NULL) {
 		m_pUsesDlg->ActivateFrame(SW_RESTORE);
 		/* Attempt to update the view */
-		pWnd = m_pUsesDlg->GetDescendantWindow(AFX_IDW_PANE_FIRST, TRUE);
+		pWnd = m_pUsesDlg->GetDescendantWindow(AFX_IDW_PANE_FIRST, true);
 
 		if (pWnd != NULL && pWnd->IsKindOf(RUNTIME_CLASS(CEsmUsesDlg))) {
 			pUsesView = (CEsmUsesDlg *)pWnd;
@@ -985,7 +985,7 @@ void CEsmDlgHandler::OpenUsesDlg(esmrecinfo_t *pRecInfo) {
 	}
 
 	/* Attempt to initialize the new view */
-	pWnd = m_pUsesDlg->GetDescendantWindow(AFX_IDW_PANE_FIRST, TRUE);
+	pWnd = m_pUsesDlg->GetDescendantWindow(AFX_IDW_PANE_FIRST, true);
 
 	if (pWnd != NULL && pWnd->IsKindOf(RUNTIME_CLASS(CEsmUsesDlg))) {
 		pUsesView = (CEsmUsesDlg *)pWnd;
@@ -993,7 +993,7 @@ void CEsmDlgHandler::OpenUsesDlg(esmrecinfo_t *pRecInfo) {
 		pUsesView->SetRecInfo(pRecInfo);
 	}
 
-	m_pUsesDlg->InitialUpdateFrame(NULL, TRUE);
+	m_pUsesDlg->InitialUpdateFrame(NULL, true);
 	m_pUsesDlg->ActivateFrame(SW_SHOWNORMAL);
 	pUsesView->UpdateUses();
 }
@@ -1013,7 +1013,7 @@ CEsmScriptCompareDlg *CEsmDlgHandler::OpenScriptCompareDlg() {
 	if (m_pScriptCompareDlg != NULL) {
 		m_pScriptCompareDlg->ActivateFrame(SW_RESTORE);
 		/* Attempt to update the view */
-		pWnd = m_pScriptCompareDlg->GetDescendantWindow(AFX_IDW_PANE_FIRST, TRUE);
+		pWnd = m_pScriptCompareDlg->GetDescendantWindow(AFX_IDW_PANE_FIRST, true);
 
 		if (pWnd != NULL && pWnd->IsKindOf(RUNTIME_CLASS(CEsmScriptCompareDlg))) {
 			pCompareView = (CEsmScriptCompareDlg *)pWnd;
@@ -1031,14 +1031,14 @@ CEsmScriptCompareDlg *CEsmDlgHandler::OpenScriptCompareDlg() {
 	}
 
 	/* Attempt to initialize the new view */
-	pWnd = m_pScriptCompareDlg->GetDescendantWindow(AFX_IDW_PANE_FIRST, TRUE);
+	pWnd = m_pScriptCompareDlg->GetDescendantWindow(AFX_IDW_PANE_FIRST, true);
 
 	if (pWnd != NULL && pWnd->IsKindOf(RUNTIME_CLASS(CEsmScriptCompareDlg))) {
 		pCompareView = (CEsmScriptCompareDlg *)pWnd;
 		pCompareView->SetDlgHandler(this);
 	}
 
-	m_pScriptCompareDlg->InitialUpdateFrame(m_pDocument, TRUE);
+	m_pScriptCompareDlg->InitialUpdateFrame(m_pDocument, true);
 	m_pScriptCompareDlg->ActivateFrame(SW_SHOWNORMAL);
 	return pCompareView;
 }

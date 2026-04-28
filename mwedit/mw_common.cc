@@ -13,13 +13,13 @@
 
 #include <windef.h>
 #include <winerror.h>
-#include <winnt.h>
 #include <winreg.h>
 
 #include <cstddef>
 
 #include "common/dl_base.h"
 #include "common/dl_file.h"
+#include "common/dl_str.h"
 
 DEFINE_FILE("MWCommon.cpp");
 /*===========================================================================

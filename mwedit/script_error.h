@@ -10,8 +10,6 @@
 #ifndef __ESMSCRIPTERROR_H
 #define __ESMSCRIPTERROR_H
 
-#include <winnt.h>
-
 #include "common/dl_base.h"
 #include "common/container/ptr_array.h"
 #include "common/string/sstring.h"

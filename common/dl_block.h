@@ -32,11 +32,11 @@
  *=========================================================================*/
 typedef struct BLOCKINFO {
 	//struct BLOCKINFO* pNext;    /* Pointer to the next block info structure */
-	byte *pPointer;     /* Pointer to the start of block */
-	TCHAR *pName;       /* The name of the pointer (optional) */
-	TCHAR *pFunc;       /* Calling function name, optional */
-	std::size_t Size;        /* Size of the memory block */
-	boolean Referenced; /* Used to track dangling pointers */
+	byte *pPointer;    /* Pointer to the start of block */
+	TCHAR *pName;      /* The name of the pointer (optional) */
+	TCHAR *pFunc;      /* Calling function name, optional */
+	std::size_t Size;  /* Size of the memory block */
+	bool Referenced;   /* Used to track dangling pointers */
 } blockinfo_t;
 
 
@@ -47,11 +47,11 @@ void CheckMemoryRefs();
 void ClearMemoryRefs();
 
 /* Create a new block info node */
-boolean CreateBlockInfo(void *pNewBlock, const std::size_t NewSize);
-boolean CreateBlockInfo(void *pNewBlock,
-                        const std::size_t NewSize,
-                        const TCHAR *pName,
-                        const TCHAR *pFunc);
+bool CreateBlockInfo(void *pNewBlock, const std::size_t NewSize);
+bool CreateBlockInfo(void *pNewBlock,
+                     const std::size_t NewSize,
+                     const TCHAR *pName,
+                     const TCHAR *pFunc);
 
 /* Delete a block info node */
 void FreeBlockInfo(void *pBlock);
@@ -60,8 +60,8 @@ void FreeBlockInfo(void *pBlock);
 std::size_t GetNumBlocks();
 
 /* Checks for the given memory block in the current block list */
-boolean IsValidPointer(void *pBlock, const std::size_t MinSize);
-boolean IsValidPointer(void *pBlock);
+bool IsValidPointer(void *pBlock, const std::size_t MinSize);
+bool IsValidPointer(void *pBlock);
 
 /* Flag the referenced member of the block */
 void NoteMemoryRef(void *pBlock);
@@ -77,4 +77,4 @@ void UpdateBlockInfo(void *pOldBlock, void *pNewBlock, const std::size_t NewSize
 
 
 #endif
-#endif /* End of if defined(_DEBUG) */
+#endif  // _DEBUG

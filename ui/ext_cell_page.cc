@@ -14,13 +14,13 @@
 #include <afxdlgs.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
 #include <wingdi.h>
 
 #include <cstddef>
 #include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/cell.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
@@ -30,10 +30,10 @@
 #include "ui/utils.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmExtCellPage, CPropertyPage);
 DEFINE_FILE("EsmExtCellPage.cpp");
@@ -171,7 +171,7 @@ CMWEditDoc *CEsmExtCellPage::GetDocument() {
  * Class CEsmExtCellPage Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CEsmExtCellPage::OnInitDialog() {
+bool CEsmExtCellPage::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
 	FillEsmRegionCombo(m_RegionList);
 
@@ -183,7 +183,7 @@ BOOL CEsmExtCellPage::OnInitDialog() {
 	m_GSpin.SetRange32(0, 255);
 	m_BSpin.SetRange32(0, 255);
 
-	return TRUE;
+	return true;
 }
 
 
@@ -217,7 +217,7 @@ void CEsmExtCellPage::SetControlData() {
 	m_RegionList.SelectString(-1, pCell->GetRegion());
 
 	if (pLightData != NULL) {
-		m_MapCheck.SetCheck(TRUE);
+		m_MapCheck.SetCheck(true);
 		Buffer.Format(_T("%d"), GetRValue(pLightData->GetValue()));
 		m_RedText.SetWindowText(Buffer);
 		Buffer.Format(_T("%d"), GetGValue(pLightData->GetValue()));
@@ -226,7 +226,7 @@ void CEsmExtCellPage::SetControlData() {
 		m_BlueText.SetWindowText(Buffer);
 		OnChangeColor();
 	} else {
-		m_MapCheck.SetCheck(FALSE);
+		m_MapCheck.SetCheck(false);
 		OnMapcheck();
 	}
 
@@ -358,7 +358,7 @@ void CEsmExtCellPage::OnChangeColor() {
  *
  *=========================================================================*/
 void CEsmExtCellPage::OnMapcheck() {
-	BOOL Result = m_MapCheck.GetCheck();
+	bool Result = m_MapCheck.GetCheck();
 	m_RedText.EnableWindow(Result);
 	m_BlueText.EnableWindow(Result);
 	m_GreenText.EnableWindow(Result);

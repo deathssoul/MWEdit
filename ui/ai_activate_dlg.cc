@@ -13,7 +13,6 @@
 #include <afxdd_.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
 
 #include <cstddef>
 
@@ -24,10 +23,10 @@
 #include "ui/utils.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("EsmAiActivateDlg.cpp");
 /*===========================================================================
@@ -60,6 +59,7 @@ CEsmAiActivateDlg::CEsmAiActivateDlg(CWnd *pParent) : CDialog(CEsmAiActivateDlg:
  *=========================================================================*/
 void CEsmAiActivateDlg::DoDataExchange(CDataExchange *pDX) {
 	CDialog::DoDataExchange(pDX);
+
 	//{{AFX_DATA_MAP(CEsmAiActivateDlg)
 	DDX_Control(pDX, IDC_COMBO1, m_TargetList);
 	//}}AFX_DATA_MAP
@@ -94,12 +94,12 @@ bool CEsmAiActivateDlg::DoModal(CEsmSubAI_A *pSubRecord) {
  * Class CEsmAiActivateDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CEsmAiActivateDlg::OnInitDialog() {
+bool CEsmAiActivateDlg::OnInitDialog() {
 	CDialog::OnInitDialog();
 	FillEsmNpcCombo(m_TargetList);
 	m_TargetList.SetWindowText(m_pSubRecord->GetName());
 	m_TargetList.LimitText(MWESM_ID_MAXSIZE);
-	return TRUE;
+	return true;
 }
 
 

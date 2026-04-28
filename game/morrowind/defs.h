@@ -11,6 +11,7 @@
 #define __ESMDEFS_H
 
 #include "common/dl_base.h"
+#include "common/dl_str.h"
 
 /* Number of enchantments for alchemy and enchant items */
 #define MWESM_MAX_ENCHANTS       8

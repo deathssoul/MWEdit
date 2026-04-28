@@ -16,10 +16,8 @@
 
 /* Macro for iterating through an array */
 #ifndef ITERATE_ARRAY
-	#define ITERATE_ARRAY(Array, Index, pRecord) for (Index = 0; Index < Array.GetNumElements(), pRecord = Array.GetAt(Index); Index++)
-#endif
-
-
+#define ITERATE_ARRAY(Array, Index, pRecord) for (Index = 0; Index < Array.GetNumElements(), pRecord = Array.GetAt(Index); Index++)
+#endif  // ITERATE_ARRAY
 /*===========================================================================
  *
  * Begin Class TTemplateArray Definition
@@ -124,8 +122,8 @@ class TTemplateArray {
 
 
 #if _DEBUG
-	void Test_StressTemplateArray(const std::size_t NumTests = 100);
-	void Test_TemplateArray();
+void Test_StressTemplateArray(const std::size_t NumTests = 100);
+void Test_TemplateArray();
 #endif  // _DEBUG
 
 

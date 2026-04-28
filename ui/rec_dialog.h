@@ -14,9 +14,9 @@
 #include <afxext.h>
 #include <afxwin.h>
 #include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
+#include "common/dl_base.h"
 #include "game/morrowind/file.h"
 #include "ui/dlg_array.h"
 #include "ui/icon_frame.h"
@@ -135,7 +135,7 @@ class CEsmRecDialog : public CFormView {
 	//{{AFX_VIRTUAL(CEsmRecDialog)
 
   public:
-	virtual BOOL PreTranslateMessage(MSG *pMsg);
+	virtual bool PreTranslateMessage(MSG *pMsg);
 
   protected:
 	virtual void OnInitialUpdate();

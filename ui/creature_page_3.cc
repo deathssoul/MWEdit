@@ -31,6 +31,7 @@
 #include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/creature.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
@@ -40,10 +41,10 @@
 #include "ui/Resource.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmCreaturePage3, CPropertyPage);
 DEFINE_FILE("EsmCreaturePage3.cpp");
@@ -256,7 +257,7 @@ void CEsmCreaturePage3::OnEndlabeleditItemlist(NMHDR *pNMHDR, LRESULT *pResult) 
  * Class CEsmCreaturePage3 Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CEsmCreaturePage3::OnInitDialog() {
+bool CEsmCreaturePage3::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
 
 	/* Spell List */
@@ -267,7 +268,7 @@ BOOL CEsmCreaturePage3::OnInitDialog() {
 	m_ItemList.SetWantKeys(true);
 	m_ItemList.InitObjectList(&l_ItemColData[0]);
 
-	return TRUE;
+	return true;
 }
 
 

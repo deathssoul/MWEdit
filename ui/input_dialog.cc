@@ -16,8 +16,6 @@
 #include <afxdd_.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
-#include <winnt.h>
 
 #include <cstddef>
 
@@ -25,14 +23,12 @@
 #include "ui/Resource.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("InputDialog.cpp");
-
-
 /*===========================================================================
  *
  * Begin CInputDialog Message Map
@@ -95,13 +91,13 @@ bool CInputDialog::DoModal(CString *pResult, const TCHAR *pLabel, const TCHAR *p
  * Class CInputDialog Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CInputDialog::OnInitDialog() {
+bool CInputDialog::OnInitDialog() {
 	CDialog::OnInitDialog();
 	SetWindowText(m_pTitle == NULL ? _T("Input Text") : m_pTitle);
 	m_MainLabel.SetWindowText(m_pLabel == NULL ? _T("Input text:") : m_pLabel);
 	m_InputText.SetWindowText(m_pOutputString == NULL ? _T("") : (const TCHAR *)*m_pOutputString);
 	m_InputText.SetFocus();
-	return FALSE;
+	return false;
 }
 
 

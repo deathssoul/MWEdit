@@ -10,8 +10,6 @@
 #ifndef __ESMSCRFUNCARRAY_H
 #define __ESMSCRFUNCARRAY_H
 
-#include <winnt.h>
-
 #include "common/dl_base.h"
 #include "common/container/ptr_array.h"
 #include "common/file/gen_file.h"

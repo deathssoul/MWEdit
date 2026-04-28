@@ -1,8 +1,7 @@
 #ifndef COMMON_FILE_CONFIG_GROUP
 #define COMMON_FILE_CONFIG_GROUP
 
-#include <winnt.h>
-
+#include "common/dl_base.h"
 #include "common/container/ptr_array.h"
 #include "common/file/config_entry.h"
 #include "common/file/gen_file.h"

@@ -32,50 +32,8 @@ PQSORT_CMPFUNC l_QSortCmpFunc = NULL;
 /* Global variable used to eliminate errors from not using the
    DEFINE_FUNCTION() macro (for DEBUG builds only) */
 #if _DEBUG
-	TCHAR ThisFunction[] = _T("?");
-#endif
-/*===========================================================================
- *
- * Function - void CustomAssert (pString, pFile, pFunction, Line);
- *
- * A custom assertion type function used by the ASSERT macro defined in
- * DL_BASE.H.  Accepts a message string, file name, function name, and
- * line number where the assertion occurred. Outputs message to stderr.
- * Exits program with abort().
- *
- *=========================================================================*/
-void CustomAssert(const TCHAR *pString,
-                  const TCHAR *pFile,
-                  const TCHAR *pFunction,
-                  const long Line) {
-	//DEFINE_FUNCTION("CustomAssert()");
-	/* Output message to log file */
-	if (SystemLog.IsOpen()) {
-		SystemLog.Printf(_T("ASSERTION FAILED: '%s'"), pString);
-		SystemLog.Printf(_T("     File: '%s'"), pFile);
-		SystemLog.Printf(_T("     Func: '%s'"), pFunction);
-		SystemLog.Printf(_T("     Line: %ld"), Line);
-	}
-
-	/* Display a message box under Borland */
-#if _WIN32
-	ErrorHandler.Printf(_T("Application Assert!"),
-	                    _T("ASSERTION FAILED: '%s'\r\n\tFile: '%s'\r\n\tFunc: '%s'\r\n\tLine: %ld\r\nAborting Program!"),
-	                    pString,
-	                    pFile,
-	                    pFunction,
-	                    Line);
-#else
-	std::fprintf(stderr, _T("ASSERTION FAILED: '%s'\r\n"), pString);
-	std::fprintf(stderr, _T("\tFile: '%s'\r\n"), pFile);
-	std::fprintf(stderr, _T("\tFunc: '%s'\r\n"), pFunction);
-	std::fprintf(stderr, _T("\tLine: %ld\r\n"), Line);
-	std::fflush(stderr);
-#endif
-	/* Abort program */
-	std::abort();
-}
-
+TCHAR ThisFunction[] = _T("?");
+#endif  // _DEBUG
 
 /*===========================================================================
  *

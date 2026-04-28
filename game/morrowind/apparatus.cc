@@ -14,6 +14,7 @@
 #include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "common/dl_mem.h"
 #include "common/dl_str.h"
 #include "game/morrowind/defs.h"
@@ -125,7 +126,7 @@ int CEsmApparatus::CompareFields(const int FieldID, CEsmRecord *pRecord) {
 			return (int)(GetAppaData()->Quality * 100 - pApparatus->GetAppaData()->Quality * 100);
 
 		case ESM_FIELD_TYPE:
-			return StringCompare(GetAppaType(), pApparatus->GetAppaType(), FALSE);
+			return StringCompare(GetAppaType(), pApparatus->GetAppaType(), false);
 
 		default:
 			return CEsmItem2::CompareFields(FieldID, pRecord);

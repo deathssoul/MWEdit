@@ -16,7 +16,6 @@
 #include <atlstr.h>
 #include <commctrl.h>
 #include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
 #include <cfloat>
@@ -24,6 +23,7 @@
 #include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "common/dl_mem.h"
 #include "game/morrowind/creature.h"
 #include "game/morrowind/defs.h"
@@ -42,10 +42,10 @@
 #include "ui/Resource.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmCreaturePage4, CPropertyPage);
 DEFINE_FILE("EsmCreaturePage4.cpp");
@@ -362,7 +362,7 @@ LRESULT CEsmCreaturePage4::OnEditRecord(LPARAM lParam, WPARAM wParam) {
  * Class CEsmCreaturePage4 Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CEsmCreaturePage4::OnInitDialog() {
+bool CEsmCreaturePage4::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
 
 	/* Spell List */
@@ -374,7 +374,7 @@ BOOL CEsmCreaturePage4::OnInitDialog() {
 	m_PackageList.SetWantEditMsg(true);
 	m_PackageList.InsertColumn(0, _T("Package"), LVCFMT_LEFT, 120, 0);
 
-	return TRUE;
+	return true;
 }
 
 

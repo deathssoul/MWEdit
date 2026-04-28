@@ -19,6 +19,7 @@
 #include <cstddef>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "mwedit/script_defs.h"
 #include "mwedit/script_error.h"
 #include "ui/script_dlg.h"
@@ -26,10 +27,10 @@
 
 /* Debug defines */
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CChildFrmScript, CMDIChildWnd);
 DEFINE_FILE("Childfrmscript.cpp");
@@ -82,25 +83,25 @@ CChildFrmScript::~CChildFrmScript() {
  * Class CChildFrmScript Event - BOOL OnCreateClient (CreateStruct, pContext);
  *
  *=========================================================================*/
-BOOL CChildFrmScript::OnCreateClient(LPCREATESTRUCT, CCreateContext *pContext) {
+bool CChildFrmScript::OnCreateClient(LPCREATESTRUCT, CCreateContext *pContext) {
 	m_Created = false;
 
 	/* Create a splitter with 2 rows, 1 column */
 	if (!m_wndSplitter.CreateStatic(this, 2, 1)) {
 		TRACE0("Failed to CreateStaticSplitter\n");
-		return FALSE;
+		return false;
 	}
 
 	/* Add the first splitter pane - the default view in row 0 */
 	if (!m_wndSplitter.CreateView(0, 0, pContext->m_pNewViewClass, CSize(0, 100), pContext)) {
 		TRACE0("Failed to create first pane\n");
-		return FALSE;
+		return false;
 	}
 
 	/* Add the second splitter pane - an error list view in row 1 */
 	if (!m_wndSplitter.CreateView(1, 0, RUNTIME_CLASS(CScriptErrorView), CSize(0, 50), pContext)) {
 		TRACE0("Failed to create second pane\n");
-		return FALSE;
+		return false;
 	}
 
 	/* Initialize the splitter areas */
@@ -120,7 +121,7 @@ BOOL CChildFrmScript::OnCreateClient(LPCREATESTRUCT, CCreateContext *pContext) {
 
 	//m_wndSplitter.SetWindowPos(NULL, 0, 0, 640, 400, SWP_NOMOVE | SWP_NOZORDER);
 	m_Created = true;
-	return TRUE;
+	return true;
 }
 
 
@@ -184,7 +185,7 @@ void CChildFrmScript::OnKillFocus(CWnd *pWnd) {
  * Class CChildFrmScript Event - void OnMDIActivate (bActivate, pActivateWnd, pDeactivateWnd);
  *
  *=========================================================================*/
-void CChildFrmScript::OnMDIActivate(BOOL bActivate, CWnd *pActivateWnd, CWnd *pDeactivateWnd) {
+void CChildFrmScript::OnMDIActivate(bool bActivate, CWnd *pActivateWnd, CWnd *pDeactivateWnd) {
 	if (m_pScriptView != NULL) {
 		m_pScriptView->CloseToolTips();
 	}
@@ -266,14 +267,14 @@ LRESULT CChildFrmScript::OnUpdateError(LPARAM lParam, WPARAM wParam) {
  * Class CChildFrmScript Method - BOOL PreCreateWindow (cs);
  *
  *=========================================================================*/
-BOOL CChildFrmScript::PreCreateWindow(CREATESTRUCT &cs) {
+bool CChildFrmScript::PreCreateWindow(CREATESTRUCT &cs) {
 	cs.style &= ~WS_MAXIMIZE;
 
 	if (!CMDIChildWnd::PreCreateWindow(cs)) {
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 

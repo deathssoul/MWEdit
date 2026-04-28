@@ -4,8 +4,6 @@
 #include <afx.h>
 #include <afxdd_.h>
 #include <afxwin.h>
-#include <windef.h>
-#include <winnt.h>
 
 #include <cstddef>
 #include <cstdio>
@@ -15,10 +13,10 @@
 #include "ui/Resource.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 /////////////////////////////////////////////////////////////////////////////
 // CErrorDialog dialog
 
@@ -49,7 +47,7 @@ END_MESSAGE_MAP()
  * Class CErrorDialog Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CErrorDialog::OnInitDialog() {
+bool CErrorDialog::OnInitDialog() {
 	CErrorIncident *pError;
 	CErrorRecord *pErrorRecord;
 	TCHAR ErrorBuffer[MAX_ERROR_MESSAGESIZE + 1];
@@ -82,12 +80,12 @@ BOOL CErrorDialog::OnInitDialog() {
 		}
 
 		Length = m_Text.GetWindowTextLength();
-		m_Text.SetSel(Length, Length, TRUE);
-		m_Text.ReplaceSel(ErrorBuffer, FALSE);
+		m_Text.SetSel(Length, Length, true);
+		m_Text.ReplaceSel(ErrorBuffer, false);
 		pError = pError->GetNext();
 		OutputErrors++;
 	}
 
-	m_Text.SetSel(0, 0, FALSE);
-	return TRUE;
+	m_Text.SetSel(0, 0, false);
+	return true;
 }

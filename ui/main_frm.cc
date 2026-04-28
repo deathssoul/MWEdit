@@ -27,12 +27,11 @@
 #include "ui/options_dlg.h"
 #include "ui/Resource.h"
 
-
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 /* Status bar setup */
 static UINT indicators[] = {
@@ -182,12 +181,12 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct) {
  * Class CMainFrame Method - BOOL PreCreateWindow (cs);
  *
  *=========================================================================*/
-BOOL CMainFrame::PreCreateWindow(CREATESTRUCT &cs) {
+bool CMainFrame::PreCreateWindow(CREATESTRUCT &cs) {
 	if (!CMDIFrameWnd::PreCreateWindow(cs)) {
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 

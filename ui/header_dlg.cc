@@ -13,21 +13,20 @@
 #include <afxdd_.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
-#include <winnt.h>
 
 #include <cstddef>
 
 #include "common/dl_base.h"
+#include "common/dl_str.h"
 #include "game/morrowind/sub_hedr.h"
 #include "game/morrowind/tes3.h"
 #include "ui/Resource.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("EsmHeaderDlg.cpp");
 /*===========================================================================
@@ -100,7 +99,7 @@ bool CEsmHeaderDlg::DoModal(CEsmTES3 *pHeader, const TCHAR *pFilename) {
  * Class CEsmHeaderDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CEsmHeaderDlg::OnInitDialog() {
+bool CEsmHeaderDlg::OnInitDialog() {
 	CString Buffer;
 	CDialog::OnInitDialog();
 
@@ -113,7 +112,7 @@ BOOL CEsmHeaderDlg::OnInitDialog() {
 	m_DescText.SetLimitText(MWESM_HEDR_DESCSIZE);
 	m_AuthorText.SetWindowText(m_pHeader->GetHeaderData()->Author);
 	m_DescText.SetWindowText(m_pHeader->GetHeaderData()->Description);
-	return TRUE;
+	return true;
 }
 
 

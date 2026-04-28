@@ -12,7 +12,6 @@
 #include <afxcmn.h>
 #include <atlstr.h>
 #include <tchar.h>
-#include <winnt.h>
 #include <winuser.h>
 
 #include <cctype>
@@ -517,20 +516,20 @@ int CEditUndoStack::OnUndo(CRichEditCtrl *pCtrl) {
 			long StartSel;
 			long EndSel;
 
-			pCtrl->HideSelection(TRUE, FALSE);
-			pCtrl->SetRedraw(FALSE);
+			pCtrl->HideSelection(true, false);
+			pCtrl->SetRedraw(false);
 			pCtrl->GetSel(StartSel, EndSel);
 			pCtrl->SetSel(0, -1);
 			pCtrl->ReplaceSel(pUndo->GetString());
 			pCtrl->SetSel(StartSel, EndSel);
-			pCtrl->HideSelection(FALSE, FALSE);
-			pCtrl->SetRedraw(TRUE);
+			pCtrl->HideSelection(false, false);
+			pCtrl->SetRedraw(true);
 			UndoType = EDITUNDO_ENTIRETEXT;
 			break;
 		}
 	}
 
-	pCtrl->HideSelection(FALSE, FALSE);
+	pCtrl->HideSelection(false, false);
 	DestroyPointer(pUndo);
 	return UndoType;
 }

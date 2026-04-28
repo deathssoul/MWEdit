@@ -17,7 +17,6 @@
 #include <atltypes.h>
 #include <commctrl.h>
 #include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
 #include <cstddef>
@@ -36,10 +35,10 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("EsmFindDlg.cpp");
 IMPLEMENT_DYNCREATE(CEsmFindDlg, CFormView)
@@ -317,7 +316,7 @@ LRESULT CEsmFindDlg::OnEditRecord(LPARAM lParam, LPARAM wParam) {
 				pWnd->SendMessageToDescendants(ESMDLG_MSG_ONINFOEDIT,
 				                               (LPARAM)pRecInfo,
 				                               -1,
-				                               FALSE);
+				                               false);
 			}
 		}
 	} else {
@@ -403,7 +402,7 @@ void CEsmFindDlg::OnFindbutton() {
 void CEsmFindDlg::OnInitialUpdate() {
 	CString Buffer;
 	CFormView::OnInitialUpdate();
-	ResizeParentToFit(FALSE);
+	ResizeParentToFit(false);
 	/* Fill the find history list */
 	FillFindList();
 	/* Create the shortcut key accelerators */
@@ -474,7 +473,7 @@ void CEsmFindDlg::OnUpdateEditSelectrecord(CCmdUI *pCmdUI) {
  * Class CEsmFindDlg Method - BOOL PreTranslateMessage (pMsg);
  *
  *=========================================================================*/
-BOOL CEsmFindDlg::PreTranslateMessage(MSG *pMsg) {
+bool CEsmFindDlg::PreTranslateMessage(MSG *pMsg) {
 	int Result;
 
 	if (m_hAccelerator != NULL && pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST) {

@@ -13,7 +13,6 @@
 #include <afxdd_.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
 
 #include <cstddef>
 #include <cstdlib>
@@ -29,10 +28,10 @@
 #include "ui/Resource.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("EsmCellRefDlg.cpp");
 /*===========================================================================
@@ -194,10 +193,10 @@ void CEsmCellRefDlg::OnCancel() {
  * Class CEsmCellRefDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CEsmCellRefDlg::OnInitDialog() {
+bool CEsmCellRefDlg::OnInitDialog() {
 	CDialog::OnInitDialog();
 	SetControlData();
-	return TRUE;
+	return true;
 }
 
 

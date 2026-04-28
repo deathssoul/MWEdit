@@ -12,6 +12,7 @@
 #include <cstddef>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "common/dl_mem.h"
 #include "common/dl_str.h"
 #include "game/morrowind/defs.h"

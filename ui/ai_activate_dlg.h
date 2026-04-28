@@ -12,7 +12,6 @@
 
 #include <afx.h>
 #include <afxwin.h>
-#include <windef.h>
 
 #include <cstddef>
 
@@ -60,7 +59,7 @@ class CEsmAiActivateDlg : public CDialog {
 	/* Generated message map functions */
 
 	//{{AFX_MSG(CEsmAiActivateDlg)
-	virtual BOOL OnInitDialog();
+	virtual bool OnInitDialog();
 	virtual void OnOK();
 	//}}AFX_MSG
 

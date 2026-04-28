@@ -32,10 +32,10 @@
 #include "ui/Resource.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmSubListCtrl, CEsmListCtrl);
 DEFINE_FILE("EsmSubListCtrl.cpp");
@@ -168,7 +168,7 @@ int CEsmSubListCtrl::FindCellRef(CEsmSubCellRef *pCellRef) {
 
 		if (pCellRef1->IsSame(pCellRef)) {
 			CEsmSubFRMR* pLong = (CEsmSubFRMR *)pCellRef->FindSubRecord(MWESM_SUBREC_FRMR);
-			SystemLog.Printf ("Found Same, %d", pLong->GetValue());
+			SystemLog.Printf("Found Same, %d", pLong->GetValue());
 			return Index;
 		}
 	}
@@ -211,7 +211,7 @@ void CEsmSubListCtrl::OnBeginDrag(NMHDR *pNMHDR, LRESULT *pResult) {
 	esmrecinfo_t *pRecInfo;
 	LVITEM ItemInfo;
 	POINT DragPoint;
-	BOOL Result;
+	bool Result;
 	BYTE *pArray;
 	POSITION SelPos;
 

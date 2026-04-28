@@ -19,9 +19,9 @@
 #include "common/dl_base.h"
 #include "common/dl_err.h"
 #include "common/dl_file.h"
+#include "common/dl_log.h"
 
 #if _DEBUG
-#include "common/dl_log.h"
 #include "common/dl_math.h"
 #include "common/dl_mem.h"
 #endif
@@ -31,17 +31,17 @@ DEFINE_FILE("GenFile.cpp");
 /* Class constructors */
 CGenFile::CGenFile() {
 	m_pFileHandle = NULL;
-	m_Attached = FALSE;
+	m_Attached = false;
 }
 
 CGenFile::CGenFile(std::FILE *pSourceHandle) {
 	m_pFileHandle = pSourceHandle;
-	m_Attached = FALSE;
+	m_Attached = false;
 }
 
 CGenFile::CGenFile(const char *pFilename, const char *pMode) {
 	m_pFileHandle = NULL;
-	m_Attached = FALSE;
+	m_Attached = false;
 	m_LineCount = 0;
 	Open(pFilename, pMode);
 }
@@ -60,14 +60,14 @@ void CGenFile::Destroy () {
 void CGenFile::Attach(std::FILE *pFileHandle) {
 	IASSERT(pFileHandle != NULL);
 	Close();
-	m_Attached = TRUE;
+	m_Attached = true;
 	m_pFileHandle = pFileHandle;
 }
 
 /* Unattached to an existing file stream */
 void CGenFile::Detach() {
 	if (m_Attached) {
-		m_Attached = FALSE;
+		m_Attached = false;
 		m_pFileHandle = NULL;
 	}
 }
@@ -88,7 +88,7 @@ void CGenFile::Close() {
 		m_pFileHandle = NULL;
 	}
 
-	m_Attached = FALSE;
+	m_Attached = false;
 }
 
 /* Creates a new temporary file for output */
@@ -98,10 +98,10 @@ bool CGenFile::CreateTemp() {
 
 	if (m_pFileHandle == NULL) {
 		ErrorHandler.AddError(ERR_SYSTEM, errno, "Failed to create temporary file!");
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 bool CGenFile::Flush() {
@@ -109,10 +109,10 @@ bool CGenFile::Flush() {
 
 	if (std::fflush(m_pFileHandle) != 0) {
 		ErrorHandler.AddError(ERR_SYSTEM, errno, "Failed to flush file stream!");
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 /* Return the file handle for object */
@@ -135,24 +135,24 @@ bool CGenFile::GetFileSize(long &FileSize) {
 /* Returns TRUE if the EOF has been reached */
 bool CGenFile::IsEOF() {
 	if (!IsOpen() || std::feof(m_pFileHandle)) {
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 /* Returns TRUE if the file stream has an error */
 bool CGenFile::IsError() {
 	if (!IsOpen() || std::ferror(m_pFileHandle)) {
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 /* Returns TRUE if the file stream is currently open */
 bool CGenFile::IsOpen() {
-	return (bool)((m_pFileHandle == NULL) ? FALSE : TRUE);
+	return (bool)((m_pFileHandle == NULL) ? false : true);  // TODO: Remove unneeded cast
 }
 
 /* Open a file as with the fopen() function */
@@ -180,13 +180,13 @@ bool CGenFile::VPrintf(const char *pString, std::va_list Args) {
 	/* Ensure file is open for output */
 	if (!IsOpen()) {
 		ErrorHandler.AddError(ERR_WRITEFILE, "File is not open!");
-		return FALSE;
+		return false;
 	}
 
 	/* Output formatted string to file */
 	if (std::vfprintf(m_pFileHandle, pString, Args) < 0) {
 		ErrorHandler.AddError(ERR_SYSTEM, errno, "Error outputting a formatted string to file!");
-		return FALSE;
+		return false;
 	}
 
 	return Flush();
@@ -204,10 +204,10 @@ bool CGenFile::Read(char *pBuffer, std::size_t &BytesRead, const std::size_t Num
 		                      "Failed to read section from file, only %u of %u bytes received!",
 		                      BytesRead,
 		                      NumBytes);
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 /* Read a section from the file */
@@ -226,7 +226,7 @@ bool CGenFile::ReadEx(char *pBuffer, const std::size_t Size, const std::size_t C
 		ErrorHandler.AddError(ERR_OVERFLOW,
 		                      "Exceeded the maximum input size of %ud bytes!",
 		                      UINT_MAX);
-		return FALSE;
+		return false;
 	}
 
 	return Read(pBuffer, BytesRead, (std::size_t)NumBytes);
@@ -235,18 +235,18 @@ bool CGenFile::ReadEx(char *pBuffer, const std::size_t Size, const std::size_t C
 /* Read a character from the file */
 bool CGenFile::ReadChar(char &InputChar) {
 	IASSERT(IsOpen());
-	int Input;
+	int Input;  // TODO: Can probably be replaced with type char as it only interacts with characters
 	/* Attempt to read character */
 	Input = std::fgetc(m_pFileHandle);
 
 	if (Input < 0) {
 		InputChar = NULL_CHAR;
 		ErrorHandler.AddError(ERR_SYSTEM, errno, "Failed to read character from file!");
-		return FALSE;
+		return false;
 	}
 
 	InputChar = (char)Input;
-	return TRUE;
+	return true;
 }
 
 /* Read one line from the file */
@@ -287,10 +287,10 @@ bool CGenFile::Seek(const filepos_t Position, const int SeekType) {
 
 	if (std::fseek(m_pFileHandle, Position, SeekType) != 0) {
 		ErrorHandler.AddError(ERR_SYSTEM, errno, "Failed to change the current file position!");
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 /* Retrieve the current file position as per ftell() */
@@ -300,10 +300,10 @@ bool CGenFile::Tell(filepos_t &Position) {
 
 	if (Position < 0) {
 		ErrorHandler.AddError(ERR_SYSTEM, errno, "Failed to retrieve the current file position!");
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 /* Retrieve the current file position as per ftell() */
@@ -325,10 +325,10 @@ bool CGenFile::Write(const char *pBuffer, std::size_t &BytesWritten, const std::
 		                      "Failed to write section to file, only %u of %u bytes output!",
 		                      BytesWritten,
 		                      NumBytes);
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 /* Write a section to the file */
@@ -339,7 +339,7 @@ bool CGenFile::Write(const char *pBuffer, const std::size_t NumBytes) {
 
 /* Write a section to the file */
 bool CGenFile::WriteEx(const char *pBuffer, const std::size_t Size, const std::size_t Count) {
-	ulong NumBytes = (ulong)Size * (ulong)Count;
+	ulong NumBytes = (ulong)Size * (ulong)Count;  // TODO: Only used with std::size_t so can probably be replaced with that type
 	std::size_t BytesWritten;
 
 	/* Ensure valid input size */
@@ -347,7 +347,7 @@ bool CGenFile::WriteEx(const char *pBuffer, const std::size_t Size, const std::s
 		ErrorHandler.AddError(ERR_OVERFLOW,
 		                      "Exceeded the maximum output size of %ud bytes!",
 		                      UINT_MAX);
-		return FALSE;
+		return false;
 	}
 
 	return Write(pBuffer, BytesWritten, (std::size_t)NumBytes);
@@ -360,10 +360,10 @@ bool CGenFile::WriteChar(const char Char) {
 	/* Attempt to write character */
 	if (std::fputc((int)Char, m_pFileHandle) < 0 ) {
 		ErrorHandler.AddError(ERR_SYSTEM, errno, "Failed to write character to file!");
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 /* Write binary short integer (16 bit) */
@@ -424,20 +424,20 @@ void Test_GenFileOpen() {
 	CGenFile File5("c:\\temp\\t- =asasd&*!@#()$*.. . . .est2.dat", "wb");
 	CGenFile File6("c:\\temp\\test1.dat", "");
 
-	ASSERT(File1.IsOpen() == TRUE);
-	ASSERT(File2.IsOpen() == FALSE);
-	ASSERT(File3.IsOpen() == FALSE);
-	ASSERT(File4.IsOpen() == TRUE);
-	ASSERT(File5.IsOpen() == FALSE);
-	ASSERT(File6.IsOpen() == FALSE);
+	ASSERT(File1.IsOpen() == true);
+	ASSERT(File2.IsOpen() == false);
+	ASSERT(File3.IsOpen() == false);
+	ASSERT(File4.IsOpen() == true);
+	ASSERT(File5.IsOpen() == false);
+	ASSERT(File6.IsOpen() == false);
 
 	/* Test the open method with a variety of inputs */
-	ASSERT(File1.Open("c:\\temp\\test1.dat", "rb") == TRUE);
-	ASSERT(File2.Open("c:\\tempxyt\\test1.dat", "rb") == FALSE);
-	ASSERT(File3.Open("", "wb") == FALSE);
-	ASSERT(File4.Open("c:\\temp\\test2.dat", "wb") == TRUE);
-	ASSERT(File5.Open("c:\\temp\\t- =asasd&*!@#()$*.. . . .est2.dat", "wb") == FALSE);
-	ASSERT(File6.Open("c:\\temp\\test1.dat", "") == FALSE);
+	ASSERT(File1.Open("c:\\temp\\test1.dat", "rb") == true);
+	ASSERT(File2.Open("c:\\tempxyt\\test1.dat", "rb") == false);
+	ASSERT(File3.Open("", "wb") == false);
+	ASSERT(File4.Open("c:\\temp\\test2.dat", "wb") == true);
+	ASSERT(File5.Open("c:\\temp\\t- =asasd&*!@#()$*.. . . .est2.dat", "wb") == false);
+	ASSERT(File6.Open("c:\\temp\\test1.dat", "") == false);
 }
 
 
@@ -457,13 +457,13 @@ void Test_GenFilePrint() {
 	ASSERT(File1.IsOpen());
 
 	/* Test with typical inputs */
-	ASSERT(File1.Printf("Testing with no vars") == TRUE);
-	ASSERT(File1.Printf("Next string is blank") == TRUE);
-	ASSERT(File1.Printf("") == TRUE);
-	ASSERT(File1.Printf("Testing with one vars, 101 = %d", 101) == TRUE);
-	ASSERT(File1.Printf("Testing with two vars, 123 = %s, 2.222e22=%f", "123", 2.222e22) == TRUE);
-	ASSERT(File1.IsEOF() == FALSE);
-	ASSERT(File1.IsError() == FALSE);
+	ASSERT(File1.Printf("Testing with no vars") == true);
+	ASSERT(File1.Printf("Next string is blank") == true);
+	ASSERT(File1.Printf("") == true);
+	ASSERT(File1.Printf("Testing with one vars, 101 = %d", 101) == true);
+	ASSERT(File1.Printf("Testing with two vars, 123 = %s, 2.222e22=%f", "123", 2.222e22) == true);
+	ASSERT(File1.IsEOF() == false);
+	ASSERT(File1.IsError() == false);
 }
 
 
@@ -489,7 +489,7 @@ void Test_GenFileSeekTell(const std::size_t NumTests) {
 	SystemLog.Printf(stdout,
 	                 "================= Testing Seek/Tell/Rewind Method of CGenFile ================");
 	Test_CreateRandomFile("c:\\temp\\test1.dat", TEST_GENFILE_SEEKFILESIZE, FILE_BINARY);
-	ASSERT(TestFile.Open("c:\\temp\\test1.dat", "rb") == TRUE);
+	ASSERT(TestFile.Open("c:\\temp\\test1.dat", "rb") == true);
 	RandomizeTimer();
 
 	/* Repeat each test a number of times */
@@ -499,39 +499,39 @@ void Test_GenFileSeekTell(const std::size_t NumTests) {
 		FilePos1 = FilePos - TEST_GENFILE_SEEKFILESIZE / 2;
 
 		/* Seek to valid file positions and test with Tell */
-		ASSERT(TestFile.Seek(-FilePos, SEEK_END) == TRUE);
-		ASSERT(TestFile.Tell(TellPos) == TRUE);
+		ASSERT(TestFile.Seek(-FilePos, SEEK_END) == true);
+		ASSERT(TestFile.Tell(TellPos) == true);
 		ASSERT(TellPos == TEST_GENFILE_SEEKFILESIZE - FilePos);
-		ASSERT(TestFile.Seek(TEST_GENFILE_SEEKFILESIZE / 2, SEEK_SET) == TRUE);
-		ASSERT(TestFile.Seek(FilePos1, SEEK_CUR) == TRUE);
-		ASSERT(TestFile.Tell(TellPos) == TRUE);
+		ASSERT(TestFile.Seek(TEST_GENFILE_SEEKFILESIZE / 2, SEEK_SET) == true);
+		ASSERT(TestFile.Seek(FilePos1, SEEK_CUR) == true);
+		ASSERT(TestFile.Tell(TellPos) == true);
 		ASSERT(TellPos == TEST_GENFILE_SEEKFILESIZE / 2 + FilePos1);
-		ASSERT(TestFile.Seek(FilePos, SEEK_SET) == TRUE);
-		ASSERT(TestFile.Tell(TellPos) == TRUE);
+		ASSERT(TestFile.Seek(FilePos, SEEK_SET) == true);
+		ASSERT(TestFile.Tell(TellPos) == true);
 		ASSERT(TellPos == FilePos);
-		ASSERT(TestFile.IsEOF() == FALSE);
-		ASSERT(TestFile.IsError() == FALSE);
+		ASSERT(TestFile.IsEOF() == false);
+		ASSERT(TestFile.IsError() == false);
 
 		/* Attempt seeking to invalid positions */
-		ASSERT(TestFile.Seek(-1, SEEK_SET) == FALSE);
-		ASSERT(TestFile.Tell(TellPos) == TRUE);
+		ASSERT(TestFile.Seek(-1, SEEK_SET) == false);
+		ASSERT(TestFile.Tell(TellPos) == true);
 		ASSERT(TellPos == FilePos);
-		ASSERT(TestFile.Seek(TEST_GENFILE_SEEKFILESIZE * 2, SEEK_CUR) == TRUE);
-		ASSERT(TestFile.Tell(TellPos) == TRUE);
-		ASSERT(TestFile.IsEOF() == FALSE);
-		ASSERT(TestFile.IsError() == FALSE);
-		ASSERT(TestFile.Seek(10000, SEEK_END) == TRUE);
-		ASSERT(TestFile.Tell(TellPos) == TRUE);
-		ASSERT(TestFile.IsEOF() == FALSE);
-		ASSERT(TestFile.IsError() == FALSE);
+		ASSERT(TestFile.Seek(TEST_GENFILE_SEEKFILESIZE * 2, SEEK_CUR) == true);
+		ASSERT(TestFile.Tell(TellPos) == true);
+		ASSERT(TestFile.IsEOF() == false);
+		ASSERT(TestFile.IsError() == false);
+		ASSERT(TestFile.Seek(10000, SEEK_END) == true);
+		ASSERT(TestFile.Tell(TellPos) == true);
+		ASSERT(TestFile.IsEOF() == false);
+		ASSERT(TestFile.IsError() == false);
 		ASSERT(TellPos == TEST_GENFILE_SEEKFILESIZE + 10000);
 
 		/* Test the rewind method */
 		TestFile.Rewind();
-		ASSERT(TestFile.Tell(TellPos) == TRUE);
+		ASSERT(TestFile.Tell(TellPos) == true);
 		ASSERT(TellPos == 0);
-		ASSERT(TestFile.IsError() == FALSE);
-		ASSERT(TestFile.IsEOF() == FALSE);
+		ASSERT(TestFile.IsError() == false);
+		ASSERT(TestFile.IsEOF() == false);
 	}
 }
 
@@ -565,42 +565,42 @@ void Test_RWGenFile(const std::size_t NumTests) {
 		Test_CreateRandomFile ("c:\\temp\\test1.dat", FileSize, FILE_BINARY);
 
 		/* Attempt to open and read file */
-		ASSERT(InputFile.Open("c:\\temp\\test1.dat", "rb") == TRUE);
-		ASSERT(InputFile.Read(pBuffer, BytesIO, FileSize) == TRUE);
+		ASSERT(InputFile.Open("c:\\temp\\test1.dat", "rb") == true);
+		ASSERT(InputFile.Read(pBuffer, BytesIO, FileSize) == true);
 		ASSERT(BytesIO == FileSize);
-		ASSERT(InputFile.IsError() == FALSE);
-		ASSERT(InputFile.IsEOF() == FALSE);
-		ASSERT(InputFile.ReadChar(IOChar) == FALSE);
-		ASSERT(InputFile.IsEOF() == TRUE);
-		ASSERT(InputFile.IsError() == FALSE);
+		ASSERT(InputFile.IsError() == false);
+		ASSERT(InputFile.IsEOF() == false);
+		ASSERT(InputFile.ReadChar(IOChar) == false);
+		ASSERT(InputFile.IsEOF() == true);
+		ASSERT(InputFile.IsError() == false);
 		InputFile.Close();
 
 		/* Attempt to open and write file */
-		ASSERT(OutputFile.Open("c:\\temp\\test2.dat", "wb") == TRUE);
-		ASSERT(OutputFile.Write(pBuffer, BytesIO, FileSize) == TRUE);
+		ASSERT(OutputFile.Open("c:\\temp\\test2.dat", "wb") == true);
+		ASSERT(OutputFile.Write(pBuffer, BytesIO, FileSize) == true);
 		ASSERT(BytesIO == FileSize);
-		ASSERT(OutputFile.IsError() == FALSE);
+		ASSERT(OutputFile.IsError() == false);
 		OutputFile.Close();
 
 		/* Attempt to open and read file */
-		ASSERT(InputFile.Open("c:\\temp\\test2.dat", "rb") == TRUE);
-		ASSERT(InputFile.Read(pBuffer, FileSize) == TRUE);
-		ASSERT(InputFile.IsError() == FALSE);
-		ASSERT(InputFile.IsEOF() == FALSE);
-		ASSERT(InputFile.ReadChar(IOChar) == FALSE);
-		ASSERT(InputFile.IsEOF() == TRUE);
-		ASSERT(InputFile.IsError() == FALSE);
+		ASSERT(InputFile.Open("c:\\temp\\test2.dat", "rb") == true);
+		ASSERT(InputFile.Read(pBuffer, FileSize) == true);
+		ASSERT(InputFile.IsError() == false);
+		ASSERT(InputFile.IsEOF() == false);
+		ASSERT(InputFile.ReadChar(IOChar) == false);
+		ASSERT(InputFile.IsEOF() == true);
+		ASSERT(InputFile.IsError() == false);
 		InputFile.Close();
 
 		/* Attempt to open and write file */
-		ASSERT(OutputFile.Open("c:\\temp\\test3.dat", "wb") == TRUE);
-		ASSERT(OutputFile.Write(pBuffer, FileSize) == TRUE);
-		ASSERT(OutputFile.IsError() == FALSE);
+		ASSERT(OutputFile.Open("c:\\temp\\test3.dat", "wb") == true);
+		ASSERT(OutputFile.Write(pBuffer, FileSize) == true);
+		ASSERT(OutputFile.IsError() == false);
 		OutputFile.Close();
 
 		/* Ensure the files were successfully read and output */
-		ASSERT(Test_CompareFiles("c:\\temp\\test1.dat", "c:\\temp\\test2.dat") == TRUE);
-		ASSERT(Test_CompareFiles("c:\\temp\\test1.dat", "c:\\temp\\test3.dat") == TRUE);
+		ASSERT(Test_CompareFiles("c:\\temp\\test1.dat", "c:\\temp\\test2.dat") == true);
+		ASSERT(Test_CompareFiles("c:\\temp\\test1.dat", "c:\\temp\\test3.dat") == true);
 	}
 
 	DestroyArrayPointer(pBuffer);
@@ -633,27 +633,27 @@ void Test_RWCharGenFile(const std::size_t NumTests) {
 		Test_CreateRandomFile ("c:\\temp\\test1.dat", FileSize, FILE_BINARY);
 
 		/* Open input/output files */
-		ASSERT(InputFile.Open("c:\\temp\\test1.dat", "rb") == TRUE);
-		ASSERT(OutputFile.Open("c:\\temp\\test2.dat", "wb") == TRUE);
+		ASSERT(InputFile.Open("c:\\temp\\test1.dat", "rb") == true);
+		ASSERT(OutputFile.Open("c:\\temp\\test2.dat", "wb") == true);
 
 		/* Copy the file, byte by byte */
 		for (IOCounter = 0; IOCounter < FileSize; IOCounter++) {
-			ASSERT(InputFile.ReadChar(IOChar) == TRUE);
-			ASSERT(OutputFile.WriteChar(IOChar) == TRUE);
+			ASSERT(InputFile.ReadChar(IOChar) == true);
+			ASSERT(OutputFile.WriteChar(IOChar) == true);
 		}
 
 		/* Check file status */
-		ASSERT(InputFile.IsError() == FALSE);
-		ASSERT(InputFile.IsEOF() == FALSE);
-		ASSERT(InputFile.ReadChar(IOChar) == FALSE);
-		ASSERT(InputFile.IsError() == FALSE);
-		ASSERT(InputFile.IsEOF() == TRUE);
-		ASSERT(OutputFile.IsError() == FALSE);
-		ASSERT(OutputFile.IsEOF() == FALSE);
+		ASSERT(InputFile.IsError() == false);
+		ASSERT(InputFile.IsEOF() == false);
+		ASSERT(InputFile.ReadChar(IOChar) == false);
+		ASSERT(InputFile.IsError() == false);
+		ASSERT(InputFile.IsEOF() == true);
+		ASSERT(OutputFile.IsError() == false);
+		ASSERT(OutputFile.IsEOF() == false);
 		InputFile.Close();
 		OutputFile.Close();
 		/* Ensure the files were successfully read and output */
-		ASSERT(Test_CompareFiles("c:\\temp\\test1.dat", "c:\\temp\\test2.dat") == TRUE);
+		ASSERT(Test_CompareFiles("c:\\temp\\test1.dat", "c:\\temp\\test2.dat") == true);
 	}
 }
 
@@ -666,10 +666,10 @@ void Test_RWCharGenFile(const std::size_t NumTests) {
  *
  *=========================================================================*/
 
-#define OUTPUTSET(Array, Function) NumCounter = 0; while (TRUE) { \
+#define OUTPUTSET(Array, Function) NumCounter = 0; while (true) { \
 		ASSERT(OutputFile.Function(Array[NumCounter])); if (Array[NumCounter] == 0) break; NumCounter++; }
 
-#define INPUTSET(Array, Input, Function) NumCounter = 0; while (TRUE) { \
+#define INPUTSET(Array, Input, Function) NumCounter = 0; while (true) { \
 		ASSERT(InputFile.Read##Function(Input)); ASSERT(Input == Array[NumCounter]); ASSERT(OutputFile.Write##Function(Input)); if (Array[NumCounter] == 0) break; NumCounter++; }
 
 
@@ -787,7 +787,7 @@ void Test_GenFileRWNumbers(const std::size_t NumTests) {
 		InputFile.Close();
 		OutputFile.Close();
 		/* Ensure the files were successfully read and output */
-		ASSERT(Test_CompareFiles("c:\\temp\\gfnum1.dat", "c:\\temp\\gfnum2.dat") == TRUE);
+		ASSERT(Test_CompareFiles("c:\\temp\\gfnum1.dat", "c:\\temp\\gfnum2.dat") == true);
 	}
 }
 

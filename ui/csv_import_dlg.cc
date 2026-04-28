@@ -15,8 +15,6 @@
 #include <afxwin.h>
 #include <atlstr.h>
 #include <commctrl.h>
-#include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
 #include <cstddef>
@@ -32,10 +30,10 @@
 #include "ui/Resource.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("EsmCsvImportDlg.cpp");
 /*===========================================================================
@@ -206,7 +204,7 @@ bool CEsmCsvImportDlg::CheckRow(const int RowIndex) {
  *
  *=========================================================================*/
 void CEsmCsvImportDlg::ClearCsvList() {
-	BOOL Result;
+	bool Result;
 	/* Clear all rows */
 	m_CsvList.DeleteAllItems();
 
@@ -298,7 +296,8 @@ bool CEsmCsvImportDlg::CreateRecord(CCsvRow *pRow) {
 	} else if (!pRecInfo->pRecord->IsType(pRecordType)) { /* Existing record is incorrect type */
 		ErrorHandler.AddError(ERR_BADINPUT,
 		                      _T("The previous record '%s' is not the correct type (%s)!"),
-		                      *pIDCol, pRecInfo->pRecord->GetItemType());
+		                      *pIDCol,
+		                      pRecInfo->pRecord->GetItemType());
 		return false;
 	} else { /* Use an existing record */
 		pRecInfo = m_pDocument->CopyToActive(pRecInfo);
@@ -535,7 +534,7 @@ void CEsmCsvImportDlg::OnCreatebutton() {
 
 	/* Close the dialog with a success code */
 	if (m_CreatedRecords > 0) {
-		m_pDocument->SetModifiedFlag(TRUE);
+		m_pDocument->SetModifiedFlag(true);
 	}
 
 	EndDialog(IDOK);
@@ -547,7 +546,7 @@ void CEsmCsvImportDlg::OnCreatebutton() {
  * Class CEsmCsvImportDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CEsmCsvImportDlg::OnInitDialog() {
+bool CEsmCsvImportDlg::OnInitDialog() {
 	CDialog::OnInitDialog();
 
 	/* Update the title bar */
@@ -564,10 +563,10 @@ BOOL CEsmCsvImportDlg::OnInitDialog() {
 
 	if (!Result) {
 		EndDialog(IDCANCEL);
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 

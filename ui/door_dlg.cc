@@ -30,10 +30,10 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmDoorDlg, CEsmRecDialog);
 DEFINE_FILE("EsmDoorDlg.cpp");
@@ -247,7 +247,7 @@ void CEsmDoorDlg::SetControlData() {
 
 	/* Item strings and values */
 	m_NameText.SetWindowText(m_pDoor->GetName());
-	m_NameText.SetModify(FALSE);
+	m_NameText.SetModify(false);
 
 	/* Model/sound buttons */
 	m_ModelButton.SetWindowText(m_pDoor->GetModel());

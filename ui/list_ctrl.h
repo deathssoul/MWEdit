@@ -15,11 +15,11 @@
 #include <afxwin.h>
 #include <commctrl.h>
 #include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
 #include <cstddef>
 
+#include "common/dl_base.h"
 #include "game/morrowind/file.h"
 #include "game/morrowind/record.h"
 #include "ui/dlg_array.h"
@@ -393,7 +393,7 @@ class CEsmListCtrl : public CListCtrl {
 
 	/* Get/set an item check */
 	bool GetCheck(const int Item) {
-		return ListView_GetCheckState(m_hWnd, Item) == TRUE;
+		return ListView_GetCheckState(m_hWnd, Item) == true;
 	}
 
 	void SetCheck(const int Item, const bool Flag) {

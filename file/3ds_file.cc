@@ -96,7 +96,7 @@ bool C3dsFile::DumpChunk(std::FILE *pFileHandle) {
 
 	if (!Result) {
 		SystemLog.Printf(pFileHandle, "\tError reading 3DS chunk header data!");
-		return FALSE;
+		return false;
 	}
 
 	/* Output chunk information */
@@ -112,7 +112,7 @@ bool C3dsFile::DumpChunk(std::FILE *pFileHandle) {
 		Result = ReadName(NULL);
 
 		if (!Result) {
-			return FALSE;
+			return false;
 		}
 	} else if (ChunkID == CHUNK3DS_ID_MESHMATRIX) {
 		Result = DumpMeshMatrix(pFileHandle);
@@ -159,7 +159,7 @@ bool C3dsFile::DumpContents(std::FILE *pFileHandle) {
 	/* Ensure file is open */
 	if (!IsOpen()) {
 		SystemLog.Printf(pFileHandle, "3DS file must be open to dump its contents!");
-		return FALSE;
+		return false;
 	}
 
 	/* Move to start of file */
@@ -167,7 +167,7 @@ bool C3dsFile::DumpContents(std::FILE *pFileHandle) {
 
 	if (!Result) {
 		SystemLog.Printf(pFileHandle, "Failed to move to start of 3DS file!");
-		return FALSE;
+		return false;
 	}
 
 	/* Start recursively reading chunks */
@@ -204,7 +204,7 @@ bool C3dsFile::DumpMeshMatrix(std::FILE *pFileHandle) {
 			Result = ReadFloat(InputFloat);
 
 			if (!Result) {
-				return FALSE;
+				return false;
 			}
 
 			std::sprintf(NumBuffer, "%8.3f  ", InputFloat);
@@ -214,7 +214,7 @@ bool C3dsFile::DumpMeshMatrix(std::FILE *pFileHandle) {
 		SystemLog.Printf(stdout, "%s", Buffer);
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -303,7 +303,7 @@ bool C3dsFile::OutputMatEntry(const char *pMatName, const char *pTextureName) {
 	Result = StartChunk(CHUNK3DS_MAT_ENTRY);
 
 	if (!Result) {
-		return FALSE;
+		return false;
 	}
 
 	/* Output the material name */
@@ -355,7 +355,7 @@ bool C3dsFile::OutputMatEntry(const char *pMatName, const rgbpal_t &PalEntry) {
 	Result = StartChunk(CHUNK3DS_MAT_ENTRY);
 
 	if (!Result) {
-		return FALSE;
+		return false;
 	}
 
 	/* Output the material name */
@@ -401,7 +401,7 @@ bool C3dsFile::PopChunkStack(const ushort ID) {
 	if (m_ChunkStackSize <= 0) {
 		ASSERT(m_ChunkStackSize > 0);
 		ErrorHandler.AddError(ERR_BADARRAYINDEX, "No items on 3DS chunk stack to pop!");
-		return FALSE;
+		return false;
 	}
 
 	/* Remove item */
@@ -414,7 +414,7 @@ bool C3dsFile::PopChunkStack(const ushort ID) {
 		                      "3DS chunk ID of 0x%04X does not match chunk stack ID of 0x%04X",
 		                      (int)ID,
 		                      (int)m_ChunkStack[m_ChunkStackSize].ID);
-		return FALSE;
+		return false;
 	}
 
 	/* Update the chunk size */
@@ -456,7 +456,7 @@ bool C3dsFile::PopChunkStack(const ushort ID, const short Value) {
 	if (m_ChunkStackSize <= 0) {
 		ASSERT(m_ChunkStackSize > 0);
 		ErrorHandler.AddError(ERR_BADARRAYINDEX, "No items on 3DS chunk stack to pop!");
-		return FALSE;
+		return false;
 	}
 
 	/* Remove item */
@@ -469,7 +469,7 @@ bool C3dsFile::PopChunkStack(const ushort ID, const short Value) {
 		                      "3DS chunk ID of 0x%04X does not match chunk stack ID of 0x%04X",
 		                      (int)ID,
 		                      (int)m_ChunkStack[m_ChunkStackSize].ID);
-		return FALSE;
+		return false;
 	}
 
 	/* Update the chunk size */
@@ -512,7 +512,7 @@ bool C3dsFile::PushChunkStack(const ushort ID) {
 		ErrorHandler.AddError(ERR_MAXINDEX,
 		                      "Maximum of %d 3DS chunk stack items exceeded!",
 		                      CHUNK3DS_STACK_SIZE);
-		return FALSE;
+		return false;
 	}
 
 	/* Store stack data */
@@ -554,7 +554,7 @@ bool C3dsFile::ReadName(char *pBuffer) {
 		Result = ReadChar(InputChar);
 
 		if (!Result) {
-			return FALSE;
+			return false;
 		}
 
 		/* Add character to buffer if required */
@@ -562,7 +562,7 @@ bool C3dsFile::ReadName(char *pBuffer) {
 		}
 	} while (InputChar != NULL_CHAR);
 
-	return TRUE;
+	return true;
 }
 
 
@@ -881,7 +881,7 @@ bool C3dsFile::WriteFace(const short Point1,
 	bool Result;
 
 	if (!IsOpen()) {
-		return FALSE;
+		return false;
 	}
 
 	/* Output the 3 face points and the face default flags */
@@ -976,7 +976,7 @@ bool C3dsFile::WriteString(const ushort ChunkID, const char *pString) {
 		Result = Write(pString, StringLength);
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -991,7 +991,7 @@ bool C3dsFile::WritePoint(const float X, const float Y, const float Z) {
 	bool Result;
 
 	if (!IsOpen()) {
-		return FALSE;
+		return false;
 	}
 
 	/* Output the 3 points */
@@ -1031,7 +1031,7 @@ bool C3dsFile::WriteMeshMatrix(const float *pMeshMatrix) {
 
 	/* Ensure file is open */
 	if (!IsOpen()) {
-		return FALSE;
+		return false;
 	}
 
 	if (pMeshMatrix == NULL) {

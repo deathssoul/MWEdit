@@ -10,8 +10,6 @@
 #ifndef __SCRIPTTEMPLATE_H
 #define __SCRIPTTEMPLATE_H
 
-#include <winnt.h>
-
 #include "common/dl_base.h"
 #include "common/dl_str.h"
 #include "common/container/ptr_array.h"

@@ -16,10 +16,11 @@
 #include <atltypes.h>
 #include <basetsd.h>
 #include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
 #include <cstddef>
+
+#include "common/dl_base.h"
 
 /* Timer events */
 #define DLTOOLTIP_TIMER_SHOW  1
@@ -54,7 +55,7 @@ class CDlToolTip : CWnd {
 
   protected:
 	/* Compute the window region */
-	BOOL GetWindowRegion(CDC *pDC, HRGN *phRegion, CSize *pSize = NULL);
+	bool GetWindowRegion(CDC *pDC, HRGN *phRegion, CSize *pSize = NULL);
 
 	//{{AFX_MSG(CDlToolTip)
 	afx_msg void OnPaint();
@@ -71,7 +72,7 @@ class CDlToolTip : CWnd {
 	virtual ~CDlToolTip();
 
 	/* Create the custom window */
-	BOOL Create(CWnd *parent);
+	bool Create(CWnd *parent);
 
 	/* Get class members */
 	bool IsOpen() {

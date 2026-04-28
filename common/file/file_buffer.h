@@ -10,9 +10,9 @@
 #ifndef __FILEBUFFER_H
 #define __FILEBUFFER_H
 
-#include <winnt.h>
-
 #include <cstdio>
+
+#include "common/dl_base.h"
 
 /* Default input buffer size in bytes */
 #define FILEBUF_DEFAULT_BUFFER_SIZE 1024

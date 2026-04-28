@@ -197,7 +197,7 @@ bool CEsmScript::ExportScript(const TCHAR *pPath) {
 	/* Create the output filename */
 	std::snprintf(Filename, _MAX_PATH + 40, _T("%s%s.txt"), pPath, GetID());
 	/* Output the script text */
-	Result = WriteFile((const byte*)GetScriptText(), GetScriptSize(), Filename, false);
+	Result = WriteFile((const byte *)GetScriptText(), GetScriptSize(), Filename, false);
 	return Result;
 }
 

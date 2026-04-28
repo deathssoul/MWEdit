@@ -20,10 +20,10 @@
 #include "common/dl_base.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CChildFrameVar, CMDIChildWnd)
 DEFINE_FILE("ChildFrmVar.cpp");
@@ -65,16 +65,16 @@ CChildFrameVar::~CChildFrameVar() {
  * Class CChildFrameVar Method - BOOL PreCreateWindow (cs);
  *
  *=========================================================================*/
-BOOL CChildFrameVar::PreCreateWindow(CREATESTRUCT &cs) {
+bool CChildFrameVar::PreCreateWindow(CREATESTRUCT &cs) {
 	//cs.style &= ~WS_THICKFRAME;
 	//cs.style &= ~WS_MAXIMIZEBOX;
 	cs.style &= ~WS_MAXIMIZE;
 
 	if (!CMDIChildWnd::PreCreateWindow(cs)) {
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 

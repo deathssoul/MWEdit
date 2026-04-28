@@ -21,10 +21,10 @@
 
 /* Debug defines */
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CChildFrame, CMDIChildWnd);
 DEFINE_FILE("ChildFrm.cpp");
@@ -66,14 +66,14 @@ CChildFrame::~CChildFrame() {
  * Class CChildFrame Method - BOOL PreCreateWindow (cs);
  *
  *=========================================================================*/
-BOOL CChildFrame::PreCreateWindow(CREATESTRUCT &cs) {
+bool CChildFrame::PreCreateWindow(CREATESTRUCT &cs) {
 	cs.style &= ~WS_MAXIMIZE;
 
 	if (!CMDIChildWnd::PreCreateWindow(cs)) {
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -109,7 +109,7 @@ void CChildFrame::OnSize(UINT nType, int cx, int cy) {
  * Class CChildFrame Event - void OnMDIActivate (bActivate, pActivateWnd, pDeactivateWnd);
  *
  *=========================================================================*/
-void CChildFrame::OnMDIActivate(BOOL bActivate, CWnd *pActivateWnd, CWnd *pDeactivateWnd) {
+void CChildFrame::OnMDIActivate(bool bActivate, CWnd *pActivateWnd, CWnd *pDeactivateWnd) {
 	CMDIChildWnd::OnMDIActivate(bActivate, pActivateWnd, pDeactivateWnd);
 }
 

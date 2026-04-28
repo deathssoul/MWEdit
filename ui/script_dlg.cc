@@ -19,7 +19,6 @@
 #include <richedit.h>
 #include <richole.h>
 #include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
 #include <cctype>
@@ -52,10 +51,10 @@ DEFINE_FILE("EsmScriptDlg.cpp");
 
 /* Debug definitions */
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 static UINT WM_FINDREPLACE = ::RegisterWindowMessage(FINDMSGSTRING);
 /*===========================================================================
@@ -193,8 +192,8 @@ void CEsmScriptDlg::AutoIndent() {
 	IndentPartString = ::GetEsmOptScriptIndentString();
 	m_UpdatingRichEdit = true;
 
-	m_ScriptText.SetRedraw(FALSE);
-	m_ScriptText.HideSelection(TRUE, FALSE);
+	m_ScriptText.SetRedraw(false);
+	m_ScriptText.HideSelection(true, false);
 	m_ScriptText.GetWindowText(Buffer);
 	m_UndoStack.CreateEntireText(Buffer);
 	m_ScriptText.GetSel(StartSel, EndSel);
@@ -271,8 +270,8 @@ void CEsmScriptDlg::AutoIndent() {
 
 	m_ScriptText.SetSel(StartSel, EndSel);
 	m_ScriptText.SetFocus();
-	m_ScriptText.SetRedraw(TRUE);
-	m_ScriptText.HideSelection(FALSE, FALSE);
+	m_ScriptText.SetRedraw(true);
+	m_ScriptText.HideSelection(false, false);
 	m_UpdatingRichEdit = false;
 	FormatText();
 	m_ScriptText.Invalidate();
@@ -287,7 +286,7 @@ void CEsmScriptDlg::AutoIndent() {
 void CEsmScriptDlg::ChangeScriptFormat(CEsmScriptOptions *pNewFormat) {
 	if (pNewFormat != NULL) {
 		m_pCurrentScriptOptions = pNewFormat;
-		m_ScriptText.SetBackgroundColor(FALSE, m_pCurrentScriptOptions->GetBGColor());
+		m_ScriptText.SetBackgroundColor(false, m_pCurrentScriptOptions->GetBGColor());
 		m_ScriptText.SetFont(m_pCurrentScriptOptions->GetTextFont());
 		FormatText();
 		m_ScriptText.Invalidate();
@@ -362,15 +361,17 @@ void CEsmScriptDlg::FindScriptID() {
  *=========================================================================*/
 void CEsmScriptDlg::FormatText() {
 	int LineCount;
+
 	double StartTime;
 	double EndTime;  // TODO: These two appear unused. Possibly remove?
+
 	long StartChar;
 	long EndChar;
 
 	StartTime = GetHiClockTime();
 	m_UpdatingRichEdit = true;
-	m_ScriptText.SetRedraw(FALSE);
-	m_ScriptText.HideSelection(TRUE, FALSE);
+	m_ScriptText.SetRedraw(false);
+	m_ScriptText.HideSelection(true, false);
 	m_ScriptText.GetSel(StartChar, EndChar);
 	//MessageBox("format");
 
@@ -385,9 +386,9 @@ void CEsmScriptDlg::FormatText() {
 		}
 	}
 
-	m_ScriptText.SetRedraw(TRUE);
+	m_ScriptText.SetRedraw(true);
 	m_ScriptText.SetSel(StartChar, EndChar);
-	m_ScriptText.HideSelection(FALSE, FALSE);
+	m_ScriptText.HideSelection(false, false);
 	EndTime = GetHiClockTime();
 	//SystemLog.Printf("FormatTime = %g secs", EndTime-StartTime);
 	m_UpdatingRichEdit = false;
@@ -679,17 +680,17 @@ void CEsmScriptDlg::OnChangeScriptText() {
 
 	/* Get the current s */
 	//StartTime = GetHiClockTime();
-	m_ScriptText.SetRedraw(FALSE);
+	m_ScriptText.SetRedraw(false);
 	m_ScriptText.GetSel(StartChar, EndChar);
-	m_ScriptText.HideSelection(TRUE, FALSE);
+	m_ScriptText.HideSelection(true, false);
 
 	/* Format the line */
 	ParseLine(m_ScriptText.LineFromChar(-1));
 
 	/* Reset the previous selection */
 	m_ScriptText.SetSel(StartChar, EndChar);
-	m_ScriptText.SetRedraw(TRUE);
-	m_ScriptText.HideSelection(FALSE, FALSE);
+	m_ScriptText.SetRedraw(true);
+	m_ScriptText.HideSelection(false, false);
 
 	/* Determine the update area */
 	m_ScriptText.GetClientRect(&Rect);
@@ -710,10 +711,10 @@ void CEsmScriptDlg::OnChangeScriptText() {
 
 	/* Perform the minimum amount of redraw possible */
 	if (m_LastUpdateLineCount != m_ScriptText.GetLineCount()) {
-		m_ScriptText.Invalidate(FALSE);
+		m_ScriptText.Invalidate(false);
 		m_ScriptText.RedrawWindow();
 	} else {
-		m_ScriptText.InvalidateRect(&Rect, FALSE);
+		m_ScriptText.InvalidateRect(&Rect, false);
 	}
 
 	//EndTime = GetHiClockTime();
@@ -748,7 +749,7 @@ void CEsmScriptDlg::CloseToolTips() {
 void CEsmScriptDlg::OnContextMenu(CWnd *pWnd, CPoint Point) {
 	CMenu Menu;
 	CMenu *pPopup;
-	BOOL Result;
+	bool Result;
 	int Index;
 	CCmdUI MenuState;
 
@@ -844,7 +845,9 @@ LRESULT CEsmScriptDlg::OnFindReplace(WPARAM wParam, LPARAM lParam) {
 		FindResult = m_ScriptText.FindText(Flags, &FindTextData);
 
 		if (FindResult == -1) {
-			MessageBox(_T("No more matches found!"), _T("Find Result"), MB_OK | MB_ICONINFORMATION);
+			MessageBox(_T("No more matches found!"),
+			           _T("Find Result"),
+			           MB_OK | MB_ICONINFORMATION);
 			pDialog->EndDialog(0);
 		} else {
 			m_ScriptText.SetSel(FindTextData.chrgText);
@@ -853,10 +856,12 @@ LRESULT CEsmScriptDlg::OnFindReplace(WPARAM wParam, LPARAM lParam) {
 		FindResult = m_ScriptText.FindText(Flags, &FindTextData);
 
 		if (FindResult == -1) {
-			MessageBox(_T("No more matches found!"), _T("Find Result"), MB_OK | MB_ICONINFORMATION);
+			MessageBox(_T("No more matches found!"),
+			           _T("Find Result"),
+			           MB_OK | MB_ICONINFORMATION);
 		} else {
 			m_ScriptText.SetSel(FindTextData.chrgText);
-			m_ScriptText.ReplaceSel(pDialog->GetReplaceString(), TRUE);
+			m_ScriptText.ReplaceSel(pDialog->GetReplaceString(), true);
 			m_ScriptText.GetSel(StartSel, EndSel);
 			m_ScriptText.SetSel(EndSel, EndSel);
 			FindResult = m_ScriptText.FindText(Flags, &FindTextData);
@@ -871,7 +876,7 @@ LRESULT CEsmScriptDlg::OnFindReplace(WPARAM wParam, LPARAM lParam) {
 		while (FindResult >= 0) {
 			ReplaceCount++;
 			m_ScriptText.SetSel(FindTextData.chrgText);
-			m_ScriptText.ReplaceSel(pDialog->GetReplaceString(), TRUE);
+			m_ScriptText.ReplaceSel(pDialog->GetReplaceString(), true);
 			m_ScriptText.GetSel(StartSel, EndSel);
 			m_ScriptText.SetSel(EndSel, EndSel);
 			FindTextData.chrg.cpMin = FindTextData.chrgText.cpMax;
@@ -922,7 +927,7 @@ void CEsmScriptDlg::OnInitialUpdate() {
 
 	/* Initialize the script text control */
 	m_ScriptText.SetFont(m_pCurrentScriptOptions->GetTextFont());
-	m_ScriptText.SetBackgroundColor(FALSE, m_pCurrentScriptOptions->GetBGColor());
+	m_ScriptText.SetBackgroundColor(false, m_pCurrentScriptOptions->GetBGColor());
 	m_ScriptText.SetEventMask(m_ScriptText.GetEventMask() | ENM_CHANGE | ENM_UPDATE | ENM_KEYEVENTS);
 	//m_ScriptText.SetEventMask(m_ScriptText.GetEventMask() | ENM_CHANGE | ENM_UPDATE);
 	m_ScriptText.LimitText(ESM_SCRIPT_MAXTEXT);
@@ -975,7 +980,7 @@ void CEsmScriptDlg::OnInitialUpdate() {
 	m_ToolbarTip.AddTool(&m_ReplaceButton, _T("Replace    Ctrl+H"));
 	m_ToolbarTip.AddTool(&m_CompileButton, _T("Compile    Ctrl+F7"));
 	m_ToolbarTip.AddTool(&m_IndentButton, _T("Indent"));
-	m_ToolbarTip.Activate(TRUE);
+	m_ToolbarTip.Activate(true);
 
 	UpdateSizeStatus();
 	UpdatePosStatus();
@@ -1002,7 +1007,7 @@ void CEsmScriptDlg::OnSetFocus(CWnd *pWnd) {
 	CEsmRecDialog::OnSetFocus(pWnd);
 }
 
-void CEsmScriptDlg::OnShowWindow(BOOL bShow, UINT Status) {
+void CEsmScriptDlg::OnShowWindow(bool bShow, UINT Status) {
 	//m_ScriptText.SetSel(3,4);
 	CEsmRecDialog::OnShowWindow(bShow, Status);
 }
@@ -1132,20 +1137,20 @@ void CEsmScriptDlg::OnUpdateScriptText() {
 
 /*===========================================================================
  *
- * Class CEsmScriptDlg Method - BOOL PreCreateWindow (cs);
+ * Class CEsmScriptDlg Method - bool PreCreateWindow (cs);
  *
  *=========================================================================*/
-BOOL CEsmScriptDlg::PreCreateWindow(CREATESTRUCT &cs) {
+bool CEsmScriptDlg::PreCreateWindow(CREATESTRUCT &cs) {
 	return CEsmRecDialog::PreCreateWindow(cs);
 }
 
 
 /*===========================================================================
  *
- * Class CEsmScriptDlg Method - BOOL PreTranslateMessage (MSG* pMsg);
+ * Class CEsmScriptDlg Method - bool PreTranslateMessage (MSG* pMsg);
  *
  *=========================================================================*/
-BOOL CEsmScriptDlg::PreTranslateMessage(MSG *pMsg) {
+bool CEsmScriptDlg::PreTranslateMessage(MSG *pMsg) {
 	int Result;
 	m_ToolbarTip.RelayEvent(pMsg);
 
@@ -1176,7 +1181,7 @@ void CEsmScriptDlg::SetControlData() {
 
 	/* Set the main text */
 	m_ScriptText.SetWindowText(m_pScript->GetScriptText());
-	m_ScriptText.SetModify(FALSE);
+	m_ScriptText.SetModify(false);
 	m_UndoStack.Destroy();
 	m_UpdatingRichEdit = false;
 	FormatText();
@@ -1333,7 +1338,9 @@ void CEsmScriptDlg::OnScriptCompile() {
 	                    m_Compiler.GetNumErrors());
 	pError->SetMessage(ScriptBuffer);
 	/* Display any errors or warnings in the error view */
-	GetParentFrame()->SendMessage(MSG_SCRIPTFRM_UPDATEERROR, (LPARAM)m_Compiler.GetErrorArray(), 0);
+	GetParentFrame()->SendMessage(MSG_SCRIPTFRM_UPDATEERROR,
+	                              (LPARAM)m_Compiler.GetErrorArray(),
+	                              0);
 
 	/* Display popup modal dialog if needed */
 	if (!GetEsmOptNoScriptPrompt()) {
@@ -1382,7 +1389,7 @@ void CEsmScriptDlg::OnScriptFindtext() {
 	/* Otherwise, create and display a new dialog */
 	m_pFindReplaceDlg = new CFindReplaceDialog;
 	Buffer = m_ScriptText.GetSelText();
-	m_pFindReplaceDlg->Create(TRUE, Buffer, "", FR_DOWN, this);
+	m_pFindReplaceDlg->Create(true, Buffer, "", FR_DOWN, this);
 }
 
 void CEsmScriptDlg::OnScriptPaste() {
@@ -1404,7 +1411,7 @@ void CEsmScriptDlg::OnScriptReplacetext() {
 	/* Otherwise, create and display a new dialog */
 	m_pFindReplaceDlg = new CFindReplaceDialog;
 	Buffer = m_ScriptText.GetSelText();
-	m_pFindReplaceDlg->Create(FALSE, Buffer, "", FR_DOWN, this);
+	m_pFindReplaceDlg->Create(false, Buffer, "", FR_DOWN, this);
 }
 
 void CEsmScriptDlg::OnScriptUndo() {
@@ -1533,9 +1540,9 @@ void CEsmScriptDlg::OnEditCopy() {
 
 void CEsmScriptDlg::OnUpdateEditCopy(CCmdUI *pCmdUI) {
 	if (m_ScriptText.GetSelectionType() != SEL_EMPTY) {
-		pCmdUI->Enable(TRUE);
+		pCmdUI->Enable(true);
 	} else {
-		pCmdUI->Enable(FALSE);
+		pCmdUI->Enable(false);
 	}
 }
 
@@ -1946,7 +1953,7 @@ STDMETHODIMP CEsmScriptDlg::XRichEditOleCallback::GetInPlaceContext(LPOLEINPLACE
 	return E_NOTIMPL;
 }
 
-STDMETHODIMP CEsmScriptDlg::XRichEditOleCallback::ShowContainerUI(BOOL fShow) {
+STDMETHODIMP CEsmScriptDlg::XRichEditOleCallback::ShowContainerUI(bool fShow) {
 	return E_NOTIMPL;
 }
 
@@ -1962,7 +1969,7 @@ STDMETHODIMP CEsmScriptDlg::XRichEditOleCallback::DeleteObject(LPOLEOBJECT /*lpo
 STDMETHODIMP CEsmScriptDlg::XRichEditOleCallback::QueryAcceptData(LPDATAOBJECT lpdataobj,
                                                                   CLIPFORMAT *lpcfFormat,
                                                                   DWORD reco,
-                                                                  BOOL fReally,
+                                                                  bool fReally,
                                                                   HGLOBAL hMetaPict) {
 	METHOD_PROLOGUE_EX_(CEsmScriptDlg, RichEditOleCallback)
 
@@ -1988,7 +1995,7 @@ STDMETHODIMP CEsmScriptDlg::XRichEditOleCallback::QueryAcceptData(LPDATAOBJECT l
 	return S_OK;
 }
 
-STDMETHODIMP CEsmScriptDlg::XRichEditOleCallback::ContextSensitiveHelp(BOOL /*fEnterMode*/) {
+STDMETHODIMP CEsmScriptDlg::XRichEditOleCallback::ContextSensitiveHelp(bool /*fEnterMode*/) {
 	return E_NOTIMPL;
 }
 
@@ -1998,7 +2005,7 @@ STDMETHODIMP CEsmScriptDlg::XRichEditOleCallback::GetClipboardData(CHARRANGE *lp
 	return E_NOTIMPL;
 }
 
-STDMETHODIMP CEsmScriptDlg::XRichEditOleCallback::GetDragDropEffect(BOOL fDrag,
+STDMETHODIMP CEsmScriptDlg::XRichEditOleCallback::GetDragDropEffect(bool fDrag,
                                                                     DWORD grfKeyState,
                                                                     LPDWORD pdwEffect) {
 	METHOD_PROLOGUE_EX_(CEsmScriptDlg, RichEditOleCallback)

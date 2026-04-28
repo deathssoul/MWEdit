@@ -45,7 +45,7 @@ class CChildFrameFix : public CMDIChildWnd {
 	/* ClassWizard generated virtual function overrides */
 
 	//{{AFX_VIRTUAL(CChildFrameFix)
-	virtual BOOL PreCreateWindow(CREATESTRUCT &cs);
+	virtual bool PreCreateWindow(CREATESTRUCT &cs);
 	//}}AFX_VIRTUAL
 
 

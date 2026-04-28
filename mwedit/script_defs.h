@@ -10,7 +10,6 @@
 #ifndef __ESMSCRIPTDEFS_H
 #define __ESMSCRIPTDEFS_H
 
-#include <winnt.h>
 #include <winuser.h>
 
 #include <cstdint>

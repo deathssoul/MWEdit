@@ -15,9 +15,9 @@
 #include <afxwin.h>
 #include <atlstr.h>
 #include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
+#include "common/dl_base.h"
 #include "common/dl_str.h"
 #include "file/csv_file.h"
 #include "mwedit/script_template.h"
@@ -141,7 +141,7 @@ class CEsmScrTempView : public CFormView {
 	//{{AFX_VIRTUAL(CEsmScrTempView)
   public:
 	virtual void OnInitialUpdate();
-	virtual BOOL PreTranslateMessage(MSG *pMsg);
+	virtual bool PreTranslateMessage(MSG *pMsg);
   protected:
 	virtual void DoDataExchange(CDataExchange *pDX);
 	//}}AFX_VIRTUAL

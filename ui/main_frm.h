@@ -15,7 +15,6 @@
 #include <afxwin.h>
 #include <windef.h>
 #include <winuser.h>
-
 /*===========================================================================
  *
  * Class CMainFrame Definition
@@ -51,7 +50,7 @@ class CMainFrame : public CMDIFrameWnd {
 	/* ClassWizard generated virtual function overrides */
 
 	//{{AFX_VIRTUAL(CMainFrame)
-	virtual BOOL PreCreateWindow(CREATESTRUCT &cs);
+	virtual bool PreCreateWindow(CREATESTRUCT &cs);
 	//}}AFX_VIRTUAL
 
 	/* Generated message map functions */

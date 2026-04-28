@@ -10,6 +10,7 @@
 #ifndef __ESMREGDEFS_H
 #define __ESMREGDEFS_H
 
+#include "common/dl_str.h"
 
 /* Registry sections */
 #define ESMSCR_REGSEC_GENERAL                _T("General")

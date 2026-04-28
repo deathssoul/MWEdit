@@ -32,12 +32,13 @@
 
 #include "common/dl_base.h"
 #include "common/dl_err.h"
+#include "common/dl_log.h"
 
 #if _DEBUG
 #include <cfloat>
 #include <cstring>
 
-#include "common/dl_log.h"
+#include "common/dl_file.h"
 #include "common/dl_mem.h"
 #endif  // _DEBUG
 
@@ -373,7 +374,7 @@ double GetNiceTickLengthC(const double AxisStart, const double AxisEnd, const in
  * larger by a factor of 1000 than the largest prefix.
  *
  *=========================================================================*/
-unit_prefix_t *GetUnitPrefix(boolean &OverFlow, const double Value) {
+unit_prefix_t *GetUnitPrefix(bool &OverFlow, const double Value) {
 	//DEFINE_FUNCTION("GetUnitPrefix()");
 	int LoopCounter;
 	int Base10 = 0;
@@ -383,11 +384,11 @@ unit_prefix_t *GetUnitPrefix(boolean &OverFlow, const double Value) {
 		Base10 = (int)std::floor(std::log10(std::fabs(Value)));
 	}
 
-	OverFlow = FALSE;
+	OverFlow = false;
 
 	/* Check special small cases */
 	if (Base10 < UnitPrefixes[0].LogBase10) {
-		OverFlow = TRUE;
+		OverFlow = true;
 		return &UnitPrefixes[0];
 	}
 
@@ -400,7 +401,7 @@ unit_prefix_t *GetUnitPrefix(boolean &OverFlow, const double Value) {
 
 	/* Use last prefix in array, check overflow case */
 	if (Base10 > UnitPrefixes[NumUnitPrefixes - 1].LogBase10 + 3) {
-		OverFlow = TRUE;
+		OverFlow = true;
 	}
 
 	return &UnitPrefixes[NumUnitPrefixes - 1];
@@ -430,7 +431,7 @@ TCHAR *Metricize(TCHAR *Buffer, const int BufferSize, const double Value, const 
 	DEFINE_FUNCTION("Metricize()");
 	unit_prefix_t *pUnitPrefix;
 	int Result;
-	boolean OverFlow;
+	bool OverFlow;
 	/* Ensure valid input */
 	ASSERT(pUnits != NULL);
 	/* Get the appropiate unit prefix structure */

@@ -20,6 +20,7 @@
 #include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/clothing.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
@@ -32,10 +33,10 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmClothingDlg, CEsmRecDialog);
 DEFINE_FILE("EsmClothingDlg.cpp");
@@ -475,14 +476,14 @@ void CEsmClothingDlg::SetBipedObject(const int BipedIndex) {
 	if (BipedPart < 0) {
 		m_FClothList[BipedIndex].ResetContent();
 		m_MClothList[BipedIndex].ResetContent();
-		m_FClothList[BipedIndex].EnableWindow(FALSE);
-		m_MClothList[BipedIndex].EnableWindow(FALSE);
+		m_FClothList[BipedIndex].EnableWindow(false);
+		m_MClothList[BipedIndex].EnableWindow(false);
 		return;
 	}
 
 	/* Enable the male/female body part lists */
-	m_FClothList[BipedIndex].EnableWindow(TRUE);
-	m_MClothList[BipedIndex].EnableWindow(TRUE);
+	m_FClothList[BipedIndex].EnableWindow(true);
+	m_MClothList[BipedIndex].EnableWindow(true);
 
 	/* Fill the body lists with the appropriate body part records */
 	BodyPart = ConvertBipedToBodyPart(BipedPart);
@@ -516,10 +517,10 @@ void CEsmClothingDlg::SetControlData() {
 	m_ValueText.SetWindowText(m_pClothing->GetFieldString(ESM_FIELD_VALUE));
 	m_EnchantText.SetWindowText(m_pClothing->GetFieldString(ESM_FIELD_ENCHANTPTS));
 
-	m_NameText.SetModify(FALSE);
-	m_WeightText.SetModify(FALSE);
-	m_ValueText.SetModify(FALSE);
-	m_EnchantText.SetModify(FALSE);
+	m_NameText.SetModify(false);
+	m_WeightText.SetModify(false);
+	m_ValueText.SetModify(false);
+	m_EnchantText.SetModify(false);
 
 	/* Model/icon buttons */
 	m_ModelButton.SetWindowText(m_pClothing->GetModel());

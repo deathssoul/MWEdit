@@ -14,11 +14,11 @@
 #include <afxext.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
 
 #include <cstddef>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/activator.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
@@ -28,9 +28,9 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
 #endif
 
 DEFINE_FILE("ActivatorDlg.cpp");
@@ -200,7 +200,7 @@ void CEsmActivatorDlg::SetControlData() {
 
 	/* Item strings and values */
 	m_NameText.SetWindowText(m_pActivator->GetName());
-	m_NameText.SetModify(FALSE);
+	m_NameText.SetModify(false);
 
 	/* Model/icon buttons */
 	m_ModelButton.SetWindowText(m_pActivator->GetModel());

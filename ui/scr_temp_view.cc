@@ -15,8 +15,6 @@
 #include <afxext.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
 #include <cstddef>
@@ -35,10 +33,10 @@
 #include "ui/Resource.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmScrTempView, CFormView);
 DEFINE_FILE("EsmScrTempView.cpp");
@@ -518,7 +516,7 @@ void CEsmScrTempView::OnEditPaste() {
 void CEsmScrTempView::OnInitialUpdate() {
 	CString Buffer;
 	CFormView::OnInitialUpdate();
-	ResizeParentToFit(FALSE);
+	ResizeParentToFit(false);
 
 	/* Initialize the tab control */
 	m_Page1.Create(IDD_SCRTEMP_PAGE1, &m_TabControl);
@@ -539,7 +537,8 @@ void CEsmScrTempView::OnInitialUpdate() {
 	m_TabControl.SetPage(0);
 
 	/* Load the accelerator table */
-	m_hAccelerator = ::LoadAccelerators(AfxGetApp()->m_hInstance, MAKEINTRESOURCE(IDR_RECORD_ACCEL));
+	m_hAccelerator = ::LoadAccelerators(AfxGetApp()->m_hInstance,
+	                                    MAKEINTRESOURCE(IDR_RECORD_ACCEL));
 
 	/* Update the frame title */
 	Buffer.Format(_T("%s -- Script Template"), m_pDlgHandler->GetDocument()->GetTitle());
@@ -618,7 +617,7 @@ void CEsmScrTempView::OnReloadScrTemp() {
  *
  *=========================================================================*/
 void CEsmScrTempView::OnScrtempLoadcsv() {
-	CFileDialog FileDlg(TRUE,
+	CFileDialog FileDlg(true,
 	                    ESMSCRTEMP_CSV_EXT,
 	                    NULL,
 	                    OFN_HIDEREADONLY,
@@ -656,7 +655,7 @@ void CEsmScrTempView::OnScrtempLoadcsv() {
  *
  *=========================================================================*/
 void CEsmScrTempView::OnLoadTemplate() {
-	CFileDialog FileDlg(TRUE,
+	CFileDialog FileDlg(true,
 	                    ESM_SCRTEMP_FILEEXT,
 	                    NULL,
 	                    OFN_HIDEREADONLY,
@@ -723,7 +722,7 @@ bool CEsmScrTempView::ParseScriptText(CCsvRow *pRow, const TCHAR *pScriptName) {
  * Class CEsmScrTempView Method - BOOL PreTranslateMessage (pMsg);
  *
  *=========================================================================*/
-BOOL CEsmScrTempView::PreTranslateMessage(MSG *pMsg) {
+bool CEsmScrTempView::PreTranslateMessage(MSG *pMsg) {
 	int Result;
 
 	if (m_hAccelerator != NULL && pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST) {

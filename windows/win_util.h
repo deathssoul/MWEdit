@@ -17,7 +17,8 @@
 #include <atltypes.h>
 #include <windef.h>
 #include <wingdi.h>
-#include <winnt.h>
+
+#include "common/dl_base.h"
 
 /* Options for the MakeTimeString() function, bit field values */
 #define TIMESTRING_SHORTTIME 1

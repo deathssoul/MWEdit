@@ -14,12 +14,12 @@
 #include <afxext.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
 
 #include <cstddef>
 #include <cstring>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/class.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
@@ -30,10 +30,10 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("EsmClassDlg.cpp");
 IMPLEMENT_DYNCREATE(CEsmClassDlg, CEsmRecDialog);
@@ -364,15 +364,15 @@ void CEsmClassDlg::SetControlData() {
 	/* Item ID, update title as well */
 	m_IDText.SetWindowText(m_pClass->GetID());
 	UpdateTitle(m_pClass->GetID());
-	m_IDText.SetModify(FALSE);
+	m_IDText.SetModify(false);
 
 	/* Item name */
 	m_NameText.SetWindowText(m_pClass->GetName());
-	m_NameText.SetModify(FALSE);
+	m_NameText.SetModify(false);
 
 	/* Item description */
 	m_DescText.SetWindowText(m_pClass->GetDescription());
-	m_DescText.SetModify(FALSE);
+	m_DescText.SetModify(false);
 
 	/* Attribute lists */
 	FindComboListItem(m_AttributeList1, pClassData->AttributeID1, true);

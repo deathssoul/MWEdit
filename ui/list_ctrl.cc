@@ -26,19 +26,18 @@
 #include <cstddef>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "common/dl_mem.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
 #include "game/morrowind/record.h"
 #include "ui/mwedit_doc.h"
 
-
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
-
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 /* Static class member */
 CImageList CEsmListCtrl::m_ImageList;
@@ -405,7 +404,7 @@ int CEsmListCtrl::GetImageIndex(CEsmRecord *pRecord) {
  *=========================================================================*/
 void CEsmListCtrl::InitObjectList(esmcoldata_t *pColData) {
 	int Index = 0;
-	BOOL Result;
+	bool Result;
 	/* Remove all items and columns from the list */
 	DeleteAllItems();
 	m_pCurrentColData = NULL;
@@ -469,7 +468,7 @@ void CEsmListCtrl::OnBeginDrag(NMHDR *pNMHDR, LRESULT *pResult) {
 	NM_LISTVIEW *pNMListView = (NM_LISTVIEW *)pNMHDR;
 	LVITEM ItemInfo;
 	POINT DragPoint;
-	BOOL Result;
+	bool Result;
 	BYTE *pArray;
 	POSITION SelPos;
 	int Offset = 10;
@@ -812,7 +811,7 @@ void CEsmListCtrl::OnLButtonUp(UINT nFlags, CPoint Point) {
 	/* Release mouse capture, so that other controls can get control/messages */
 	ReleaseCapture();
 	/* Update the dragging state */
-	m_IsDragging = FALSE;
+	m_IsDragging = false;
 	/* End dragging image */
 	m_pDragImage->DragLeave(GetDesktopWindow());
 	m_pDragImage->EndDrag();
@@ -859,12 +858,15 @@ void CEsmListCtrl::OnMouseMove(UINT nFlags, CPoint Point) {
 	/* Get mouse coordinates in screen */
 	CPoint MousePt(Point);
 	ClientToScreen(&MousePt);
+
 	/* Move the drag image to those coordinates */
 	m_pDragImage->DragMove(MousePt);
 	m_pDragImage->DragShowNolock(false); /* Smoother updates */
+
 	/* Get the CWnd pointer of the window that is under the mouse cursor */
 	CWnd *pDropWnd = WindowFromPoint(MousePt);
 	ASSERT(pDropWnd);
+
 	/* Save current window pointer as the CListCtrl we are dropping onto */
 	m_pDropWnd = pDropWnd;
 	pDropWnd->ScreenToClient(&MousePt);

@@ -11,6 +11,7 @@
 
 #include <cstddef>
 #include <cstdio>
+#include <cstdlib>
 
 #include "common/dl_base.h"
 #include "common/dl_mem.h"
@@ -226,7 +227,7 @@ void CEsmBook::OnAddSubRecord(CEsmSubRecord *pSubRecord) {
 bool CEsmBook::SetFieldValue(const int FieldID, const TCHAR *pString) {
 	switch (FieldID) {
 		case ESM_FIELD_ENCHANTPTS:
-			SetEnchantPts(atoi(pString));
+			SetEnchantPts(std::atoi(pString));
 			return true;
 
 		case ESM_FIELD_SKILL:

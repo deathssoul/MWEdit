@@ -18,8 +18,10 @@
 #include <cstddef>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
+#include "common/dl_str.h"
 
-#if defined(_MSC_VER)
+#if _MSC_VER
 //#include <alloc.h>
 #endif
 
@@ -34,7 +36,6 @@
 #include <ctime>
 
 #include "common/dl_block.h"
-#include "common/dl_log.h"
 
 #if _WIN32
 #include <crtdbg.h>
@@ -135,12 +136,12 @@ bool CreateString(TCHAR **ppNewString, const TCHAR *pSourceString) {
 	/* Special case for a NULL input string */
 	if (pSourceString == NULL) {
 		*ppNewString = NULL;
-		return FALSE;
+		return false;
 	}
 
 	/* Create the new string */
 	*ppNewString = CreateString(pSourceString);
-	return TRUE;
+	return true;
 }
 
 
@@ -160,7 +161,7 @@ bool CreateString(TCHAR **ppNewString, const std::size_t StringSize) {
 	ASSERT(ppNewString != NULL);
 	/* Create the new string */
 	*ppNewString = CreateString(StringSize);
-	return TRUE;
+	return true;
 }
 
 
@@ -180,11 +181,11 @@ bool GetFreeMemory(long &Memory) {
 	MEMORYSTATUSEX Status;
 	GlobalMemoryStatusEx(&Status);  // TODO: Check these to make sure correct. Updated from non-Ex ones for 64-bit compatibility
 	Memory = (long)Status.dwAvailVirtual;
-	return TRUE;
+	return true;
 	/*---------- Any unknown system implementation --------------------------*/
 #else
-	ASSERT(FALSE);
-	return FALSE;
+	ASSERT(false);
+	return false;
 #endif
 }
 
@@ -204,11 +205,11 @@ bool GetTotalMemory(long &Memory) {
 	MEMORYSTATUSEX Status;
 	GlobalMemoryStatusEx(&Status);
 	Memory = (long)Status.dwAvailVirtual;
-	return TRUE;
+	return true;
 	/*---------- Any unknown system implementation --------------------------*/
 #else
-	ASSERT(FALSE);
-	return FALSE;
+	ASSERT(false);
+	return false;
 #endif
 }
 
@@ -234,12 +235,12 @@ bool GetUsedMemory(long &Memory) {
 	}
 
 	if (!Result) {
-		return FALSE;
+		return false;
 	}
 
 	/* Compute the difference in memory */
 	Memory = MemoryTotal - MemoryFree;
-	return TRUE;
+	return true;
 }
 
 
@@ -272,7 +273,7 @@ int GetHeapStatus() {
 #endif  // _DEBUG
 	/*---------- Any unknown system implementation --------------------------*/
 #else
-	ASSERT(FALSE);
+	ASSERT(false);
 	return HEAP_NOTDEFINED;
 #endif  // _WIN32
 }
@@ -430,12 +431,12 @@ bool ReplaceString(TCHAR **ppNewString, const TCHAR *pSourceString) {
 
 	/* Check for NULL inputs */
 	if (*ppNewString == NULL && pSourceString == NULL) {
-		return FALSE;
+		return false;
 	}
 
 	/* Check for same input/output objects */
 	if (*ppNewString == pSourceString) {
-		return TRUE;
+		return true;
 	}
 
 	/* Delete the destination string if required */
@@ -628,12 +629,12 @@ void Test_CreateString3() {
 	SystemLog.Printf(stdout,
 	                 _T("================ Testing CreateString(TCHAR**, TCHAR*) ==================="));
 	/* Test case of NULL source string */
-	ASSERT(CreateString(&pTestString1, (TCHAR *)NULL) == FALSE);
+	ASSERT(CreateString(&pTestString1, (TCHAR *)NULL) == false);
 	ASSERT(pTestString1 == NULL);
 
 	/* Check the allocation of set strings */
 	for (LoopCounter = 0; LoopCounter < 4; LoopCounter++) {
-		ASSERT(CreateString(&pTestString1, pStrings[LoopCounter]) == TRUE);
+		ASSERT(CreateString(&pTestString1, pStrings[LoopCounter]) == true);
 		ASSERT(TSTRCMP(pTestString1, pStrings[LoopCounter]) == 0);
 		DestroyPointer(pTestString1);
 	}
@@ -730,17 +731,17 @@ void Test_ReplaceString() {
 	/* Allocate temp string */
 	pTestString1 = CreateString(_T("aadkjsdoijsadfhsdpofihdpfaioh"));
 	/* Attempt to reallocate string */
-	ASSERT(ReplaceString(&pTestString1, _T("1113233")) == TRUE);
+	ASSERT(ReplaceString(&pTestString1, _T("1113233")) == true);
 	/* Test allocation of NULL source string with non-NULL destination */
-	ASSERT(ReplaceString(&pTestString1, (TCHAR *)NULL) == FALSE);
+	ASSERT(ReplaceString(&pTestString1, (TCHAR *)NULL) == false);
 	ASSERT(pTestString1 == NULL);
 	/* Test allocation of NULL source string with NULL destination */
-	ASSERT(ReplaceString(&pTestString1, (TCHAR *)NULL) == FALSE);
+	ASSERT(ReplaceString(&pTestString1, (TCHAR *)NULL) == false);
 	ASSERT(pTestString1 == NULL);
 
 	/* Check the allocation of set strings */
 	for (LoopCounter = 0; LoopCounter < 4; LoopCounter++) {
-		ASSERT(CreateString(&pTestString1, pStrings[LoopCounter]) == TRUE);
+		ASSERT(CreateString(&pTestString1, pStrings[LoopCounter]) == true);
 		ASSERT(TSTRCMP(pTestString1, pStrings[LoopCounter]) == 0);
 		DestroyPointer(pTestString1);
 	}
@@ -773,11 +774,11 @@ void Test_DL_Mem() {
 	Test_CreateString3();
 	Test_ReplaceString();
 	Test_memsearch();
-	ASSERT(GetFreeMemory(Memory) == TRUE);
+	ASSERT(GetFreeMemory(Memory) == true);
 	SystemLog.Printf(_T("\tGetFreeMemory() returned %ld"), Memory);
-	ASSERT(GetUsedMemory(Memory) == TRUE);
+	ASSERT(GetUsedMemory(Memory) == true);
 	SystemLog.Printf(_T("\tGetUsedMemory() returned %ld"), Memory);
-	ASSERT(GetTotalMemory(Memory) == TRUE);
+	ASSERT(GetTotalMemory(Memory) == true);
 	SystemLog.Printf(_T("\tGetTotalMemory() returned %ld"), Memory);
 	SystemLog.Printf(_T("\tGetHeapStatus() returned %ld"), GetHeapStatus());
 	SystemLog.Printf(_T("\tGetHeapStatusString() returned '%s'"), GetHeapStatusString());

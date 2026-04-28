@@ -16,7 +16,6 @@
 #include <atlstr.h>
 #include <windef.h>
 #include <wingdi.h>
-#include <winnt.h>
 
 #include <cstddef>
 
@@ -27,10 +26,10 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("EsmFuncHelpView.cpp");
 IMPLEMENT_DYNCREATE(CEsmFuncHelpView, CFormView);
@@ -68,7 +67,7 @@ CEsmFuncHelpView::CEsmFuncHelpView() : CFormView(CEsmFuncHelpView::IDD) {
 	                      0,
 	                      FW_NORMAL,
 	                      0,
-	                      TRUE,
+	                      true,
 	                      0,
 	                      DEFAULT_CHARSET,
 	                      OUT_DEFAULT_PRECIS,
@@ -237,14 +236,14 @@ HBRUSH CEsmFuncHelpView::OnCtlColor(CDC *pDC, CWnd *pWnd, UINT nCtlColor) {
  *=========================================================================*/
 void CEsmFuncHelpView::OnInitialUpdate() {
 	CFormView::OnInitialUpdate();
-	ResizeParentToFit(FALSE);
+	ResizeParentToFit(false);
 	m_pFuncArray = GetApp()->GetFunctionArray();
 
 	/* Change the control fonts */
-	m_ReturnText.SetFont(&m_Font, FALSE);
-	m_FuncTitle.SetFont(&m_Font, FALSE);
-	m_FuncName.SetFont(&m_NameFont, FALSE);
-	m_WikiLink.SetFont(&m_LinkFont, FALSE);
+	m_ReturnText.SetFont(&m_Font, false);
+	m_FuncTitle.SetFont(&m_Font, false);
+	m_FuncName.SetFont(&m_NameFont, false);
+	m_WikiLink.SetFont(&m_LinkFont, false);
 
 	/* Initialize the controls */
 	FillFunctionList();

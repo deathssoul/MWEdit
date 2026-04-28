@@ -24,6 +24,47 @@
 
 /* Number of tab levels allowed in a log file */
 #define LOGFILE_MAX_TABS 20
+/*===========================================================================
+ *
+ * Begin Assertion Definition
+ *
+ * Define the standard ASSERT type macros if not previously defined.
+ *
+ *=========================================================================*/
+#ifndef ASSERT
+
+#if _DEBUG
+#define ASSERT(exp)  { if (!(exp)) { CustomAssert(_T(#exp), ThisFile, ThisFunction, __LINE__); } }
+#undef TRACE
+#define TRACE(msg)   { SystemLog.Printf(_T("%s - %s"), ThisFunction, msg); }
+#define TRACE1(msg, exp)   { SystemLog.Printf(msg, exp); }
+
+#else
+#define ASSERT(exp)  { }
+#undef TRACE
+#define TRACE(msg)   { }
+#define TRACE1(msg, exp)   { }
+
+#endif  // _DEBUG
+#endif  // ASSERT
+
+#if _DEBUG
+#define IASSERT(exp) { if (!(exp)) { CustomAssert(_T(#exp), _T(""), _T(""), __LINE__); } }
+#define ABORT(msg)   { CustomAssert(msg, _T(""), __FILE__, __LINE__); }
+#define IFTRACE(exp, msg) { if (exp) SystemLog.Printf(_T("%s - %s"), ThisFunction, msg); }
+
+#else
+#define IASSERT(exp) { }
+#define ABORT(exp)   { }
+#define IFTRACE(exp, msg) { }
+#endif  // _DEBUG
+
+
+/* A custom assert procedure used by the ASSERT macro */
+void CustomAssert(const TCHAR *pString,
+                  const TCHAR *pFile,
+                  const TCHAR *pFunction,
+                  const long Line);
 
 /* Logfile hook callback function type */
 typedef void (*PLOGFILE_HOOKPROC) (const TCHAR *pString, std::va_list Args);
@@ -87,7 +128,7 @@ class CLogFile {
 
 	/* Returns the open status of the log file */
 	bool IsOpen() {
-		return (bool)((pLogFileHandle == NULL) ? FALSE : TRUE);  // TODO: Can't the casting be removed?
+		return (bool)((pLogFileHandle == NULL) ? false : true);  // TODO: Can't the casting be removed?
 	}
 
 	/* Attempt to open a log file for output */
@@ -126,7 +167,7 @@ class CLogFile {
  *
  *=========================================================================*/
 #if _DEBUG
-	void Test_LogFile();
+void Test_LogFile();
 #endif
 
 

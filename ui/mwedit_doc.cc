@@ -18,7 +18,6 @@
 #include <afxwin.h>
 #include <atlstr.h>
 #include <windef.h>
-#include <winnt.h>
 
 #include <cctype>
 #include <cstddef>
@@ -63,10 +62,10 @@
 
 /* Debug definitions */
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CMWEditDoc, CDocument);
 DEFINE_FILE("MWEditDoc.cpp");
@@ -305,7 +304,7 @@ void CMWEditDoc::AddRecInfo(CEsmFile *pFile) {
 bool CMWEditDoc::BackupPlugin(const TCHAR *pFilename) {
 	TCHAR BackupBuffer[_MAX_PATH + 8];
 	int Index;
-	BOOL Result;
+	bool Result;
 
 	/* Ignore if not backing up things */
 	if (!GetEsmOptBackupSaves()) {
@@ -322,7 +321,7 @@ bool CMWEditDoc::BackupPlugin(const TCHAR *pFilename) {
 		std::snprintf(BackupBuffer, _MAX_PATH + 7, _T("%s.%03d"), pFilename, Index);
 
 		if (!FileExists(BackupBuffer)) {
-			Result = CopyFile(pFilename, BackupBuffer, FALSE);
+			Result = CopyFile(pFilename, BackupBuffer, false);
 
 			if (!Result) {
 				ErrorHandler.AddError(ERR_WINDOWS, "File copy error!");
@@ -390,7 +389,7 @@ int CMWEditDoc::CleanRecord(esmrecinfo_t *pRecInfo) {
 
 	/* Check if we must delete the record */
 	if (pPrevRecord == NULL) {
-		SetModifiedFlag(TRUE);
+		SetModifiedFlag(true);
 		pTmpRecord = pRecInfo->pRecord;
 		m_RecInfo.DeleteElement(pRecInfo);
 		m_RecInfoSort.Delete(pRecInfo);
@@ -403,7 +402,7 @@ int CMWEditDoc::CleanRecord(esmrecinfo_t *pRecInfo) {
 	/* Reset the recinfo contents */
 	pRecInfo->pRecord = pPrevRecord;
 	pRecInfo->pFile = pPrevRecord->GetFile();
-	SetModifiedFlag(TRUE);
+	SetModifiedFlag(true);
 	return MWEDIT_CLEAN_OK;
 }
 
@@ -436,7 +435,7 @@ bool CMWEditDoc::MakeActive(esmrecinfo_t *pRecInfo) {
 	pRecord->SetFile(&m_ActiveFile);
 	pRecInfo->pRecord = pRecord;
 	pRecInfo->pFile = &m_ActiveFile;
-	SetModifiedFlag(TRUE);
+	SetModifiedFlag(true);
 	return true;
 }
 
@@ -683,7 +682,7 @@ bool CMWEditDoc::CompileAllActiveScripts() {
 	}
 
 	if (SuccessCount > 0) {
-		SetModifiedFlag(TRUE);
+		SetModifiedFlag(true);
 	}
 
 	return true;
@@ -2252,13 +2251,13 @@ bool CMWEditDoc::LoadScriptFile(const TCHAR *pFilename) {
  * Class CMWEditDoc Event - BOOL OnNewDocument ();
  *
  *=========================================================================*/
-BOOL CMWEditDoc::OnNewDocument() {
+bool CMWEditDoc::OnNewDocument() {
 	CEsmTES3 *pHeader;
 	int ArrayIndex;
 
 	/* Call the base class method first */
 	if (!CDocument::OnNewDocument()) {
-		return FALSE;
+		return false;
 	}
 
 	/* Setup the active plugin */
@@ -2274,7 +2273,7 @@ BOOL CMWEditDoc::OnNewDocument() {
 		         MWESM_HEDR_AUTHORSIZE - 1);
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -2432,7 +2431,7 @@ const TCHAR *CMWEditDoc::MakeNewINFOId() {
 	static TCHAR s_Buffer[MWESM_ID_MAXSIZE + 4];
 	static long s_Counter = 1;
 	std::time_t CurrentTime = std::time(NULL);
-	BOOL Result;
+	bool Result;
 	DWORD SerialNumber;
 
 	/* Attempt to get a drive serial number */
@@ -2537,7 +2536,7 @@ int CMWEditDoc::OnCheckNewID(esmreceditinfo_t *pRecEditInfo) {
  * Class CMWEditDoc Event - BOOL OnOpenDocument (lpszPathName);
  *
  *=========================================================================*/
-BOOL CMWEditDoc::OnOpenDocument(LPCTSTR lpszPathName) {
+bool CMWEditDoc::OnOpenDocument(LPCTSTR lpszPathName) {
 	DEFINE_FUNCTION("CMWEditDoc::OnOpenDocument()");
 	bool Result;
 
@@ -2567,14 +2566,14 @@ BOOL CMWEditDoc::OnOpenDocument(LPCTSTR lpszPathName) {
 
 	if (!Result) {
 		ErrorHandler.Notify(_T("Plugin Load Error!"));
-		return FALSE;
+		return false;
 	}
 
 	//m_RecInfo.SetCompareFunc(l_RecInfoSortPtr);
 	//m_RecInfo.Sort(0);
 	//m_RecInfo.SetCompareFunc(l_RecInfoSort);
-	SetModifiedFlag(FALSE);
-	return TRUE;
+	SetModifiedFlag(false);
+	return true;
 }
 
 
@@ -2594,7 +2593,7 @@ int CMWEditDoc::OnPostSaveRecord(esmreceditinfo_t *pRecEditInfo) {
 		UpdateAllViews(NULL, MWEDITDOC_HINT_UPDATEITEM, (CObject *)(void *)pRecEditInfo->pRecInfo);
 	}
 
-	SetModifiedFlag(TRUE);
+	SetModifiedFlag(true);
 	return 0;
 }
 
@@ -2680,7 +2679,7 @@ int CMWEditDoc::OnPreSaveRecord(esmreceditinfo_t *pRecEditInfo) {
 		pRecEditInfo->pRecInfo->pFile = &m_ActiveFile;
 	}
 
-	SetModifiedFlag(TRUE);
+	SetModifiedFlag(true);
 	return 0;
 }
 
@@ -2690,7 +2689,7 @@ int CMWEditDoc::OnPreSaveRecord(esmreceditinfo_t *pRecEditInfo) {
  * Class CMWEditDoc Event - BOOL OnSaveDocument (lpszPathName);
  *
  *=========================================================================*/
-BOOL CMWEditDoc::OnSaveDocument(LPCTSTR lpszPathName) {
+bool CMWEditDoc::OnSaveDocument(LPCTSTR lpszPathName) {
 	bool Result;
 	/* Update the active file masters */
 	UpdateMasters();
@@ -2699,7 +2698,7 @@ BOOL CMWEditDoc::OnSaveDocument(LPCTSTR lpszPathName) {
 
 	if (!Result) {
 		ErrorHandler.Notify("File Copy Error");
-		return FALSE;
+		return false;
 	}
 
 	/* Attempt to save the active file */
@@ -2709,11 +2708,11 @@ BOOL CMWEditDoc::OnSaveDocument(LPCTSTR lpszPathName) {
 
 	if (!Result) {
 		ErrorHandler.Notify("File Write Error");
-		return FALSE;
+		return false;
 	}
 
-	SetModifiedFlag(FALSE);
-	return TRUE;
+	SetModifiedFlag(false);
+	return true;
 }
 
 
@@ -2723,12 +2722,12 @@ BOOL CMWEditDoc::OnSaveDocument(LPCTSTR lpszPathName) {
  *
  *=========================================================================*/
 void CMWEditDoc::OnFileSave() {
-	BOOL Result = SetCurrentDirectory(GetMWDataPath());
+	bool Result = SetCurrentDirectory(GetMWDataPath());  // TODO: Result is never used, remove?
 	CDocument::OnFileSave();
 }
 
 void CMWEditDoc::OnFileSaveAs() {
-	BOOL Result = SetCurrentDirectory(GetMWDataPath());
+	bool Result = SetCurrentDirectory(GetMWDataPath());
 	CDocument::OnFileSaveAs();
 }
 

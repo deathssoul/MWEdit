@@ -14,13 +14,12 @@
 #include <afxext.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
-#include <winnt.h>
 
 #include <cstddef>
 #include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/skill.h"
 #include "game/morrowind/sub_skdt.h"
@@ -30,10 +29,10 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("EsmSkillDlg.cpp");
 IMPLEMENT_DYNCREATE(CEsmSkillDlg, CEsmRecDialog);
@@ -221,11 +220,11 @@ void CEsmSkillDlg::SetControlData() {
 
 	/* Item name */
 	m_NameText.SetWindowText(m_pSkill->GetName());
-	m_NameText.SetModify(FALSE);
+	m_NameText.SetModify(false);
 
 	/* Item description */
 	m_DescText.SetWindowText(m_pSkill->GetDescription());
-	m_DescText.SetModify(FALSE);
+	m_DescText.SetModify(false);
 
 	/* Lists */
 	FindComboListItem(m_AttributeList, pSkillData->Attribute, true);
@@ -236,7 +235,7 @@ void CEsmSkillDlg::SetControlData() {
 
 	if (pAction == NULL) {
 		m_ActionText1.SetWindowText(_T(""));
-		m_ValueText1.EnableWindow(FALSE);
+		m_ValueText1.EnableWindow(false);
 	} else {
 		Buffer.Format(_T("%.2f"), pSkillData->UseValue1);
 		m_ValueText1.SetWindowText(Buffer);
@@ -247,7 +246,7 @@ void CEsmSkillDlg::SetControlData() {
 
 	if (pAction == NULL) {
 		m_ActionText2.SetWindowText(_T(""));
-		m_ValueText2.EnableWindow(FALSE);
+		m_ValueText2.EnableWindow(false);
 	} else {
 		Buffer.Format(_T("%.2f"), pSkillData->UseValue2);
 		m_ValueText2.SetWindowText(Buffer);
@@ -258,7 +257,7 @@ void CEsmSkillDlg::SetControlData() {
 
 	if (pAction == NULL) {
 		m_ActionText3.SetWindowText(_T(""));
-		m_ValueText3.EnableWindow(FALSE);
+		m_ValueText3.EnableWindow(false);
 	} else {
 		Buffer.Format(_T("%.2f"), pSkillData->UseValue3);
 		m_ValueText3.SetWindowText(Buffer);
@@ -269,7 +268,7 @@ void CEsmSkillDlg::SetControlData() {
 
 	if (pAction == NULL) {
 		m_ActionText4.SetWindowText(_T(""));
-		m_ValueText4.EnableWindow(FALSE);
+		m_ValueText4.EnableWindow(false);
 	} else {
 		Buffer.Format(_T("%.2f"), pSkillData->UseValue4);
 		m_ValueText4.SetWindowText(Buffer);

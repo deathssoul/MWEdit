@@ -13,6 +13,7 @@
 #include <cstring>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 
 DEFINE_FILE("RgbPal.cpp");
 /*===========================================================================

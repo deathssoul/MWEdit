@@ -14,19 +14,20 @@
 #include <afxpriv.h>
 #include <afxwin.h>
 #include <atltypes.h>
-#include <windef.h>
+#include <windef.h>  // TODO: May no longer be needed
 #include <winuser.h>
 
 #include <climits>
 #include <cstddef>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 //static DWORD s_dwVersion;
 //static int   s_nWinVer;
@@ -58,7 +59,7 @@ AFX_STATIC void AFXAPI _AfxDeferClientPos(AFX_SIZEPARENTPARAMS *lpLayout,
                                           int y,
                                           int cx,
                                           int cy,
-                                          BOOL bScrollBar) {
+                                          bool bScrollBar) {
 	ASSERT(pWnd != NULL);
 	ASSERT(pWnd->m_hWnd != NULL);
 
@@ -66,7 +67,7 @@ AFX_STATIC void AFXAPI _AfxDeferClientPos(AFX_SIZEPARENTPARAMS *lpLayout,
 		// if there is enough room, draw scroll bar without border
 		// if there is not enough room, set the WS_BORDER bit so that
 		// we will at least get a proper border drawn
-		BOOL bNeedBorder = (cx <= CX_BORDER || cy <= CY_BORDER);
+		bool bNeedBorder = (cx <= CX_BORDER || cy <= CY_BORDER);
 		pWnd->ModifyStyle(bNeedBorder ? 0 : WS_BORDER,
 		                  bNeedBorder ? WS_BORDER : 0);
 	}
@@ -248,8 +249,8 @@ void CMwSplitterWnd::RecalcLayout() {
 	ASSERT(m_nRows > 0 && m_nCols > 0); // must have at least one pane
 
 	/* Force no scroll bars */
-	m_bHasHScroll = FALSE;
-	m_bHasVScroll = FALSE;
+	m_bHasHScroll = false;
+	m_bHasVScroll = false;
 	CRect rectClient;
 	GetClientRect(rectClient);
 	rectClient.InflateRect(-m_cxBorder, -m_cyBorder);
@@ -274,7 +275,7 @@ void CMwSplitterWnd::RecalcLayout() {
 		CWnd *pScrollBar = GetDlgItem(AFX_IDW_SIZE_BOX);
 		ASSERT(pScrollBar != NULL);
 		// fix style if necessary
-		BOOL bSizingParent = (GetSizingParent() != NULL);
+		bool bSizingParent = (GetSizingParent() != NULL);
 
 		// modifyStyle returns TRUE if style changes
 		if (pScrollBar->ModifyStyle(SBS_SIZEGRIP | SBS_SIZEBOX,
@@ -290,7 +291,7 @@ void CMwSplitterWnd::RecalcLayout() {
 		                   rectInside.bottom /*+ 1 - s_bWin4*/,
 		                   cx,
 		                   cy,
-		                   TRUE);
+		                   true);
 	}
 
 	// reposition scroll bars
@@ -308,7 +309,7 @@ void CMwSplitterWnd::RecalcLayout() {
 				x += cxSplitterBox, cx -= cxSplitterBox;
 			}
 
-			_AfxDeferClientPos(&layout, pScrollBar, x, y, cx, cy, TRUE);
+			_AfxDeferClientPos(&layout, pScrollBar, x, y, cx, cy, true);
 			x += cx + m_cxSplitterGap;
 		}
 	}
@@ -327,7 +328,7 @@ void CMwSplitterWnd::RecalcLayout() {
 				y += cySplitterBox, cy -= cySplitterBox;
 			}
 
-			_AfxDeferClientPos(&layout, pScrollBar, x, y, cx, cy, TRUE);
+			_AfxDeferClientPos(&layout, pScrollBar, x, y, cx, cy, true);
 			y += cy + m_cySplitterGap;
 		}
 	}
@@ -343,7 +344,7 @@ void CMwSplitterWnd::RecalcLayout() {
 			for (int row = 0; row < m_nRows; row++) {
 				int cy = m_pRowInfo[row].nCurSize;
 				CWnd* pWnd = GetPane(row, col);
-				_AfxDeferClientPos(&layout, pWnd, x, y, cx, cy, FALSE);
+				_AfxDeferClientPos(&layout, pWnd, x, y, cx, cy, false);
 				y += cy + m_cySplitterGap;
 			}
 

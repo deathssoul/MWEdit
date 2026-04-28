@@ -11,8 +11,10 @@
 
 #include <cstddef>
 #include <cstdio>
+#include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "common/dl_str.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
@@ -70,7 +72,7 @@ int CEsmItem3::CompareFields(const int FieldID, CEsmRecord *pRecord) {
 
 	switch (FieldID) {
 		case ESM_FIELD_ENCHANT:
-			return StringCompare(GetEnchant(), pRecord3->GetEnchant(), FALSE);
+			return StringCompare(GetEnchant(), pRecord3->GetEnchant(), false);
 
 		case ESM_FIELD_ENCHANTPTS:
 			return (int)(GetEnchantPts() - pRecord3->GetEnchantPts());
@@ -179,7 +181,7 @@ bool CEsmItem3::SetFieldValue(const int FieldID, const TCHAR *pString) {
 			return true;
 
 		case ESM_FIELD_ENCHANTPTS:
-			SetEnchantPts(atol(pString));
+			SetEnchantPts(std::atol(pString));
 			return true;
 	}
 

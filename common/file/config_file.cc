@@ -12,8 +12,6 @@
  *=========================================================================*/
 #include "common/file/config_file.h"
 
-#include <winnt.h>
-
 #include <cstddef>
 #include <cstdio>
 #include <cstdlib>
@@ -21,11 +19,16 @@
 
 #include "common/dl_base.h"
 #include "common/dl_file.h"
+#include "common/dl_log.h"
 #include "common/dl_mem.h"
 #include "common/dl_str.h"
 #include "common/file/config_entry.h"
 #include "common/file/config_group.h"
 #include "common/file/gen_file.h"
+
+#if _WIN32
+#include <string.h>  // TODO: Required for non-standard extension _strnicmp()
+#endif  // _WIN32
 
 DEFINE_FILE("CfgFile.cpp");
 /*===========================================================================
@@ -151,7 +154,7 @@ CConfigGroup *CConfigFile::FindGroup(const TCHAR *pName) {
 		} else if (NameLength == 0 && (pGroup->GetName())[1] == ']') {
 			Result = 0;
 		} else {
-			Result = strnicmp(pName, (pGroup->GetName()) + 1, NameLength);
+			Result = _strnicmp(pName, (pGroup->GetName()) + 1, NameLength);
 		}
 
 		if (Result == 0) {

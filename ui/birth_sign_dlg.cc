@@ -20,6 +20,7 @@
 #include <cstddef>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/birth_sign.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
@@ -32,9 +33,9 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
 #endif
 
 DEFINE_FILE("EsmBirthSignDlg.cpp");
@@ -355,15 +356,15 @@ void CEsmBirthSignDlg::SetControlData() {
 	/* Item ID, update title as well */
 	m_IDText.SetWindowText(m_pBirthSign->GetID());
 	UpdateTitle(m_pBirthSign->GetID());
-	m_IDText.SetModify(FALSE);
+	m_IDText.SetModify(false);
 
 	/* Item name */
 	m_NameText.SetWindowText(m_pBirthSign->GetName());
-	m_NameText.SetModify(FALSE);
+	m_NameText.SetModify(false);
 
 	/* Item description */
 	m_DescText.SetWindowText(m_pBirthSign->GetDescription());
-	m_DescText.SetModify(FALSE);
+	m_DescText.SetModify(false);
 
 	/* Texture button */
 	m_TextureButton.SetWindowText(m_pBirthSign->GetTexture());

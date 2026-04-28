@@ -29,6 +29,7 @@
 
 #include "common/dl_log.h"
 #include "common/dl_mem.h"
+#include "common/dl_str.h"
 #endif  // _DEBUG
 
 DEFINE_FILE("tstfile.cpp");
@@ -60,29 +61,29 @@ void Test_ChangeDirectory() {
 	SystemLog.Printf(stdout, _T("c:\\ = %s"), GetDirString(Buffer, 200));
 
 	/* Attempt to change paths within same disk */
-	ASSERT(ChangeDirectory(_T("\\temp)")) == TRUE);
+	ASSERT(ChangeDirectory(_T("\\temp)")) == true);
 	SystemLog.Printf(stdout, _T("c:\\temp = %s"), GetDirString(Buffer, 200));
-	ASSERT(ChangeDirectory(_T("\\")) == TRUE);
+	ASSERT(ChangeDirectory(_T("\\")) == true);
 	SystemLog.Printf(stdout, _T("c:\\ = %s"), GetDirString(Buffer, 200));
-	ASSERT(ChangeDirectory(_T("temp")) == TRUE);
+	ASSERT(ChangeDirectory(_T("temp")) == true);
 	SystemLog.Printf(stdout, _T("c:\\temp = %s"), GetDirString(Buffer, 200));
-	ASSERT(ChangeDirectory(_T("\\windows\\temp")) == TRUE);
+	ASSERT(ChangeDirectory(_T("\\windows\\temp")) == true);
 	SystemLog.Printf(stdout, _T("c:\\windows\\temp = %s"), GetDirString(Buffer, 200));
 
 	/* Change paths within different disks */
 // ASSERT(ChangeDirectory(_T("d:\\temp")) == TRUE);
 // SystemLog.Printf(stdout, _T("d:\\temp = %s"), getcwd(Buffer, 200));
-	ASSERT(ChangeDirectory(_T("c:\\temp")) == TRUE);
+	ASSERT(ChangeDirectory(_T("c:\\temp")) == true);
 	SystemLog.Printf(stdout, _T("c:\\temp = %s"), GetDirString(Buffer, 200));
 // ASSERT(ChangeDirectory(_T("d:\\")) == TRUE);
 // SystemLog.Printf(stdout, _T("d:\\ = %s"), getcwd(Buffer, 200));
 
 	/* Change with invalid paths */
-	ASSERT(ChangeDirectory(_T("c:\\1234")) == FALSE);
-	ASSERT(ChangeDirectory(_T("\\taqgad")) == FALSE);
+	ASSERT(ChangeDirectory(_T("c:\\1234")) == false);
+	ASSERT(ChangeDirectory(_T("\\taqgad")) == false);
 
 	/* Check empty path case */
-	ASSERT(ChangeDirectory(_T("")) == FALSE);
+	ASSERT(ChangeDirectory(_T("")) == false);
 }
 
 
@@ -162,31 +163,31 @@ void Test_CompareExtension() {
 	SystemLog.Printf(stdout, _T("=============== Testing CompareExtension() ==================="));
 
 	/* Test several positive cases */
-	ASSERT(CompareExtension(_T("file.ext"), _T("ext")) == TRUE);
-	ASSERT(CompareExtension(_T("file.ext"), _T("EXT")) == TRUE);
-	ASSERT(CompareExtension(_T("c:\\file.123456"), _T("123456")) == TRUE);
-	ASSERT(CompareExtension(_T("c:\\temp\\file.ext"), _T("ext")) == TRUE);
-	ASSERT(CompareExtension(_T("c:file.ext"), _T("ext")) == TRUE);
-	ASSERT(CompareExtension(_T("c:\\temp.tmp\\file.ext"), _T("ext")) == TRUE);
+	ASSERT(CompareExtension(_T("file.ext"), _T("ext")) == true);
+	ASSERT(CompareExtension(_T("file.ext"), _T("EXT")) == true);
+	ASSERT(CompareExtension(_T("c:\\file.123456"), _T("123456")) == true);
+	ASSERT(CompareExtension(_T("c:\\temp\\file.ext"), _T("ext")) == true);
+	ASSERT(CompareExtension(_T("c:file.ext"), _T("ext")) == true);
+	ASSERT(CompareExtension(_T("c:\\temp.tmp\\file.ext"), _T("ext")) == true);
 
 	/* Test several negative cases */
-	ASSERT(CompareExtension(_T("file.123"), _T("ext")) == FALSE);
-	ASSERT(CompareExtension(_T("c:\\"), _T("ext")) == FALSE);
-	ASSERT(CompareExtension(_T("c:"), _T("ext")) == FALSE);
-	ASSERT(CompareExtension(_T("c:\\temp.ext\\"), _T("ext")) == FALSE);
-	ASSERT(CompareExtension(_T("c:\\temp.123\\file.ext"), _T("123")) == FALSE);
-	ASSERT(CompareExtension(_T("c:\\temp.ext\\"), _T("ext")) == FALSE);
+	ASSERT(CompareExtension(_T("file.123"), _T("ext")) == false);
+	ASSERT(CompareExtension(_T("c:\\"), _T("ext")) == false);
+	ASSERT(CompareExtension(_T("c:"), _T("ext")) == false);
+	ASSERT(CompareExtension(_T("c:\\temp.ext\\"), _T("ext")) == false);
+	ASSERT(CompareExtension(_T("c:\\temp.123\\file.ext"), _T("123")) == false);
+	ASSERT(CompareExtension(_T("c:\\temp.ext\\"), _T("ext")) == false);
 
 	/* Test empty string cases */
-	ASSERT(CompareExtension(_T(""), _T("ext")) == FALSE);
-	ASSERT(CompareExtension(_T("file.ext"), _T("")) == FALSE);
-	ASSERT(CompareExtension(_T(""), _T("")) == FALSE);
+	ASSERT(CompareExtension(_T(""), _T("ext")) == false);
+	ASSERT(CompareExtension(_T("file.ext"), _T("")) == false);
+	ASSERT(CompareExtension(_T(""), _T("")) == false);
 
 	/* Test file with no extension */
-	ASSERT(CompareExtension(_T("filename"), _T("ext")) == FALSE);
-	ASSERT(CompareExtension(_T("filename."), _T("ext")) == FALSE);
-	ASSERT(CompareExtension(_T("c:\\temp\\filename"), _T("ext")) == FALSE);
-	ASSERT(CompareExtension(_T("c:\\temp.ext\\file"), _T("ext")) == FALSE);
+	ASSERT(CompareExtension(_T("filename"), _T("ext")) == false);
+	ASSERT(CompareExtension(_T("filename."), _T("ext")) == false);
+	ASSERT(CompareExtension(_T("c:\\temp\\filename"), _T("ext")) == false);
+	ASSERT(CompareExtension(_T("c:\\temp.ext\\file"), _T("ext")) == false);
 }
 
 
@@ -235,12 +236,12 @@ void Test_CopyFile() {
 
 	/* Test function with invalid source file */
 	SystemLog.Printf(stdout, _T("\tTest invalid source file"));
-	ASSERT(CopyOneFile(_T("c:\\temp\\test123.dat"), _T("c:\\temp\\test2.dat")) == FALSE);
+	ASSERT(CopyOneFile(_T("c:\\temp\\test123.dat"), _T("c:\\temp\\test2.dat")) == false);
 
 	/* Test function with invalid destination file */
 	SystemLog.Printf(stdout, _T("\tTest invalid destination file"));
 	Test_CreateRandomFile(_T("c:\\temp\\test1.dat"), 100);
-	ASSERT(CopyOneFile(_T("c:\\temp\\test1.dat"), _T("c:\\temp123\\test2.dat")) == FALSE);
+	ASSERT(CopyOneFile(_T("c:\\temp\\test1.dat"), _T("c:\\temp123\\test2.dat")) == false);
 }
 
 
@@ -256,7 +257,7 @@ bool Test_CompareFiles(const TCHAR *pFilename1, const TCHAR *pFilename2) {
 	DEFINE_FUNCTION("Test_CompareFiles()");
 	std::FILE *pFileHandle1;
 	std::FILE *pFileHandle2;
-	bool ReturnValue = TRUE;
+	bool ReturnValue = true;
 	ASSERT(pFilename1 != NULL && pFilename2 != NULL);
 	/* Attempt to open both files for input */
 	pFileHandle1 = TFOPEN(pFilename1, _T("rb"));
@@ -266,7 +267,7 @@ bool Test_CompareFiles(const TCHAR *pFilename1, const TCHAR *pFilename2) {
 	/* Compare each file, byte by byte */
 	while (!std::feof(pFileHandle1) && !std::feof(pFileHandle2)) {
 		if (std::fgetc(pFileHandle1) != std::fgetc(pFileHandle2)) {
-			ReturnValue = FALSE;
+			ReturnValue = false;
 			break;
 		}
 
@@ -276,7 +277,7 @@ bool Test_CompareFiles(const TCHAR *pFilename1, const TCHAR *pFilename2) {
 
 	/* Ensure both files are the samesize */
 	if (std::feof(pFileHandle1) != std::feof(pFileHandle2)) {
-		ReturnValue = FALSE;
+		ReturnValue = false;
 	}
 
 	std::fclose(pFileHandle1);
@@ -335,7 +336,9 @@ void Test_CreatePath() {
  * a text or binary file depending on the value of the TextMode flag.
  *
  *=========================================================================*/
-void Test_CreateRandomFile(const TCHAR *pFilename, const std::size_t FileSize, const bool TextMode) {
+void Test_CreateRandomFile(const TCHAR *pFilename,
+                           const std::size_t FileSize,
+                           const bool TextMode) {
 	DEFINE_FUNCTION("Test_CreateRandomFile()");
 	std::FILE *pFileHandle;
 	std::size_t LoopCounter;
@@ -481,13 +484,13 @@ void Test_FileExists() {
 
 	/* Check with valid files */
 	Test_CreateRandomFile(_T("c:\\temp\\test1.dat"), 10);
-	ASSERT(FileExists(_T("c:\\temp\\test1.dat")) == TRUE);
+	ASSERT(FileExists(_T("c:\\temp\\test1.dat")) == true);
 
 	/* Check with invalid files */
-	ASSERT(FileExists(_T("c:\\temp\\test123.dat")) == FALSE);
+	ASSERT(FileExists(_T("c:\\temp\\test123.dat")) == false);
 
 	/* Check with empty file string */
-	ASSERT(FileExists(_T("")) == FALSE);
+	ASSERT(FileExists(_T("")) == false);
 }
 
 
@@ -509,21 +512,21 @@ void Test_GetFileSize() {
 
 	/* Test with some valid files */
 	Test_CreateRandomFile(_T("c:\\temp\\test1.dat"), 101);
-	ASSERT(GetFileSize(FileSize, _T("c:\\temp\\test1.dat")) == TRUE);
+	ASSERT(GetFileSize(FileSize, _T("c:\\temp\\test1.dat")) == true);
 	ASSERT(FileSize == 101);
 	ASSERT(GetFileSize(_T("c:\\temp\\test1.dat")) == 101);
 
 	/* Test with some invalid files */
-	ASSERT(GetFileSize(FileSize, _T("c:\\temp\\test123.dat")) == FALSE);
+	ASSERT(GetFileSize(FileSize, _T("c:\\temp\\test123.dat")) == false);
 	ASSERT(GetFileSize(_T("c:\\temp\\test123.dat")) == 0);
 
 	/* Test with empty file strings */
-	ASSERT(GetFileSize(FileSize, _T("")) == FALSE);
+	ASSERT(GetFileSize(FileSize, _T("")) == false);
 	ASSERT(GetFileSize(_T("")) == 0);
 
 	/* Test with zero-sized files */
 	Test_CreateRandomFile(_T("c:\\temp\\test1.dat"), 0);
-	ASSERT(GetFileSize(FileSize, _T("c:\\temp\\test1.dat")) == TRUE);
+	ASSERT(GetFileSize(FileSize, _T("c:\\temp\\test1.dat")) == true);
 	ASSERT(FileSize == 0);
 	ASSERT(GetFileSize(_T("c:\\temp\\test1.dat")) == 0);
 }
@@ -545,20 +548,20 @@ void Test_HasExtension() {
 	SystemLog.Printf(stdout, _T("=============== Testing HasExtension() ==================="));
 
 	/* Check with typical inputs */
-	ASSERT(HasExtension(_T("c:\\temp\\filename.ext")) == TRUE);
-	ASSERT(HasExtension(_T("filename.ext")) == TRUE);
+	ASSERT(HasExtension(_T("c:\\temp\\filename.ext")) == true);
+	ASSERT(HasExtension(_T("filename.ext")) == true);
 
 	/* Check with filename without extensions */
-	ASSERT(HasExtension(_T("c:\\temp\\filename")) == FALSE);
-	ASSERT(HasExtension(_T("c:\\temp.123\\filename")) == FALSE);
-	ASSERT(HasExtension(_T("c:\\temp.ext\\")) == FALSE);
+	ASSERT(HasExtension(_T("c:\\temp\\filename")) == false);
+	ASSERT(HasExtension(_T("c:\\temp.123\\filename")) == false);
+	ASSERT(HasExtension(_T("c:\\temp.ext\\")) == false);
 
 	/* Test with blank extensions */
-	ASSERT(HasExtension(_T("c:\\temp\\filename.")) == TRUE);
-	ASSERT(HasExtension(_T(".")) == TRUE);
+	ASSERT(HasExtension(_T("c:\\temp\\filename.")) == true);
+	ASSERT(HasExtension(_T(".")) == true);
 
 	/* Test with empty string */
-	ASSERT(HasExtension(_T("")) == FALSE);
+	ASSERT(HasExtension(_T("")) == false);
 }
 
 
@@ -577,18 +580,18 @@ void Test_HasPath() {
 	SystemLog.Printf(stdout, _T("=============== Testing HasPath() ==================="));
 
 	/* Check with typical inputs */
-	ASSERT(HasPath(_T("c:\\temp\\filename.ext")) == TRUE);
-	ASSERT(HasPath(_T("c:filename.ext")) == TRUE);
-	ASSERT(HasPath(_T("temp\\file.ext")) == TRUE);
-	ASSERT(HasPath(_T("c:\\filename.ext")) == TRUE);
-	ASSERT(HasPath(_T("\\")) == TRUE);
-	ASSERT(HasPath(_T(":")) == TRUE);
+	ASSERT(HasPath(_T("c:\\temp\\filename.ext")) == true);
+	ASSERT(HasPath(_T("c:filename.ext")) == true);
+	ASSERT(HasPath(_T("temp\\file.ext")) == true);
+	ASSERT(HasPath(_T("c:\\filename.ext")) == true);
+	ASSERT(HasPath(_T("\\")) == true);
+	ASSERT(HasPath(_T(":")) == true);
 
 	/* Check with files without paths */
-	ASSERT(HasPath(_T("filename.ext")) == FALSE);
+	ASSERT(HasPath(_T("filename.ext")) == false);
 
 	/* Check with empty strings */
-	ASSERT(HasPath(_T("")) == FALSE);
+	ASSERT(HasPath(_T("")) == false);
 }
 
 
@@ -607,20 +610,20 @@ void Test_IsDirectory() {
 	SystemLog.Printf(stdout, _T("=============== Testing IsDirectory() ==================="));
 
 	/* Check several valid paths */
-	ASSERT(IsDirectory(_T("c:\\")) == TRUE);
-	ASSERT(IsDirectory(_T("c:")) == TRUE);
-	ASSERT(IsDirectory(_T("c:\\temp")) == TRUE);
-	ASSERT(IsDirectory(_T("c:\\temp\\")) == TRUE);
-	ASSERT(IsDirectory(_T("\\")) == TRUE);
-	ASSERT(IsDirectory(_T(".")) == TRUE);
-	ASSERT(IsDirectory(_T("..")) == TRUE);
+	ASSERT(IsDirectory(_T("c:\\")) == true);
+	ASSERT(IsDirectory(_T("c:")) == true);
+	ASSERT(IsDirectory(_T("c:\\temp")) == true);
+	ASSERT(IsDirectory(_T("c:\\temp\\")) == true);
+	ASSERT(IsDirectory(_T("\\")) == true);
+	ASSERT(IsDirectory(_T(".")) == true);
+	ASSERT(IsDirectory(_T("..")) == true);
 
 	/* Check several invalid paths */
-	ASSERT(IsDirectory(_T("c:\\aadadad")) == FALSE);
-	ASSERT(IsDirectory(_T("adadc:")) == FALSE);
+	ASSERT(IsDirectory(_T("c:\\aadadad")) == false);
+	ASSERT(IsDirectory(_T("adadc:")) == false);
 
 	/* Check empty paths */
-	ASSERT(IsDirectory(_T("")) == FALSE);
+	ASSERT(IsDirectory(_T("")) == false);
 }
 
 
@@ -640,20 +643,20 @@ void Test_IsFileWriteable() {
 
 	/* Check several TRUE cases */
 	Test_CreateRandomFile(_T("c:\\temp\\test1.dat"), 101);
-	ASSERT(IsFileWriteable(_T("c:\\temp\\test1.dat")) == TRUE);
+	ASSERT(IsFileWriteable(_T("c:\\temp\\test1.dat")) == true);
 	Test_CreateRandomFile(_T("c:\\temp\\test1.dat"), 0);
-	ASSERT(IsFileWriteable(_T("c:\\temp\\test1.dat")) == TRUE);
+	ASSERT(IsFileWriteable(_T("c:\\temp\\test1.dat")) == true);
 
 	/* Test several FALSE cases */
-	ASSERT(IsFileWriteable(_T("c:\\temp")) == FALSE);
-	ASSERT(IsFileWriteable(_T("t1.2. \\34.txt")) == FALSE);
+	ASSERT(IsFileWriteable(_T("c:\\temp")) == false);
+	ASSERT(IsFileWriteable(_T("t1.2. \\34.txt")) == false);
 	Test_CreateRandomFile(_T("c:\\temp\\test1.dat"), 10);
 	_chmod(("c:\\temp\\test1.dat"), S_IREAD);
-	ASSERT(IsFileWriteable(_T("c:\\temp\\test1.dat")) == FALSE);
+	ASSERT(IsFileWriteable(_T("c:\\temp\\test1.dat")) == false);
 	_chmod(("c:\\temp\\test1.dat"), S_IWRITE | S_IREAD);
 
 	/* Test empty string */
-	ASSERT(IsFileWriteable(_T("")) == FALSE);
+	ASSERT(IsFileWriteable(_T("")) == false);
 }
 
 
@@ -672,18 +675,18 @@ void Test_IsWildCard() {
 	SystemLog.Printf(stdout, _T("=============== Testing IsWildCard() ==================="));
 
 	/* Test for several positive cases */
-	ASSERT(IsWildCard(_T("*.*")) == TRUE);
-	ASSERT(IsWildCard(_T("test.???")) == TRUE);
-	ASSERT(IsWildCard(_T("test?.txt")) == TRUE);
-	ASSERT(IsWildCard(_T("*.tmp")) == TRUE);
-	ASSERT(IsWildCard(_T("*")) == TRUE);
-	ASSERT(IsWildCard(_T("?")) == TRUE);
+	ASSERT(IsWildCard(_T("*.*")) == true);
+	ASSERT(IsWildCard(_T("test.???")) == true);
+	ASSERT(IsWildCard(_T("test?.txt")) == true);
+	ASSERT(IsWildCard(_T("*.tmp")) == true);
+	ASSERT(IsWildCard(_T("*")) == true);
+	ASSERT(IsWildCard(_T("?")) == true);
 
 	/* Test the negative case */
-	ASSERT(IsWildCard(_T("test")) == FALSE);
+	ASSERT(IsWildCard(_T("test")) == false);
 
 	/* Test the empty string */
-	ASSERT(IsWildCard(_T("")) == FALSE);
+	ASSERT(IsWildCard(_T("")) == false);
 }
 
 
@@ -705,32 +708,32 @@ void Test_OpenFile(void) {
 	SystemLog.Printf(stdout, _T("=============== Testing OpenFile() ==================="));
 
 	/* Check opening valid files for output */
-	ASSERT(OpenFile(&pFileHandle, _T("c:\\temp\\test1.dat"), _T("wt")) == TRUE);
+	ASSERT(OpenFile(&pFileHandle, _T("c:\\temp\\test1.dat"), _T("wt")) == true);
 	ASSERT(pFileHandle != NULL);
 	std::fclose(pFileHandle);
 
 	/* Check opening invalid files for output */
-	ASSERT(OpenFile(&pFileHandle, _T("c:\\temp\\te:-/st1.dat"), _T("wt")) == FALSE);
+	ASSERT(OpenFile(&pFileHandle, _T("c:\\temp\\te:-/st1.dat"), _T("wt")) == false);
 	ASSERT(pFileHandle == NULL);
 
 	/* Check opening valid files for input */
 	Test_CreateRandomFile(_T("c:\\temp\\temp1.dat"), 101);
-	ASSERT(OpenFile(&pFileHandle, _T("c:\\temp\\test1.dat"), _T("rb")) == TRUE);
+	ASSERT(OpenFile(&pFileHandle, _T("c:\\temp\\test1.dat"), _T("rb")) == true);
 	ASSERT(pFileHandle != NULL);
 	std::fclose(pFileHandle);
 
 	/* Check opening invalid files for input */
-	ASSERT(OpenFile(&pFileHandle, _T("c:\\temp\\test123.dat"), _T("rb")) == FALSE);
+	ASSERT(OpenFile(&pFileHandle, _T("c:\\temp\\test123.dat"), _T("rb")) == false);
 	ASSERT(pFileHandle == NULL);
 
 	/* Check empty file string */
-	ASSERT(OpenFile(&pFileHandle, _T(""), _T("rb")) == FALSE);
+	ASSERT(OpenFile(&pFileHandle, _T(""), _T("rb")) == false);
 	ASSERT(pFileHandle == NULL);
 
 	/* Check invalid mode strings */
-	ASSERT(OpenFile(&pFileHandle, _T("c:\\temp\\test1.dat"), _T("")) == FALSE);
+	ASSERT(OpenFile(&pFileHandle, _T("c:\\temp\\test1.dat"), _T("")) == false);
 	ASSERT(pFileHandle == NULL);
-	ASSERT(OpenFile(&pFileHandle, _T("c:\\temp\\test1.dat"), _T("hhhh")) == FALSE);
+	ASSERT(OpenFile(&pFileHandle, _T("c:\\temp\\test1.dat"), _T("hhhh")) == false);
 	ASSERT(pFileHandle == NULL);
 }
 
@@ -754,14 +757,14 @@ void Test_ReadFile() {
 
 	/* Test reading a sample file */
 	Test_CreateRandomFile(_T("c:\\temp\\test1.dat"), 101);
-	ASSERT(ReadFile(&pTestPtr, FileSize, _T("c:\\temp\\test1.dat")) == TRUE);
+	ASSERT(ReadFile(&pTestPtr, FileSize, _T("c:\\temp\\test1.dat")) == true);
 	ASSERT(pTestPtr != NULL);
 	ASSERT(FileSize == 101);
 	pFileHandle = TFOPEN(_T("c:\\temp\\test2.dat"), _T("wb"));
 	ASSERT(pFileHandle != NULL);
 	ASSERT(std::fwrite(pTestPtr, 1, 101, pFileHandle) == 101);
 	std::fclose(pFileHandle);
-	ASSERT(Test_CompareFiles(_T("c:\\temp\\test1.dat"), _T("c:\\temp\\test2.dat")) == TRUE);
+	ASSERT(Test_CompareFiles(_T("c:\\temp\\test1.dat"), _T("c:\\temp\\test2.dat")) == true);
 	DestroyPointer(pTestPtr);
 
 	/* Test reading an invalid file */
@@ -770,7 +773,7 @@ void Test_ReadFile() {
 
 	/* Test reading a zero sized file */
 	Test_CreateRandomFile(_T("c:\\temp\\test1.dat"), 0);
-	ASSERT(ReadFile(&pTestPtr, FileSize, _T("c:\\temp\\test1.dat")) == TRUE);
+	ASSERT(ReadFile(&pTestPtr, FileSize, _T("c:\\temp\\test1.dat")) == true);
 	ASSERT(pTestPtr != NULL);
 	ASSERT(FileSize == 0);
 	DestroyPointer(pTestPtr);
@@ -800,14 +803,14 @@ void Test_ReadFileBuffer() {
 	Test_CreateRandomFile(_T("c:\\temp\\test1.dat"), 101);
 	CreateArrayPointer(pTestPtr, byte, 1001);
 	ASSERT(pTestPtr != NULL);
-	ASSERT(ReadFileBuffer(&pTestPtr, FileSize, _T("c:\\temp\\test1.dat"), 1000) == TRUE);
+	ASSERT(ReadFileBuffer(&pTestPtr, FileSize, _T("c:\\temp\\test1.dat"), 1000) == true);
 	ASSERT(pTestPtr != NULL);
 	ASSERT(FileSize == 101);
 	pFileHandle = TFOPEN(_T("c:\\temp\\test2.dat"), _T("wb"));
 	ASSERT(pFileHandle != NULL);
 	ASSERT(std::fwrite(pTestPtr, 1, 101, pFileHandle) == 101);
 	std::fclose(pFileHandle);
-	ASSERT(Test_CompareFiles(_T("c:\\temp\\test1.dat"), _T("c:\\temp\\test2.dat")) == TRUE);
+	ASSERT(Test_CompareFiles(_T("c:\\temp\\test1.dat"), _T("c:\\temp\\test2.dat")) == true);
 
 	/* Test reading an invalid file */
 	ASSERT(ReadFileBuffer(&pTestPtr, FileSize, _T("c:\\tata.rzr"), 1000) == NULL);
@@ -815,17 +818,17 @@ void Test_ReadFileBuffer() {
 
 	/* Test reading a zero sized file */
 	Test_CreateRandomFile(_T("c:\\temp\\test1.dat"), 0);
-	ASSERT(ReadFileBuffer(&pTestPtr, FileSize, _T("c:\\temp\\test1.dat"), 1000) == TRUE);
+	ASSERT(ReadFileBuffer(&pTestPtr, FileSize, _T("c:\\temp\\test1.dat"), 1000) == true);
 	ASSERT(FileSize == 0);
 
 	/* Test reading a sample file exactly the same size as buffer */
 	Test_CreateRandomFile(_T("c:\\temp\\test1.dat"), 1000);
-	ASSERT(ReadFileBuffer(&pTestPtr, FileSize, _T("c:\\temp\\test1.dat"), 1000) == TRUE);
+	ASSERT(ReadFileBuffer(&pTestPtr, FileSize, _T("c:\\temp\\test1.dat"), 1000) == true);
 	ASSERT(FileSize == 1000);
 
 	/* Test reading a sample file bigger than buffer */
 	Test_CreateRandomFile(_T("c:\\temp\\test1.dat"), 1100);
-	ASSERT(ReadFileBuffer(&pTestPtr, FileSize, _T("c:\\temp\\test1.dat"), 1000) == TRUE);
+	ASSERT(ReadFileBuffer(&pTestPtr, FileSize, _T("c:\\temp\\test1.dat"), 1000) == true);
 	ASSERT(FileSize == 1000);
 	DestroyPointer(pTestPtr);
 }
@@ -912,33 +915,33 @@ void Test_read_int() {
 	/* Output some sample integers */
 	pFileHandle = TFOPEN(_T("c:\\temp\\test1.dat"), _T("wb"));
 	ASSERT(pFileHandle != NULL);
-	ASSERT(write_int(pFileHandle, 0) == TRUE);
-	ASSERT(write_int(pFileHandle, 101) == TRUE);
-	ASSERT(write_int(pFileHandle, 1) == TRUE);
-	ASSERT(write_int(pFileHandle, -1) == TRUE);
-	ASSERT(write_int(pFileHandle, INT_MAX) == TRUE);
-	ASSERT(write_int(pFileHandle, INT_MIN) == TRUE);
+	ASSERT(write_int(pFileHandle, 0) == true);
+	ASSERT(write_int(pFileHandle, 101) == true);
+	ASSERT(write_int(pFileHandle, 1) == true);
+	ASSERT(write_int(pFileHandle, -1) == true);
+	ASSERT(write_int(pFileHandle, INT_MAX) == true);
+	ASSERT(write_int(pFileHandle, INT_MIN) == true);
 	std::fclose(pFileHandle);
 
 	/* Input the sample integers */
 	pFileHandle = TFOPEN(_T("c:\\temp\\test1.dat"), _T("rb"));
 	ASSERT(pFileHandle != NULL);
-	ASSERT(read_int(pFileHandle, TestValue) == TRUE);
+	ASSERT(read_int(pFileHandle, TestValue) == true);
 	ASSERT(TestValue == 0);
-	ASSERT(read_int(pFileHandle, TestValue) == TRUE);
+	ASSERT(read_int(pFileHandle, TestValue) == true);
 	ASSERT(TestValue == 101);
-	ASSERT(read_int(pFileHandle, TestValue) == TRUE);
+	ASSERT(read_int(pFileHandle, TestValue) == true);
 	ASSERT(TestValue == 1);
-	ASSERT(read_int(pFileHandle, TestValue) == TRUE);
+	ASSERT(read_int(pFileHandle, TestValue) == true);
 	ASSERT(TestValue == -1);
-	ASSERT(read_int(pFileHandle, TestValue) == TRUE);
+	ASSERT(read_int(pFileHandle, TestValue) == true);
 	ASSERT(TestValue == INT_MAX);
-	ASSERT(read_int(pFileHandle, TestValue) == TRUE);
+	ASSERT(read_int(pFileHandle, TestValue) == true);
 	ASSERT(TestValue == INT_MIN);
 
 	/* Test error condition */
-	ASSERT(read_int(pFileHandle, TestValue) == FALSE);
-	ASSERT(write_int(pFileHandle, 0) == FALSE);
+	ASSERT(read_int(pFileHandle, TestValue) == false);
+	ASSERT(write_int(pFileHandle, 0) == false);
 	std::fclose(pFileHandle);
 }
 
@@ -962,33 +965,33 @@ void Test_read_long() {
 	/* Output some sample integers */
 	pFileHandle = TFOPEN(_T("c:\\temp\\test1.dat"), _T("wb"));
 	ASSERT(pFileHandle != NULL);
-	ASSERT(write_long(pFileHandle, 0) == TRUE);
-	ASSERT(write_long(pFileHandle, 101) == TRUE);
-	ASSERT(write_long(pFileHandle, 1) == TRUE);
-	ASSERT(write_long(pFileHandle, -1) == TRUE);
-	ASSERT(write_long(pFileHandle, LONG_MAX) == TRUE);
-	ASSERT(write_long(pFileHandle, LONG_MIN) == TRUE);
+	ASSERT(write_long(pFileHandle, 0) == true);
+	ASSERT(write_long(pFileHandle, 101) == true);
+	ASSERT(write_long(pFileHandle, 1) == true);
+	ASSERT(write_long(pFileHandle, -1) == true);
+	ASSERT(write_long(pFileHandle, LONG_MAX) == true);
+	ASSERT(write_long(pFileHandle, LONG_MIN) == true);
 	std::fclose(pFileHandle);
 
 	/* Input the sample integers */
 	pFileHandle = TFOPEN(_T("c:\\temp\\test1.dat"), _T("rb"));
 	ASSERT(pFileHandle != NULL);
-	ASSERT(read_long(pFileHandle, TestValue) == TRUE);
+	ASSERT(read_long(pFileHandle, TestValue) == true);
 	ASSERT(TestValue == 0);
-	ASSERT(read_long(pFileHandle, TestValue) == TRUE);
+	ASSERT(read_long(pFileHandle, TestValue) == true);
 	ASSERT(TestValue == 101);
-	ASSERT(read_long(pFileHandle, TestValue) == TRUE);
+	ASSERT(read_long(pFileHandle, TestValue) == true);
 	ASSERT(TestValue == 1);
-	ASSERT(read_long(pFileHandle, TestValue) == TRUE);
+	ASSERT(read_long(pFileHandle, TestValue) == true);
 	ASSERT(TestValue == -1);
-	ASSERT(read_long(pFileHandle, TestValue) == TRUE);
+	ASSERT(read_long(pFileHandle, TestValue) == true);
 	ASSERT(TestValue == LONG_MAX);
-	ASSERT(read_long(pFileHandle, TestValue) == TRUE);
+	ASSERT(read_long(pFileHandle, TestValue) == true);
 	ASSERT(TestValue == LONG_MIN);
 
 	/* Test error condition */
-	ASSERT(read_long(pFileHandle, TestValue) == FALSE);
-	ASSERT(write_long(pFileHandle, 0) == FALSE);
+	ASSERT(read_long(pFileHandle, TestValue) == false);
+	ASSERT(write_long(pFileHandle, 0) == false);
 	std::fclose(pFileHandle);
 }
 
@@ -1012,33 +1015,33 @@ void Test_read_short() {
 	/* Output some sample integers */
 	pFileHandle = TFOPEN(_T("c:\\temp\\test1.dat"), _T("wb"));
 	ASSERT(pFileHandle != NULL);
-	ASSERT(write_short(pFileHandle, 0) == TRUE);
-	ASSERT(write_short(pFileHandle, 101) == TRUE);
-	ASSERT(write_short(pFileHandle, 1) == TRUE);
-	ASSERT(write_short(pFileHandle, -1) == TRUE);
-	ASSERT(write_short(pFileHandle, SHRT_MAX) == TRUE);
-	ASSERT(write_short(pFileHandle, SHRT_MIN) == TRUE);
+	ASSERT(write_short(pFileHandle, 0) == true);
+	ASSERT(write_short(pFileHandle, 101) == true);
+	ASSERT(write_short(pFileHandle, 1) == true);
+	ASSERT(write_short(pFileHandle, -1) == true);
+	ASSERT(write_short(pFileHandle, SHRT_MAX) == true);
+	ASSERT(write_short(pFileHandle, SHRT_MIN) == true);
 	std::fclose(pFileHandle);
 
 	/* Input the sample integers */
 	pFileHandle = TFOPEN(_T("c:\\temp\\test1.dat"), _T("rb"));
 	ASSERT(pFileHandle != NULL);
-	ASSERT(read_short(pFileHandle, TestValue) == TRUE);
+	ASSERT(read_short(pFileHandle, TestValue) == true);
 	ASSERT(TestValue == 0);
-	ASSERT(read_short(pFileHandle, TestValue) == TRUE);
+	ASSERT(read_short(pFileHandle, TestValue) == true);
 	ASSERT(TestValue == 101);
-	ASSERT(read_short(pFileHandle, TestValue) == TRUE);
+	ASSERT(read_short(pFileHandle, TestValue) == true);
 	ASSERT(TestValue == 1);
-	ASSERT(read_short(pFileHandle, TestValue) == TRUE);
+	ASSERT(read_short(pFileHandle, TestValue) == true);
 	ASSERT(TestValue == -1);
-	ASSERT(read_short(pFileHandle, TestValue) == TRUE);
+	ASSERT(read_short(pFileHandle, TestValue) == true);
 	ASSERT(TestValue == SHRT_MAX);
-	ASSERT(read_short(pFileHandle, TestValue) == TRUE);
+	ASSERT(read_short(pFileHandle, TestValue) == true);
 	ASSERT(TestValue == SHRT_MIN);
 
 	/* Test error condition */
-	ASSERT(read_short(pFileHandle, TestValue) == FALSE);
-	ASSERT(write_short(pFileHandle, 0) == FALSE);
+	ASSERT(read_short(pFileHandle, TestValue) == false);
+	ASSERT(write_short(pFileHandle, 0) == false);
 	std::fclose(pFileHandle);
 }
 
@@ -1062,33 +1065,33 @@ void Test_read_motlong() {
 	/* Output some sample integers */
 	pFileHandle = TFOPEN(_T("c:\\temp\\test1.dat"), _T("wb"));
 	ASSERT(pFileHandle != NULL);
-	ASSERT(write_motlong(pFileHandle, 0) == TRUE);
-	ASSERT(write_motlong(pFileHandle, 101) == TRUE);
-	ASSERT(write_motlong(pFileHandle, 1) == TRUE);
-	ASSERT(write_motlong(pFileHandle, -1) == TRUE);
-	ASSERT(write_motlong(pFileHandle, LONG_MAX) == TRUE);
-	ASSERT(write_motlong(pFileHandle, LONG_MIN) == TRUE);
+	ASSERT(write_motlong(pFileHandle, 0) == true);
+	ASSERT(write_motlong(pFileHandle, 101) == true);
+	ASSERT(write_motlong(pFileHandle, 1) == true);
+	ASSERT(write_motlong(pFileHandle, -1) == true);
+	ASSERT(write_motlong(pFileHandle, LONG_MAX) == true);
+	ASSERT(write_motlong(pFileHandle, LONG_MIN) == true);
 	std::fclose(pFileHandle);
 
 	/* Input the sample integers */
 	pFileHandle = TFOPEN(_T("c:\\temp\\test1.dat"), _T("rb"));
 	ASSERT(pFileHandle != NULL);
-	ASSERT(read_motlong(pFileHandle, TestValue) == TRUE);
+	ASSERT(read_motlong(pFileHandle, TestValue) == true);
 	ASSERT(TestValue == 0);
-	ASSERT(read_motlong(pFileHandle, TestValue) == TRUE);
+	ASSERT(read_motlong(pFileHandle, TestValue) == true);
 	ASSERT(TestValue == 101);
-	ASSERT(read_motlong(pFileHandle, TestValue) == TRUE);
+	ASSERT(read_motlong(pFileHandle, TestValue) == true);
 	ASSERT(TestValue == 1);
-	ASSERT(read_motlong(pFileHandle, TestValue) == TRUE);
+	ASSERT(read_motlong(pFileHandle, TestValue) == true);
 	ASSERT(TestValue == -1);
-	ASSERT(read_motlong(pFileHandle, TestValue) == TRUE);
+	ASSERT(read_motlong(pFileHandle, TestValue) == true);
 	ASSERT(TestValue == LONG_MAX);
-	ASSERT(read_motlong(pFileHandle, TestValue) == TRUE);
+	ASSERT(read_motlong(pFileHandle, TestValue) == true);
 	ASSERT(TestValue == LONG_MIN);
 
 	/* Test error condition */
-	ASSERT(read_long(pFileHandle, TestValue) == FALSE);
-	ASSERT(write_motlong(pFileHandle, 0) == FALSE);
+	ASSERT(read_long(pFileHandle, TestValue) == false);
+	ASSERT(write_motlong(pFileHandle, 0) == false);
 	std::fclose(pFileHandle);
 }
 
@@ -1166,15 +1169,15 @@ void Test_RWFile(const std::size_t NumTests) {
 		FileSize = (std::size_t)((float)std::rand() * TEST_RWFILE_MAXFILESIZE / RAND_MAX);
 		Test_CreateRandomFile(_T("c:\\temp\\test1.dat"), FileSize, FILE_BINARY);
 		SystemLog.Printf(stdout, _T("\t%d) Testing %u byte file..."), LoopCounter, FileSize);
-		ASSERT(ReadFile(&pInputBuffer, BytesRead, _T("c:\\temp\\test1.dat"), FILE_BINARY) == TRUE);
+		ASSERT(ReadFile(&pInputBuffer, BytesRead, _T("c:\\temp\\test1.dat"), FILE_BINARY) == true);
 		ASSERT(BytesRead == FileSize);
-		ASSERT(WriteFile(pInputBuffer, BytesRead, _T("c:\\temp\\test2.dat"), FILE_BINARY) == TRUE);
-		ASSERT(Test_CompareFiles(_T("c:\\temp\\test1.dat"), _T("c:\\temp\\test2.dat")) == TRUE);
+		ASSERT(WriteFile(pInputBuffer, BytesRead, _T("c:\\temp\\test2.dat"), FILE_BINARY) == true);
+		ASSERT(Test_CompareFiles(_T("c:\\temp\\test1.dat"), _T("c:\\temp\\test2.dat")) == true);
 		ASSERT(ReadFileBuffer(&pBuffer,
 		                      BytesRead,
 		                      _T("c:\\temp\\test1.dat"),
 		                      BufferSize,
-		                      FILE_BINARY) == TRUE);
+		                      FILE_BINARY) == true);
 		ASSERT(BytesRead <= FileSize);
 		ASSERT(BytesRead <= BufferSize);
 		ASSERT(pInputBuffer != NULL);
@@ -1183,17 +1186,17 @@ void Test_RWFile(const std::size_t NumTests) {
 
 		/* Test a randomly created text file */
 		Test_CreateRandomFile(_T("c:\\temp\\test1.dat"), FileSize, FILE_TEXT);
-		ASSERT(ReadFile(&pInputBuffer, BytesRead, _T("c:\\temp\\test1.dat"), FILE_TEXT) == TRUE);
+		ASSERT(ReadFile(&pInputBuffer, BytesRead, _T("c:\\temp\\test1.dat"), FILE_TEXT) == true);
 		ASSERT(pInputBuffer != NULL);
 		ASSERT(BytesRead <= FileSize);
-		ASSERT(WriteFile(pInputBuffer, BytesRead, _T("c:\\temp\\test2.dat"), FILE_TEXT) == TRUE);
-		ASSERT(Test_CompareFiles(_T("c:\\temp\\test1.dat"), _T("c:\\temp\\test2.dat")) == TRUE);
+		ASSERT(WriteFile(pInputBuffer, BytesRead, _T("c:\\temp\\test2.dat"), FILE_TEXT) == true);
+		ASSERT(Test_CompareFiles(_T("c:\\temp\\test1.dat"), _T("c:\\temp\\test2.dat")) == true);
 ///*
 		ASSERT(ReadFileBuffer(&pBuffer,
 		                      BytesRead,
 		                      _T("c:\\temp\\test1.dat"),
 		                      BufferSize,
-		                      FILE_TEXT) == TRUE);
+		                      FILE_TEXT) == true);
 		ASSERT(pBuffer != NULL);
 		ASSERT(BytesRead <= FileSize);
 		ASSERT(BytesRead <= BufferSize); //*/
@@ -1241,10 +1244,10 @@ void Test_RWNumbers(const std::size_t NumTests) {
 		pLongArray[LoopCounter] = (long)rand() * (long)rand();
 		pIntArray[LoopCounter] = (int)rand() * (int)rand();
 		pShortArray[LoopCounter] = (short)rand();
-		ASSERT(write_long(pFileHandle, pLongArray[LoopCounter]) == TRUE);
-		ASSERT(write_motlong(pFileHandle, pLongArray[LoopCounter]) == TRUE);
-		ASSERT(write_int(pFileHandle, pIntArray[LoopCounter]) == TRUE);
-		ASSERT(write_short(pFileHandle, pShortArray[LoopCounter]) == TRUE);
+		ASSERT(write_long(pFileHandle, pLongArray[LoopCounter]) == true);
+		ASSERT(write_motlong(pFileHandle, pLongArray[LoopCounter]) == true);
+		ASSERT(write_int(pFileHandle, pIntArray[LoopCounter]) == true);
+		ASSERT(write_short(pFileHandle, pShortArray[LoopCounter]) == true);
 	}
 
 	std::fclose(pFileHandle);
@@ -1257,13 +1260,13 @@ void Test_RWNumbers(const std::size_t NumTests) {
 			SystemLog.Printf(stdout, _T("\t\tReading test %u of %u..."), LoopCounter, NumTests);
 		}
 
-		ASSERT(read_long(pFileHandle, InputLong) == TRUE);
+		ASSERT(read_long(pFileHandle, InputLong) == true);
 		ASSERT(pLongArray[LoopCounter] == InputLong);
-		ASSERT(read_motlong(pFileHandle, InputLong) == TRUE);
+		ASSERT(read_motlong(pFileHandle, InputLong) == true);
 		ASSERT(pLongArray[LoopCounter] == InputLong);
-		ASSERT(read_int(pFileHandle, InputInt) == TRUE);
+		ASSERT(read_int(pFileHandle, InputInt) == true);
 		ASSERT(pIntArray[LoopCounter] == InputInt);
-		ASSERT(read_short(pFileHandle, InputShort) == TRUE);
+		ASSERT(read_short(pFileHandle, InputShort) == true);
 		ASSERT(pShortArray[LoopCounter] == InputShort);
 	}
 
@@ -1323,7 +1326,7 @@ void Test_WriteFile() {
 
 	/* Output a test file */
 	std::memcpy(TestString, "0123456789", 11);
-	ASSERT(WriteFile((byte *)TestString, 11, _T("c:\\temp\\test1.dat")) == TRUE);
+	ASSERT(WriteFile((byte *)TestString, 11, _T("c:\\temp\\test1.dat")) == true);
 	pFileHandle = TFOPEN(_T("c:\\temp\\test1.dat"), _T("rb"));
 	ASSERT(pFileHandle != NULL);
 	ASSERT(std::fread((byte *)InputString, 1, 11, pFileHandle) == 11);
@@ -1331,11 +1334,11 @@ void Test_WriteFile() {
 	ASSERT(std::memcmp(TestString, InputString, 11) == 0);
 
 	/* Output a zero-sized file */
-	ASSERT(WriteFile(TestString, 0, _T("c:\\temp\\test1.dat")) == TRUE);
-	ASSERT(FileExists(_T("c:\\temp\\test1.dat")) == TRUE);
+	ASSERT(WriteFile(TestString, 0, _T("c:\\temp\\test1.dat")) == true);
+	ASSERT(FileExists(_T("c:\\temp\\test1.dat")) == true);
 
 	/* Test outputting an invalid file */
-	ASSERT(WriteFile(TestString, 10, _T("c:\\temp123\\tes.t1.dat")) == FALSE);
+	ASSERT(WriteFile(TestString, 10, _T("c:\\temp123\\tes.t1.dat")) == false);
 }
 
 

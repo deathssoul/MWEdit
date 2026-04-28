@@ -11,8 +11,7 @@
 #ifndef __ESMGLOBOPTIONS_H
 #define __ESMGLOBOPTIONS_H
 
-#include <winnt.h>
-
+#include "common/dl_base.h"
 #include "mwedit/script_options.h"
 
 bool GetEsmOptNoScriptFormat();

@@ -20,6 +20,7 @@
 #include <cstddef>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
 #include "game/morrowind/npc.h"
@@ -29,10 +30,10 @@
 #include "ui/Resource.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmNpcPage2, CPropertyPage);
 DEFINE_FILE("EsmNpcPage2.cpp");
@@ -211,7 +212,7 @@ CMWEditDoc *CEsmNpcPage2::GetDocument() {
  * Class CEsmNpcPage2 Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CEsmNpcPage2::OnInitDialog() {
+bool CEsmNpcPage2::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
 
 	/* Spell List */
@@ -222,7 +223,7 @@ BOOL CEsmNpcPage2::OnInitDialog() {
 	m_SpellList.SetWantKeys(true);
 	m_SpellList.InitObjectList(&l_SpellColData[0]);
 
-	return TRUE;
+	return true;
 }
 
 

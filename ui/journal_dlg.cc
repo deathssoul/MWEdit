@@ -13,7 +13,6 @@
 #include <afxdd_.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
 
 #include <cstddef>
 #include <cstdlib>
@@ -29,16 +28,13 @@
 #include "ui/utils.h"
 #include "windows/win_util.h"
 
-
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("EsmJournalDlg.cpp");
-
-
 /*===========================================================================
  *
  * Begin CEsmJournalDlg Message Map
@@ -182,13 +178,13 @@ void CEsmJournalDlg::OnCancel() {
  * Class CEsmJournalDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CEsmJournalDlg::OnInitDialog() {
+bool CEsmJournalDlg::OnInitDialog() {
 	CDialog::OnInitDialog();
 	/* Initilaize the text controls */
 	m_NameText.SetLimitText(512);
 	m_IndexText.SetLimitText(8);
 	SetControlData();
-	return TRUE;
+	return true;
 }
 
 

@@ -20,6 +20,7 @@
 #include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
 #include "game/morrowind/sub_wpdt.h"
@@ -30,10 +31,10 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmWeaponDlg, CEsmRecDialog);
 DEFINE_FILE("EsmWeaponDlg.cpp");
@@ -137,6 +138,7 @@ void CEsmWeaponDlg::GetControlData() {
 	/* Weapon name */
 	m_NameText.GetWindowText(Buffer);
 	m_pWeapon->SetName(TrimStringSpace(Buffer));
+
 	/* Weapon type */
 	Index = m_TypeList.GetCurSel();
 
@@ -383,13 +385,13 @@ void CEsmWeaponDlg::SetControlData() {
 	m_ValueText.SetWindowText(m_pWeapon->GetFieldString(ESM_FIELD_VALUE));
 	m_EnchantText.SetWindowText(m_pWeapon->GetFieldString(ESM_FIELD_ENCHANTPTS));
 
-	m_NameText.SetModify(FALSE);
-	m_SpeedText.SetModify(FALSE);
-	m_ReachText.SetModify(FALSE);
-	m_HealthText.SetModify(FALSE);
-	m_WeightText.SetModify(FALSE);
-	m_ValueText.SetModify(FALSE);
-	m_EnchantText.SetModify(FALSE);
+	m_NameText.SetModify(false);
+	m_SpeedText.SetModify(false);
+	m_ReachText.SetModify(false);
+	m_HealthText.SetModify(false);
+	m_WeightText.SetModify(false);
+	m_ValueText.SetModify(false);
+	m_EnchantText.SetModify(false);
 
 	/* Damage */
 	m_ChopMinText.SetWindowText(m_pWeapon->GetFieldString(ESM_FIELD_CHOPMIN));
@@ -399,12 +401,12 @@ void CEsmWeaponDlg::SetControlData() {
 	m_ThrustMinText.SetWindowText(m_pWeapon->GetFieldString(ESM_FIELD_THRUSTMIN));
 	m_ThrustMaxText.SetWindowText(m_pWeapon->GetFieldString(ESM_FIELD_THRUSTMAX));
 
-	m_ChopMinText.SetModify(FALSE);
-	m_ChopMaxText.SetModify(FALSE);
-	m_SlashMinText.SetModify(FALSE);
-	m_SlashMaxText.SetModify(FALSE);
-	m_ThrustMinText.SetModify(FALSE);
-	m_ThrustMaxText.SetModify(FALSE);
+	m_ChopMinText.SetModify(false);
+	m_ChopMaxText.SetModify(false);
+	m_SlashMinText.SetModify(false);
+	m_SlashMaxText.SetModify(false);
+	m_ThrustMinText.SetModify(false);
+	m_ThrustMaxText.SetModify(false);
 
 	/* Model/icon buttons */
 	m_ModelButton.SetWindowText(m_pWeapon->GetModel());
@@ -464,13 +466,13 @@ void CEsmWeaponDlg::OnSelchangeTypelist() {
 		case MWESM_WEAPONTYPE_THROWN:
 		case MWESM_WEAPONTYPE_BOLT:
 		case MWESM_WEAPONTYPE_ARROW:
-			m_ScriptList.EnableWindow(FALSE);
-			m_ScriptButton.EnableWindow(FALSE);
+			m_ScriptList.EnableWindow(false);
+			m_ScriptButton.EnableWindow(false);
 			break;
 
 		default:
-			m_ScriptList.EnableWindow(TRUE);
-			m_ScriptButton.EnableWindow(TRUE);
+			m_ScriptList.EnableWindow(true);
+			m_ScriptButton.EnableWindow(true);
 			break;
 	}
 }

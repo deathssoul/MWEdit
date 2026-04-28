@@ -11,9 +11,11 @@
 
 #include <cstddef>
 #include <cstdio>
+#include <cstdlib>
 
 #include "common/dl_base.h"
 #include "common/dl_mem.h"
+#include "common/dl_str.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
 #include "game/morrowind/record.h"
@@ -234,7 +236,7 @@ void CEsmGlobal::OnAddSubRecord(CEsmSubRecord *pSubRecord) {
 bool CEsmGlobal::SetFieldValue(const int FieldID, const TCHAR *pString) {
 	switch (FieldID) {
 		case ESM_FIELD_VALUE:
-			SetValue((float)atof(pString));
+			SetValue((float)std::atof(pString));
 			return true;
 
 		case ESM_FIELD_TYPE: {

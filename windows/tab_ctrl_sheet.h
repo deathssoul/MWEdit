@@ -14,10 +14,11 @@
 #include <afxcmn.h>
 #include <afxdlgs.h>
 #include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
 #include <cstddef>
+
+#include "common/dl_base.h"
 
 /* Number of sheets allowed in the extended tab control */
 #define TCS_ARRAYSIZE 32

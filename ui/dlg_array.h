@@ -12,10 +12,10 @@
 
 #include <afx.h>
 #include <afxwin.h>
-#include <winnt.h>
 
 #include <cstddef>
 
+#include "common/dl_base.h"
 #include "common/container/ptr_array.h"
 #include "game/morrowind/file.h"
 #include "game/morrowind/record.h"

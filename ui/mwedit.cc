@@ -19,7 +19,6 @@
 #include <tchar.h>
 #include <windef.h>
 #include <wingdi.h>
-#include <winnt.h>
 
 #include <IL/il.h>
 
@@ -47,10 +46,10 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 
 /* Main application object */
@@ -224,7 +223,7 @@ CEsmFile *CMWEditApp::FindMaster(const TCHAR *pPathname) {
  * Description
  *
  *=========================================================================*/
-BOOL CMWEditApp::InitInstance() {
+bool CMWEditApp::InitInstance() {
 	AfxEnableControlContainer();
 	AfxInitRichEdit();
 	SystemLog.Open("mwedit.log");
@@ -369,7 +368,7 @@ BOOL CMWEditApp::InitInstance() {
 	CMainFrame *pMainFrame = new CMainFrame;
 
 	if (!pMainFrame->LoadFrame(IDR_MAINFRAME)) {
-		return FALSE;
+		return false;
 	}
 
 	m_pMainWnd = pMainFrame;
@@ -377,7 +376,7 @@ BOOL CMWEditApp::InitInstance() {
 	m_pMainWnd->DragAcceptFiles();
 	/* Enable DDE Execute open */
 	EnableShellOpen();
-	RegisterShellFileTypes(TRUE);
+	RegisterShellFileTypes(true);
 	/* Parse command line for standard shell commands, DDE, file open */
 	CCommandLineInfo cmdInfo;
 	ParseCommandLine(cmdInfo);
@@ -389,7 +388,7 @@ BOOL CMWEditApp::InitInstance() {
 	/* Display warning dialog */
 	// let's not. it's been 20 years
 	//pMainFrame->MessageBox(_T("WARNING: This version of MWEdit is a BETA version and still\nhas not been thoroughly tested. Please use caution and backup any\nplugins while editting. View the README.TXT file for more information."), _T("MWEdit Warning"), MB_OK | MB_ICONWARNING);
-	return TRUE;
+	return true;
 }
 
 
@@ -467,7 +466,7 @@ class CAboutDlg : public CDialog {
   protected:
 	//{{AFX_MSG(CAboutDlg)
 	afx_msg void OnSitelink();
-	virtual BOOL OnInitDialog();
+	virtual bool OnInitDialog();
 	afx_msg HBRUSH OnCtlColor(CDC *pDC, CWnd *pWnd, UINT nCtlColor);
 	//}}AFX_MSG
 
@@ -623,7 +622,7 @@ void CMWEditApp::OpenFuncHelpView(const TCHAR *pFunction) {
 	/* Initialize the frameview and display it */
 	SetInternalWindowText(m_hFuncHelpView, _T("Function Help"));
 	//MessageBox(NULL, "test1", "", MB_OK);
-	m_pFuncHelpView->InitialUpdateFrame(NULL, TRUE);
+	m_pFuncHelpView->InitialUpdateFrame(NULL, true);
 	//MessageBox(NULL, "test2", "", MB_OK);
 	m_pFuncHelpView->ActivateFrame(SW_SHOW);
 	//MessageBox(NULL, "test3", "", MB_OK);
@@ -665,10 +664,10 @@ void CAboutDlg::OnSitelink() {
  * Class CAboutDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CAboutDlg::OnInitDialog() {
+bool CAboutDlg::OnInitDialog() {
 	CDialog::OnInitDialog();
 	m_SiteLink.SetFont(&m_Font);
-	return TRUE;
+	return true;
 }
 
 

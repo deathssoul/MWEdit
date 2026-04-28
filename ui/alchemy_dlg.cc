@@ -399,9 +399,9 @@ void CEsmAlchemyDlg::OnSelChangeEffectList(const int ListIndex) {
 	if (EffectID < 0 || pEffectData == NULL) {
 		m_pEffectInfo[ListIndex] = NULL;
 		m_SkillList[ListIndex].ResetContent();
-		m_SkillList[ListIndex].EnableWindow(FALSE);
-		m_DurationText[ListIndex].EnableWindow(FALSE);
-		m_MagnitudeText[ListIndex].EnableWindow(FALSE);
+		m_SkillList[ListIndex].EnableWindow(false);
+		m_DurationText[ListIndex].EnableWindow(false);
+		m_MagnitudeText[ListIndex].EnableWindow(false);
 		m_DurationText[ListIndex].SetWindowText(_T(""));
 		m_MagnitudeText[ListIndex].SetWindowText(_T(""));
 		m_CostText[ListIndex].SetWindowText(_T(""));
@@ -413,32 +413,32 @@ void CEsmAlchemyDlg::OnSelChangeEffectList(const int ListIndex) {
 	/* Enable the input controls if required */
 
 	if (pEffectData->HasDuration()) {
-		m_DurationText[ListIndex].EnableWindow(TRUE);
+		m_DurationText[ListIndex].EnableWindow(true);
 	} else {
-		m_DurationText[ListIndex].EnableWindow(FALSE);
+		m_DurationText[ListIndex].EnableWindow(false);
 		m_DurationText[ListIndex].SetWindowText(_T(""));
 	}
 
 	if (pEffectData->HasMagnitude()) {
-		m_MagnitudeText[ListIndex].EnableWindow(TRUE);
+		m_MagnitudeText[ListIndex].EnableWindow(true);
 	} else {
-		m_MagnitudeText[ListIndex].EnableWindow(FALSE);
+		m_MagnitudeText[ListIndex].EnableWindow(false);
 		m_MagnitudeText[ListIndex].SetWindowText(_T(""));
 	}
 
 	/* Enable or disable the skill list */
 
 	if (IsESMSkillEffect(EffectID)) {
-		m_SkillList[ListIndex].EnableWindow(TRUE);
+		m_SkillList[ListIndex].EnableWindow(true);
 		FillEsmSkillsCombo(m_SkillList[ListIndex]);
 		m_SkillList[ListIndex].SetCurSel(0);
 	} else if (IsESMAttributeEffect(EffectID)) {
-		m_SkillList[ListIndex].EnableWindow(TRUE);
+		m_SkillList[ListIndex].EnableWindow(true);
 		FillEsmAttributesCombo(m_SkillList[ListIndex]);
 		m_SkillList[ListIndex].SetCurSel(0);
 	} else {
 		m_SkillList[ListIndex].ResetContent();
-		m_SkillList[ListIndex].EnableWindow(FALSE);
+		m_SkillList[ListIndex].EnableWindow(false);
 	}
 
 	UpdateSpellCost(ListIndex);
@@ -501,9 +501,9 @@ void CEsmAlchemyDlg::SetControlData() {
 	m_WeightText.SetWindowText(m_pAlchemy->GetFieldString(ESM_FIELD_WEIGHT));
 	m_ValueText.SetWindowText(m_pAlchemy->GetFieldString(ESM_FIELD_VALUE));
 	m_ValueText.EnableWindow(!m_pAlchemy->IsAutoCalc());
-	m_NameText.SetModify(FALSE);
-	m_WeightText.SetModify(FALSE);
-	m_ValueText.SetModify(FALSE);
+	m_NameText.SetModify(false);
+	m_WeightText.SetModify(false);
+	m_ValueText.SetModify(false);
 
 	/* Model/icon buttons */
 	m_ModelButton.SetWindowText(m_pAlchemy->GetModel());
@@ -548,11 +548,11 @@ void CEsmAlchemyDlg::SetEffectData(const int EffectIndex, CEsmSubENAM *pEffectRe
 	if (pEnchantData == NULL || pEffectData == NULL) {
 		m_pEffectInfo[EffectIndex] = NULL;
 		m_EffectList[EffectIndex].SelectString(-1, _T(""));
-		m_SkillList[EffectIndex].EnableWindow(FALSE);
-		m_DurationText[EffectIndex].EnableWindow(FALSE);
-		m_MagnitudeText[EffectIndex].EnableWindow(FALSE);
-		m_DurationText[EffectIndex].SetModify(FALSE);
-		m_MagnitudeText[EffectIndex].SetModify(FALSE);
+		m_SkillList[EffectIndex].EnableWindow(false);
+		m_DurationText[EffectIndex].EnableWindow(false);
+		m_MagnitudeText[EffectIndex].EnableWindow(false);
+		m_DurationText[EffectIndex].SetModify(false);
+		m_MagnitudeText[EffectIndex].SetModify(false);
 		return;
 	}
 
@@ -563,26 +563,26 @@ void CEsmAlchemyDlg::SetEffectData(const int EffectIndex, CEsmSubENAM *pEffectRe
 
 	if (pEffectData->HasMagnitude()) {
 		Buffer.Format(_T("%d"), (int)pEnchantData->MagMin);
-		m_MagnitudeText[EffectIndex].EnableWindow(TRUE);
+		m_MagnitudeText[EffectIndex].EnableWindow(true);
 		m_MagnitudeText[EffectIndex].SetWindowText(Buffer);
-		m_MagnitudeText[EffectIndex].SetModify(FALSE);
+		m_MagnitudeText[EffectIndex].SetModify(false);
 	} else {
-		m_MagnitudeText[EffectIndex].EnableWindow(FALSE);
+		m_MagnitudeText[EffectIndex].EnableWindow(false);
 		m_MagnitudeText[EffectIndex].SetWindowText(_T(""));
-		m_MagnitudeText[EffectIndex].SetModify(FALSE);
+		m_MagnitudeText[EffectIndex].SetModify(false);
 	}
 
 	/* Set the effect duration */
 
 	if (pEffectData->HasDuration()) {
 		Buffer.Format(_T("%d"), (int)pEnchantData->Duration);
-		m_DurationText[EffectIndex].EnableWindow(TRUE);
+		m_DurationText[EffectIndex].EnableWindow(true);
 		m_DurationText[EffectIndex].SetWindowText(Buffer);
-		m_DurationText[EffectIndex].SetModify(FALSE);
+		m_DurationText[EffectIndex].SetModify(false);
 	} else {
-		m_DurationText[EffectIndex].EnableWindow(FALSE);
+		m_DurationText[EffectIndex].EnableWindow(false);
 		m_DurationText[EffectIndex].SetWindowText(_T(""));
-		m_DurationText[EffectIndex].SetModify(FALSE);
+		m_DurationText[EffectIndex].SetModify(false);
 	}
 
 	/* Set the effect cost and total cost */
@@ -594,15 +594,15 @@ void CEsmAlchemyDlg::SetEffectData(const int EffectIndex, CEsmSubENAM *pEffectRe
 	/* Fill in the skill list as required */
 
 	if (IsESMSkillEffect(pEnchantData->EffectID)) {
-		m_SkillList[EffectIndex].EnableWindow(TRUE);
+		m_SkillList[EffectIndex].EnableWindow(true);
 		FillEsmSkillsCombo(m_SkillList[EffectIndex]);
 		FindComboListItem(m_SkillList[EffectIndex], pEnchantData->SkillID, true);
 	} else if (IsESMAttributeEffect(pEnchantData->EffectID)) {
-		m_SkillList[EffectIndex].EnableWindow(TRUE);
+		m_SkillList[EffectIndex].EnableWindow(true);
 		FillEsmAttributesCombo(m_SkillList[EffectIndex]);
 		FindComboListItem(m_SkillList[EffectIndex], pEnchantData->AttributeID, true);
 	} else {
-		m_SkillList[EffectIndex].EnableWindow(FALSE);
+		m_SkillList[EffectIndex].EnableWindow(false);
 	}
 
 	UpdateSpellCost(EffectIndex);

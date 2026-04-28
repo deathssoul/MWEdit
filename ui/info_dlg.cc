@@ -13,14 +13,13 @@
 #include <afxdd_.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
-#include <winnt.h>
 
 #include <cstddef>
 #include <cstdlib>
 
 #include "common/dl_base.h"
 #include "common/dl_mem.h"
+#include "common/dl_str.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/dialogue.h"
 #include "game/morrowind/info.h"
@@ -35,10 +34,10 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("EsmInfoDlg.cpp");
 /*===========================================================================
@@ -381,7 +380,7 @@ void CEsmInfoDlg::OnCancel() {
  * Class CEsmInfoDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CEsmInfoDlg::OnInitDialog() {
+bool CEsmInfoDlg::OnInitDialog() {
 	int ArrayIndex;
 	CDialog::OnInitDialog();
 
@@ -421,7 +420,7 @@ BOOL CEsmInfoDlg::OnInitDialog() {
 	}
 
 	SetControlData();
-	return TRUE;
+	return true;
 }
 
 
@@ -456,9 +455,9 @@ void CEsmInfoDlg::OnSelChangeTypeList(const int Index) {
 	switch (NewType) {
 		case MWESM_SCVRFUNC_NONE:
 			m_FuncVarList[Index].ResetContent();
-			m_FuncVarList[Index].EnableWindow(FALSE);
-			m_CompareList[Index].EnableWindow(FALSE);
-			m_ValueText[Index].EnableWindow(FALSE);
+			m_FuncVarList[Index].EnableWindow(false);
+			m_CompareList[Index].EnableWindow(false);
+			m_ValueText[Index].EnableWindow(false);
 			return;
 
 		case MWESM_SCVRFUNC_FUNCTION:
@@ -504,9 +503,9 @@ void CEsmInfoDlg::OnSelChangeTypeList(const int Index) {
 			break;
 	}
 
-	m_FuncVarList[Index].EnableWindow(TRUE);
-	m_CompareList[Index].EnableWindow(TRUE);
-	m_ValueText[Index].EnableWindow(TRUE);
+	m_FuncVarList[Index].EnableWindow(true);
+	m_CompareList[Index].EnableWindow(true);
+	m_ValueText[Index].EnableWindow(true);
 
 	if (m_CompareList[Index].GetCurSel() < 0) {
 		m_CompareList[Index].SetCurSel(0);
@@ -572,12 +571,12 @@ void CEsmInfoDlg::SetControlData() {
 	FindComboListItem(m_PCRankList, pInfoData->PCRank, true);
 
 	if (m_pInfo->GetActor() != NULL && m_pInfo->GetActor()[0] != NULL_CHAR) {
-		m_CellList.EnableWindow(FALSE);
-		m_RaceList.EnableWindow(FALSE);
-		m_RankList.EnableWindow(FALSE);
-		m_ClassList.EnableWindow(FALSE);
-		m_FactionList.EnableWindow(FALSE);
-		m_GenderList.EnableWindow(FALSE);
+		m_CellList.EnableWindow(false);
+		m_RaceList.EnableWindow(false);
+		m_RankList.EnableWindow(false);
+		m_ClassList.EnableWindow(false);
+		m_FactionList.EnableWindow(false);
+		m_GenderList.EnableWindow(false);
 	}
 
 	pFuncData = (CEsmSubSCVR *)m_pInfo->FindFirst(MWESM_SUBREC_SCVR, ArrayIndex);
@@ -616,9 +615,9 @@ void CEsmInfoDlg::SetFuncData(const int Index, CEsmSubSCVR *pFuncData, CEsmSubRe
 	if (pFuncData == NULL || pData->Type == MWESM_SCVRFUNC_NONE) {
 		m_TypeList[Index].SelectString(-1, _T(""));
 		m_FuncVarList[Index].SetCurSel(-1);
-		m_FuncVarList[Index].EnableWindow(FALSE);
-		m_CompareList[Index].EnableWindow(FALSE);
-		m_ValueText[Index].EnableWindow(FALSE);
+		m_FuncVarList[Index].EnableWindow(false);
+		m_CompareList[Index].EnableWindow(false);
+		m_ValueText[Index].EnableWindow(false);
 		return;
 	}
 
@@ -656,17 +655,17 @@ void CEsmInfoDlg::OnSelchangeIdlist() {
 	CString Buffer;
 	m_IDList.GetWindowText(Buffer);
 
-	if (!Buffer.IsEmpty()) {
-		m_RaceList.EnableWindow(FALSE);
-		m_ClassList.EnableWindow(FALSE);
-		m_FactionList.EnableWindow(FALSE);
-		m_RankList.EnableWindow(FALSE);
-		m_GenderList.EnableWindow(FALSE);
+	if (!Buffer.IsEmpty()) {  // TODO: Can be reduced by setting a flag and then just passing the flag to the functions. May be a moot point with the GUI toolkit switch on the horizon, though
+		m_RaceList.EnableWindow(false);
+		m_ClassList.EnableWindow(false);
+		m_FactionList.EnableWindow(false);
+		m_RankList.EnableWindow(false);
+		m_GenderList.EnableWindow(false);
 	} else {
-		m_RaceList.EnableWindow(TRUE);
-		m_ClassList.EnableWindow(TRUE);
-		m_FactionList.EnableWindow(TRUE);
-		m_RankList.EnableWindow(TRUE);
-		m_GenderList.EnableWindow(TRUE);
+		m_RaceList.EnableWindow(true);
+		m_ClassList.EnableWindow(true);
+		m_FactionList.EnableWindow(true);
+		m_RankList.EnableWindow(true);
+		m_GenderList.EnableWindow(true);
 	}
 }

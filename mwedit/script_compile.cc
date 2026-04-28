@@ -29,8 +29,6 @@
 
 //#include <string.h>  // TODO: Required for non-standard extension _stricmp()
 
-#include <winnt.h>
-
 #include <cctype>
 #include <cstdarg>
 #include <cstddef>
@@ -2127,7 +2125,8 @@ int l_EsmScrCharTypes[257] = {
  * Class CEsmScriptCompile Constructor
  *
  *=========================================================================*/
-CEsmScriptCompile::CEsmScriptCompile() : m_Token(100), m_ErrorArray(0) {
+CEsmScriptCompile::CEsmScriptCompile() : m_Token(100),
+                                         m_ErrorArray(0) {
 	//DEFINE_FUNCTION("CEsmScriptCompile::&CEsmScriptCompile()");
 	m_pCharTypes = l_EsmScrCharTypes;
 	m_pScriptText = NULL;
@@ -2176,6 +2175,7 @@ void CEsmScriptCompile::Destroy() {
 	DestroyArrayPointer(m_pLocalVarData);
 	ClearErrors();
 	m_ErrorMessage.Empty();
+
 	m_HasErrorMsg = false;
 	m_LastTokenNegative = false;
 	m_pParse = NULL;
@@ -2197,6 +2197,7 @@ void CEsmScriptCompile::Destroy() {
 	m_ScriptDataSize = 0;
 	m_LastLineDataPos = 0;
 	m_StatementCount = 0;
+
 	/* Clear the expression stack */
 	ClearExprStack();
 	ClearIfStatementStack();
@@ -4401,7 +4402,7 @@ int CEsmScriptCompile::ParseFuncArg1() {
 	} else if (Result == ESMSC_FUNCARG_ERROR) {
 		return ESMSCR_RESULT_ERROR;
 	} else if (Result == ESMSC_FUNCARG_ENDTABLE) {
-		//return (ESMSCR_RESULT_ERROR);
+		//return ESMSCR_RESULT_ERROR;
 		return ESMSCR_RESULT_TABLEEND;
 	}
 
@@ -4739,7 +4740,7 @@ int CEsmScriptCompile::ParseFuncArg() {
 
 				case ESMSCR_TOKEN_NUMBER:
 					if ((FuncFlags & ESMSCR_FUNC_EFFECT) != 0) {
-						iResult = atoi(m_Token);
+						iResult = std::atoi(m_Token);
 
 						if (iResult < 0 || iResult >= MWESM_EFFECT_MAX) {
 							Result = AddMessage(ESMSCR_ERROR_BADFUNCARG,
@@ -6636,7 +6637,7 @@ int CEsmScriptCompile::OutputFuncArgReset() {
 }
 
 int CEsmScriptCompile::OutputFuncArgXYZ() {
-	char Byte = toupper(m_Token[0]);
+	char Byte = std::toupper(m_Token[0]);
 	AddScriptData(&Byte, 1);
 	return 0;
 }

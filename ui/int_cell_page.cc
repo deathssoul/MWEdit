@@ -14,13 +14,13 @@
 #include <afxdlgs.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
 #include <wingdi.h>
 
 #include <cstddef>
 #include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/cell.h"
 #include "game/morrowind/file.h"
 #include "game/morrowind/sub_ambi.h"
@@ -31,10 +31,10 @@
 #include "ui/utils.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmIntCellPage, CPropertyPage);
 DEFINE_FILE("EsmIntCellPage.cpp");
@@ -225,7 +225,7 @@ CMWEditDoc *CEsmIntCellPage::GetDocument() {
  * Class CEsmIntCellPage Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CEsmIntCellPage::OnInitDialog() {
+bool CEsmIntCellPage::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
 	FillEsmRegionCombo(m_RegionList);
 
@@ -251,7 +251,7 @@ BOOL CEsmIntCellPage::OnInitDialog() {
 	m_GSpinF.SetRange32(0, 255);
 	m_BSpinF.SetRange32(0, 255);
 
-	return TRUE;
+	return true;
 }
 
 
@@ -311,22 +311,22 @@ void CEsmIntCellPage::SetControlData() {
 	}
 
 	if ((pCell->GetFlags() & MWESM_CELLFLAG_HASWATER) != 0) {
-		m_WaterCheck.SetCheck(TRUE);
+		m_WaterCheck.SetCheck(true);
 		Buffer.Format(_T("%f"), pCell->GetWaterHeight());
 		m_WaterText.SetWindowText(Buffer);
 	} else {
-		m_WaterCheck.SetCheck(FALSE);
-		m_WaterText.EnableWindow(FALSE);
+		m_WaterCheck.SetCheck(false);
+		m_WaterText.EnableWindow(false);
 	}
 
 	m_SleepCheck.SetCheck((pCell->GetFlags() & MWESM_CELLFLAG_SLEEPILLEGAL) != 0);
 
 	if ((pCell->GetFlags() & MWESM_CELLFLAG_SLEEPILLEGAL) != 0) {
-		m_ExteriorCheck.SetCheck(FALSE);
+		m_ExteriorCheck.SetCheck(false);
 		m_RegionList.SelectString(-1, pCell->GetRegion());
 	} else {
-		m_ExteriorCheck.SetCheck(FALSE);
-		m_RegionList.EnableWindow(FALSE);
+		m_ExteriorCheck.SetCheck(false);
+		m_RegionList.EnableWindow(false);
 	}
 
 	OnExteriorcheck();

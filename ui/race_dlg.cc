@@ -21,6 +21,7 @@
 #include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
 #include "game/morrowind/race.h"
@@ -34,10 +35,10 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("EsmRaceDlg.cpp");
 IMPLEMENT_DYNCREATE(CEsmRaceDlg, CEsmRecDialog);
@@ -557,15 +558,15 @@ void CEsmRaceDlg::SetControlData() {
 	/* Item ID, update title as well */
 	m_IDText.SetWindowText(m_pRace->GetID());
 	UpdateTitle(m_pRace->GetID());
-	m_IDText.SetModify(FALSE);
+	m_IDText.SetModify(false);
 
 	/* Item name */
 	m_NameText.SetWindowText(m_pRace->GetName());
-	m_NameText.SetModify(FALSE);
+	m_NameText.SetModify(false);
 
 	/* Item description */
 	m_DescText.SetWindowText(m_pRace->GetDescription());
-	m_DescText.SetModify(FALSE);
+	m_DescText.SetModify(false);
 
 	/* Skill lists */
 	FindComboListItem(m_SkillList1, pRaceData->SkillBonuses[0].SkillID, true);
@@ -744,10 +745,10 @@ void CEsmRaceDlg::OnSelchangeSkilllist1() {
 	Index = m_SkillList1.GetCurSel();
 
 	if (Index < 0 || (int)m_SkillList1.GetItemData(Index) < 0) {
-		m_BonusText1.EnableWindow(FALSE);
+		m_BonusText1.EnableWindow(false);
 		m_BonusText1.SetWindowText(_T(""));
 	} else {
-		m_BonusText1.EnableWindow(TRUE);
+		m_BonusText1.EnableWindow(true);
 	}
 }
 
@@ -756,10 +757,10 @@ void CEsmRaceDlg::OnSelchangeSkilllist2() {
 	Index = m_SkillList2.GetCurSel();
 
 	if (Index < 0 || (int)m_SkillList2.GetItemData(Index) < 0) {
-		m_BonusText2.EnableWindow(FALSE);
+		m_BonusText2.EnableWindow(false);
 		m_BonusText2.SetWindowText(_T(""));
 	} else {
-		m_BonusText2.EnableWindow(TRUE);
+		m_BonusText2.EnableWindow(true);
 	}
 }
 
@@ -768,10 +769,10 @@ void CEsmRaceDlg::OnSelchangeSkilllist3() {
 	Index = m_SkillList3.GetCurSel();
 
 	if (Index < 0 || (int)m_SkillList3.GetItemData(Index) < 0) {
-		m_BonusText3.EnableWindow(FALSE);
+		m_BonusText3.EnableWindow(false);
 		m_BonusText3.SetWindowText(_T(""));
 	} else {
-		m_BonusText3.EnableWindow(TRUE);
+		m_BonusText3.EnableWindow(true);
 	}
 }
 
@@ -780,10 +781,10 @@ void CEsmRaceDlg::OnSelchangeSkilllist4() {
 	Index = m_SkillList4.GetCurSel();
 
 	if (Index < 0 || (int)m_SkillList4.GetItemData(Index) < 0) {
-		m_BonusText4.EnableWindow(FALSE);
+		m_BonusText4.EnableWindow(false);
 		m_BonusText4.SetWindowText(_T(""));
 	} else {
-		m_BonusText4.EnableWindow(TRUE);
+		m_BonusText4.EnableWindow(true);
 	}
 }
 
@@ -792,10 +793,10 @@ void CEsmRaceDlg::OnSelchangeSkilllist5() {
 	Index = m_SkillList5.GetCurSel();
 
 	if (Index < 0 || (int)m_SkillList5.GetItemData(Index) < 0) {
-		m_BonusText5.EnableWindow(FALSE);
+		m_BonusText5.EnableWindow(false);
 		m_BonusText5.SetWindowText(_T(""));
 	} else {
-		m_BonusText5.EnableWindow(TRUE);
+		m_BonusText5.EnableWindow(true);
 	}
 }
 
@@ -804,10 +805,10 @@ void CEsmRaceDlg::OnSelchangeSkilllist6() {
 	Index = m_SkillList6.GetCurSel();
 
 	if (Index < 0 || (int)m_SkillList6.GetItemData(Index) < 0) {
-		m_BonusText6.EnableWindow(FALSE);
+		m_BonusText6.EnableWindow(false);
 		m_BonusText6.SetWindowText(_T(""));
 	} else {
-		m_BonusText6.EnableWindow(TRUE);
+		m_BonusText6.EnableWindow(true);
 	}
 }
 
@@ -816,9 +817,9 @@ void CEsmRaceDlg::OnSelchangeSkilllist7() {
 	Index = m_SkillList7.GetCurSel();
 
 	if (Index < 0 || (int)m_SkillList7.GetItemData(Index) < 0) {
-		m_BonusText7.EnableWindow(FALSE);
+		m_BonusText7.EnableWindow(false);
 		m_BonusText7.SetWindowText(_T(""));
 	} else {
-		m_BonusText7.EnableWindow(TRUE);
+		m_BonusText7.EnableWindow(true);
 	}
 }

@@ -11,7 +11,8 @@
 #define __ESMICONFRAME_H
 
 #include <afxwin.h>
-#include <winnt.h>
+
+#include "common/dl_base.h"
 
 /* Default icon width/height */
 #define MWESM_ICON_DEFAULTWIDTH  32

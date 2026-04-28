@@ -11,12 +11,11 @@
 
 //#include <string.h>  // TODO: Required for non-standard extension _stricmp()
 
-#include <winnt.h>
-
 #include <cctype>
 #include <cstddef>
 
 #include "common/dl_base.h"
+#include "common/dl_str.h"
 #include "mwedit/mw_custom_func.h"
 
 DEFINE_FILE("EsmScriptDefs.cpp");

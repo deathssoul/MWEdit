@@ -24,6 +24,8 @@
 #include <cstring>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
+#include "common/dl_str.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
 #include "game/morrowind/npc.h"
@@ -34,10 +36,10 @@
 #include "ui/utils.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmNpcPage1, CPropertyPage);
 DEFINE_FILE("EsmNpcPage1.cpp");
@@ -380,7 +382,7 @@ void CEsmNpcPage1::OnEndlabeleditItemlist(NMHDR *pNMHDR, LRESULT *pResult) {
  * Class CEsmNpcPage1 Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CEsmNpcPage1::OnInitDialog() {
+bool CEsmNpcPage1::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
 
 	/* Spell List */
@@ -420,7 +422,7 @@ BOOL CEsmNpcPage1::OnInitDialog() {
 	FillEsmFactionCombo(m_FactionList, true);
 	FillEsmBloodTypeCombo(m_BloodList);
 
-	return TRUE;
+	return true;
 }
 
 
@@ -553,7 +555,7 @@ void CEsmNpcPage1::SetControlData() {
 	FindComboListItem(m_BloodList, pNpc->GetFlag() & MWESM_NPCFLAG_BLOODMASK, true);
 
 	if (!pNpc->IsAutoCalc() && pLongData != NULL) {
-		m_AutoCalcCheck.SetCheck(FALSE);
+		m_AutoCalcCheck.SetCheck(false);
 
 		Buffer.Format(_T("%d"), (int)(byte)pLongData->Strength);
 		m_StrText.SetWindowText(Buffer);
@@ -600,7 +602,7 @@ void CEsmNpcPage1::SetControlData() {
 			m_SkillList.SetItemText(ListIndex, 0, Buffer);
 		}
 	} else {
-		m_AutoCalcCheck.SetCheck(TRUE);
+		m_AutoCalcCheck.SetCheck(true);
 		UpdateAutoCalc();
 
 		/* Skill list initialize */

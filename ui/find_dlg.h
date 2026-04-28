@@ -16,9 +16,9 @@
 #include <afxwin.h>
 #include <atltypes.h>
 #include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
+#include "common/dl_base.h"
 #include "ui/dlg_array.h"
 #include "ui/list_ctrl.h"
 #include "ui/Resource.h"
@@ -71,7 +71,7 @@ class CEsmFindDlg : public CFormView {
 
   public:
 	virtual void OnInitialUpdate();
-	virtual BOOL PreTranslateMessage(MSG *pMsg);
+	virtual bool PreTranslateMessage(MSG *pMsg);
 
   protected:
 	virtual void DoDataExchange(CDataExchange *pDX);

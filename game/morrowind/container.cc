@@ -11,6 +11,7 @@
 
 #include <cstddef>
 #include <cstdio>
+#include <cstdlib>
 
 #include "common/dl_base.h"
 #include "common/dl_mem.h"
@@ -232,7 +233,7 @@ void CEsmContainer::OnAddSubRecord(CEsmSubRecord *pSubRecord) {
 bool CEsmContainer::SetFieldValue(const int FieldID, const TCHAR *pString) {
 	switch (FieldID) {
 		case ESM_FIELD_WEIGHT:
-			SetWeight((float)atof(pString));
+			SetWeight((float)std::atof(pString));
 			return true;
 
 		case ESM_FIELD_ORGANIC:

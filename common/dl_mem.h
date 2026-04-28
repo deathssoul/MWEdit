@@ -261,13 +261,14 @@
  *
  *=========================================================================*/
 #if _WIN32
-	#define HEAP_OK       (1)
-	#define HEAP_CORRUPT  (0)
-	#define HEAP_EMPTY    (-9)
+#define HEAP_OK       (1)
+#define HEAP_CORRUPT  (0)
+#define HEAP_EMPTY    (-9)
+
 #else
-	#define HEAP_OK       (1)
-	#define HEAP_CORRUPT  (0)
-	#define HEAP_EMPTY    (-9)
+#define HEAP_OK       (1)
+#define HEAP_CORRUPT  (0)
+#define HEAP_EMPTY    (-9)
 #endif  // _WIN32
 
 /* Common values */
@@ -322,7 +323,7 @@ bool ReplaceString(TCHAR **pNewString, const std::size_t Length);
  *=========================================================================*/
 #if _DEBUG
 #if _WIN32
-#define DebugHeapCheckMemory() (_CrtDumpMemoryLeaks() == TRUE)
+#define DebugHeapCheckMemory() (_CrtDumpMemoryLeaks() == true)
 #endif  // _WIN32
 #endif  // _DEBUG
 
@@ -335,13 +336,13 @@ bool ReplaceString(TCHAR **pNewString, const std::size_t Length);
  *
  *=========================================================================*/
 #if _DEBUG
-	#define TEST_MAXSTRING_SIZE 100000u
-	void Test_DL_Mem();
-	void Test_CreateString1();
-	void Test_CreateString2();
-	void Test_CreateString3();
-	void Test_memsearch();
-	void Test_ReplaceString();
+#define TEST_MAXSTRING_SIZE 100000u
+void Test_DL_Mem();
+void Test_CreateString1();
+void Test_CreateString2();
+void Test_CreateString3();
+void Test_memsearch();
+void Test_ReplaceString();
 #endif  // _DEBUG
 
 

@@ -11,8 +11,6 @@
 
 //#include <string.h>  // Required for non-standard Windows extension _stricmp()
 
-#include <winnt.h>
-
 #include <cstddef>
 #include <cstdlib>
 #include <cstring>

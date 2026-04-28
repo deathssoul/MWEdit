@@ -12,8 +12,7 @@
 
 //#include <string.h>  // TODO: Required for non-standard extension _stricmp()
 
-#include <winnt.h>
-
+#include <cctype>
 #include <cstddef>
 #include <cstring>
 
@@ -643,7 +642,7 @@ inline dword CMwIdRecordMap::HashKey(const TCHAR *Key) {
 	dword nHash = 0;
 
 	while (*Key) {
-		nHash = (nHash << 5) + nHash + tolower(*Key);
+		nHash = (nHash << 5) + nHash + std::tolower(*Key);
 		++Key;
 	}
 

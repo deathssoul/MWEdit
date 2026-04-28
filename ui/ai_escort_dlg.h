@@ -13,11 +13,10 @@
 #include <afx.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
-#include <winnt.h>
 
 #include <cstddef>
 
+#include "common/dl_base.h"
 #include "game/morrowind/sub_ai_e.h"
 #include "ui/Resource.h"
 /*===========================================================================
@@ -83,7 +82,7 @@ class CEsmAiEscortDlg : public CDialog {
 	/* Generated message map functions */
 
 	//{{AFX_MSG(CEsmAiEscortDlg)
-	virtual BOOL OnInitDialog();
+	virtual bool OnInitDialog();
 	virtual void OnOK();
 	afx_msg void OnEscortcheck();
 	afx_msg void OnPointcheck();

@@ -21,7 +21,6 @@
 #include <atltypes.h>
 #include <commctrl.h>
 #include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
 #include <cstddef>
@@ -45,10 +44,10 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("EsmDialogDlg.cpp");
 IMPLEMENT_DYNCREATE(CEsmDialogDlg, CEsmRecDialog);
@@ -928,7 +927,7 @@ void CEsmDialogDlg::OnInitialUpdate() {
 	/* Disable filter list for journal IDs */
 
 	if (m_pDialog->GetDialogTypeID() == MWESM_DIALTYPE_JOURNAL) {
-		m_FilterList.EnableWindow(FALSE);
+		m_FilterList.EnableWindow(false);
 	} else {
 		FillEsmNpcCombo(m_FilterList, true);
 	}
@@ -1238,7 +1237,7 @@ void CEsmDialogDlg::OnMovedownbutton() {
 void CEsmDialogDlg::OnContextMenu(CWnd *pWnd, CPoint point) {
 	CMenu Menu;
 	CMenu *pPopup;
-	BOOL Result;
+	bool Result;
 
 	/* Ignore if not in the list control */
 

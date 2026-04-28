@@ -102,7 +102,7 @@ class CEsmSubENDT : public CEsmSubRecord {
 	}
 
 	void SetAutoCalc(const bool Flag) {
-		GetEnchantData()->AutoCalc = Flag ? 1 : 0;
+		GetEnchantData()->AutoCalc = Flag ? 1 : 0;  // TODO: Should probably be GetEnchantData()->AutoCalc = Flag
 	}
 };
 

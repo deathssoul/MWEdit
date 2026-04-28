@@ -11,9 +11,11 @@
 
 #include <cstddef>
 #include <cstdio>
+#include <cstdlib>
 
 #include "common/dl_base.h"
 #include "common/dl_err.h"
+#include "common/dl_log.h"
 #include "common/dl_mem.h"
 #include "common/dl_str.h"
 #include "common/file/gen_file.h"
@@ -164,13 +166,13 @@ int CEsmRecord::CompareFields(const int FieldID, CEsmRecord *pRecord) {
 		case ESM_FIELD_NAME:
 			return StringCompare(GetFieldString(ESM_FIELD_NAME),
 			                     pRecord->GetFieldString(ESM_FIELD_NAME),
-			                     FALSE);
+			                     false);
 
 		case ESM_FIELD_ID:
-			return StringCompare(GetID(), pRecord->GetID(), FALSE);
+			return StringCompare(GetID(), pRecord->GetID(), false);
 
 		case ESM_FIELD_ITEMTYPE:
-			return StringCompare(GetItemType(), pRecord->GetItemType(), FALSE);
+			return StringCompare(GetItemType(), pRecord->GetItemType(), false);
 
 		case ESM_FIELD_COUNT:
 			return (int)(m_RefCount - pRecord->GetRefCount());
@@ -189,7 +191,7 @@ int CEsmRecord::CompareFields(const int FieldID, CEsmRecord *pRecord) {
 			return GetUserData() - pRecord->GetUserData();
 
 		default:
-			return StringCompare(GetFieldString(FieldID), pRecord->GetFieldString(FieldID), FALSE);
+			return StringCompare(GetFieldString(FieldID), pRecord->GetFieldString(FieldID), false);
 	}
 }
 
@@ -657,11 +659,11 @@ bool CEsmRecord::SetFieldValue(const int FieldID, const TCHAR *pString) {
 			return true;
 
 		case ESM_FIELD_COUNT:
-			m_RefCount = atoi(pString);
+			m_RefCount = std::atoi(pString);
 			return true;
 
 		case ESM_FIELD_USERDATA:
-			m_UserData = atol(pString);
+			m_UserData = std::atol(pString);
 			return true;
 
 		case ESM_FIELD_PERSIST:

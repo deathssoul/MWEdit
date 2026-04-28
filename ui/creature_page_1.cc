@@ -14,12 +14,12 @@
 #include <afxdlgs.h>
 #include <afxwin.h>
 #include <atlstr.h>
-#include <windef.h>
 
 #include <cstddef>
 #include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/creature.h"
 #include "game/morrowind/file.h"
 #include "game/morrowind/sub_crdt.h"
@@ -28,10 +28,10 @@
 #include "ui/utils.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmCreaturePage1, CPropertyPage);
 DEFINE_FILE("EsmCreaturePage1.cpp");
@@ -340,7 +340,7 @@ void CEsmCreaturePage1::OnAnimationbutton() {
  * Class CEsmCreaturePage1 Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-BOOL CEsmCreaturePage1::OnInitDialog() {
+bool CEsmCreaturePage1::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
 
 	/* Text controls */
@@ -367,7 +367,7 @@ BOOL CEsmCreaturePage1::OnInitDialog() {
 	FillEsmSoundGenCreaCombo(m_SoundList);
 	FillEsmCreatureListCombo(m_TypeList);
 
-	return TRUE;
+	return true;
 }
 
 

@@ -22,6 +22,7 @@
 #include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/faction.h"
 #include "game/morrowind/file.h"
@@ -35,10 +36,10 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("EsmFactionDlg.cpp");
 IMPLEMENT_DYNCREATE(CEsmFactionDlg, CEsmRecDialog);
@@ -288,8 +289,8 @@ void CEsmFactionDlg::OnDelreaction() {
 	m_ReactionList.DeleteItem(ListIndex);
 
 	if (m_ReactionList.GetItemCount() == 0) {
-		m_AdjustText.EnableWindow(FALSE);
-		m_FactionList.EnableWindow(FALSE);
+		m_AdjustText.EnableWindow(false);
+		m_FactionList.EnableWindow(false);
 		m_AdjustText.SetWindowText(_T(""));
 		m_FactionList.SetCurSel(-1);
 	} else {
@@ -451,8 +452,8 @@ void CEsmFactionDlg::OnItemchangingReactionlist(NMHDR *pNMHDR, LRESULT *pResult)
  *
  *=========================================================================*/
 void CEsmFactionDlg::OnNewreaction() {
-	m_AdjustText.EnableWindow(TRUE);
-	m_FactionList.EnableWindow(TRUE);
+	m_AdjustText.EnableWindow(true);
+	m_FactionList.EnableWindow(true);
 	GetReactionData();
 	m_ReactionList.InsertItem(0, _T(""), -1);
 	m_ReactionList.SetItemState(0, LVIS_SELECTED, LVIS_SELECTED );
@@ -510,11 +511,11 @@ void CEsmFactionDlg::SetControlData() {
 	/* Item ID, update title as well */
 	m_IDText.SetWindowText(m_pFaction->GetID());
 	UpdateTitle(m_pFaction->GetID());
-	m_IDText.SetModify(FALSE);
+	m_IDText.SetModify(false);
 
 	/* Item name */
 	m_NameText.SetWindowText(m_pFaction->GetName());
-	m_NameText.SetModify(FALSE);
+	m_NameText.SetModify(false);
 
 	/* Attribute lists */
 	FindComboListItem(m_AttributeList1, pFactionData->AttributeID1, true);
@@ -577,8 +578,8 @@ void CEsmFactionDlg::SetControlData() {
 	m_ReactionList.SetItemState(0, LVIS_SELECTED, LVIS_SELECTED );
 
 	if (m_ReactionList.GetItemCount() == 0) {
-		m_AdjustText.EnableWindow(FALSE);
-		m_FactionList.EnableWindow(FALSE);
+		m_AdjustText.EnableWindow(false);
+		m_FactionList.EnableWindow(false);
 	}
 }
 

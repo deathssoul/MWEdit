@@ -15,9 +15,9 @@
 #include <afxwin.h>
 #include <atltypes.h>
 #include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
+#include "common/dl_base.h"
 #include "game/morrowind/dialogue.h"
 #include "game/morrowind/file.h"
 #include "ui/dlg_array.h"
@@ -185,7 +185,7 @@ class CMWEditView : public CFormView {
 	//{{AFX_VIRTUAL(CMWEditView)
 
   public:
-	virtual BOOL PreCreateWindow(CREATESTRUCT &cs);
+	virtual bool PreCreateWindow(CREATESTRUCT &cs);
 
   protected:
 	virtual void DoDataExchange(CDataExchange *pDX);

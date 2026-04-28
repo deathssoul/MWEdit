@@ -16,6 +16,7 @@
 
 #include "common/dl_base.h"
 #include "common/dl_err.h"
+#include "common/dl_log.h"
 #include "common/dl_mem.h"
 #include "common/file/gen_file.h"
 #include "common/images/rgb_pal.h"
@@ -143,7 +144,7 @@ bool CPcxFile::Load(const char *pFilename) {
 	Result = Open(pFilename, "rb");
 
 	if (!Result) {
-		return FALSE;
+		return false;
 	}
 
 	/* Clear the current image contents, if any */
@@ -180,13 +181,13 @@ bool CPcxFile::ReadHeader() {
 	Result = CGenFile::Read((char *)&m_Header, sizeof(pcxheader_t));
 
 	if (!Result) {
-		return FALSE;
+		return false;
 	}
 
 	/* Adjust image size now to make life easier */
 	m_Header.Width++;
 	m_Header.Height++;
-	return TRUE;
+	return true;
 }
 
 
@@ -216,12 +217,12 @@ bool CPcxFile::ReadImage() {
 	/* Check for size overflow */
 	if ((ulong)m_ImageSize >= (long)UINT_MAX) {
 		ErrorHandler.AddError(PCXERR_BIGIMAGE);
-		return FALSE;
+		return false;
 	} else if (m_ImageSize < 0) { /* Check for a negative image size */
 		ErrorHandler.AddError(PCXERR_IMAGESIZE);
-		return FALSE;
+		return false;
 	} else if (m_ImageSize == 0) { /* Ignore if no data to load */
-		return TRUE;
+		return true;
 	}
 
 	/* Allocate image data */
@@ -287,11 +288,11 @@ bool CPcxFile::ReadImage() {
 
 		/* Check for errors */
 		if (IsError() || IsEOF()) {
-			return FALSE;
+			return false;
 		}
 	} /* End while loop */
 
-	return TRUE;
+	return true;
 }
 
 
@@ -340,7 +341,7 @@ bool CPcxFile::Save(const char *pFilename) {
 	Result = Open(pFilename, "wb");
 
 	if (!Result) {
-		return FALSE;
+		return false;
 	}
 
 	/* Output the PCX data */
@@ -399,7 +400,7 @@ bool CPcxFile::WriteImage() {
 
 	/* Ignore if no image to write */
 	if (m_ImageSize == 0 || m_pData == NULL) {
-		return TRUE;
+		return true;
 	}
 
 	/* Initialize compression and output variables */
@@ -435,7 +436,7 @@ bool CPcxFile::WriteImage() {
 
 		/* Check for error conditions */
 		if (IsError() || IsEOF()) {
-			return FALSE;
+			return false;
 		}
 
 		if (Column == m_Header.Width) {
@@ -447,7 +448,7 @@ bool CPcxFile::WriteImage() {
 		Column++;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -465,7 +466,7 @@ bool CPcxFile::WritePalette() {
 
 	/* Ignore if nothing to write */
 	if (m_PaletteSize == 0 || m_pPalette == NULL) {
-		return TRUE;
+		return true;
 	}
 
 	/* Need this to seperate the image and palette data? */
@@ -491,7 +492,7 @@ bool CreatePCXErrors() {
 	ErrorDatabase.Add(PCXERR_BIGIMAGE,
 	                  "PCX image size exceeds the maximum allocation size for this system!");
 	ErrorDatabase.Add(PCXERR_IMAGESIZE, "PCX image size is not valid!");
-	return TRUE;
+	return true;
 }
 
 /* Add the errors automatically on startup */

@@ -13,6 +13,7 @@
 #include <cstddef>
 
 #include "common/dl_base.h"
+#include "common/dl_str.h"
 #include "common/container/dl_map.h"
 #include "common/file/gen_file.h"
 #include "common/string/sstring.h"

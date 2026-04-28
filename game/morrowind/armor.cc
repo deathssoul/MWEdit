@@ -11,8 +11,10 @@
 
 #include <cstddef>
 #include <cstdio>
+#include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "common/dl_mem.h"
 #include "common/dl_str.h"
 #include "game/morrowind/defs.h"
@@ -152,7 +154,7 @@ int CEsmArmor::CompareFields(const int FieldID, CEsmRecord *pRecord) {
 			return GetArmorData()->Rating - pArmor->GetArmorData()->Rating;
 
 		case ESM_FIELD_TYPE:
-			return StringCompare(GetArmorType(), pArmor->GetArmorType(), FALSE);
+			return StringCompare(GetArmorType(), pArmor->GetArmorType(), false);
 
 		default:
 			return CEsmItem3::CompareFields(FieldID, pRecord);
@@ -278,11 +280,11 @@ bool CEsmArmor::SetFieldValue(const int FieldID, const TCHAR *pString) {
 		}
 
 		case ESM_FIELD_HEALTH:
-			SetArmorHealth(atol(pString));
+			SetArmorHealth(std::atol(pString));
 			return true;
 
 		case ESM_FIELD_RATING:
-			SetArmorRating(atol(pString));
+			SetArmorRating(std::atol(pString));
 			return true;
 	};
 

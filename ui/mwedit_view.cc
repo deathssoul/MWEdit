@@ -20,7 +20,6 @@
 #include <atltypes.h>
 #include <commctrl.h>
 #include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
 #include <cstdarg>
@@ -50,15 +49,13 @@
 #include "ui/script_compare_dlg.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CMWEditView, CFormView);
 DEFINE_FILE("MWEditView.cpp");
-
-
 /*===========================================================================
  *
  * Begin Object Column Data Array
@@ -3562,7 +3559,7 @@ void CMWEditView::DoDataExchange(CDataExchange *pDX) {
  *
  *=========================================================================*/
 void CMWEditView::ExportScripts() {
-	CFileDialog FileDlg(FALSE, _T("txt"), NULL, OFN_HIDEREADONLY, ESM_IMPORTSCPT_FILTER, this);
+	CFileDialog FileDlg(false, _T("txt"), NULL, OFN_HIDEREADONLY, ESM_IMPORTSCPT_FILTER, this);
 	CString PathBuffer;
 	esmrecinfo_t *pRecInfo;
 	CEsmScript *pScript;
@@ -3639,13 +3636,13 @@ void CMWEditView::FillDialogueList(esmcoldata_t *pColData, const int DialType) {
 	bool ViewChanged = GetDocument()->GetViewChanged();
 
 	/* Initialize the list */
-	m_ObjectList.SetRedraw(FALSE);
+	m_ObjectList.SetRedraw(false);
 	m_ObjectList.InitObjectList(pColData);
 
 	/* Ensure the column data is valid */
 
 	if (pColData == NULL) {
-		m_ObjectList.SetRedraw(TRUE);
+		m_ObjectList.SetRedraw(true);
 		return;
 	}
 
@@ -3672,7 +3669,7 @@ void CMWEditView::FillDialogueList(esmcoldata_t *pColData, const int DialType) {
 		pRecInfo = GetDocument()->FindNextRecord(MWESM_REC_DIAL, ArrayIndex);
 	}
 
-	m_ObjectList.SetRedraw(TRUE);
+	m_ObjectList.SetRedraw(true);
 }
 
 
@@ -3687,11 +3684,11 @@ void CMWEditView::FillList(const TCHAR *pItemType, esmcoldata_t *pColData) {
 	int Count;
 	bool ViewChanged = GetDocument()->GetViewChanged();
 
-	m_ObjectList.SetRedraw(FALSE);
+	m_ObjectList.SetRedraw(false);
 	m_ObjectList.InitObjectList(pColData);
 
 	if (pColData == NULL) {
-		m_ObjectList.SetRedraw(TRUE);
+		m_ObjectList.SetRedraw(true);
 		return;
 	}
 
@@ -3708,7 +3705,7 @@ void CMWEditView::FillList(const TCHAR *pItemType, esmcoldata_t *pColData) {
 		pRecInfo = GetDocument()->FindNextRecord(pItemType, ArrayIndex);
 	}
 
-	m_ObjectList.SetRedraw(TRUE);
+	m_ObjectList.SetRedraw(true);
 }
 
 
@@ -3771,7 +3768,7 @@ void CMWEditView::OnColumnclickObjectlist(NMHDR *pNMHDR, LRESULT *pResult) {
 void CMWEditView::OnContextMenu(CWnd *pWnd, CPoint Point) {
 	CMenu Menu;
 	CMenu *pPopup;
-	BOOL Result;
+	bool Result;
 	CCmdUI MenuState;
 	int Index;
 
@@ -4077,7 +4074,7 @@ int CMWEditView::OnSelectItem(esmrecinfo_t *pRecInfo) {
 
 	if (ListIndex >= 0) {
 		m_ObjectList.SetItemState(ListIndex, LVIS_SELECTED, LVIS_SELECTED);
-		m_ObjectList.EnsureVisible(ListIndex, FALSE);
+		m_ObjectList.EnsureVisible(ListIndex, false);
 	}
 
 	/* Change the current focus view */
@@ -4151,7 +4148,7 @@ void CMWEditView::OnUpdateEditInfo(CCmdUI *pCmdUI) {
 }
 
 void CMWEditView::OnUpdateFileImportCsvrecords(CCmdUI *pCmdUI) {
-	pCmdUI->Enable(TRUE);
+	pCmdUI->Enable(true);
 }
 
 void CMWEditView::OnUpdateFileExportCsv(CCmdUI *pCmdUI) {
@@ -4209,7 +4206,7 @@ void CMWEditView::OnViewViewactive() {
  * Class CMWEditView Method - BOOL PreCreateWindow (cs);
  *
  *=========================================================================*/
-BOOL CMWEditView::PreCreateWindow(CREATESTRUCT &cs) {
+bool CMWEditView::PreCreateWindow(CREATESTRUCT &cs) {
 	return CFormView::PreCreateWindow(cs);
 }
 
@@ -4663,7 +4660,7 @@ void CMWEditView::OnEditScripttemplate() {
  *
  *=========================================================================*/
 void CMWEditView::OnImportScript() {
-	CFileDialog FileDlg(TRUE,
+	CFileDialog FileDlg(true,
 	                    _T("txt"),
 	                    NULL,
 	                    OFN_HIDEREADONLY | OFN_PATHMUSTEXIST | OFN_ALLOWMULTISELECT,
@@ -4774,7 +4771,7 @@ void CMWEditView::OnFileImportCsvrecords() {
  *
  *=========================================================================*/
 void CMWEditView::OnFileExportCsv() {
-	CFileDialog FileDlg(FALSE,
+	CFileDialog FileDlg(false,
 	                    ESMCSVIMP_CSV_EXT,
 	                    NULL,
 	                    OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
@@ -4865,7 +4862,7 @@ void CMWEditView::OnFileExportCsv() {
  *
  *=========================================================================*/
 void CMWEditView::OnFileExportSpellmerchants() {
-	CFileDialog FileDlg(FALSE,
+	CFileDialog FileDlg(false,
 	                    ESMCSVIMP_CSV_EXT,
 	                    NULL,
 	                    OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
@@ -4914,7 +4911,7 @@ void l_CompareScriptHook(const TCHAR *pString, std::va_list Args) {
  *
  *=========================================================================*/
 void CMWEditView::OnTestComparescripts() {
-	CFileDialog FileDlg(TRUE,
+	CFileDialog FileDlg(true,
 	                    NULL,
 	                    NULL,
 	                    OFN_HIDEREADONLY | OFN_FILEMUSTEXIST,

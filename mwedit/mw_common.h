@@ -10,8 +10,6 @@
 #ifndef __MWCOMMON_H
 #define __MWCOMMON_H
 
-#include <winnt.h>
-
 #include "common/dl_base.h"
 
 /* Morrowind registries */

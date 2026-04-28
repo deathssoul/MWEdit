@@ -16,7 +16,7 @@
 #include <atltypes.h>
 #include <windef.h>
 #include <wingdi.h>
-#include <winnt.h>
+#include <winuser.h>
 
 #include <IL/il.h>
 #include <IL/ilut.h>
@@ -28,10 +28,10 @@
 #include "ui/utils.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 DEFINE_FILE("EsmIconFrame.cpp");
 /*===========================================================================

@@ -14,9 +14,9 @@
 #include <afxdlgs.h>
 #include <afxwin.h>
 #include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
+#include "common/dl_base.h"
 #include "game/morrowind/file.h"
 #include "game/morrowind/sub_base.h"
 #include "game/morrowind/sub_name_fix.h"
@@ -115,7 +115,7 @@ class CEsmCreaturePage4 : public CPropertyPage {
 	afx_msg void OnDeletebutton();
 	afx_msg LRESULT OnRecordKey(LPARAM lParam, LPARAM wParam);
 	afx_msg LRESULT OnEditRecord(LPARAM lParam, WPARAM wParam);
-	virtual BOOL OnInitDialog();
+	virtual bool OnInitDialog();
 	afx_msg void OnItemchangingPackagelist(NMHDR *pNMHDR, LRESULT *pResult);
 	//}}AFX_MSG
 

@@ -60,7 +60,7 @@ class CEsmAiTravelDlg : public CDialog {
 	/* Generated message map functions */
 
 	//{{AFX_MSG(CEsmAiTravelDlg)
-	virtual BOOL OnInitDialog();
+	virtual bool OnInitDialog();
 	virtual void OnOK();
 	//}}AFX_MSG
 

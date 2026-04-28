@@ -165,7 +165,7 @@ int CEsmWeapon::CompareFields(const int FieldID, CEsmRecord *pRecord) {
 			return (int)IsIgnoreResist() - (int)pWeapon->IsIgnoreResist();
 
 		case ESM_FIELD_TYPE:
-			return StringCompare(GetWeaponType(), pWeapon->GetWeaponType(), FALSE);
+			return StringCompare(GetWeaponType(), pWeapon->GetWeaponType(), false);
 
 		default:
 			return CEsmItem3::CompareFields(FieldID, pRecord);

@@ -9,8 +9,6 @@
  *=========================================================================*/
 #include "mwedit/script_error.h"
 
-#include <winnt.h>
-
 #include <cstddef>
 #include <cstdio>
 

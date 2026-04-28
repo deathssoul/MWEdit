@@ -9,8 +9,6 @@
  *=========================================================================*/
 #include "mwedit/csv_defs.h"
 
-#include <winnt.h>
-
 #include <cstddef>
 
 #include "common/dl_base.h"
@@ -765,7 +763,7 @@ int l_FindCsvRecordString(const TCHAR *pString) {
 	int Index = 0;
 
 	while (l_EsmCsvRecInfos[Index].pEsmRecType != NULL) {
-		if (stricmp(l_EsmCsvRecInfos[Index].pRecordName, pString) == 0) {
+		if (_stricmp(l_EsmCsvRecInfos[Index].pRecordName, pString) == 0) {
 			return Index;
 		}
 

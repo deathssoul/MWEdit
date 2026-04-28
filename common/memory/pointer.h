@@ -26,18 +26,18 @@
 template <class TPtr> class CSPointer {
   private:
 	TPtr *m_pPointer;   /* The pointer to the template class object */
-	boolean AutoDelete; /* Determines whether pointer is deleted when destructed */
+	bool AutoDelete; /* Determines whether pointer is deleted when destructed */
 
 
   public:
 	/* Class Constructor */
 	CSPointer(TPtr *pNewPtr) : m_pPointer(pNewPtr) {
-		AutoDelete = TRUE;
+		AutoDelete = true;
 	}
 
 	CSPointer() {
 		m_pPointer = NULL;
-		AutoDelete = TRUE;
+		AutoDelete = true;
 	}
 
 	/* Class Destructors */
@@ -57,14 +57,14 @@ template <class TPtr> class CSPointer {
 	CSPointer &Clone(TPtr *pSourcePtr) {
 		Destroy();
 		m_pPointer = pSourcePtr;
-		AutoDelete = FALSE;
+		AutoDelete = false;
 		return *this;
 	}
 
 	CSPointer &Clone(TPtr &Source) {
 		Destroy();
 		m_pPointer = &Source;
-		AutoDelete = FALSE;
+		AutoDelete = false;
 		return *this;
 	}
 
@@ -92,7 +92,7 @@ template <class TPtr> class CSPointer {
 	CSPointer &operator =(TPtr *pSourcePtr) {
 		Destroy();
 		m_pPointer = pSourcePtr;
-		AutoDelete = TRUE;
+		AutoDelete = true;
 		return *this;
 	}
 };

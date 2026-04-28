@@ -14,7 +14,6 @@
 #include <afxwin.h>
 #include <atltypes.h>
 #include <windef.h>
-#include <winnt.h>
 
 #include <cstddef>
 

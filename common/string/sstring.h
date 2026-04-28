@@ -14,6 +14,7 @@
 #include <cstddef>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "common/string/sstring_data.h"
 
 /* Number of extra bytes to allocate when creating strings */

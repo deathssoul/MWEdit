@@ -20,11 +20,11 @@
 #include <richedit.h>
 #include <richole.h>
 #include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
-#include "mwedit/scr_func_data.h"
+#include "common/dl_base.h"
 #include "game/morrowind/script.h"
+#include "mwedit/scr_func_data.h"
 #include "mwedit/script_compile.h"
 #include "mwedit/script_defs.h"
 #include "mwedit/script_options.h"
@@ -182,8 +182,8 @@ class CEsmScriptDlg : public CEsmRecDialog {
 	/* ClassWizard generated virtual function overrides */
 	//{{AFX_VIRTUAL(CEsmScriptDlg)
   public:
-	virtual BOOL PreCreateWindow(CREATESTRUCT &cs);
-	virtual BOOL PreTranslateMessage(MSG *pMsg);
+	virtual bool PreCreateWindow(CREATESTRUCT &cs);
+	virtual bool PreTranslateMessage(MSG *pMsg);
   protected:
 	virtual void DoDataExchange(CDataExchange *pDX);
 	virtual void OnInitialUpdate();
@@ -227,7 +227,7 @@ class CEsmScriptDlg : public CEsmRecDialog {
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint Point);
 	afx_msg void OnMsgfilterScripttext(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnSetFocus(CWnd *);
-	afx_msg void OnShowWindow(BOOL, UINT);
+	afx_msg void OnShowWindow(bool, UINT);
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP();
@@ -241,13 +241,13 @@ class CEsmScriptDlg : public CEsmRecDialog {
 	STDMETHOD(GetInPlaceContext) (LPOLEINPLACEFRAME*,
 	                              LPOLEINPLACEUIWINDOW *,
 	                              LPOLEINPLACEFRAMEINFO);
-	STDMETHOD(ShowContainerUI) (BOOL);
+	STDMETHOD(ShowContainerUI) (bool);
 	STDMETHOD(QueryInsertObject) (LPCLSID, LPSTORAGE, LONG);
 	STDMETHOD(DeleteObject) (LPOLEOBJECT);
-	STDMETHOD(QueryAcceptData) (LPDATAOBJECT, CLIPFORMAT*, DWORD, BOOL, HGLOBAL);
-	STDMETHOD(ContextSensitiveHelp) (BOOL);
+	STDMETHOD(QueryAcceptData) (LPDATAOBJECT, CLIPFORMAT*, DWORD, bool, HGLOBAL);
+	STDMETHOD(ContextSensitiveHelp) (bool);
 	STDMETHOD(GetClipboardData) (CHARRANGE*, DWORD, LPDATAOBJECT*);
-	STDMETHOD(GetDragDropEffect) (BOOL, DWORD, LPDWORD);
+	STDMETHOD(GetDragDropEffect) (bool, DWORD, LPDWORD);
 	STDMETHOD(GetContextMenu) (WORD, LPOLEOBJECT, CHARRANGE*, HMENU*);
 	END_INTERFACE_PART(RichEditOleCallback)
 

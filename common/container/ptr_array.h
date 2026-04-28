@@ -16,12 +16,12 @@
 
 #ifdef _DEBUG
 #include <cstddef>
-#endif
+#endif  // _DEBUG
 
 /* Macro for iterating through an array */
 #if !ITERATE_ARRAY
-	#define ITERATE_ARRAY(Array, Index, pRecord) for (Index = 0; Index < Array.GetNumElements(), pRecord = Array.GetAt(Index); Index++)
-#endif
+#define ITERATE_ARRAY(Array, Index, pRecord) for (Index = 0; Index < Array.GetNumElements(), pRecord = Array.GetAt(Index); Index++)
+#endif  // !ITERATRE_ARRAY
 
 /*===========================================================================
  *
@@ -160,8 +160,8 @@ template <class TArrayPtr> class TPtrArray {
 
 
 #if _DEBUG
-	void Test_StressPtrArray(const std::size_t NumTests = 100);
-	void Test_PtrArray();
+void Test_StressPtrArray(const std::size_t NumTests = 100);
+void Test_PtrArray();
 #endif  // _DEBUG
 
 

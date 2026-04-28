@@ -16,14 +16,13 @@
 #include <afxwin.h>
 #include <atlstr.h>
 #include <mmsystem.h>
-#include <windef.h>
 #include <wingdi.h>
-#include <winnt.h>
 
 #include <cstddef>
 #include <cstdlib>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
 #include "game/morrowind/magic_effect.h"
@@ -34,10 +33,10 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
-#endif
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif  // _DEBUG
 
 IMPLEMENT_DYNCREATE(CEsmEffectDlg, CEsmRecDialog);
 DEFINE_FILE("EsmEffectDlg.cpp");
@@ -576,28 +575,28 @@ void CEsmEffectDlg::SetControlData() {
 
 	/* Item strings and values */
 	m_NameText.SetWindowText(m_pEffect->GetName());
-	m_NameText.SetModify(FALSE);
+	m_NameText.SetModify(false);
 
 	/* Base cost/size/etc... */
 	Buffer.Format(_T("%.2f"), m_pEffect->GetBaseCost());
 	m_BaseCostText.SetWindowText(Buffer);
-	m_BaseCostText.SetModify(FALSE);
+	m_BaseCostText.SetModify(false);
 
 	Buffer.Format(_T("%.2f"), m_pEffect->GetSize());
 	m_SizeText.SetWindowText(Buffer);
-	m_SizeText.SetModify(FALSE);
+	m_SizeText.SetModify(false);
 
 	Buffer.Format(_T("%.2f"), m_pEffect->GetMaxSize());
 	m_MaxSizeText.SetWindowText(Buffer);
-	m_MaxSizeText.SetModify(FALSE);
+	m_MaxSizeText.SetModify(false);
 
 	Buffer.Format(_T("%.2f"), m_pEffect->GetSpeed());
 	m_SpeedText.SetWindowText(Buffer);
-	m_SpeedText.SetModify(FALSE);
+	m_SpeedText.SetModify(false);
 
 	/* Description */
 	m_DescText.SetWindowText(m_pEffect->GetDescription());
-	m_DescText.SetModify(FALSE);
+	m_DescText.SetModify(false);
 
 	/* Model/sound buttons */
 	pString = m_pEffect->GetCastSound();
@@ -677,15 +676,15 @@ void CEsmEffectDlg::SetControlData() {
 	/* Color */
 	Buffer.Format(_T("%d"), m_pEffect->GetRed());
 	m_RedText.SetWindowText(Buffer);
-	m_RedText.SetModify(FALSE);
+	m_RedText.SetModify(false);
 
 	Buffer.Format(_T("%d"), m_pEffect->GetGreen());
 	m_GreenText.SetWindowText(Buffer);
-	m_GreenText.SetModify(FALSE);
+	m_GreenText.SetModify(false);
 
 	Buffer.Format(_T("%d"), m_pEffect->GetBlue());
 	m_BlueText.SetWindowText(Buffer);
-	m_BlueText.SetModify(FALSE);
+	m_BlueText.SetModify(false);
 	m_ColorBox.SetColor(m_pEffect->GetRed(), m_pEffect->GetGreen(), m_pEffect->GetBlue());
 
 	/* Spell school */

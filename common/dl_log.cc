@@ -22,21 +22,68 @@
 #include <cstdarg>
 #include <cstddef>
 #include <cstdio>
+#include <cstdlib>
 #include <ctime>
 
 #include "common/dl_base.h"
+#include "common/dl_file.h"
 #include "common/dl_mem.h"
+#include "common/dl_time.h"
 
 #if _DEBUG
-#include <cstdlib>
-
 #include "common/dl_block.h"
 #endif  // _DEBUG
+
+#if _WIN32
+#include "common/dl_err.h"
+#endif  // _WIN32
 
 /* The main log file for debugging output */
 CLogFile SystemLog;
 
 DEFINE_FILE("DL_log.cpp");
+/*===========================================================================
+ *
+ * Function - void CustomAssert (pString, pFile, pFunction, Line);
+ *
+ * A custom assertion type function used by the ASSERT macro defined in
+ * DL_BASE.H.  Accepts a message string, file name, function name, and
+ * line number where the assertion occurred. Outputs message to stderr.
+ * Exits program with abort().
+ *
+ *=========================================================================*/
+void CustomAssert(const TCHAR *pString,
+                  const TCHAR *pFile,
+                  const TCHAR *pFunction,
+                  const long Line) {
+	//DEFINE_FUNCTION("CustomAssert()");
+	/* Output message to log file */
+	if (SystemLog.IsOpen()) {
+		SystemLog.Printf(_T("ASSERTION FAILED: '%s'"), pString);
+		SystemLog.Printf(_T("     File: '%s'"), pFile);
+		SystemLog.Printf(_T("     Func: '%s'"), pFunction);
+		SystemLog.Printf(_T("     Line: %ld"), Line);
+	}
+
+	/* Display a message box under Borland */
+#if _WIN32
+	ErrorHandler.Printf(_T("Application Assert!"),
+	                    _T("ASSERTION FAILED: '%s'\r\n\tFile: '%s'\r\n\tFunc: '%s'\r\n\tLine: %ld\r\nAborting Program!"),
+	                    pString,
+	                    pFile,
+	                    pFunction,
+	                    Line);
+#else
+	std::fprintf(stderr, _T("ASSERTION FAILED: '%s'\r\n"), pString);
+	std::fprintf(stderr, _T("\tFile: '%s'\r\n"), pFile);
+	std::fprintf(stderr, _T("\tFunc: '%s'\r\n"), pFunction);
+	std::fprintf(stderr, _T("\tLine: %ld\r\n"), Line);
+	std::fflush(stderr);
+#endif
+	/* Abort program */
+	std::abort();
+}
+
 /*===========================================================================
  *
  * Class CLogFile Constructor (Default)
@@ -81,7 +128,7 @@ bool CLogFile::Close() {
 
 	/* Is the log file currently open? */
 	if (!IsOpen()) {
-		return FALSE;
+		return false;
 	}
 
 	/* Output status messages to log file */
@@ -93,10 +140,10 @@ bool CLogFile::Close() {
 	TabLevel = 0;
 
 	if (Result < 0) {
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -191,7 +238,7 @@ bool CLogFile::Open(const TCHAR *pFilename, const logmode_t AppendFile) {
 		Result = Close();
 
 		if (!Result) {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -199,14 +246,14 @@ bool CLogFile::Open(const TCHAR *pFilename, const logmode_t AppendFile) {
 	pLogFileHandle = TFOPEN(pFilename, AppendFile ? _T("at") : _T("wt"));
 
 	if (pLogFileHandle == NULL) {
-		return FALSE;
+		return false;
 	}
 
 	/* Output the filename and full date to log file */
 	Result = Printf(_T("==================== Opened Logfile %s ================"), pFilename);
 
 	if (!Result) {
-		return FALSE;
+		return false;
 	}
 
 	return OutputDate();
@@ -229,7 +276,7 @@ bool CLogFile::OutputDate() {
 
 	/* Ensure the log file is currently open */
 	if (!IsOpen()) {
-		return FALSE;
+		return false;
 	}
 
 	/* Get the current Date and convert it to local time */
@@ -237,7 +284,7 @@ bool CLogFile::OutputDate() {
 	pCurrentTime = std::localtime(&Today);
 
 	if (pCurrentTime == NULL) {
-		return FALSE;
+		return false;
 	}
 
 	/* Output the date line to the file */
@@ -268,7 +315,7 @@ bool CLogFile::OutputCurrentTime() {
 	pToday = std::localtime(&CurrentTime);
 
 	if (pToday == NULL) {
-		return FALSE;
+		return false;
 	}
 
 	/* Output the formatted time to log file */
@@ -276,10 +323,10 @@ bool CLogFile::OutputCurrentTime() {
 	Result = TFPRINTF(pLogFileHandle, _T("%s (%ld) - "), TimeString, clock());
 
 	if (Result < 0) {
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -350,11 +397,11 @@ bool CLogFile::OutputTabs() {
 		Result = TFPUTC((TCHAR)'\t', pLogFileHandle);
 
 		if (Result == EOF) {
-			return FALSE;
+			return false;
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -375,7 +422,7 @@ bool CLogFile::Printf(const TCHAR *pString, ...) {
 
 	/* Ensure the log file is currently open */
 	if (!IsOpen()) {
-		return FALSE;
+		return false;
 	}
 
 	/* Print the line to the file */
@@ -411,7 +458,7 @@ bool CLogFile::Printf(std::FILE *pFileHandle, const TCHAR *pString, ...) {
 
 		if (!Result) {
 			std::va_end(Args);
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -422,7 +469,7 @@ bool CLogFile::Printf(std::FILE *pFileHandle, const TCHAR *pString, ...) {
 			Result = TFPUTC((TCHAR)'\t', pFileHandle);
 
 			if (Result == EOF) {
-				return FALSE;
+				return false;
 			}
 		}
 
@@ -430,25 +477,25 @@ bool CLogFile::Printf(std::FILE *pFileHandle, const TCHAR *pString, ...) {
 		std::va_end(Args);
 
 		if (Result < 0) {
-			return FALSE;
+			return false;
 		}
 
 		/* Terminate line with a line feed character */
 		Result = TFPRINTF(pFileHandle, _T("\n"));
 
 		if (Result < 0) {
-			return FALSE;
+			return false;
 		}
 
 		/* Flush output stream */
 		Result = std::fflush(pFileHandle);
 
 		if (Result == EOF) {
-			return FALSE;
+			return false;
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -470,21 +517,21 @@ bool CLogFile::PrintLine(const TCHAR *pString, std::va_list Args) {
 	Result = OutputCurrentTime();
 
 	if (!Result) {
-		return FALSE;
+		return false;
 	}
 
 	/* Output the tabs, if any */
 	Result = OutputTabs();
 
 	if (!Result) {
-		return FALSE;
+		return false;
 	}
 
 	/* Print the variable argument list to the file */
 	Result = TVFPRINTF(pLogFileHandle, pString, Args);
 
 	if (Result < 0) {
-		return FALSE;
+		return false;
 	}
 
 	/* Output to the optional hook procedure */
@@ -496,7 +543,7 @@ bool CLogFile::PrintLine(const TCHAR *pString, std::va_list Args) {
 	Result = TFPRINTF(pLogFileHandle, _T("\n"));
 
 	if (Result < 0) {
-		return FALSE;
+		return false;
 	}
 
 	/* Flush the file stream to make sure the written characters are written
@@ -506,10 +553,10 @@ bool CLogFile::PrintLine(const TCHAR *pString, std::va_list Args) {
 	Result = std::fflush(pLogFileHandle);
 
 	if (Result == EOF) {
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 

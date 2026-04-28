@@ -9,8 +9,6 @@
  *=========================================================================*/
 #include "common/file/file_buffer.h"
 
-#include <winnt.h>
-
 #include <cstddef>
 #include <cstdio>
 #include <cstring>

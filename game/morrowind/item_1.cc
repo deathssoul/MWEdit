@@ -12,6 +12,7 @@
 #include <cstddef>
 
 #include "common/dl_base.h"
+#include "common/dl_log.h"
 #include "common/dl_str.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/file.h"
@@ -72,13 +73,13 @@ int CEsmItem1::CompareFields(const int FieldID, CEsmRecord *pRecord) {
 
 	switch (FieldID) {
 		case ESM_FIELD_NAME:
-			return StringCompare(GetName(), pRecord1->GetName(), FALSE);
+			return StringCompare(GetName(), pRecord1->GetName(), false);
 
 		case ESM_FIELD_SCRIPT:
-			return StringCompare(GetScript(), pRecord1->GetScript(), FALSE);
+			return StringCompare(GetScript(), pRecord1->GetScript(), false);
 
 		case ESM_FIELD_MODEL:
-			return StringCompare(GetModel(), pRecord1->GetModel(), FALSE);
+			return StringCompare(GetModel(), pRecord1->GetModel(), false);
 
 		default: /* Call the base class method */
 			return CEsmRecord::CompareFields(FieldID, pRecord);

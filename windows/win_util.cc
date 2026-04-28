@@ -41,15 +41,16 @@
 #include <tchar.h>
 #include <winbase.h>
 #include <windef.h>
-#include <winnt.h>
 #include <winuser.h>
 
 #include <cctype>
 #include <cstddef>
 
 #include "common/dl_base.h"
+#include "common/dl_chr.h"
 #include "common/dl_err.h"
 #include "common/dl_file.h"
+#include "common/dl_log.h"
 #include "common/dl_str.h"
 
 DEFINE_FILE("WinUtil.cpp");
@@ -115,7 +116,7 @@ bool BrowseForFolder(CString &Path, HWND hWnd, const TCHAR *pTitle) {
 
 bool BrowseForFolder(TCHAR *pPath, HWND hWnd, const TCHAR *pTitle) {
 	DEFINE_FUNCTION("BrowseForFolder()");
-	BOOL Result;
+	bool Result;
 	LPITEMIDLIST pItemIDList;
 	BROWSEINFO BrowseInfo;
 
@@ -237,7 +238,7 @@ bool ClipPasteToWnd(CWnd *pWnd) {
 bool CopyTextToClipboard(const TCHAR *pString, const int Length) {
 	HANDLE hText;
 	TCHAR *pText;
-	BOOL Result;
+	bool Result;
 	/* Allocate the clipboard data buffer */
 	hText = GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, Length + 2);
 
@@ -336,7 +337,7 @@ bool CreateShortcut(LPTSTR pPathObj,
 			/*  Ensure that the string is ANSI */
 			MultiByteToWideChar(CP_ACP, 0, (LPCSTR)pPathLink, -1, (LPWSTR)TempBuffer, MAX_PATH);
 			/* Save the link by calling IPersistFile::Save */
-			hResult = pPersistFile->Save((LPCOLESTR)TempBuffer, TRUE);
+			hResult = pPersistFile->Save((LPCOLESTR)TempBuffer, true);
 			pPersistFile->Release();
 		}
 
@@ -617,7 +618,7 @@ CView *GetActiveView() {
  *
  *=========================================================================*/
 bool GetClipboardText(CString &Buffer) {
-	BOOL Result;
+	bool Result;
 	HANDLE hText;
 	TCHAR *pText;
 	/* Attempt to open the clipboard */
@@ -859,7 +860,7 @@ bool GetStringWord(CString &OutputString, const TCHAR *pBuffer, int &StartPos) {
 bool OpenContextMenu(CWnd *pParent, CWnd *pWnd, CPoint Point, const DWORD MenuResource) {
 	CMenu Menu;
 	CMenu *pPopup;
-	BOOL Result;
+	bool Result;
 	CCmdUI MenuState;
 	int Index;
 	/* Get the popup menu to display */
@@ -903,7 +904,7 @@ bool OpenContextMenu(CWnd *pParent, CWnd *pWnd, CPoint Point, const DWORD MenuRe
  *
  *=========================================================================*/
 HINSTANCE OpenWebPage(const TCHAR *pSiteAddress) {
-	BOOL Result;
+	bool Result;
 	SHELLEXECUTEINFO ShellInfo;
 
 	/* Initialize the shellinfo structure */
