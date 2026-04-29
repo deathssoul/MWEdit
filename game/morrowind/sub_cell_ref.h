@@ -22,6 +22,9 @@
 
 #define MWESM_CELLREF_INDEXMASK 0x00FFFFFF
 #define MWESM_CELLREF_MODFLAG   0x01000000
+
+class CEsmCell;  // TODO: Determine why this is necessary when game/morrowind/cell.h is being included
+struct esmrecinfo_t;  // TODO: Determine why this is necessary when game/morrowind/file.h is being included
 /*===========================================================================
  *
  * Begin Class CEsmSubCellRef Definition

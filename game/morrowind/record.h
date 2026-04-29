@@ -37,7 +37,7 @@
 	static const esmsubreccreate_t s_SubRecCreate[]; \
 	virtual const esmsubreccreate_t* GetSubRecCreate () const { return s_SubRecCreate; }
 
-class CEsmFile;
+class CEsmFile;  // TODO: Determine why the forward declaration is necessary when game/morrowind/file.h is being included
 /*===========================================================================
  *
  * Begin Class CEsmRecord Definition
