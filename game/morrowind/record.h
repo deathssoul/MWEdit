@@ -37,6 +37,7 @@
 	static const esmsubreccreate_t s_SubRecCreate[]; \
 	virtual const esmsubreccreate_t* GetSubRecCreate () const { return s_SubRecCreate; }
 
+class CEsmFile;
 /*===========================================================================
  *
  * Begin Class CEsmRecord Definition
