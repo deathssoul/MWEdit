@@ -8,7 +8,7 @@
  *
  *=========================================================================*/
 #ifndef __ESMSUBIRDT_H
-#define __ESMSUBIRDTXH
+#define __ESMSUBIRDT_H
 
 #include <cstring>
 

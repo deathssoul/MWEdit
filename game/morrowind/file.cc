@@ -26,6 +26,7 @@
 #include "game/morrowind/cell.h"
 #include "game/morrowind/class.h"
 #include "game/morrowind/clothing.h"
+#include "game/morrowind/container.h"
 #include "game/morrowind/creature.h"
 #include "game/morrowind/defs.h"
 #include "game/morrowind/dialogue.h"
