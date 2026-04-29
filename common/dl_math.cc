@@ -489,7 +489,7 @@ double NiceNumber(const double Value, const int Round) {
 	double NiceFraction;                                 /* Nice, rounded fraction */
 	Exponent = (int)std::floor(std::log10(Value));
 	//Fraction = Value / std::pow(10.0, (double)Exponent); /* between 1 and 10 */
-	Fraction = Value / pow((double)Exponent); /* between 1 and 10 */
+	Fraction = Value / pow10((double)Exponent); /* between 1 and 10 */
 
 	if (Round) {
 		if (Fraction < 1.5) {

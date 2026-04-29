@@ -288,9 +288,9 @@ bool CreateString(TCHAR **pNewString, const TCHAR *pSourceString);
 bool CreateString(TCHAR **pNewString, const std::size_t StringSize);
 
 /* Memory status routines */
-bool GetTotalMemory(long &Memory);
-bool GetFreeMemory(long &Memory);
-bool GetUsedMemory(long &Memory);
+bool GetTotalMemory(unsigned long long &Memory);
+bool GetFreeMemory(unsigned long long &Memory);
+bool GetUsedMemory(unsigned long long &Memory);
 int GetHeapStatus();
 const TCHAR *GetHeapStatusString();
 

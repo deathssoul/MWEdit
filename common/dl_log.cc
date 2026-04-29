@@ -340,9 +340,9 @@ bool CLogFile::OutputCurrentTime() {
 void CLogFile::OutputMemoryStatus() {
 	//DEFINE_FUNCTION("CLogFile::OutputMemoryStatus()");
 	bool MemResult;
-	long UsedMemory = 0;
-	long FreeMemory = 0;
-	long TotalMemory = 0;
+	unsigned long long UsedMemory = 0;
+	unsigned long long FreeMemory = 0;
+	unsigned long long TotalMemory = 0;
 	/* Attempt to retrieve current memory usage */
 	MemResult = GetUsedMemory(UsedMemory);
 
@@ -355,7 +355,7 @@ void CLogFile::OutputMemoryStatus() {
 	}
 
 	if (MemResult) {
-		Printf(_T("Used/Free/Total Memory: %lu/%lu/%lu bytes"),
+		Printf(_T("Used/Free/Total Memory: %llu/%llu/%llu bytes"),
 		       UsedMemory,
 		       FreeMemory,
 		       TotalMemory);

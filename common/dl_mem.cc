@@ -174,13 +174,13 @@ bool CreateString(TCHAR **ppNewString, const std::size_t StringSize) {
  * be retrieved).
  *
  *=======================================================================*/
-bool GetFreeMemory(long &Memory) {
+bool GetFreeMemory(unsigned long long &Memory) {
 	DEFINE_FUNCTION("GetFreeMemory()");
 	/*---------- Windows implementation -------------------------------------*/
 #if _WIN32
 	MEMORYSTATUSEX Status;
 	GlobalMemoryStatusEx(&Status);  // TODO: Check these to make sure correct. Updated from non-Ex ones for 64-bit compatibility
-	Memory = (long)Status.dwAvailVirtual;
+	Memory = (unsigned long long)Status.ullAvailVirtual;
 	return true;
 	/*---------- Any unknown system implementation --------------------------*/
 #else
@@ -198,13 +198,13 @@ bool GetFreeMemory(long &Memory) {
  * On error the function returns FALSE.
  *
  *=======================================================================*/
-bool GetTotalMemory(long &Memory) {
+bool GetTotalMemory(unsigned long long &Memory) {
 	DEFINE_FUNCTION("GetTotalMemory()");
 	/*---------- Windows implementation -------------------------------------*/
 #if _WIN32
 	MEMORYSTATUSEX Status;
 	GlobalMemoryStatusEx(&Status);
-	Memory = (long)Status.dwAvailVirtual;
+	Memory = (unsigned long long)Status.ullAvailVirtual;
 	return true;
 	/*---------- Any unknown system implementation --------------------------*/
 #else
@@ -222,10 +222,10 @@ bool GetTotalMemory(long &Memory) {
  * returns FALSE.
  *
  *=======================================================================*/
-bool GetUsedMemory(long &Memory) {
+bool GetUsedMemory(unsigned long long &Memory) {
 	//DEFINE_FUNCTION("GetUserMemory()");
-	long MemoryFree = 0;
-	long MemoryTotal;
+	unsigned long long MemoryFree = 0;
+	unsigned long long MemoryTotal;
 	bool Result;
 	/* Get the total/free memory on the system, ensuring they are valid */
 	Result = GetTotalMemory(MemoryTotal);
@@ -768,18 +768,18 @@ void Test_ReplaceString() {
  *=========================================================================*/
 void Test_DL_Mem() {
 	DEFINE_FUNCTION("Test_DL_Mem()");
-	long Memory;
+	unsigned long long Memory;
 	Test_CreateString1();
 	Test_CreateString2();
 	Test_CreateString3();
 	Test_ReplaceString();
 	Test_memsearch();
 	ASSERT(GetFreeMemory(Memory) == true);
-	SystemLog.Printf(_T("\tGetFreeMemory() returned %ld"), Memory);
+	SystemLog.Printf(_T("\tGetFreeMemory() returned %llu"), Memory);
 	ASSERT(GetUsedMemory(Memory) == true);
-	SystemLog.Printf(_T("\tGetUsedMemory() returned %ld"), Memory);
+	SystemLog.Printf(_T("\tGetUsedMemory() returned %llu"), Memory);
 	ASSERT(GetTotalMemory(Memory) == true);
-	SystemLog.Printf(_T("\tGetTotalMemory() returned %ld"), Memory);
+	SystemLog.Printf(_T("\tGetTotalMemory() returned %llu"), Memory);
 	SystemLog.Printf(_T("\tGetHeapStatus() returned %ld"), GetHeapStatus());
 	SystemLog.Printf(_T("\tGetHeapStatusString() returned '%s'"), GetHeapStatusString());
 }

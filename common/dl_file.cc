@@ -31,6 +31,8 @@
 
 #include <stdlib.h>  // TODO: Required for non-standard extension _MAX_PATH
 
+#include <winbase.h>
+
 #include <cctype>
 #include <cerrno>
 #include <cstddef>
@@ -43,11 +45,8 @@
 #include "common/dl_mem.h"
 #include "common/dl_str.h"
 
-#ifndef _MSC_VER
-#include <dir.h>  // TODO: What is this for?
-#endif
-
 #if _WIN32
+#include <direct.h>
 #include <tchar.h>
 #else
 #include <unistd.h>
