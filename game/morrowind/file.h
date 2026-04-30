@@ -21,6 +21,7 @@
 /* Number of records between the callback function when loading/saving */
 #define ESM_CALLBACK_RATE   25
 
+class CEsmRecord;  // TODO: Needed to resolve circular dependency
 
 /* Array of record pointers */
 typedef TPtrArray<CEsmRecord> CEsmRecArray;

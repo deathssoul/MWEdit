@@ -19,6 +19,7 @@
 #include <cstring>
 
 #include "common/dl_base.h"
+#include "common/dl_file.h"
 #include "common/dl_mem.h"
 #include "common/dl_str.h"
 #include "game/morrowind/defs.h"
