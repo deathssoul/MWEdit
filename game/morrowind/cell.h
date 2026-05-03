@@ -59,7 +59,7 @@ class CEsmCell : public CEsmRecord {
 	/* Add a cell reference to the cell */
 	void AddCellRef(CEsmSubCellRef *pCellRef) {
 		pCellRef->SetCell(this);
-		m_SubRecords.Add(pCellRef);
+		m_SubRecords.Add(reinterpret_cast<CEsmSubRecord *>(pCellRef));  // TODO: Verify casting is correct
 	}
 
 	/* Allocate subrecords */
