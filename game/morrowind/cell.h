@@ -24,7 +24,7 @@
 #include "game/morrowind/sub_long.h"
 #include "game/morrowind/sub_name_fix.h"
 
-class CEsmSubCellRef;  // TODO: Required for circular dependency
+//class CEsmSubCellRef;  // TODO: Required for circular dependency
 /*===========================================================================
  *
  * Begin Class CEsmCell Definition
