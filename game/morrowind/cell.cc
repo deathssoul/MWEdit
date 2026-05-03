@@ -207,6 +207,12 @@ CEsmSubRecord *CEsmCell::AllocNewSubRecord(const TCHAR *pType, const long Record
 }
 
 
+/* Add a cell reference to the cell */
+void CEsmCell::AddCellRef(CEsmSubCellRef *pCellRef) {
+	pCellRef->SetCell(this);
+	m_SubRecords.Add(reinterpret_cast<CEsmSubRecord *>(pCellRef));  // TODO: Verify casting is correct
+}
+
 /*===========================================================================
  *
  * Class CEsmCell Method - int CompareFields (FieldID, pRecord);

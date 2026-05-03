@@ -24,7 +24,7 @@
 #include "game/morrowind/sub_long.h"
 #include "game/morrowind/sub_name_fix.h"
 
-//class CEsmSubCellRef;  // TODO: Required for circular dependency
+class CEsmSubCellRef;  // TODO: Required for circular dependency
 /*===========================================================================
  *
  * Begin Class CEsmCell Definition
@@ -57,10 +57,7 @@ class CEsmCell : public CEsmRecord {
 	virtual void Destroy();
 
 	/* Add a cell reference to the cell */
-	void AddCellRef(CEsmSubCellRef *pCellRef) {
-		pCellRef->SetCell(this);
-		m_SubRecords.Add(reinterpret_cast<CEsmSubRecord *>(pCellRef));  // TODO: Verify casting is correct
-	}
+	void AddCellRef(CEsmSubCellRef *pCellRef);
 
 	/* Allocate subrecords */
 	virtual CEsmSubRecord *AllocNewSubRecord(const TCHAR *pType, const long RecordSize = 0);
