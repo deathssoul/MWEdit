@@ -14,6 +14,7 @@
 #include <afxdlgs.h>
 #include <afxwin.h>
 #include <atlstr.h>
+#include <windef.h>
 
 #include <cstddef>
 #include <cstdlib>
@@ -226,10 +227,10 @@ CMWEditDoc *CEsmNpcPage5::GetDocument() {
  * Class CEsmNpcPage5 Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CEsmNpcPage5::OnInitDialog() {
+BOOL CEsmNpcPage5::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
 	m_GoldText.SetLimitText(16);
-	return true;
+	return TRUE;
 }
 
 

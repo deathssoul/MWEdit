@@ -12,6 +12,7 @@
 
 #include <afx.h>
 #include <afxwin.h>
+#include <windef.h>
 
 #include <cstddef>
 
@@ -84,7 +85,7 @@ class CEsmCellRefDlg : public CDialog {
 	//{{AFX_MSG(CEsmCellRefDlg)
 	virtual void OnOK();
 	virtual void OnCancel();
-	virtual bool OnInitDialog();
+	virtual BOOL OnInitDialog();
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP();

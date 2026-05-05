@@ -12,6 +12,7 @@
 
 #include <afx.h>
 #include <afxwin.h>
+#include <windef.h>
 
 #include <cstddef>
 
@@ -108,7 +109,7 @@ class CEsmInfoDlg : public CDialog {
 	//{{AFX_MSG(CEsmInfoDlg)
 	virtual void OnOK();
 	virtual void OnCancel();
-	virtual bool OnInitDialog();
+	virtual BOOL OnInitDialog();
 	afx_msg void OnSelchangeIdlist();
 	afx_msg void OnSoundbutton();
 	//}}AFX_MSG

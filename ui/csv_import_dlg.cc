@@ -15,6 +15,7 @@
 #include <afxwin.h>
 #include <atlstr.h>
 #include <commctrl.h>
+#include <windef.h>
 #include <winuser.h>
 
 #include <cstddef>
@@ -546,7 +547,7 @@ void CEsmCsvImportDlg::OnCreatebutton() {
  * Class CEsmCsvImportDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CEsmCsvImportDlg::OnInitDialog() {
+BOOL CEsmCsvImportDlg::OnInitDialog() {
 	CDialog::OnInitDialog();
 
 	/* Update the title bar */
@@ -563,10 +564,10 @@ bool CEsmCsvImportDlg::OnInitDialog() {
 
 	if (!Result) {
 		EndDialog(IDCANCEL);
-		return false;
+		return FALSE;
 	}
 
-	return true;
+	return TRUE;
 }
 
 

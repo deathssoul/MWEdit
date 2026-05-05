@@ -83,7 +83,7 @@ class CEsmNpcPage2 : public CPropertyPage {
 	//{{AFX_MSG(CEsmNpcPage2)
 	afx_msg LRESULT OnRecordDrop(LPARAM lParam, LPARAM wParam);
 	afx_msg LRESULT OnRecordKey(LPARAM lParam, LPARAM wParam);
-	virtual bool OnInitDialog();
+	virtual BOOL OnInitDialog();
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP();

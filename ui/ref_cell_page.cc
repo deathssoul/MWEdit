@@ -804,7 +804,7 @@ void CEsmRefCellPage::OnEditClean() {
  * Class CEsmRefCellPage Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CEsmRefCellPage::OnInitDialog() {
+BOOL CEsmRefCellPage::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
 
 	/* Intialize the list */
@@ -815,7 +815,7 @@ bool CEsmRefCellPage::OnInitDialog() {
 	m_CellRefList.SetEnableDrag(true);
 	m_CellRefList.SetWantEditMsg(true);
 
-	return true;
+	return TRUE;
 }
 
 

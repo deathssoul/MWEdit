@@ -124,7 +124,7 @@ class COpenPluginDlg : public CDialog {
 
 	//{{AFX_MSG(COpenPluginDlg)
 	virtual void OnOK();
-	virtual bool OnInitDialog();
+	virtual BOOL OnInitDialog();
 	afx_msg void OnSetactive();
 	afx_msg void OnDblclkFileList(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnColumnclickFileList(NMHDR *pNMHDR, LRESULT *pResult);

@@ -14,6 +14,7 @@
 #include <afxdlgs.h>
 #include <afxwin.h>
 #include <atlstr.h>
+#include <windef.h>
 
 #include <cstddef>
 #include <cstdlib>
@@ -340,7 +341,7 @@ void CEsmCreaturePage1::OnAnimationbutton() {
  * Class CEsmCreaturePage1 Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CEsmCreaturePage1::OnInitDialog() {
+BOOL CEsmCreaturePage1::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
 
 	/* Text controls */
@@ -367,7 +368,7 @@ bool CEsmCreaturePage1::OnInitDialog() {
 	FillEsmSoundGenCreaCombo(m_SoundList);
 	FillEsmCreatureListCombo(m_TypeList);
 
-	return true;
+	return TRUE;
 }
 
 

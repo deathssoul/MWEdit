@@ -130,7 +130,7 @@ class CEsmCreaturePage1 : public CPropertyPage {
 	/* Generated message map functions */
 
 	//{{AFX_MSG(CEsmCreaturePage1)
-	virtual bool OnInitDialog();
+	virtual BOOL OnInitDialog();
 	afx_msg void OnAnimationbutton();
 	afx_msg void OnScriptEdit();
 	//}}AFX_MSG

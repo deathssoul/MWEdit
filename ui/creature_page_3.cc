@@ -257,7 +257,7 @@ void CEsmCreaturePage3::OnEndlabeleditItemlist(NMHDR *pNMHDR, LRESULT *pResult) 
  * Class CEsmCreaturePage3 Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CEsmCreaturePage3::OnInitDialog() {
+BOOL CEsmCreaturePage3::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
 
 	/* Spell List */
@@ -268,7 +268,7 @@ bool CEsmCreaturePage3::OnInitDialog() {
 	m_ItemList.SetWantKeys(true);
 	m_ItemList.InitObjectList(&l_ItemColData[0]);
 
-	return true;
+	return TRUE;
 }
 
 

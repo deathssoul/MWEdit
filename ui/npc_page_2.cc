@@ -212,7 +212,7 @@ CMWEditDoc *CEsmNpcPage2::GetDocument() {
  * Class CEsmNpcPage2 Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CEsmNpcPage2::OnInitDialog() {
+BOOL CEsmNpcPage2::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
 
 	/* Spell List */
@@ -223,7 +223,7 @@ bool CEsmNpcPage2::OnInitDialog() {
 	m_SpellList.SetWantKeys(true);
 	m_SpellList.InitObjectList(&l_SpellColData[0]);
 
-	return true;
+	return TRUE;
 }
 
 

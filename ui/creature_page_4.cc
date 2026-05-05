@@ -362,7 +362,7 @@ LRESULT CEsmCreaturePage4::OnEditRecord(LPARAM lParam, WPARAM wParam) {
  * Class CEsmCreaturePage4 Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CEsmCreaturePage4::OnInitDialog() {
+BOOL CEsmCreaturePage4::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
 
 	/* Spell List */
@@ -374,7 +374,7 @@ bool CEsmCreaturePage4::OnInitDialog() {
 	m_PackageList.SetWantEditMsg(true);
 	m_PackageList.InsertColumn(0, _T("Package"), LVCFMT_LEFT, 120, 0);
 
-	return true;
+	return TRUE;
 }
 
 

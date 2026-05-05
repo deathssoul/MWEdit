@@ -13,6 +13,7 @@
 #include <afxdd_.h>
 #include <afxwin.h>
 #include <atlstr.h>
+#include <windef.h>
 
 #include <cstddef>
 
@@ -94,12 +95,12 @@ bool CEsmAiActivateDlg::DoModal(CEsmSubAI_A *pSubRecord) {
  * Class CEsmAiActivateDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CEsmAiActivateDlg::OnInitDialog() {
+BOOL CEsmAiActivateDlg::OnInitDialog() {
 	CDialog::OnInitDialog();
 	FillEsmNpcCombo(m_TargetList);
 	m_TargetList.SetWindowText(m_pSubRecord->GetName());
 	m_TargetList.LimitText(MWESM_ID_MAXSIZE);
-	return true;
+	return TRUE;
 }
 
 

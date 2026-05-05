@@ -14,6 +14,7 @@
 #include <afxdlgs.h>
 #include <afxwin.h>
 #include <atlstr.h>
+#include <windef.h>
 
 #include <cstddef>
 #include <cstdlib>
@@ -232,10 +233,10 @@ CMWEditDoc *CEsmCreaturePage5::GetDocument() {
  * Class CEsmCreaturePage5 Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CEsmCreaturePage5::OnInitDialog() {
+BOOL CEsmCreaturePage5::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
 	m_GoldText.SetLimitText(16);
-	return true;
+	return TRUE;
 }
 
 

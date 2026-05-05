@@ -13,6 +13,7 @@
 #include <afxdd_.h>
 #include <afxwin.h>
 #include <atlstr.h>
+#include <windef.h>
 
 #include <cfloat>
 #include <cstddef>
@@ -115,7 +116,7 @@ bool CEsmAiEscortDlg::DoModal(CEsmSubAI_E *pSubRecord,
  * Class CEsmAiEscortDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CEsmAiEscortDlg::OnInitDialog() {
+BOOL CEsmAiEscortDlg::OnInitDialog() {
 	ai_edata_t *pAiData;
 	CString Buffer;
 	CDialog::OnInitDialog();
@@ -158,7 +159,7 @@ bool CEsmAiEscortDlg::OnInitDialog() {
 
 	/* Enable/disable controls as required */
 	OnEscortcheck();
-	return true;
+	return TRUE;
 }
 
 

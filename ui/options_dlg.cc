@@ -16,6 +16,7 @@
 #include <atlstr.h>
 #include <commdlg.h>
 #include <richedit.h>
+#include <windef.h>
 #include <wingdi.h>
 #include <winuser.h>
 
@@ -564,7 +565,7 @@ void CEsmOptionsDlg::OnWhiteformatButton() {
  * Class CEsmOptionsDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CEsmOptionsDlg::OnInitDialog() {
+BOOL CEsmOptionsDlg::OnInitDialog() {
 	CDialog::OnInitDialog();
 
 	/* Fill/create the required lists */
@@ -585,7 +586,7 @@ bool CEsmOptionsDlg::OnInitDialog() {
 	}
 
 	SetControlData();
-	return true;
+	return TRUE;
 }
 
 

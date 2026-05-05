@@ -82,7 +82,7 @@ class CEsmCreaturePage2 : public CPropertyPage {
 	//{{AFX_MSG(CEsmCreaturePage2)
 	afx_msg LRESULT OnRecordDrop(LPARAM lParam, LPARAM wParam);
 	afx_msg LRESULT OnRecordKey(LPARAM lParam, LPARAM wParam);
-	virtual bool OnInitDialog();
+	virtual BOOL OnInitDialog();
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP();

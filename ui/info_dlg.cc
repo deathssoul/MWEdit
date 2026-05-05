@@ -13,6 +13,7 @@
 #include <afxdd_.h>
 #include <afxwin.h>
 #include <atlstr.h>
+#include <windef.h>
 
 #include <cstddef>
 #include <cstdlib>
@@ -380,7 +381,7 @@ void CEsmInfoDlg::OnCancel() {
  * Class CEsmInfoDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CEsmInfoDlg::OnInitDialog() {
+BOOL CEsmInfoDlg::OnInitDialog() {
 	int ArrayIndex;
 	CDialog::OnInitDialog();
 
@@ -420,7 +421,7 @@ bool CEsmInfoDlg::OnInitDialog() {
 	}
 
 	SetControlData();
-	return true;
+	return TRUE;
 }
 
 

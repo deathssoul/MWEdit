@@ -12,6 +12,7 @@
 
 #include <afx.h>
 #include <afxwin.h>
+#include <windef.h>
 
 #include <cstddef>
 
@@ -56,7 +57,7 @@ class CEsmHeaderDlg : public CDialog {
 
 	//{{AFX_MSG(CEsmHeaderDlg)
 	virtual void OnOK();
-	virtual bool OnInitDialog();
+	virtual BOOL OnInitDialog();
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP();

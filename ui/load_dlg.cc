@@ -11,6 +11,7 @@
 
 #include <afxdd_.h>
 #include <afxwin.h>
+#include <windef.h>
 
 #include "common/dl_base.h"
 #include "ui/Resource.h"
@@ -80,12 +81,12 @@ void CEsmLoadDlg::DoDataExchange(CDataExchange *pDX) {
  * Class CEsmLoadDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CEsmLoadDlg::OnInitDialog() {
+BOOL CEsmLoadDlg::OnInitDialog() {
 	CDialog::OnInitDialog();
 
 	m_FileLabel.SetWindowText(_T(""));
 	m_ProgressCtrl.SetRange(0, 200);
 	m_ProgressCtrl.SetPos(0);
 
-	return true;
+	return TRUE;
 }

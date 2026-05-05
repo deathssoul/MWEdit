@@ -13,6 +13,7 @@
 #include <afx.h>
 #include <afxdlgs.h>
 #include <afxwin.h>
+#include <windef.h>
 
 #include "file/csv_file.h"
 #include "ui/dlg_array.h"
@@ -85,7 +86,7 @@ class CEsmScrTempPage3 : public CPropertyPage {
 	/* Generated message map functions */
 
 	//{{AFX_MSG(CEsmScrTempPage3)
-	virtual bool OnInitDialog();
+	virtual BOOL OnInitDialog();
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP();

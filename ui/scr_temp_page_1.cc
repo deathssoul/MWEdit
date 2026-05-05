@@ -14,6 +14,7 @@
 #include <afxdlgs.h>
 #include <afxwin.h>
 #include <atlstr.h>
+#include <windef.h>
 
 #include <cstddef>
 
@@ -152,10 +153,10 @@ void CEsmScrTempPage1::OnAutoscriptname() {
  * Class CEsmScrTempPage1 Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CEsmScrTempPage1::OnInitDialog() {
+BOOL CEsmScrTempPage1::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
 	m_ScriptName.SetLimitText(ESMSCRTEMP_SCRIPTNAMESIZE);
-	return true;
+	return TRUE;
 }
 
 

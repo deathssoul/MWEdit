@@ -13,6 +13,7 @@
 #include <afx.h>
 #include <afxcmn.h>
 #include <afxwin.h>
+#include <windef.h>
 
 #include "common/dl_base.h"
 #include "file/csv_file.h"
@@ -96,7 +97,7 @@ class CEsmCsvImportDlg : public CDialog {
 	//{{AFX_MSG(CEsmCsvImportDlg)
 	afx_msg void OnLoadcsvbutton();
 	afx_msg void OnCreatebutton();
-	virtual bool OnInitDialog();
+	virtual BOOL OnInitDialog();
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP();

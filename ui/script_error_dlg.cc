@@ -13,6 +13,7 @@
 #include <afxdd_.h>
 #include <afxwin.h>
 #include <atlstr.h>
+#include <windef.h>
 
 #include <cstddef>
 
@@ -170,10 +171,10 @@ void CScriptErrorDlg::OnFuncGoto() {
  * Class CScriptErrorDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CScriptErrorDlg::OnInitDialog() {
+BOOL CScriptErrorDlg::OnInitDialog() {
 	CDialog::OnInitDialog();
 	SetControlData();
-	return true;
+	return TRUE;
 }
 
 

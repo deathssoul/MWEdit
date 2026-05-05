@@ -126,7 +126,7 @@ class CEsmRefCellPage : public CPropertyPage {
 	/* Generated message map functions */
 
 	//{{AFX_MSG(CEsmRefCellPage)
-	virtual bool OnInitDialog();
+	virtual BOOL OnInitDialog();
 	afx_msg LRESULT OnRecordEdit(LPARAM lParam, LPARAM wParam);
 	afx_msg LRESULT OnRecordKey(LPARAM lParam, LPARAM wParam);
 	afx_msg LRESULT OnRecordDrop(LPARAM lParam, LPARAM wParam);

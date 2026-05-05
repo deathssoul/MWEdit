@@ -12,6 +12,7 @@
 
 #include <afx.h>
 #include <afxwin.h>
+#include <windef.h>
 
 #include <cstddef>
 
@@ -119,7 +120,7 @@ class CEsmOptionsDlg : public CDialog {
   protected:
 	/* Generated message map functions */
 	//{{AFX_MSG(CEsmOptionsDlg)
-	virtual bool OnInitDialog();
+	virtual BOOL OnInitDialog();
 	virtual void OnOK();
 	virtual void OnCancel();
 	afx_msg void OnSelchangeFontfaceList();

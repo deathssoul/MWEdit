@@ -14,6 +14,7 @@
 #include <afxdlgs.h>
 #include <afxwin.h>
 #include <atlstr.h>
+#include <windef.h>
 #include <wingdi.h>
 
 #include <cstddef>
@@ -171,7 +172,7 @@ CMWEditDoc *CEsmExtCellPage::GetDocument() {
  * Class CEsmExtCellPage Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CEsmExtCellPage::OnInitDialog() {
+BOOL CEsmExtCellPage::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
 	FillEsmRegionCombo(m_RegionList);
 
@@ -183,7 +184,7 @@ bool CEsmExtCellPage::OnInitDialog() {
 	m_GSpin.SetRange32(0, 255);
 	m_BSpin.SetRange32(0, 255);
 
-	return true;
+	return TRUE;
 }
 
 

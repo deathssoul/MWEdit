@@ -13,6 +13,7 @@
 #include <afxdd_.h>
 #include <afxwin.h>
 #include <atlstr.h>
+#include <windef.h>
 
 #include <cstddef>
 #include <cstdlib>
@@ -193,10 +194,10 @@ void CEsmCellRefDlg::OnCancel() {
  * Class CEsmCellRefDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CEsmCellRefDlg::OnInitDialog() {
+BOOL CEsmCellRefDlg::OnInitDialog() {
 	CDialog::OnInitDialog();
 	SetControlData();
-	return true;
+	return TRUE;
 }
 
 

@@ -13,6 +13,7 @@
 #include <afx.h>
 #include <afxwin.h>
 #include <atlstr.h>
+#include <windef.h>
 
 #include <cstddef>
 
@@ -48,7 +49,7 @@ class CErrorDialog : public CDialog {
 	/* Generated message map functions */
 
 	//{{AFX_MSG(CErrorDialog)
-	virtual bool OnInitDialog();
+	virtual BOOL OnInitDialog();
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP();

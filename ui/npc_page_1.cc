@@ -382,7 +382,7 @@ void CEsmNpcPage1::OnEndlabeleditItemlist(NMHDR *pNMHDR, LRESULT *pResult) {
  * Class CEsmNpcPage1 Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CEsmNpcPage1::OnInitDialog() {
+BOOL CEsmNpcPage1::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
 
 	/* Spell List */
@@ -422,7 +422,7 @@ bool CEsmNpcPage1::OnInitDialog() {
 	FillEsmFactionCombo(m_FactionList, true);
 	FillEsmBloodTypeCombo(m_BloodList);
 
-	return true;
+	return TRUE;
 }
 
 

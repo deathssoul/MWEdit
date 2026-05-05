@@ -12,6 +12,7 @@
 
 #include <afxcmn.h>
 #include <afxwin.h>
+#include <windef.h>
 
 #include <cstddef>
 
@@ -66,7 +67,7 @@ class CEsmLoadDlg : public CDialog {
 	/* Generated message map functions */
 
 	//{{AFX_MSG(CEsmLoadDlg)
-	virtual bool OnInitDialog();
+	virtual BOOL OnInitDialog();
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP();

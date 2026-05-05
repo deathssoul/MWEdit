@@ -13,6 +13,7 @@
 #include <afx.h>
 #include <afxdlgs.h>
 #include <afxwin.h>
+#include <windef.h>
 
 #include "ui/dlg_array.h"
 #include "ui/Resource.h"
@@ -94,7 +95,7 @@ class CEsmScrTempPage1 : public CPropertyPage {
 	afx_msg void OnReloadscrtemp();
 	afx_msg void OnReloadcsvfile();
 	afx_msg void OnAutoscriptname();
-	virtual bool OnInitDialog();
+	virtual BOOL OnInitDialog();
 	afx_msg void OnCheckTemplate();
 	afx_msg void OnCreateTemplate();
 	//}}AFX_MSG

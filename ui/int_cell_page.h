@@ -14,6 +14,7 @@
 #include <afxcmn.h>
 #include <afxdlgs.h>
 #include <afxwin.h>
+#include <windef.h>
 
 #include "game/morrowind/file.h"
 #include "ui/mwedit_doc.h"
@@ -118,7 +119,7 @@ class CEsmIntCellPage : public CPropertyPage {
 	/* Generated message map functions */
 
 	//{{AFX_MSG(CEsmIntCellPage)
-	virtual bool OnInitDialog();
+	virtual BOOL OnInitDialog();
 	afx_msg void OnColorbuttona();
 	afx_msg void OnColorbuttons();
 	afx_msg void OnColorbuttonf();

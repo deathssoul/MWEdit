@@ -13,6 +13,7 @@
 #include <afxdd_.h>
 #include <afxwin.h>
 #include <atlstr.h>
+#include <windef.h>
 
 #include <cstddef>
 #include <cstdlib>
@@ -104,7 +105,7 @@ bool CEsmAiWanderDlg::DoModal(CEsmSubAI_W *pSubRecord) {
  * Class CEsmAiWanderDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CEsmAiWanderDlg::OnInitDialog() {
+BOOL CEsmAiWanderDlg::OnInitDialog() {
 	ai_wdata_t *pAiData;
 	CString Buffer;
 	int Index;
@@ -133,7 +134,7 @@ bool CEsmAiWanderDlg::OnInitDialog() {
 		}
 	}
 
-	return true;
+	return TRUE;
 }
 
 

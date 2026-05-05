@@ -13,6 +13,7 @@
 #include <afxdd_.h>
 #include <afxwin.h>
 #include <atlstr.h>
+#include <windef.h>
 
 #include <cstddef>
 
@@ -99,7 +100,7 @@ bool CEsmHeaderDlg::DoModal(CEsmTES3 *pHeader, const TCHAR *pFilename) {
  * Class CEsmHeaderDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CEsmHeaderDlg::OnInitDialog() {
+BOOL CEsmHeaderDlg::OnInitDialog() {
 	CString Buffer;
 	CDialog::OnInitDialog();
 
@@ -112,7 +113,7 @@ bool CEsmHeaderDlg::OnInitDialog() {
 	m_DescText.SetLimitText(MWESM_HEDR_DESCSIZE);
 	m_AuthorText.SetWindowText(m_pHeader->GetHeaderData()->Author);
 	m_DescText.SetWindowText(m_pHeader->GetHeaderData()->Description);
-	return true;
+	return TRUE;
 }
 
 

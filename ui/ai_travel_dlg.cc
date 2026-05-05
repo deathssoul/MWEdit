@@ -13,6 +13,7 @@
 #include <afxdd_.h>
 #include <afxwin.h>
 #include <atlstr.h>
+#include <windef.h>
 
 #include <cstddef>
 #include <cstdlib>
@@ -95,7 +96,7 @@ bool CEsmAiTravelDlg::DoModal(CEsmSubAI_T *pSubRecord) {
  * Class CEsmAiTravelDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CEsmAiTravelDlg::OnInitDialog() {
+BOOL CEsmAiTravelDlg::OnInitDialog() {
 	ai_tdata_t *pAiData;
 	CString Buffer;
 	CDialog::OnInitDialog();
@@ -116,7 +117,7 @@ bool CEsmAiTravelDlg::OnInitDialog() {
 		m_ZText.SetWindowText(Buffer);
 	}
 
-	return true;
+	return TRUE;
 }
 
 

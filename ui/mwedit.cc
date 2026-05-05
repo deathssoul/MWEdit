@@ -466,7 +466,7 @@ class CAboutDlg : public CDialog {
   protected:
 	//{{AFX_MSG(CAboutDlg)
 	afx_msg void OnSitelink();
-	virtual bool OnInitDialog();
+	virtual BOOL OnInitDialog();
 	afx_msg HBRUSH OnCtlColor(CDC *pDC, CWnd *pWnd, UINT nCtlColor);
 	//}}AFX_MSG
 
@@ -664,10 +664,10 @@ void CAboutDlg::OnSitelink() {
  * Class CAboutDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CAboutDlg::OnInitDialog() {
+BOOL CAboutDlg::OnInitDialog() {
 	CDialog::OnInitDialog();
 	m_SiteLink.SetFont(&m_Font);
-	return true;
+	return TRUE;
 }
 
 

@@ -13,6 +13,7 @@
 #include <afx.h>
 #include <afxwin.h>
 #include <atlstr.h>
+#include <windef.h>
 
 #include <cstddef>
 
@@ -82,7 +83,7 @@ class CEsmAiEscortDlg : public CDialog {
 	/* Generated message map functions */
 
 	//{{AFX_MSG(CEsmAiEscortDlg)
-	virtual bool OnInitDialog();
+	virtual BOOL OnInitDialog();
 	virtual void OnOK();
 	afx_msg void OnEscortcheck();
 	afx_msg void OnPointcheck();

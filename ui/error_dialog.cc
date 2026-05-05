@@ -4,6 +4,7 @@
 #include <afx.h>
 #include <afxdd_.h>
 #include <afxwin.h>
+#include <windef.h>
 
 #include <cstddef>
 #include <cstdio>
@@ -47,7 +48,7 @@ END_MESSAGE_MAP()
  * Class CErrorDialog Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CErrorDialog::OnInitDialog() {
+BOOL CErrorDialog::OnInitDialog() {
 	CErrorIncident *pError;
 	CErrorRecord *pErrorRecord;
 	TCHAR ErrorBuffer[MAX_ERROR_MESSAGESIZE + 1];
@@ -87,5 +88,5 @@ bool CErrorDialog::OnInitDialog() {
 	}
 
 	m_Text.SetSel(0, 0, false);
-	return true;
+	return TRUE;
 }

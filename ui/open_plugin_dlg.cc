@@ -274,7 +274,7 @@ void COpenPluginDlg::OnDblclkFileList(NMHDR *pNMHDR, LRESULT *pResult) {
  * Class COpenPluginDlg Event - bool OnInitDialog ();
  *
  *=========================================================================*/
-bool COpenPluginDlg::OnInitDialog() {
+BOOL COpenPluginDlg::OnInitDialog() {
 	CString Buffer;
 	CDialog::OnInitDialog();
 	/* Set the list extended styles */
@@ -290,7 +290,7 @@ bool COpenPluginDlg::OnInitDialog() {
 	m_FileList.SortItems(l_SortFiles, OPENPLUG_SUBITEM_DATE);
 	m_FileList.SortItems(l_SortFiles, OPENPLUG_SUBITEM_TYPE);
 
-	return true;
+	return TRUE;
 }
 
 

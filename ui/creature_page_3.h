@@ -91,7 +91,7 @@ class CEsmCreaturePage3 : public CPropertyPage {
 	afx_msg LRESULT OnRecordKey(LPARAM lParam, LPARAM wParam);
 	afx_msg LRESULT OnRecordSort(LPARAM lParam, LPARAM wParam);
 
-	virtual bool OnInitDialog();
+	virtual BOOL OnInitDialog();
 
 	afx_msg void OnEndlabeleditItemlist(NMHDR *pNMHDR, LRESULT *pResult);
 	//}}AFX_MSG

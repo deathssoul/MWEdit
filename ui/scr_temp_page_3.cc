@@ -15,6 +15,7 @@
 #include <afxwin.h>
 #include <atlstr.h>
 #include <commctrl.h>
+#include <windef.h>
 
 #include <cstddef>
 
@@ -201,10 +202,10 @@ bool CEsmScrTempPage3::FillCsvList(CCsvFile *pCsvFile) {
  * Class CEsmScrTempPage3 Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CEsmScrTempPage3::OnInitDialog() {
+BOOL CEsmScrTempPage3::OnInitDialog() {
 	CPropertyPage::OnInitDialog();
 	m_CsvList.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
-	return true;
+	return TRUE;
 }
 
 

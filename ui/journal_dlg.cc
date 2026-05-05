@@ -13,6 +13,7 @@
 #include <afxdd_.h>
 #include <afxwin.h>
 #include <atlstr.h>
+#include <windef.h>
 
 #include <cstddef>
 #include <cstdlib>
@@ -178,13 +179,13 @@ void CEsmJournalDlg::OnCancel() {
  * Class CEsmJournalDlg Event - BOOL OnInitDialog ();
  *
  *=========================================================================*/
-bool CEsmJournalDlg::OnInitDialog() {
+BOOL CEsmJournalDlg::OnInitDialog() {
 	CDialog::OnInitDialog();
 	/* Initilaize the text controls */
 	m_NameText.SetLimitText(512);
 	m_IndexText.SetLimitText(8);
 	SetControlData();
-	return true;
+	return TRUE;
 }
 
 
