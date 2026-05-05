@@ -258,11 +258,20 @@ else ()
 	                      "ui/mwedit.cc")
 endif ()
 
+# Turn off warnings when using MSVC for system header files
+if (MSVC)
+	target_compile_options(MWEdit PRIVATE /external:anglebrackets
+	                                      /external:W0
+	                                      /external:templates-)
+endif ()
+
 # Enable all compiler warnings
 if (MSVC)
 	target_compile_options(MWEdit PRIVATE /Wall)
 else ()
-	target_compile_options(MWEdit PRIVATE -Wall -Wextra -Wpedantic)
+	target_compile_options(MWEdit PRIVATE -Wall
+	                                      -Wextra
+	                                      -Wpedantic)
 endif ()
 
 # Add Windows Multimedia Library
