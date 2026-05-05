@@ -309,10 +309,10 @@ class CMWEditDoc : public CDocument {
 	//{{AFX_VIRTUAL(CMWEditDoc)
 
   public:
-	virtual bool OnNewDocument();
+	virtual BOOL OnNewDocument();
 	virtual void Serialize(CArchive &ar);
-	virtual bool OnOpenDocument(LPCTSTR lpszPathName);
-	virtual bool OnSaveDocument(LPCTSTR lpszPathName);
+	virtual BOOL OnOpenDocument(LPCTSTR lpszPathName);
+	virtual BOOL OnSaveDocument(LPCTSTR lpszPathName);
 	virtual void DeleteContents();
 
 	//}}AFX_VIRTUAL

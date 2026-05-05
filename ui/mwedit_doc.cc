@@ -2251,13 +2251,13 @@ bool CMWEditDoc::LoadScriptFile(const TCHAR *pFilename) {
  * Class CMWEditDoc Event - BOOL OnNewDocument ();
  *
  *=========================================================================*/
-bool CMWEditDoc::OnNewDocument() {
+BOOL CMWEditDoc::OnNewDocument() {
 	CEsmTES3 *pHeader;
 	int ArrayIndex;
 
 	/* Call the base class method first */
 	if (!CDocument::OnNewDocument()) {
-		return false;
+		return FALSE;
 	}
 
 	/* Setup the active plugin */
@@ -2273,7 +2273,7 @@ bool CMWEditDoc::OnNewDocument() {
 		         MWESM_HEDR_AUTHORSIZE - 1);
 	}
 
-	return true;
+	return TRUE;
 }
 
 
@@ -2536,7 +2536,7 @@ int CMWEditDoc::OnCheckNewID(esmreceditinfo_t *pRecEditInfo) {
  * Class CMWEditDoc Event - BOOL OnOpenDocument (lpszPathName);
  *
  *=========================================================================*/
-bool CMWEditDoc::OnOpenDocument(LPCTSTR lpszPathName) {
+BOOL CMWEditDoc::OnOpenDocument(LPCTSTR lpszPathName) {
 	DEFINE_FUNCTION("CMWEditDoc::OnOpenDocument()");
 	bool Result;
 
@@ -2566,14 +2566,14 @@ bool CMWEditDoc::OnOpenDocument(LPCTSTR lpszPathName) {
 
 	if (!Result) {
 		ErrorHandler.Notify(_T("Plugin Load Error!"));
-		return false;
+		return FALSE;
 	}
 
 	//m_RecInfo.SetCompareFunc(l_RecInfoSortPtr);
 	//m_RecInfo.Sort(0);
 	//m_RecInfo.SetCompareFunc(l_RecInfoSort);
 	SetModifiedFlag(false);
-	return true;
+	return TRUE;
 }
 
 
@@ -2689,7 +2689,7 @@ int CMWEditDoc::OnPreSaveRecord(esmreceditinfo_t *pRecEditInfo) {
  * Class CMWEditDoc Event - BOOL OnSaveDocument (lpszPathName);
  *
  *=========================================================================*/
-bool CMWEditDoc::OnSaveDocument(LPCTSTR lpszPathName) {
+BOOL CMWEditDoc::OnSaveDocument(LPCTSTR lpszPathName) {
 	bool Result;
 	/* Update the active file masters */
 	UpdateMasters();
@@ -2708,11 +2708,11 @@ bool CMWEditDoc::OnSaveDocument(LPCTSTR lpszPathName) {
 
 	if (!Result) {
 		ErrorHandler.Notify("File Write Error");
-		return false;
+		return FALSE;
 	}
 
 	SetModifiedFlag(false);
-	return true;
+	return TRUE;
 }
 
 

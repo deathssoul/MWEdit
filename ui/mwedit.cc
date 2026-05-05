@@ -223,7 +223,7 @@ CEsmFile *CMWEditApp::FindMaster(const TCHAR *pPathname) {
  * Description
  *
  *=========================================================================*/
-bool CMWEditApp::InitInstance() {
+BOOL CMWEditApp::InitInstance() {
 	AfxEnableControlContainer();
 	AfxInitRichEdit();
 	SystemLog.Open("mwedit.log");
@@ -368,7 +368,7 @@ bool CMWEditApp::InitInstance() {
 	CMainFrame *pMainFrame = new CMainFrame;
 
 	if (!pMainFrame->LoadFrame(IDR_MAINFRAME)) {
-		return false;
+		return FALSE;
 	}
 
 	m_pMainWnd = pMainFrame;
@@ -388,7 +388,7 @@ bool CMWEditApp::InitInstance() {
 	/* Display warning dialog */
 	// let's not. it's been 20 years
 	//pMainFrame->MessageBox(_T("WARNING: This version of MWEdit is a BETA version and still\nhas not been thoroughly tested. Please use caution and backup any\nplugins while editting. View the README.TXT file for more information."), _T("MWEdit Warning"), MB_OK | MB_ICONWARNING);
-	return true;
+	return TRUE;
 }
 
 

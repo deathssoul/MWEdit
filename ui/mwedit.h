@@ -100,7 +100,7 @@ class CMWEditApp : public CWinApp {
   public:
 	//{{AFX_VIRTUAL(CMWEditApp)
   public:
-	virtual bool InitInstance();
+	virtual BOOL InitInstance();
 	virtual CDocument *OpenDocumentFile(LPCTSTR lpszFileName);
 	//}}AFX_VIRTUAL
 
