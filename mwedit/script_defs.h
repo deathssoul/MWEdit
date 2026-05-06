@@ -10,6 +10,7 @@
 #ifndef __ESMSCRIPTDEFS_H
 #define __ESMSCRIPTDEFS_H
 
+#include <windef.h>  // TODO: Required for winuser.h
 #include <winuser.h>
 
 #include <cstdint>

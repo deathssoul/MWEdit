@@ -12,6 +12,7 @@
 #include <afxcmn.h>
 #include <atlstr.h>
 #include <tchar.h>
+#include <windef.h>  // TODO: Required for winuser.h
 #include <winuser.h>
 
 #include <cctype>

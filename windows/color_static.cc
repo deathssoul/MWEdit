@@ -11,6 +11,7 @@
 
 #include <afxwin.h>
 #include <atltypes.h>
+#include <windef.h>  // TODO: Required for winuser.h
 #include <winuser.h>
 
 #include "common/dl_base.h"
