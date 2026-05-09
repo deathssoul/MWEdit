@@ -12,8 +12,9 @@
 
 #include <afx.h>
 #include <afxext.h>
-#include <afxwin.h>
 #include <windef.h>
+#include <winuser.h>
+#include <afxwin.h>  // TODO: Needs to go after winuser.h for UpdateLayeredWindow()
 
 #include "mwedit/scr_func_array.h"
 #include "mwedit/scr_func_data.h"

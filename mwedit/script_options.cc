@@ -10,11 +10,12 @@
 #include "mwedit/script_options.h"
 
 #include <afx.h>
-#include <afxwin.h>
 #include <atlstr.h>
 #include <richedit.h>
 #include <windef.h>
 #include <wingdi.h>
+#include <winuser.h>
+#include <afxwin.h>  // TODO: Needs to go after winuser.h for UpdateLayeredWindow()
 
 #include <cstring>
 

@@ -11,10 +11,10 @@
 #define __CHILDFRMSCRIPT_H
 
 #include <afx.h>
-#include <afxwin.h>
 #include <atltypes.h>
 #include <windef.h>
 #include <winuser.h>
+#include <afxwin.h>  // TODO: Needs to go after winuser.h for UpdateLayeredWindow()
 
 #include "ui/script_dlg.h"
 #include "ui/script_error_view.h"

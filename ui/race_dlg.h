@@ -11,8 +11,9 @@
 #define __ESMRACEDLG_H
 
 #include <afx.h>
-#include <afxwin.h>
 #include <windef.h>
+#include <winuser.h>
+#include <afxwin.h>  // TODO: Needs to go after winuser.h for UpdateLayeredWindow()
 
 #include "game/morrowind/file.h"
 #include "game/morrowind/race.h"

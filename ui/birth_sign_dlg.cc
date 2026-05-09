@@ -12,10 +12,11 @@
 #include <afx.h>
 #include <afxdd_.h>
 #include <afxext.h>
-#include <afxwin.h>
 #include <atlstr.h>
 #include <commctrl.h>  // May not be needed but an internet search says LVCFMT_LEFT is defined there even though it's being used in a CListCtrl which is from afxcmn.h
 #include <windef.h>
+#include <winuser.h>
+#include <afxwin.h>  // TODO: Needs to go after winuser.h for UpdateLayeredWindow()
 
 #include <cstddef>
 

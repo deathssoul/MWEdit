@@ -12,9 +12,10 @@
 
 #include <afx.h>
 #include <afxdlgs.h>
-#include <afxwin.h>
 #include <atltypes.h>
 #include <windef.h>
+#include <winuser.h>
+#include <afxwin.h>  // TODO: Needs to go after winuser.h for UpdateLayeredWindow()
 
 #include "common/container/ptr_array.h"
 #include "game/morrowind/file.h"

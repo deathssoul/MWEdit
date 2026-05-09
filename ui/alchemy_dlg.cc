@@ -3,9 +3,10 @@
 #include <afx.h>
 #include <afxdd_.h>
 #include <afxext.h>
-#include <afxwin.h>
 #include <atlstr.h>
 #include <windef.h>
+#include <winuser.h>
+#include <afxwin.h>  // TODO: Needs to go after winuser.h for UpdateLayeredWindow()
 
 #include <cstddef>
 #include <cstdlib>
@@ -23,9 +24,9 @@
 #include "windows/win_util.h"
 
 #if _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static char THIS_FILE[] = __FILE__;
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
 #endif
 
 IMPLEMENT_DYNCREATE(CEsmAlchemyDlg, CEsmRecDialog);

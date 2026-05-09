@@ -12,8 +12,9 @@
 
 #include <afx.h>
 #include <afxdlgs.h>
-#include <afxwin.h>
 #include <windef.h>
+#include <winuser.h>
+#include <afxwin.h>  // TODO: Needs to go after winuser.h for UpdateLayeredWindow()
 
 #include "ui/dlg_array.h"
 #include "ui/Resource.h"

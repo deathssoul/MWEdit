@@ -11,7 +11,9 @@
 #define __ESMAPPARATUSDLG_H
 
 #include <afx.h>
-#include <afxwin.h>
+#include <windef.h>
+#include <winuser.h>
+#include <afxwin.h>  // TODO: Needs to go after winuser.h for UpdateLayeredWindow()
 
 #include "game/morrowind/apparatus.h"
 #include "game/morrowind/file.h"
