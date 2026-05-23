@@ -13,12 +13,10 @@
 #include <afxdd_.h>
 #include <afxdlgs.h>
 #include <afxext.h>
+#include <afxwin.h>
 #include <atlstr.h>
 #include <mmsystem.h>
-#include <windef.h>
 #include <wingdi.h>
-#include <winuser.h>
-#include <afxwin.h>  // TODO: Needs to go after winuser.h for UpdateLayeredWindow()
 
 #include <cstddef>
 #include <cstdlib>

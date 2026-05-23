@@ -11,9 +11,7 @@
 #define __SPLITTERWND_H
 
 #include <afxext.h>
-#include <windef.h>
-#include <winuser.h>
-#include <afxwin.h>  // TODO: Needs to go after winuser.h for UpdateLayeredWindow()
+#include <afxwin.h>
 /*===========================================================================
  *
  * Begin Class CMwSplitterWnd Definition

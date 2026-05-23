@@ -11,12 +11,12 @@
 #define __DL_TOOLTIP_H
 
 #include <afx.h>
+#include <afxwin.h>
 #include <atlstr.h>
 #include <atltypes.h>
 #include <basetsd.h>
 #include <windef.h>
 #include <winuser.h>
-#include <afxwin.h>  // TODO: Needs to go after winuser.h for UpdateLayeredWindow()
 
 #include <cstddef>
 

@@ -15,10 +15,9 @@
 #include <stdlib.h>  // TODO: Required for non-standard extension _MAX_PATH
 
 #include <afx.h>
+#include <afxwin.h>
 #include <atlstr.h>
 #include <windef.h>
-#include <winuser.h>
-#include <afxwin.h>  // TODO: Needs to go after winuser.h for UpdateLayeredWindow()
 
 #include <cctype>
 #include <cstddef>

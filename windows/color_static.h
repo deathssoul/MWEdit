@@ -11,10 +11,9 @@
 #define __COLORSTATIC_H
 
 #include <afx.h>
+#include <afxwin.h>
 #include <windef.h>
 #include <wingdi.h>
-#include <winuser.h>
-#include <afxwin.h>  // TODO: Needs to go after winuser.h for UpdateLayeredWindow()
 
 class CColorStatic : public CStatic {
   public:

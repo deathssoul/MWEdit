@@ -11,9 +11,7 @@
 #define __ESMBODYPARTDLG_H
 
 #include <afx.h>
-#include <windef.h>
-#include <winuser.h>
-#include <afxwin.h>  // TODO: Needs to go after winuser.h for UpdateLayeredWindow()
+#include <afxwin.h>
 
 #include "game/morrowind/body_part.h"
 #include "ui/rec_dialog.h"

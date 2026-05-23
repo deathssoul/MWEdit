@@ -10,9 +10,7 @@
  *=========================================================================*/
 #include "ui/glob_options.h"
 
-#include <windef.h>
-#include <winuser.h>
-#include <afxwin.h>  // TODO: Needs to go after winuser.h for UpdateLayeredWindow()
+#include <afxwin.h>
 
 #include "common/dl_base.h"
 #include "mwedit/script_options.h"

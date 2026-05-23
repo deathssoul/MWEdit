@@ -11,10 +11,9 @@
 
 #include <afx.h>
 #include <afxdd_.h>
+#include <afxwin.h>
 #include <atlstr.h>
 #include <windef.h>
-#include <winuser.h>
-#include <afxwin.h>  // TODO: Needs to go after winuser.h for UpdateLayeredWindow()
 
 #include <cstddef>
 #include <cstdlib>
@@ -24,9 +23,9 @@
 #include "ui/Resource.h"
 
 #if _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
+	#define new DEBUG_NEW
+	#undef THIS_FILE
+	static char THIS_FILE[] = __FILE__;
 #endif
 
 DEFINE_FILE("EsmAiWanderDlg.cpp");

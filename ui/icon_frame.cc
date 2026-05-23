@@ -11,12 +11,12 @@
 
 #include <stdlib.h>  // TODO: Required for non-portable Windows extension _makepath()
 
+#include <afxwin.h>
 #include <atlstr.h>
 #include <atltypes.h>
 #include <windef.h>
 #include <wingdi.h>
 #include <winuser.h>
-#include <afxwin.h>  // TODO: Needs to go after winuser.h for UpdateLayeredWindow()
 
 #include <IL/il.h>
 #include <IL/ilut.h>
